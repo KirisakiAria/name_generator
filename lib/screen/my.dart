@@ -46,8 +46,8 @@ class BaseInformationBox extends StatelessWidget {
           boxShadow: [
             BoxShadow(
                 color: Color.fromRGBO(0, 80, 180, 0.1),
-                blurRadius: 12.0,
-                offset: Offset(0, 6.0)),
+                blurRadius: 12,
+                offset: Offset(0, 6)),
           ]),
       child: Center(
           child: Column(

@@ -69,10 +69,10 @@ class _GeneratePageState extends State<GeneratePage> {
                                   final double curvedValue = Curves
                                           .easeInOutBack
                                           .transform(anim1.value) -
-                                      1.0;
+                                      1;
                                   return Transform(
                                       transform: Matrix4.translationValues(
-                                          0.0, curvedValue * -320, 0.0),
+                                          0, curvedValue * -320, 0),
                                       child: OptionsDialog());
                                 })
                           })
@@ -95,7 +95,8 @@ class Display extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 10),
           child: Image(
-              image: AssetImage('assets/images/pluto-welcome.png'), width: 200),
+              image: AssetImage('assets/images/pluto-payment-processed.png'),
+              width: 200),
         ),
         Container(
           padding: EdgeInsets.only(top: 40),

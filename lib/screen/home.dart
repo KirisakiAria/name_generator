@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 //page
+import 'package:namegenerator/screen/login.dart';
 import 'package:namegenerator/screen/generate.dart';
 import 'package:namegenerator/screen/my.dart';
 //common
@@ -22,6 +23,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (1 > 0) {
+      return LoginPage();
+    }
     return Scaffold(
         body: PageView.builder(
           onPageChanged: _onPageChange,
