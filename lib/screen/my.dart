@@ -66,7 +66,7 @@ class BaseInformationBox extends StatelessWidget {
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF333333)),
+                  color: Colors.black87),
             ),
           ),
           Container(

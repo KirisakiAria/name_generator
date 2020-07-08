@@ -103,7 +103,7 @@ class Display extends StatelessWidget {
           child: Text(
             name,
             style: TextStyle(
-                fontFamily: 'HanaMin', fontSize: 42, letterSpacing: 5),
+                fontFamily: 'NijimiMincho', fontSize: 46, letterSpacing: 5),
           ),
         ),
       ],
@@ -226,7 +226,9 @@ class OptionsDialog extends Dialog {
                         child: Text(
                           '选项',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       InheritedSelect(

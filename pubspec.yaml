@@ -27,13 +27,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/pluto-payment-processed.png
+    - assets/images/kingdom-4.png
   fonts:
     - family: iconfont
       fonts:
         - asset: assets/fonts/iconfont.ttf
-    - family: HanaMin
+    - family: genkai-mincho
       fonts:
-        - asset: assets/fonts/HanaMin.ttf
-    - family: zkwyt
+        - asset: assets/fonts/genkai-mincho.ttf
+    - family: NijimiMincho
       fonts:
-        - asset: assets/fonts/zkwyt.ttf
+        - asset: assets/fonts/NijimiMincho.ttf
