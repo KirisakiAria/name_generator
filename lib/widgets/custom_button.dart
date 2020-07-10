@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
       color: bgColor,
       elevation: 0,
       disabledElevation: 0,
@@ -27,7 +27,11 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Text(
         text,
-        style: TextStyle(color: textColor),
+        style: TextStyle(
+            color: textColor,
+            fontFamily: 'SoukouMincho',
+            fontSize: 18,
+            letterSpacing: 1.5),
       ),
       onPressed: () => callback(),
     );

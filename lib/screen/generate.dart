@@ -51,7 +51,7 @@ class _GeneratePageState extends State<GeneratePage> {
                 children: <Widget>[
                   CustomButton(text: '生成', callback: () => _getData(context)),
                   CustomButton(
-                      text: '选项',
+                      text: '選項',
                       textColor: Colors.black,
                       bgColor: Colors.white,
                       callback: () => {

@@ -1,3 +1,3 @@
 class Style {
-  static final int mainColor = 0xFF010101;
+  static const int mainColor = 0xFF010101;
 }

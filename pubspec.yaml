@@ -1,8 +1,8 @@
 name: namegenerator
 description: 彼岸自在
 
-publish_to: 'none'
-version:  0.0.1
+publish_to: "none"
+version: 0.0.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -27,14 +27,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/pluto-payment-processed.png
-    - assets/images/kingdom-4.png
+    - assets/images/peach__blossom.png
   fonts:
     - family: iconfont
       fonts:
         - asset: assets/fonts/iconfont.ttf
-    - family: genkai-mincho
+    - family: SoukouMincho
       fonts:
-        - asset: assets/fonts/genkai-mincho.ttf
+        - asset: assets/fonts/SoukouMincho.ttf
     - family: NijimiMincho
       fonts:
         - asset: assets/fonts/NijimiMincho.ttf
