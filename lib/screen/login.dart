@@ -1,18 +1,17 @@
 //核心库
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
 //组件
 import '../widgets/custom_button.dart';
 import '../widgets/loading_dialog.dart';
-//common
-import '../common/style.dart';
-import '../common/optionsData.dart';
+//utils
+import '../utils/Utils.dart';
 //model
 import '../model/name_options.dart';
 
@@ -51,18 +50,25 @@ class _CustomFormState extends State<CustomForm> {
   String tel, password;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void formValidate() {
+  void _formValidate() {
     if (_formKey.currentState.validate()) {
-      print(1);
-    } else {
-      print(2);
+      _login();
     }
+  }
+
+  Future _login() async {
+    String path = '${Api.login}';
+    Response res = await Request.getInstance().httpPost(path, {
+      'tel': tel,
+      'password': password,
+    });
+    print(res);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 50, right: 50, top: 85),
+      padding: EdgeInsets.only(left: 50, right: 50, top: 75),
       child: Form(
         key: _formKey,
         child: Column(
@@ -90,14 +96,17 @@ class _CustomFormState extends State<CustomForm> {
                 },
                 validator: (String value) {
                   if (value.isEmpty) {
-                    return 'Please enter some text';
+                    return '请输入手机号';
+                  }
+                  if (!Utils.isPhone(value)) {
+                    return '手机号码格式不正确';
                   }
                   return null;
                 },
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 30),
               child: TextFormField(
                 inputFormatters: [
                   FilteringTextInputFormatter.deny(RegExp("[\u4e00-\u9fa5]")),
@@ -120,20 +129,20 @@ class _CustomFormState extends State<CustomForm> {
                 },
                 validator: (String value) {
                   if (value.isEmpty) {
-                    return 'Please enter some text';
+                    return '请输入密码';
                   }
                   return null;
                 },
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 60),
+              margin: EdgeInsets.only(top: 50),
               width: double.infinity,
               child: CustomButton(
                   text: '登録',
                   bgColor: Color(0xff333333),
                   borderColor: Color(0xff333333),
-                  callback: () => {formValidate()}),
+                  callback: () => {_formValidate()}),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),

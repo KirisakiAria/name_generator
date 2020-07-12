@@ -1,8 +1,8 @@
 //核心库
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';

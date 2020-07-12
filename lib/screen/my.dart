@@ -1,8 +1,8 @@
 //核心库
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -57,7 +57,7 @@ class BaseInformationBox extends StatelessWidget {
             child: ClipOval(
                 child: Image(
                     fit: BoxFit.cover,
-                    image: NetworkImage('http://localhost:8080/avatar.jpg'))),
+                    image: NetworkImage('http://localhost:8888/avatar.jpg'))),
           ),
           Container(
             padding: EdgeInsets.only(top: 20, bottom: 5),

@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import './api.dart';
 import '../common/global.dart';
 
