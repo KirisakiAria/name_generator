@@ -13,7 +13,7 @@ import '../widgets/loading_dialog.dart';
 //utils
 import '../utils/Utils.dart';
 //model
-import '../model/name_options.dart';
+import '../model/user.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -48,21 +48,32 @@ class CustomForm extends StatefulWidget {
 
 class _CustomFormState extends State<CustomForm> {
   String tel, password;
+  //定义GlobalKey为了获取到form的状态
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void _formValidate() {
+  void _formValidate(BuildContext context) {
     if (_formKey.currentState.validate()) {
-      _login();
+      _login(context);
     }
   }
 
-  Future _login() async {
-    String path = '${Api.login}';
-    Response res = await Request.getInstance().httpPost(path, {
+  Future _login(BuildContext context) async {
+    String path = '${API.login}';
+    Response res = await Request.getInstance(context).httpPost(path, {
       'tel': tel,
       'password': password,
     });
-    print(res);
+    if (res.data['code'] == 1000) {
+      Map data = res.data['data'];
+      print(res.data['data']);
+      context.read<User>().changeOptions(
+            username: data['username'],
+            tel: data['tel'],
+            avatar: data['avatar'],
+            token: data['token'],
+            loginState: true,
+          );
+    }
   }
 
   @override
@@ -76,8 +87,10 @@ class _CustomFormState extends State<CustomForm> {
             Container(
               child: TextFormField(
                 inputFormatters: [
+                  //只允许输入数字
+                  WhitelistingTextInputFormatter.digitsOnly,
+                  //长度限制11
                   LengthLimitingTextInputFormatter(11),
-                  WhitelistingTextInputFormatter.digitsOnly
                 ],
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(bottom: 1),
@@ -91,9 +104,6 @@ class _CustomFormState extends State<CustomForm> {
                         color: Colors.black87,
                         fontFamily: 'NijimiMincho',
                         fontSize: 18)),
-                onSaved: (String value) {
-                  tel = value;
-                },
                 validator: (String value) {
                   if (value.isEmpty) {
                     return '请输入手机号';
@@ -101,6 +111,7 @@ class _CustomFormState extends State<CustomForm> {
                   if (!Utils.isPhone(value)) {
                     return '手机号码格式不正确';
                   }
+                  tel = value;
                   return null;
                 },
               ),
@@ -109,7 +120,9 @@ class _CustomFormState extends State<CustomForm> {
               margin: EdgeInsets.only(top: 30),
               child: TextFormField(
                 inputFormatters: [
+                  //不允许输入汉字
                   FilteringTextInputFormatter.deny(RegExp("[\u4e00-\u9fa5]")),
+                  //长度限制20
                   LengthLimitingTextInputFormatter(20),
                 ],
                 decoration: InputDecoration(
@@ -124,13 +137,11 @@ class _CustomFormState extends State<CustomForm> {
                         color: Colors.black87,
                         fontFamily: 'NijimiMincho',
                         fontSize: 18)),
-                onSaved: (String value) {
-                  password = value;
-                },
                 validator: (String value) {
                   if (value.isEmpty) {
                     return '请输入密码';
                   }
+                  password = value;
                   return null;
                 },
               ),
@@ -142,7 +153,7 @@ class _CustomFormState extends State<CustomForm> {
                   text: '登録',
                   bgColor: Color(0xff333333),
                   borderColor: Color(0xff333333),
-                  callback: () => {_formValidate()}),
+                  callback: () => {_formValidate(context)}),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),

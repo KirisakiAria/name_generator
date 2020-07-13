@@ -27,7 +27,7 @@ class LoadingDialog extends Dialog {
               children: <Widget>[
                 CircularProgressIndicator(),
                 Padding(
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     top: 20,
                   ),
                   child: Text(

@@ -1,8 +1,14 @@
+//核心库
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
+//第三方库
 import 'package:dio/dio.dart';
 import './api.dart';
+//common
 import '../common/global.dart';
+//组件
+import '../widgets/loading_dialog.dart';
 
 class Request {
   //超时时间
@@ -15,13 +21,25 @@ class Request {
 
   final Dio _dio = Dio();
 
-  Request.init() {
+  Request.init(BuildContext context) {
     _dio.options.headers = headers;
-    _dio.options.baseUrl = Api.api_prefix;
+    _dio.options.baseUrl = API.api_prefix;
     _dio.options.connectTimeout = CONNECT_TIMEOUT;
     _dio.options.receiveTimeout = RECEIVE_TIMEOUT;
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+      showGeneralDialog(
+          context: context,
+          pageBuilder: (context, anim1, anim2) {
+            return LoadingDialog();
+          },
+          barrierColor: Colors.grey.withOpacity(.4),
+          barrierDismissible: false,
+          barrierLabel: '',
+          transitionDuration: Duration(milliseconds: 400),
+          transitionBuilder: (context, anim1, anim2, child) {
+            return Transform.scale(scale: anim1.value, child: LoadingDialog());
+          });
       // 在请求被发送之前做一些事情
       return options; //continue
       // 如果你想完成请求并返回一些自定义数据，可以返回一个`Response`对象或返回`dio.resolve(data)`。
@@ -31,6 +49,12 @@ class Request {
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onResponse: (Response response) async {
       // 在返回响应数据之前做一些预处理
+      if (response.data['code'] != 1000) {
+        final snackBar =
+            new SnackBar(content: new Text(response.data['message']));
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
+      Navigator.pop(context);
       return response; // continue
     }, onError: (DioError e) async {
       // 当请求失败时做一些预处理
@@ -69,10 +93,11 @@ class Request {
     return response;
   }
 
+  //单例
   static Request _instance;
-  static Request getInstance() {
+  static Request getInstance(BuildContext context) {
     if (_instance == null) {
-      _instance = Request.init();
+      _instance = Request.init(context);
     }
     return _instance;
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
+import 'package:transparent_image/transparent_image.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -12,7 +13,7 @@ import '../widgets/custom_button.dart';
 import '../common/style.dart';
 import '../common/optionsData.dart';
 //model
-import '../model/name_options.dart';
+import '../model/user.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -55,14 +56,16 @@ class BaseInformationBox extends StatelessWidget {
           SizedBox(
             width: 80,
             child: ClipOval(
-                child: Image(
+                //透明图像占位符
+                child: FadeInImage.memoryNetwork(
                     fit: BoxFit.cover,
-                    image: NetworkImage('http://localhost:8888/avatar.jpg'))),
+                    placeholder: kTransparentImage,
+                    image: '${API.host}${context.watch<User>().avatar}')),
           ),
           Container(
             padding: EdgeInsets.only(top: 20, bottom: 5),
             child: Text(
-              '空洞共鳴',
+              context.watch<User>().username,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

@@ -24,8 +24,8 @@ class _GeneratePageState extends State<GeneratePage> {
 
   Future _getData(BuildContext context) async {
     String path =
-        '${Api.name}?type=${context.read<NameOptions>().type}?number=${context.read<NameOptions>().number}';
-    Response res = await Request.getInstance().httpGet(path);
+        '${API.name}?type=${context.read<NameOptions>().type}?number=${context.read<NameOptions>().number}';
+    Response res = await Request.getInstance(context).httpGet(path);
     setState(() {
       name = res.data['data']['name'];
     });
@@ -84,6 +84,7 @@ class _GeneratePageState extends State<GeneratePage> {
   }
 }
 
+//图片/文字显示区域
 class Display extends StatelessWidget {
   final String name;
   Display({this.name});
@@ -111,6 +112,7 @@ class Display extends StatelessWidget {
   }
 }
 
+//自定义的select
 class InheritedSelect extends InheritedWidget {
   //options列表
   final List<String> list;
@@ -205,6 +207,7 @@ class OptionsDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
+    print(context.watch<NameOptions>().type);
     return Material(
         //创建透明层
         type: MaterialType.transparency, //透明类型

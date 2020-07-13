@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //provider
 import './model/name_options.dart';
+import './model/user.dart';
 //全局数据
 import './common/global.dart';
 //路由
@@ -15,7 +16,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Global.init();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => NameOptions()),
+    ChangeNotifierProvider<NameOptions>(
+      create: (_) => NameOptions(),
+    ),
+    ChangeNotifierProvider<User>(
+      create: (_) => User(),
+    ),
   ], child: MyApp()));
   if (Platform.isAndroid) {
     //沉浸式
