@@ -22,13 +22,16 @@ class GeneratePage extends StatefulWidget {
 class _GeneratePageState extends State<GeneratePage> {
   String name = '彼岸自在';
 
-  Future _getData(BuildContext context) async {
+  Future<void> _getData(BuildContext context) async {
     String path =
         '${API.name}?type=${context.read<NameOptions>().type}?number=${context.read<NameOptions>().number}';
-    Response res = await Request.getInstance(context).httpGet(path);
-    setState(() {
-      name = res.data['data']['name'];
-    });
+    Response res = await Request.init(context).httpGet(path);
+    print(res);
+    if (res.data['code'] == '1000') {
+      setState(() {
+        name = res.data['data']['name'];
+      });
+    }
   }
 
   @override

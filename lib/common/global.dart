@@ -6,7 +6,7 @@ class Global {
   static String version; //版本号
   static String buildNumber; //小版本号
 
-  static Future init() async {
+  static Future<void> init() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     appName = packageInfo.appName;
     packageName = packageInfo.packageName;

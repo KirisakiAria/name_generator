@@ -57,13 +57,13 @@ class _CustomFormState extends State<CustomForm> {
     }
   }
 
-  Future _login(BuildContext context) async {
+  Future<void> _login(BuildContext context) async {
     String path = '${API.login}';
-    Response res = await Request.getInstance(context).httpPost(path, {
+    Response res = await Request.init(context).httpPost(path, {
       'tel': tel,
       'password': password,
     });
-    if (res.data['code'] == 1000) {
+    if (res.data['code'] == '1000') {
       Map data = res.data['data'];
       print(res.data['data']);
       context.read<User>().changeOptions(
