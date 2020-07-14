@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //page
-import 'package:namegenerator/screen/login.dart';
+import 'package:namegenerator/screen/user.dart';
 import 'package:namegenerator/screen/generate.dart';
 import 'package:namegenerator/screen/my.dart';
 //common
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (!context.watch<User>().loginState) {
-      return LoginPage();
+      return InheritedUserPageContainer();
     }
     return Scaffold(
         body: PageView.builder(

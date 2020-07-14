@@ -22,7 +22,10 @@ class Request {
 
   Request.init(BuildContext context) {
     _dio.options.headers = {
+      'appname': Global.appName,
+      'packagename': Global.packageName,
       'version': Global.version,
+      'buildnumber': Global.buildNumber,
       'Authorization': context.read<User>().token,
     };
     _dio.options.baseUrl = API.api_prefix;

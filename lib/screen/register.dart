@@ -16,28 +16,13 @@ import '../utils/Utils.dart';
 //model
 import '../model/user.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-          child: Column(
-        children: <Widget>[
-          Container(
-              padding: EdgeInsets.only(bottom: 30),
-              alignment: Alignment.topRight,
-              child: Image(
-                image: AssetImage('assets/images/peach__blossom.png'),
-                width: 240,
-              )),
-          Text(
-            '歳歳年年',
-            style: TextStyle(
-                fontSize: 36, letterSpacing: 15, fontFamily: 'NijimiMincho'),
-          ),
-          CustomForm(),
-        ],
-      )),
+        child: CustomForm(),
+      ),
     );
   }
 }
@@ -48,39 +33,45 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
-  String tel, password;
+  String tel, authCode, password;
   //定义GlobalKey为了获取到form的状态
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   void _formValidate(BuildContext context) {
     if (_formKey.currentState.validate()) {
-      _login(context);
+      _register(context);
     }
   }
 
-  Future<void> _login(BuildContext context) async {
-    String path = '${API.login}';
+  Future<void> _getAuthCode(BuildContext context) async {
+    String path = '${API.getAuthCode}';
     Response res = await Request.init(context).httpPost(path, {
       'tel': tel,
+    });
+    if (res.data['code'] == '1000') {
+      final snackBar = SnackBar(content: Text('验证码发送成功'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  Future<void> _register(BuildContext context) async {
+    String path = '${API.register}';
+    Response res = await Request.init(context).httpPost(path, {
+      'tel': tel,
+      'authCode': authCode,
       'password': password,
     });
     if (res.data['code'] == '1000') {
-      Map data = res.data['data'];
-      print(res.data['data']);
-      context.read<User>().changeOptions(
-            username: data['username'],
-            tel: data['tel'],
-            avatar: data['avatar'],
-            token: data['token'],
-            loginState: true,
-          );
+      final snackBar = SnackBar(content: Text('注册成功，请登录'));
+      Scaffold.of(context).showSnackBar(snackBar);
+      InheritedUserPage.of(context).changeShowRegister(show: false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 50, right: 50, top: 75),
+      padding: EdgeInsets.only(left: 50, right: 50, top: 150),
       child: Form(
         key: _formKey,
         child: Column(
@@ -119,6 +110,57 @@ class _CustomFormState extends State<CustomForm> {
             ),
             Container(
               margin: EdgeInsets.only(top: 30),
+              decoration: BoxDecoration(
+                  border: Border(
+                bottom: BorderSide(
+                  color: Colors.black12, //边框颜色
+                ),
+              )),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                      child: TextFormField(
+                    inputFormatters: [
+                      //只允许输入数字
+                      WhitelistingTextInputFormatter.digitsOnly,
+                      //长度限制6
+                      LengthLimitingTextInputFormatter(6),
+                    ],
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(bottom: 1),
+                        enabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        errorBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        hintText: '请输入您的密码',
+                        labelText: '驗證碼',
+                        labelStyle: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: 'NijimiMincho',
+                            fontSize: 18)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return '请输入验证码';
+                      }
+                      authCode = value;
+                      return null;
+                    },
+                  )),
+                  GestureDetector(
+                    onTap: () {
+                      _getAuthCode(context);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Text('发送验证码',
+                          style: TextStyle(color: Colors.black54)),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 30),
               child: TextFormField(
                 inputFormatters: [
                   //不允许输入汉字
@@ -151,28 +193,17 @@ class _CustomFormState extends State<CustomForm> {
               margin: EdgeInsets.only(top: 50),
               width: double.infinity,
               child: CustomButton(
-                  text: '登録',
+                  text: '注册',
                   bgColor: Color(0xff333333),
                   borderColor: Color(0xff333333),
                   callback: () => {_formValidate(context)}),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
-              width: double.infinity,
-              child: CustomButton(
-                  text: '注册',
-                  textColor: Color(0xff333333),
-                  bgColor: Colors.white,
-                  borderColor: Color(0xff333333),
-                  callback: () => {
-                        InheritedUserPage.of(context)
-                            .changeShowRegister(show: true)
-                      }),
-            ),
-            Container(
               margin: EdgeInsets.only(top: 40),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  InheritedUserPage.of(context).changeShowRegister(show: false);
+                },
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),
                   decoration: BoxDecoration(
@@ -181,7 +212,7 @@ class _CustomFormState extends State<CustomForm> {
                       color: Colors.black12, //边框颜色
                     ),
                   )),
-                  child: Text('忘记密码 ？',
+                  child: Text('已有账号，登录',
                       style: TextStyle(
                         color: Colors.black54,
                       )),

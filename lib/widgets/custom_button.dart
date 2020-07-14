@@ -5,18 +5,23 @@ class CustomButton extends StatelessWidget {
   final Color textColor;
   final Color bgColor;
   final Color borderColor;
+  final double paddingVertical;
+  final double paddingHorizontal;
   final void Function() callback;
   CustomButton(
       {@required this.text,
       this.textColor = Colors.white,
       this.bgColor = Colors.black,
       this.borderColor = Colors.black,
+      this.paddingVertical = 16,
+      this.paddingHorizontal = 50,
       this.callback});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
+      padding: EdgeInsets.symmetric(
+          horizontal: paddingHorizontal, vertical: paddingVertical),
       color: bgColor,
       elevation: 0,
       disabledElevation: 0,

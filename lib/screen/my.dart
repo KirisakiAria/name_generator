@@ -60,7 +60,7 @@ class BaseInformationBox extends StatelessWidget {
                 child: FadeInImage.memoryNetwork(
                     fit: BoxFit.cover,
                     placeholder: kTransparentImage,
-                    image: '${API.host}${context.watch<User>().avatar}')),
+                    image: '${API.origin}${context.watch<User>().avatar}')),
           ),
           Container(
             padding: EdgeInsets.only(top: 20, bottom: 5),
