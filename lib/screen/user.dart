@@ -45,9 +45,8 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
     return AnimatedSwitcher(
       //当child发生变化时（类型或key不同），旧child执行隐藏动画，新child执行显示动画
       duration: Duration(milliseconds: 450),
-      //transitionBuilder决定动画效果
       transitionBuilder: (Widget child, Animation<double> animation) {
-        Tween tween = Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
+        Tween<Offset> tween = Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
         return FadeTransition(
             opacity: animation,
             child: MySlideTransition(
