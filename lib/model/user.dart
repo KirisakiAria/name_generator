@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class User with ChangeNotifier, DiagnosticableTreeMixin {
   String _username = '未登录';
   String _tel;
-  String _avatar = '/avatar.jpg';
+  String _avatar = '/avatar.png';
   String _token;
   bool _loginState = false;
 

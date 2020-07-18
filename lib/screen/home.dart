@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 //page
-import 'package:namegenerator/screen/user.dart';
-import 'package:namegenerator/screen/generate.dart';
-import 'package:namegenerator/screen/my.dart';
+import '../screen/generate.dart';
+import '../screen/my.dart';
 //common
 import '../common/style.dart';
-//model
-import '../model/user.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,9 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (!context.watch<User>().loginState) {
-      return InheritedUserPageContainer();
-    }
     return Scaffold(
         body: PageView.builder(
           onPageChanged: _onPageChange,

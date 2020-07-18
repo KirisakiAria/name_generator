@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '网名生成器',
       home: HomePage(),
-      //routes: Routes.mappingList,
+      routes: Routes.mappingList,
     );
   }
 }

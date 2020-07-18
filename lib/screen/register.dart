@@ -37,23 +37,33 @@ class _CustomFormState extends State<CustomForm> {
   //定义GlobalKey为了获取到form的状态
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  //表单验证
   void _formValidate(BuildContext context) {
     if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
       _register(context);
     }
   }
 
+  //获取验证码
   Future<void> _getAuthCode(BuildContext context) async {
-    String path = '${API.getAuthCode}';
-    Response res = await Request.init(context).httpPost(path, {
-      'tel': tel,
-    });
-    if (res.data['code'] == '1000') {
-      final snackBar = SnackBar(content: Text('验证码发送成功'));
+    _formKey.currentState.save();
+    if (Utils.isPhone(tel)) {
+      String path = '${API.getAuthCode}';
+      Response res = await Request.init(context).httpPost(path, {
+        'tel': tel,
+      });
+      if (res.data['code'] == '1000') {
+        final snackBar = SnackBar(content: Text('验证码发送成功'));
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
+    } else {
+      final snackBar = new SnackBar(content: new Text('请输入正确的手机号'));
       Scaffold.of(context).showSnackBar(snackBar);
     }
   }
 
+  //注册
   Future<void> _register(BuildContext context) async {
     String path = '${API.register}';
     Response res = await Request.init(context).httpPost(path, {
@@ -64,7 +74,10 @@ class _CustomFormState extends State<CustomForm> {
     if (res.data['code'] == '1000') {
       final snackBar = SnackBar(content: Text('注册成功，请登录'));
       Scaffold.of(context).showSnackBar(snackBar);
-      InheritedUserPage.of(context).changeShowRegister(show: false);
+      //2s后自动跳登录页
+      Future.delayed(Duration(seconds: 2), () {
+        InheritedUserPage.of(context).changeShowRegister(show: false);
+      });
     }
   }
 
@@ -103,8 +116,10 @@ class _CustomFormState extends State<CustomForm> {
                   if (!Utils.isPhone(value)) {
                     return '手机号码格式不正确';
                   }
-                  tel = value;
                   return null;
+                },
+                onSaved: (String value) {
+                  tel = value;
                 },
               ),
             ),
@@ -142,8 +157,10 @@ class _CustomFormState extends State<CustomForm> {
                       if (value.isEmpty) {
                         return '请输入验证码';
                       }
-                      authCode = value;
                       return null;
+                    },
+                    onSaved: (String value) {
+                      authCode = value;
                     },
                   )),
                   GestureDetector(
@@ -181,11 +198,13 @@ class _CustomFormState extends State<CustomForm> {
                         fontFamily: 'NijimiMincho',
                         fontSize: 18)),
                 validator: (String value) {
-                  if (value.isEmpty) {
-                    return '请输入密码';
+                  if (value.length < 6) {
+                    return '密码至少六位';
                   }
-                  password = value;
                   return null;
+                },
+                onSaved: (String value) {
+                  password = value;
                 },
               ),
             ),

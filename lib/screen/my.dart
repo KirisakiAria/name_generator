@@ -36,6 +36,7 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
+//个人信息显示区域
 class BaseInformationBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,40 +51,49 @@ class BaseInformationBox extends StatelessWidget {
                 blurRadius: 12,
                 offset: Offset(0, 6)),
           ]),
-      child: Center(
-          child: Column(
-        children: <Widget>[
-          SizedBox(
-            width: 80,
-            child: ClipOval(
-                //透明图像占位符
-                child: FadeInImage.memoryNetwork(
-                    fit: BoxFit.cover,
-                    placeholder: kTransparentImage,
-                    image: '${API.origin}${context.watch<User>().avatar}')),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 20, bottom: 5),
-            child: Text(
-              context.watch<User>().username,
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87),
+      child: GestureDetector(
+        onTap: () {
+          //未登录状态下点击会跳到登录页
+          if (!context.read<User>().loginState) {
+            Navigator.pushNamed(context, '/login');
+          }
+        },
+        child: Center(
+            child: Column(
+          children: <Widget>[
+            SizedBox(
+              width: 80,
+              child: ClipOval(
+                  //透明图像占位符
+                  child: FadeInImage.memoryNetwork(
+                      fit: BoxFit.cover,
+                      placeholder: kTransparentImage,
+                      image: '${API.origin}${context.watch<User>().avatar}')),
             ),
-          ),
-          Container(
-            child: Text(
-              '啊这',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+            Container(
+              padding: EdgeInsets.only(top: 10, bottom: 5),
+              child: Text(
+                context.watch<User>().username,
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
             ),
-          )
-        ],
-      )),
+            Container(
+              child: Text(
+                '啊这',
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            )
+          ],
+        )),
+      ),
     );
   }
 }
 
+//菜单列表
 class Menu extends StatelessWidget {
   final List<Widget> iconlist = <Widget>[
     CustomIcon(

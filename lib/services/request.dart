@@ -26,13 +26,15 @@ class Request {
       'packagename': Global.packageName,
       'version': Global.version,
       'buildnumber': Global.buildNumber,
-      'Authorization': context.read<User>().token,
+      'authorization': context.read<User>().token,
+      'secret': API.secret,
     };
     _dio.options.baseUrl = API.api_prefix;
     _dio.options.connectTimeout = CONNECT_TIMEOUT;
     _dio.options.receiveTimeout = RECEIVE_TIMEOUT;
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+      //请求时显示loader
       showGeneralDialog(
           context: context,
           pageBuilder: (context, anim1, anim2) {

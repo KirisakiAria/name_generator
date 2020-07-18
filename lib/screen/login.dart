@@ -52,12 +52,15 @@ class _CustomFormState extends State<CustomForm> {
   //定义GlobalKey为了获取到form的状态
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  //表单验证
   void _formValidate(BuildContext context) {
     if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
       _login(context);
     }
   }
 
+  //登陆
   Future<void> _login(BuildContext context) async {
     String path = '${API.login}';
     Response res = await Request.init(context).httpPost(path, {
@@ -66,7 +69,7 @@ class _CustomFormState extends State<CustomForm> {
     });
     if (res.data['code'] == '1000') {
       Map data = res.data['data'];
-      print(res.data['data']);
+      print(data);
       context.read<User>().changeOptions(
             username: data['username'],
             tel: data['tel'],
@@ -74,6 +77,7 @@ class _CustomFormState extends State<CustomForm> {
             token: data['token'],
             loginState: true,
           );
+      Navigator.pushNamed(context, '/home');
     }
   }
 
@@ -112,8 +116,10 @@ class _CustomFormState extends State<CustomForm> {
                   if (!Utils.isPhone(value)) {
                     return '手机号码格式不正确';
                   }
-                  tel = value;
                   return null;
+                },
+                onSaved: (String value) {
+                  tel = value;
                 },
               ),
             ),
@@ -142,8 +148,10 @@ class _CustomFormState extends State<CustomForm> {
                   if (value.isEmpty) {
                     return '请输入密码';
                   }
-                  password = value;
                   return null;
+                },
+                onSaved: (String value) {
+                  password = value;
                 },
               ),
             ),
