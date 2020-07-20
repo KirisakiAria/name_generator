@@ -62,22 +62,25 @@ class _CustomFormState extends State<CustomForm> {
 
   //登陆
   Future<void> _login(BuildContext context) async {
-    String path = '${API.login}';
-    Response res = await Request.init(context).httpPost(path, {
-      'tel': tel,
-      'password': password,
-    });
-    if (res.data['code'] == '1000') {
-      Map data = res.data['data'];
-      print(data);
-      context.read<User>().changeOptions(
-            username: data['username'],
-            tel: data['tel'],
-            avatar: data['avatar'],
-            token: data['token'],
-            loginState: true,
-          );
-      Navigator.pushNamed(context, '/home');
+    try {
+      String path = '${API.login}';
+      Response res = await Request.init(context).httpPost(path, {
+        'tel': tel,
+        'password': password,
+      });
+      if (res.data['code'] == '1000') {
+        Map data = res.data['data'];
+        context.read<User>().changeOptions(
+              username: data['username'],
+              tel: data['tel'],
+              avatar: data['avatar'],
+              token: data['token'],
+              loginState: true,
+            );
+        Navigator.pushNamed(context, '/home');
+      }
+    } catch (err) {
+      print(err);
     }
   }
 

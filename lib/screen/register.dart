@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
-import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 //请求
 import '../services/api.dart';
@@ -13,8 +12,6 @@ import './user.dart';
 import '../widgets/custom_button.dart';
 //utils
 import '../utils/Utils.dart';
-//model
-import '../model/user.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -47,37 +44,45 @@ class _CustomFormState extends State<CustomForm> {
 
   //获取验证码
   Future<void> _getAuthCode(BuildContext context) async {
-    _formKey.currentState.save();
-    if (Utils.isPhone(tel)) {
-      String path = '${API.getAuthCode}';
-      Response res = await Request.init(context).httpPost(path, {
-        'tel': tel,
-      });
-      if (res.data['code'] == '1000') {
-        final snackBar = SnackBar(content: Text('验证码发送成功'));
+    try {
+      _formKey.currentState.save();
+      if (Utils.isPhone(tel)) {
+        String path = '${API.getAuthCode}';
+        Response res = await Request.init(context).httpPost(path, {
+          'tel': tel,
+        });
+        if (res.data['code'] == '1000') {
+          final snackBar = SnackBar(content: Text('验证码发送成功'));
+          Scaffold.of(context).showSnackBar(snackBar);
+        }
+      } else {
+        final snackBar = new SnackBar(content: new Text('请输入正确的手机号'));
         Scaffold.of(context).showSnackBar(snackBar);
       }
-    } else {
-      final snackBar = new SnackBar(content: new Text('请输入正确的手机号'));
-      Scaffold.of(context).showSnackBar(snackBar);
+    } catch (err) {
+      print(err);
     }
   }
 
   //注册
   Future<void> _register(BuildContext context) async {
-    String path = '${API.register}';
-    Response res = await Request.init(context).httpPost(path, {
-      'tel': tel,
-      'authCode': authCode,
-      'password': password,
-    });
-    if (res.data['code'] == '1000') {
-      final snackBar = SnackBar(content: Text('注册成功，请登录'));
-      Scaffold.of(context).showSnackBar(snackBar);
-      //2s后自动跳登录页
-      Future.delayed(Duration(seconds: 2), () {
-        InheritedUserPage.of(context).changeShowRegister(show: false);
+    try {
+      String path = '${API.register}';
+      Response res = await Request.init(context).httpPost(path, {
+        'tel': tel,
+        'authCode': authCode,
+        'password': password,
       });
+      if (res.data['code'] == '1000') {
+        final snackBar = SnackBar(content: Text('注册成功，请登录'));
+        Scaffold.of(context).showSnackBar(snackBar);
+        //2s后自动跳登录页
+        Future.delayed(Duration(seconds: 2), () {
+          InheritedUserPage.of(context).changeShowRegister(show: false);
+        });
+      }
+    } catch (err) {
+      print(err);
     }
   }
 

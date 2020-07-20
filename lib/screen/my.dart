@@ -25,10 +25,6 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: Column(
         children: <Widget>[BaseInformationBox(), Menu()],
       ),
@@ -41,7 +37,7 @@ class BaseInformationBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(bottom: 40),
+      padding: EdgeInsets.only(top: 100, bottom: 40),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(40)),
@@ -97,12 +93,29 @@ class BaseInformationBox extends StatelessWidget {
 class Menu extends StatelessWidget {
   final List<Widget> iconlist = <Widget>[
     CustomIcon(
+      iconData: 0xe666,
+      title: '我的收藏',
+      callback: (context) {
+        if (!context.read<User>().loginState) {
+          Navigator.pushNamed(context, '/login');
+        }
+      },
+    ),
+    CustomIcon(
       iconData: 0xe607,
       title: '历史记录',
+      callback: (context) {
+        if (!context.read<User>().loginState) {
+          Navigator.pushNamed(context, '/login');
+        }
+      },
     ),
     CustomIcon(
       iconData: 0xe654,
       title: '设置',
+      callback: (context) {
+        Navigator.pushNamed(context, '/setting');
+      },
     ),
     CustomIcon(
       iconData: 0xe617,
@@ -130,30 +143,35 @@ class Menu extends StatelessWidget {
 class CustomIcon extends StatelessWidget {
   final int iconData;
   final String title;
+  final void Function(BuildContext context) callback;
 
-  CustomIcon({this.iconData, this.title});
+  CustomIcon({this.iconData, this.title, this.callback});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: SizedBox(
-      width: 80,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ClipOval(
-              child: Container(
-            padding: EdgeInsets.all(15),
-            color: Color(0xFFf5f5f5),
-            child: Icon(IconData(iconData, fontFamily: 'iconfont'),
-                color: Color(0xFF212121), size: 32),
-          )),
-          Text(
-            title,
-            style: TextStyle(fontSize: 12, height: 2.5),
-          )
-        ],
-      ),
-    ));
+    return GestureDetector(
+        onTap: () {
+          callback(context);
+        },
+        child: Container(
+            child: SizedBox(
+          width: 90,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ClipOval(
+                  child: Container(
+                padding: EdgeInsets.all(15),
+                color: Color(0xFFf5f5f5),
+                child: Icon(IconData(iconData, fontFamily: 'iconfont'),
+                    color: Color(0xFF212121), size: 32),
+              )),
+              Text(
+                title,
+                style: TextStyle(height: 2.5),
+              )
+            ],
+          ),
+        )));
   }
 }

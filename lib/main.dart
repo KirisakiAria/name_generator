@@ -37,6 +37,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '网名生成器',
       home: HomePage(),
+      theme: ThemeData(
+          appBarTheme:
+              AppBarTheme(iconTheme: IconThemeData(color: Colors.black87))),
       routes: Routes.mappingList,
     );
   }
