@@ -18,11 +18,6 @@ class _SettingPageState extends State<SettingPage> {
       //获取缓存文件夹
       Directory tempDir = await getTemporaryDirectory();
       double value = await _getTotalSizeOfFilesInDir(tempDir);
-      /*tempDir.list(followLinks: false,recursive: true).listen((file){
-          //打印每个缓存文件的路径
-        print(file.path);
-      });*/
-      print('临时目录大小: ' + value.toString());
       setState(() {
         _cacheSizeStr = _renderSize(value);
         print(_cacheSizeStr);
@@ -99,27 +94,44 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '设置',
-            style: TextStyle(color: Colors.black87),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          '设置',
+          style: TextStyle(color: Colors.black87),
         ),
-        //context必须是Scaffold的子context，Scaffold.of才能生效
-        body: Builder(
-            builder: (context) => ListView(
-                  children: <Widget>[
-                    ListTile(
-                      onTap: () {
-                        _clearCache(context);
-                      },
-                      leading: Icon(IconData(0xe677, fontFamily: 'iconfont')),
-                      title: Text('清除缓存'),
-                      subtitle: Text('缓存大小：$_cacheSizeStr'),
-                    ),
-                  ],
-                )));
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      //context必须是Scaffold的子context，Scaffold.of才能生效
+      body: Builder(
+        builder: (context) => ListView(
+          children: <Widget>[
+            ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, '/account');
+              },
+              leading: Icon(
+                IconData(0xe610, fontFamily: 'iconfont'),
+                color: Color(0xff70a1ff),
+              ),
+              title: Text('账号资料'),
+              trailing: Icon(Icons.keyboard_arrow_right),
+            ),
+            ListTile(
+              onTap: () {
+                _clearCache(context);
+              },
+              leading: Icon(
+                IconData(0xe677, fontFamily: 'iconfont'),
+                color: Color(0xffff7f50),
+              ),
+              title: Text('清除缓存'),
+              subtitle: Text('缓存大小：$_cacheSizeStr'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -52,11 +52,15 @@ class _CustomFormState extends State<CustomForm> {
           'tel': tel,
         });
         if (res.data['code'] == '1000') {
-          final snackBar = SnackBar(content: Text('验证码发送成功'));
+          final snackBar = SnackBar(
+            content: Text('验证码发送成功'),
+          );
           Scaffold.of(context).showSnackBar(snackBar);
         }
       } else {
-        final snackBar = new SnackBar(content: new Text('请输入正确的手机号'));
+        final snackBar = new SnackBar(
+          content: new Text('请输入正确的手机号'),
+        );
         Scaffold.of(context).showSnackBar(snackBar);
       }
     } catch (err) {
@@ -74,7 +78,9 @@ class _CustomFormState extends State<CustomForm> {
         'password': password,
       });
       if (res.data['code'] == '1000') {
-        final snackBar = SnackBar(content: Text('注册成功，请登录'));
+        final snackBar = SnackBar(
+          content: Text('注册成功，请登录'),
+        );
         Scaffold.of(context).showSnackBar(snackBar);
         //2s后自动跳登录页
         Future.delayed(Duration(seconds: 2), () {
@@ -103,17 +109,19 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(11),
                 ],
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 1),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                  contentPadding: EdgeInsets.only(bottom: 1),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
                       color: Color(0xffd2d2d2),
-                    )),
-                    hintText: '请输入您的手机号',
-                    labelText: '手机号',
-                    labelStyle: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: 'NijimiMincho',
-                        fontSize: 18)),
+                    ),
+                  ),
+                  hintText: '请输入您的手机号',
+                  labelText: '手机号',
+                  labelStyle: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'NijimiMincho',
+                      fontSize: 18),
+                ),
                 validator: (String value) {
                   if (value.isEmpty) {
                     return '请输入手机号';
@@ -131,22 +139,23 @@ class _CustomFormState extends State<CustomForm> {
             Container(
               margin: EdgeInsets.only(top: 30),
               decoration: BoxDecoration(
-                  border: Border(
-                bottom: BorderSide(
-                  color: Colors.black12, //边框颜色
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.black12, //边框颜色
+                  ),
                 ),
-              )),
+              ),
               child: Row(
                 children: <Widget>[
                   Expanded(
-                      child: TextFormField(
-                    inputFormatters: [
-                      //只允许输入数字
-                      WhitelistingTextInputFormatter.digitsOnly,
-                      //长度限制6
-                      LengthLimitingTextInputFormatter(6),
-                    ],
-                    decoration: InputDecoration(
+                    child: TextFormField(
+                      inputFormatters: [
+                        //只允许输入数字
+                        WhitelistingTextInputFormatter.digitsOnly,
+                        //长度限制6
+                        LengthLimitingTextInputFormatter(6),
+                      ],
+                      decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(bottom: 1),
                         enabledBorder:
                             UnderlineInputBorder(borderSide: BorderSide.none),
@@ -157,27 +166,31 @@ class _CustomFormState extends State<CustomForm> {
                         labelStyle: TextStyle(
                             color: Colors.black87,
                             fontFamily: 'NijimiMincho',
-                            fontSize: 18)),
-                    validator: (String value) {
-                      if (value.isEmpty) {
-                        return '请输入验证码';
-                      }
-                      return null;
-                    },
-                    onSaved: (String value) {
-                      authCode = value;
-                    },
-                  )),
+                            fontSize: 18),
+                      ),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return '请输入验证码';
+                        }
+                        return null;
+                      },
+                      onSaved: (String value) {
+                        authCode = value;
+                      },
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       _getAuthCode(context);
                     },
                     child: Container(
                       padding: EdgeInsets.only(right: 15),
-                      child: Text('发送验证码',
-                          style: TextStyle(color: Colors.black54)),
+                      child: Text(
+                        '发送验证码',
+                        style: TextStyle(color: Colors.black54),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -186,22 +199,26 @@ class _CustomFormState extends State<CustomForm> {
               child: TextFormField(
                 inputFormatters: [
                   //不允许输入汉字
-                  FilteringTextInputFormatter.deny(RegExp("[\u4e00-\u9fa5]")),
+                  FilteringTextInputFormatter.deny(
+                    RegExp("[\u4e00-\u9fa5]"),
+                  ),
                   //长度限制20
                   LengthLimitingTextInputFormatter(20),
                 ],
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 1),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                  contentPadding: EdgeInsets.only(bottom: 1),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
                       color: Color(0xffd2d2d2),
-                    )),
-                    hintText: '请输入您的密码',
-                    labelText: '密碼',
-                    labelStyle: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: 'NijimiMincho',
-                        fontSize: 18)),
+                    ),
+                  ),
+                  hintText: '请输入您的密码',
+                  labelText: '密碼',
+                  labelStyle: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'NijimiMincho',
+                      fontSize: 18),
+                ),
                 validator: (String value) {
                   if (value.length < 6) {
                     return '密码至少六位';
@@ -231,18 +248,21 @@ class _CustomFormState extends State<CustomForm> {
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),
                   decoration: BoxDecoration(
-                      border: Border(
-                    bottom: BorderSide(
-                      color: Colors.black12, //边框颜色
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black12, //边框颜色
+                      ),
                     ),
-                  )),
-                  child: Text('已有账号，登录',
-                      style: TextStyle(
-                        color: Colors.black54,
-                      )),
+                  ),
+                  child: Text(
+                    '已有账号，登录',
+                    style: TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

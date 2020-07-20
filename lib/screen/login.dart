@@ -21,23 +21,25 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-          child: Column(
-        children: <Widget>[
-          Container(
+        child: Column(
+          children: <Widget>[
+            Container(
               padding: EdgeInsets.only(bottom: 30),
               alignment: Alignment.topRight,
               child: Image(
                 image: AssetImage('assets/images/peach__blossom.png'),
                 width: 240,
-              )),
-          Text(
-            '歳歳年年',
-            style: TextStyle(
-                fontSize: 36, letterSpacing: 15, fontFamily: 'NijimiMincho'),
-          ),
-          CustomForm(),
-        ],
-      )),
+              ),
+            ),
+            Text(
+              '歳歳年年',
+              style: TextStyle(
+                  fontSize: 36, letterSpacing: 15, fontFamily: 'NijimiMincho'),
+            ),
+            CustomForm(),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -101,17 +103,19 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(11),
                 ],
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 1),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                  contentPadding: EdgeInsets.only(bottom: 1),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
                       color: Color(0xffd2d2d2),
-                    )),
-                    hintText: '请输入您的手机号',
-                    labelText: '手机号',
-                    labelStyle: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: 'NijimiMincho',
-                        fontSize: 18)),
+                    ),
+                  ),
+                  hintText: '请输入您的手机号',
+                  labelText: '手机号',
+                  labelStyle: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'NijimiMincho',
+                      fontSize: 18),
+                ),
                 validator: (String value) {
                   if (value.isEmpty) {
                     return '请输入手机号';
@@ -131,22 +135,26 @@ class _CustomFormState extends State<CustomForm> {
               child: TextFormField(
                 inputFormatters: [
                   //不允许输入汉字
-                  FilteringTextInputFormatter.deny(RegExp("[\u4e00-\u9fa5]")),
+                  FilteringTextInputFormatter.deny(
+                    RegExp("[\u4e00-\u9fa5]"),
+                  ),
                   //长度限制20
                   LengthLimitingTextInputFormatter(20),
                 ],
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(bottom: 1),
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                  contentPadding: EdgeInsets.only(bottom: 1),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
                       color: Color(0xffd2d2d2),
-                    )),
-                    hintText: '请输入您的密码',
-                    labelText: '密碼',
-                    labelStyle: TextStyle(
-                        color: Colors.black87,
-                        fontFamily: 'NijimiMincho',
-                        fontSize: 18)),
+                    ),
+                  ),
+                  hintText: '请输入您的密码',
+                  labelText: '密碼',
+                  labelStyle: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'NijimiMincho',
+                      fontSize: 18),
+                ),
                 validator: (String value) {
                   if (value.isEmpty) {
                     return '请输入密码';
@@ -187,15 +195,18 @@ class _CustomFormState extends State<CustomForm> {
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),
                   decoration: BoxDecoration(
-                      border: Border(
-                    bottom: BorderSide(
-                      color: Colors.black12, //边框颜色
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black12, //边框颜色
+                      ),
                     ),
-                  )),
-                  child: Text('忘记密码 ？',
-                      style: TextStyle(
-                        color: Colors.black54,
-                      )),
+                  ),
+                  child: Text(
+                    '忘记密码 ？',
+                    style: TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
               ),
             )

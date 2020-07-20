@@ -52,39 +52,43 @@ class _GeneratePageState extends State<GeneratePage> {
             child: Display(name: name),
           ),
           Container(
-              padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  CustomButton(text: '生成', callback: () => _getData(context)),
-                  CustomButton(
-                      text: '選項',
-                      textColor: Colors.black,
-                      bgColor: Colors.white,
-                      callback: () => {
-                            showGeneralDialog(
-                                context: context,
-                                pageBuilder: (context, anim1, anim2) {
-                                  return OptionsDialog();
-                                },
-                                barrierColor: Colors.grey.withOpacity(.4),
-                                barrierDismissible: false,
-                                barrierLabel: '',
-                                transitionDuration: Duration(milliseconds: 400),
-                                transitionBuilder:
-                                    (context, anim1, anim2, child) {
-                                  final double curvedValue = Curves
-                                          .easeInOutBack
-                                          .transform(anim1.value) -
-                                      1;
-                                  return Transform(
-                                      transform: Matrix4.translationValues(
-                                          0, curvedValue * -320, 0),
-                                      child: OptionsDialog());
-                                })
-                          })
-                ],
-              )),
+            padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                CustomButton(
+                  text: '生成',
+                  callback: () => _getData(context),
+                ),
+                CustomButton(
+                    text: '選項',
+                    textColor: Colors.black,
+                    bgColor: Colors.white,
+                    callback: () => {
+                          showGeneralDialog(
+                              context: context,
+                              pageBuilder: (context, anim1, anim2) {
+                                return OptionsDialog();
+                              },
+                              barrierColor: Colors.grey.withOpacity(.4),
+                              barrierDismissible: false,
+                              barrierLabel: '',
+                              transitionDuration: Duration(milliseconds: 400),
+                              transitionBuilder:
+                                  (context, anim1, anim2, child) {
+                                final double curvedValue = Curves.easeInOutBack
+                                        .transform(anim1.value) -
+                                    1;
+                                return Transform(
+                                  transform: Matrix4.translationValues(
+                                      0, curvedValue * -320, 0),
+                                  child: OptionsDialog(),
+                                );
+                              })
+                        })
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -94,7 +98,7 @@ class _GeneratePageState extends State<GeneratePage> {
 //图片/文字显示区域
 class Display extends StatelessWidget {
   final String name;
-  Display({this.name});
+  Display({@required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +158,10 @@ class SelectBox extends StatelessWidget {
     return Container(
       width: 150,
       decoration: BoxDecoration(
-          border: Border.all(width: 1.5, color: Color(Style.mainColor))),
+          border: Border.all(
+        width: 1.5,
+        color: Color(Style.mainColor),
+      )),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       child: Select(inheritedContext.currentValue),
     );
@@ -216,59 +223,65 @@ class OptionsDialog extends Dialog {
   Widget build(BuildContext context) {
     print(context.watch<NameOptions>().type);
     return Material(
-        //创建透明层
-        type: MaterialType.transparency, //透明类型
-        child: Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-                width: double.infinity,
-                height: 320,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20)),
-                    color: Colors.white,
+      //创建透明层
+      type: MaterialType.transparency, //透明类型
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: SizedBox(
+          width: double.infinity,
+          height: 320,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  child: Text(
+                    '选项',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          '选项',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      InheritedSelect(
-                        list: OptionsData.typeList,
-                        callback: (context, newValue) => {
-                          context.read<NameOptions>().changeOptions(
-                              type: newValue,
-                              number: context.read<NameOptions>().number)
-                        },
-                        currentValue: context.watch<NameOptions>().type,
-                        child: SelectBox(),
-                      ),
-                      InheritedSelect(
-                        list: OptionsData.numberList,
-                        callback: (context, newValue) => {
-                          context.read<NameOptions>().changeOptions(
-                              type: context.read<NameOptions>().type,
-                              number: newValue)
-                        },
-                        currentValue: context.watch<NameOptions>().number,
-                        child: SelectBox(),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(horizontal: 80),
-                        child: CustomButton(
-                            text: '确定', callback: () => Navigator.pop(context)),
-                      )
-                    ],
+                ),
+                InheritedSelect(
+                  list: OptionsData.typeList,
+                  callback: (context, newValue) => {
+                    context.read<NameOptions>().changeOptions(
+                        type: newValue,
+                        number: context.read<NameOptions>().number)
+                  },
+                  currentValue: context.watch<NameOptions>().type,
+                  child: SelectBox(),
+                ),
+                InheritedSelect(
+                  list: OptionsData.numberList,
+                  callback: (context, newValue) => {
+                    context.read<NameOptions>().changeOptions(
+                        type: context.read<NameOptions>().type,
+                        number: newValue)
+                  },
+                  currentValue: context.watch<NameOptions>().number,
+                  child: SelectBox(),
+                ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 80),
+                  child: CustomButton(
+                    text: '确定',
+                    callback: () => Navigator.pop(context),
                   ),
-                ))));
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

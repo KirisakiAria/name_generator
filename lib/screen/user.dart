@@ -6,7 +6,7 @@ import './register.dart';
 
 class InheritedUserPage extends InheritedWidget {
   final bool showRegister;
-  final void Function({bool show}) changeShowRegister;
+  final void Function({@required bool show}) changeShowRegister;
 
   InheritedUserPage({
     Key key,
@@ -34,7 +34,7 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
   bool showRegister = false;
   int count = 0;
 
-  changeShowRegister({bool show}) {
+  changeShowRegister({@required bool show}) {
     setState(() {
       showRegister = show;
     });
@@ -46,20 +46,24 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
       //当child发生变化时（类型或key不同），旧child执行隐藏动画，新child执行显示动画
       duration: Duration(milliseconds: 450),
       transitionBuilder: (Widget child, Animation<double> animation) {
-        Tween<Offset> tween =
-            Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
+        Tween<Offset> tween = Tween<Offset>(
+          begin: Offset(1, 0),
+          end: Offset(0, 0),
+        );
         return FadeTransition(
-            opacity: animation,
-            child: MySlideTransition(
-              child: child,
-              position: tween.animate(animation),
-            ));
+          opacity: animation,
+          child: MySlideTransition(
+            child: child,
+            position: tween.animate(animation),
+          ),
+        );
       },
       child: InheritedUserPage(
         key: ValueKey<bool>(showRegister),
         showRegister: showRegister,
         child: _UserPage(),
-        changeShowRegister: ({bool show}) => changeShowRegister(show: show),
+        changeShowRegister: ({@required bool show}) =>
+            changeShowRegister(show: show),
       ),
     );
   }

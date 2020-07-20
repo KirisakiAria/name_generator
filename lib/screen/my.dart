@@ -40,12 +40,15 @@ class BaseInformationBox extends StatelessWidget {
       padding: EdgeInsets.only(top: 100, bottom: 40),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(40)),
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(40),
+          ),
           boxShadow: [
             BoxShadow(
-                color: Color.fromRGBO(0, 80, 180, 0.1),
-                blurRadius: 12,
-                offset: Offset(0, 6)),
+              color: Color.fromRGBO(0, 80, 180, 0.1),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
           ]),
       child: GestureDetector(
         onTap: () {
@@ -55,35 +58,37 @@ class BaseInformationBox extends StatelessWidget {
           }
         },
         child: Center(
-            child: Column(
-          children: <Widget>[
-            SizedBox(
-              width: 80,
-              child: ClipOval(
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                width: 80,
+                child: ClipOval(
                   //透明图像占位符
                   child: FadeInImage.memoryNetwork(
                       fit: BoxFit.cover,
                       placeholder: kTransparentImage,
-                      image: '${API.origin}${context.watch<User>().avatar}')),
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 10, bottom: 5),
-              child: Text(
-                context.watch<User>().username,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87),
+                      image: '${API.origin}${context.watch<User>().avatar}'),
+                ),
               ),
-            ),
-            Container(
-              child: Text(
-                '啊这',
-                style: TextStyle(fontSize: 14, color: Colors.grey),
+              Container(
+                padding: EdgeInsets.only(top: 10, bottom: 5),
+                child: Text(
+                  context.watch<User>().username,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87),
+                ),
               ),
-            )
-          ],
-        )),
+              Container(
+                child: Text(
+                  'UID: 123456',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -103,7 +108,7 @@ class Menu extends StatelessWidget {
     ),
     CustomIcon(
       iconData: 0xe607,
-      title: '历史记录',
+      title: '查询记录',
       callback: (context) {
         if (!context.read<User>().loginState) {
           Navigator.pushNamed(context, '/login');
@@ -124,6 +129,10 @@ class Menu extends StatelessWidget {
     CustomIcon(
       iconData: 0xe692,
       title: '实验室',
+      callback: (context) {
+        final snackBar = SnackBar(content: Text('敬请期待'));
+        Scaffold.of(context).showSnackBar(snackBar);
+      },
     ),
   ];
 
@@ -145,7 +154,7 @@ class CustomIcon extends StatelessWidget {
   final String title;
   final void Function(BuildContext context) callback;
 
-  CustomIcon({this.iconData, this.title, this.callback});
+  CustomIcon({@required this.iconData, @required this.title, this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -154,24 +163,26 @@ class CustomIcon extends StatelessWidget {
           callback(context);
         },
         child: Container(
-            child: SizedBox(
-          width: 90,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ClipOval(
+          child: SizedBox(
+            width: 90,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ClipOval(
                   child: Container(
-                padding: EdgeInsets.all(15),
-                color: Color(0xFFf5f5f5),
-                child: Icon(IconData(iconData, fontFamily: 'iconfont'),
-                    color: Color(0xFF212121), size: 32),
-              )),
-              Text(
-                title,
-                style: TextStyle(height: 2.5),
-              )
-            ],
+                    padding: EdgeInsets.all(15),
+                    color: Color(0xFFf5f5f5),
+                    child: Icon(IconData(iconData, fontFamily: 'iconfont'),
+                        color: Color(0xFF212121), size: 32),
+                  ),
+                ),
+                Text(
+                  title,
+                  style: TextStyle(height: 2.5),
+                )
+              ],
+            ),
           ),
-        )));
+        ));
   }
 }
