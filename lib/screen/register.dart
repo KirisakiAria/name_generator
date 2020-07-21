@@ -32,7 +32,7 @@ class CustomForm extends StatefulWidget {
 class _CustomFormState extends State<CustomForm> {
   String tel, authCode, password;
   //定义GlobalKey为了获取到form的状态
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //表单验证
   void _formValidate(BuildContext context) {
@@ -47,18 +47,18 @@ class _CustomFormState extends State<CustomForm> {
     try {
       _formKey.currentState.save();
       if (Utils.isPhone(tel)) {
-        String path = '${API.getAuthCode}';
-        Response res = await Request.init(context).httpPost(path, {
+        final String path = '${API.getAuthCode}';
+        final Response res = await Request.init(context).httpPost(path, {
           'tel': tel,
         });
         if (res.data['code'] == '1000') {
-          final snackBar = SnackBar(
+          final SnackBar snackBar = SnackBar(
             content: Text('验证码发送成功'),
           );
           Scaffold.of(context).showSnackBar(snackBar);
         }
       } else {
-        final snackBar = new SnackBar(
+        final SnackBar snackBar = new SnackBar(
           content: new Text('请输入正确的手机号'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
@@ -71,20 +71,20 @@ class _CustomFormState extends State<CustomForm> {
   //注册
   Future<void> _register(BuildContext context) async {
     try {
-      String path = '${API.register}';
-      Response res = await Request.init(context).httpPost(path, {
+      final String path = '${API.register}';
+      final Response res = await Request.init(context).httpPost(path, {
         'tel': tel,
         'authCode': authCode,
         'password': password,
       });
       if (res.data['code'] == '1000') {
-        final snackBar = SnackBar(
+        final SnackBar snackBar = SnackBar(
           content: Text('注册成功，请登录'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
         //2s后自动跳登录页
         Future.delayed(Duration(seconds: 2), () {
-          InheritedUserPage.of(context).changeShowRegister(show: false);
+          InheritedUserPage.of(context).changeScreen(index: 1);
         });
       }
     } catch (err) {
@@ -118,9 +118,10 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
-                      color: Colors.black87,
-                      fontFamily: 'NijimiMincho',
-                      fontSize: 18),
+                    color: Colors.black87,
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 18,
+                  ),
                 ),
                 validator: (String value) {
                   if (value.isEmpty) {
@@ -161,12 +162,13 @@ class _CustomFormState extends State<CustomForm> {
                             UnderlineInputBorder(borderSide: BorderSide.none),
                         errorBorder:
                             UnderlineInputBorder(borderSide: BorderSide.none),
-                        hintText: '请输入您的密码',
+                        hintText: '请输入您的验证码',
                         labelText: '驗證碼',
                         labelStyle: TextStyle(
-                            color: Colors.black87,
-                            fontFamily: 'NijimiMincho',
-                            fontSize: 18),
+                          color: Colors.black87,
+                          fontFamily: 'NijimiMincho',
+                          fontSize: 18,
+                        ),
                       ),
                       validator: (String value) {
                         if (value.isEmpty) {
@@ -215,10 +217,12 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的密码',
                   labelText: '密碼',
                   labelStyle: TextStyle(
-                      color: Colors.black87,
-                      fontFamily: 'NijimiMincho',
-                      fontSize: 18),
+                    color: Colors.black87,
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 18,
+                  ),
                 ),
+                obscureText: true,
                 validator: (String value) {
                   if (value.length < 6) {
                     return '密码至少六位';
@@ -234,16 +238,17 @@ class _CustomFormState extends State<CustomForm> {
               margin: EdgeInsets.only(top: 50),
               width: double.infinity,
               child: CustomButton(
-                  text: '注册',
-                  bgColor: Color(0xff333333),
-                  borderColor: Color(0xff333333),
-                  callback: () => {_formValidate(context)}),
+                text: '注册',
+                bgColor: Color(0xff333333),
+                borderColor: Color(0xff333333),
+                callback: () => {_formValidate(context)},
+              ),
             ),
             Container(
               margin: EdgeInsets.only(top: 40),
               child: GestureDetector(
                 onTap: () {
-                  InheritedUserPage.of(context).changeShowRegister(show: false);
+                  InheritedUserPage.of(context).changeScreen(index: 1);
                 },
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),

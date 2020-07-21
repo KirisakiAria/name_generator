@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
-import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -14,35 +12,13 @@ import './user.dart';
 import '../widgets/custom_button.dart';
 //utils
 import '../utils/Utils.dart';
-//model
-import '../model/user.dart';
 
-class LoginPage extends StatelessWidget {
+class ChangePasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(bottom: 30),
-              alignment: Alignment.topRight,
-              child: Image(
-                image: AssetImage('assets/images/peach__blossom.png'),
-                width: 240,
-              ),
-            ),
-            Text(
-              '歳歳年年',
-              style: TextStyle(
-                fontSize: 36,
-                letterSpacing: 15,
-                fontFamily: 'NijimiMincho',
-              ),
-            ),
-            CustomForm(),
-          ],
-        ),
+        child: CustomForm(),
       ),
     );
   }
@@ -54,7 +30,7 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
-  String tel, password;
+  String tel, authCode, password;
   //定义GlobalKey为了获取到form的状态
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -62,35 +38,55 @@ class _CustomFormState extends State<CustomForm> {
   void _formValidate(BuildContext context) {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      _login(context);
+      _changePassword(context);
     }
   }
 
-  //登陆
-  Future<void> _login(BuildContext context) async {
+  //获取验证码
+  Future<void> _getAuthCode(BuildContext context) async {
     try {
-      final String path = '${API.login}';
+      _formKey.currentState.save();
+      if (Utils.isPhone(tel)) {
+        final String path = '${API.getAuthCode}';
+        final Response res = await Request.init(context).httpPost(path, {
+          'tel': tel,
+          'change': '1',
+        });
+        if (res.data['code'] == '1000') {
+          final SnackBar snackBar = SnackBar(
+            content: Text('验证码发送成功'),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        }
+      } else {
+        final SnackBar snackBar = new SnackBar(
+          content: new Text('请输入正确的手机号'),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  //修改密码
+  Future<void> _changePassword(BuildContext context) async {
+    try {
+      final String path = '${API.changePassword}';
       final Response res = await Request.init(context).httpPost(path, {
         'tel': tel,
+        'authCode': authCode,
         'password': password,
       });
       if (res.data['code'] == '1000') {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        final Map data = res.data['data'];
-        context.read<User>().changeOptions(
-              username: data['username'],
-              tel: data['tel'],
-              uid: data['uid'],
-              avatar: data['avatar'],
-              token: data['token'],
-              loginState: true,
-            );
-        prefs.setString('username', data['username']);
-        prefs.setString('tel', data['tel']);
-        prefs.setInt('uid', data['uid']);
-        prefs.setString('avatar', data['avatar']);
-        prefs.setString('token', data['token']);
-        Navigator.pushNamed(context, '/home');
+        final SnackBar snackBar = SnackBar(
+          content: Text('修改密码成功，请登录'),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+        //2s后自动跳登录页
+        Future.delayed(Duration(seconds: 2), () {
+          InheritedUserPage.of(context).changeScreen(index: 1);
+        });
       }
     } catch (err) {
       print(err);
@@ -100,7 +96,7 @@ class _CustomFormState extends State<CustomForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 50, right: 50, top: 75),
+      padding: EdgeInsets.only(left: 50, right: 50, top: 150),
       child: Form(
         key: _formKey,
         child: Column(
@@ -123,9 +119,10 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
-                      color: Colors.black87,
-                      fontFamily: 'NijimiMincho',
-                      fontSize: 18),
+                    color: Colors.black87,
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 18,
+                  ),
                 ),
                 validator: (String value) {
                   if (value.isEmpty) {
@@ -139,6 +136,65 @@ class _CustomFormState extends State<CustomForm> {
                 onSaved: (String value) {
                   tel = value;
                 },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 30),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.black12, //边框颜色
+                  ),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      inputFormatters: [
+                        //只允许输入数字
+                        WhitelistingTextInputFormatter.digitsOnly,
+                        //长度限制6
+                        LengthLimitingTextInputFormatter(6),
+                      ],
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(bottom: 1),
+                        enabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        errorBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        hintText: '请输入您的验证码',
+                        labelText: '驗證碼',
+                        labelStyle: TextStyle(
+                          color: Colors.black87,
+                          fontFamily: 'NijimiMincho',
+                          fontSize: 18,
+                        ),
+                      ),
+                      validator: (String value) {
+                        if (value.isEmpty) {
+                          return '请输入验证码';
+                        }
+                        return null;
+                      },
+                      onSaved: (String value) {
+                        authCode = value;
+                      },
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _getAuthCode(context);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Text(
+                        '发送验证码',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Container(
@@ -162,14 +218,15 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的密码',
                   labelText: '密碼',
                   labelStyle: TextStyle(
-                      color: Colors.black87,
-                      fontFamily: 'NijimiMincho',
-                      fontSize: 18),
+                    color: Colors.black87,
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 18,
+                  ),
                 ),
                 obscureText: true,
                 validator: (String value) {
-                  if (value.isEmpty) {
-                    return '请输入密码';
+                  if (value.length < 6) {
+                    return '密码至少六位';
                   }
                   return null;
                 },
@@ -182,29 +239,17 @@ class _CustomFormState extends State<CustomForm> {
               margin: EdgeInsets.only(top: 50),
               width: double.infinity,
               child: CustomButton(
-                text: '登録',
+                text: '修改密碼',
                 bgColor: Color(0xff333333),
                 borderColor: Color(0xff333333),
                 callback: () => {_formValidate(context)},
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
-              width: double.infinity,
-              child: CustomButton(
-                text: '注册',
-                textColor: Color(0xff333333),
-                bgColor: Colors.white,
-                borderColor: Color(0xff333333),
-                callback: () =>
-                    {InheritedUserPage.of(context).changeScreen(index: 2)},
-              ),
-            ),
-            Container(
               margin: EdgeInsets.only(top: 40),
               child: GestureDetector(
                 onTap: () {
-                  InheritedUserPage.of(context).changeScreen(index: 3);
+                  InheritedUserPage.of(context).changeScreen(index: 1);
                 },
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),
@@ -216,14 +261,14 @@ class _CustomFormState extends State<CustomForm> {
                     ),
                   ),
                   child: Text(
-                    '忘记密码 ？',
+                    '直接登录',
                     style: TextStyle(
                       color: Colors.black54,
                     ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

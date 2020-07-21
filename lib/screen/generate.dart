@@ -24,10 +24,9 @@ class _GeneratePageState extends State<GeneratePage> {
 
   Future<void> _getData(BuildContext context) async {
     try {
-      String path =
+      final String path =
           '${API.name}?type=${context.read<NameOptions>().type}?number=${context.read<NameOptions>().number}';
-      Response res = await Request.init(context).httpGet(path);
-      print(res);
+      final Response res = await Request.init(context).httpGet(path);
       if (res.data['code'] == '1000') {
         setState(() {
           name = res.data['data']['name'];
@@ -58,34 +57,34 @@ class _GeneratePageState extends State<GeneratePage> {
               children: <Widget>[
                 CustomButton(
                   text: '生成',
-                  callback: () => _getData(context),
+                  callback: () => {_getData(context)},
                 ),
                 CustomButton(
-                    text: '選項',
-                    textColor: Colors.black,
-                    bgColor: Colors.white,
-                    callback: () => {
-                          showGeneralDialog(
-                              context: context,
-                              pageBuilder: (context, anim1, anim2) {
-                                return OptionsDialog();
-                              },
-                              barrierColor: Colors.grey.withOpacity(.4),
-                              barrierDismissible: false,
-                              barrierLabel: '',
-                              transitionDuration: Duration(milliseconds: 400),
-                              transitionBuilder:
-                                  (context, anim1, anim2, child) {
-                                final double curvedValue = Curves.easeInOutBack
-                                        .transform(anim1.value) -
-                                    1;
-                                return Transform(
-                                  transform: Matrix4.translationValues(
-                                      0, curvedValue * -320, 0),
-                                  child: OptionsDialog(),
-                                );
-                              })
-                        })
+                  text: '選項',
+                  textColor: Colors.black,
+                  bgColor: Colors.white,
+                  callback: () => {
+                    showGeneralDialog(
+                      context: context,
+                      pageBuilder: (context, anim1, anim2) {
+                        return OptionsDialog();
+                      },
+                      barrierColor: Colors.grey.withOpacity(.4),
+                      barrierDismissible: false,
+                      barrierLabel: '',
+                      transitionDuration: Duration(milliseconds: 400),
+                      transitionBuilder: (context, anim1, anim2, child) {
+                        final double curvedValue =
+                            Curves.easeInOutBack.transform(anim1.value) - 1;
+                        return Transform(
+                          transform: Matrix4.translationValues(
+                              0, curvedValue * -320, 0),
+                          child: OptionsDialog(),
+                        );
+                      },
+                    ),
+                  },
+                ),
               ],
             ),
           ),
@@ -115,7 +114,10 @@ class Display extends StatelessWidget {
           child: Text(
             name,
             style: TextStyle(
-                fontFamily: 'NijimiMincho', fontSize: 46, letterSpacing: 5),
+              fontFamily: 'NijimiMincho',
+              fontSize: 46,
+              letterSpacing: 5,
+            ),
           ),
         ),
       ],
@@ -158,10 +160,11 @@ class SelectBox extends StatelessWidget {
     return Container(
       width: 150,
       decoration: BoxDecoration(
-          border: Border.all(
-        width: 1.5,
-        color: Color(Style.mainColor),
-      )),
+        border: Border.all(
+          width: 1.5,
+          color: Color(Style.mainColor),
+        ),
+      ),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
       child: Select(inheritedContext.currentValue),
     );
@@ -196,8 +199,11 @@ class _SelectState extends State<Select> {
         iconSize: 18,
         elevation: 0,
         isExpanded: true,
-        style:
-            TextStyle(color: Color(Style.mainColor), fontSize: 20, height: 1.1),
+        style: TextStyle(
+          color: Color(Style.mainColor),
+          fontSize: 20,
+          height: 1.1,
+        ),
         onChanged: (dynamic newValue) {
           setState(() {
             dropdownValue = newValue;
@@ -221,7 +227,6 @@ class OptionsDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    print(context.watch<NameOptions>().type);
     return Material(
       //创建透明层
       type: MaterialType.transparency, //透明类型

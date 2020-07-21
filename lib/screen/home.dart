@@ -1,9 +1,15 @@
+//核心库
 import 'package:flutter/material.dart';
+//第三方库
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //page
 import '../screen/generate.dart';
 import '../screen/my.dart';
 //common
 import '../common/style.dart';
+//model
+import '../model/user.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,14 +20,37 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController(initialPage: 0);
   int _tabIndex = 0;
 
+  //PageView页面滚动事件回调
   _onPageChange(int index) {
     setState(() {
       _tabIndex = index;
     });
   }
 
+  //获取登陆状态
+  _getLoginStatus(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String token = prefs.getString('token');
+    if (token != null) {
+      context.read<User>().changeOptions(
+            username: prefs.getString('username'),
+            tel: prefs.getString('tel'),
+            uid: prefs.getInt('uid'),
+            avatar: prefs.getString('avatar'),
+            token: prefs.getString('token'),
+            loginState: true,
+          );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    _getLoginStatus(context);
     return Scaffold(
       body: PageView.builder(
         onPageChanged: _onPageChange,
@@ -44,11 +73,17 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.black38,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(IconData(0xe6ac, fontFamily: 'iconfont'), size: 28),
+            icon: Icon(
+              IconData(0xe6ac, fontFamily: 'iconfont'),
+              size: 28,
+            ),
             title: Container(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(IconData(0xe65e, fontFamily: 'iconfont'), size: 28),
+            icon: Icon(
+              IconData(0xe65e, fontFamily: 'iconfont'),
+              size: 28,
+            ),
             title: Container(),
           ),
         ],

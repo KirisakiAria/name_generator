@@ -16,11 +16,10 @@ class _SettingPageState extends State<SettingPage> {
   Future<Null> _loadCache() async {
     try {
       //获取缓存文件夹
-      Directory tempDir = await getTemporaryDirectory();
-      double value = await _getTotalSizeOfFilesInDir(tempDir);
+      final Directory tempDir = await getTemporaryDirectory();
+      final double value = await _getTotalSizeOfFilesInDir(tempDir);
       setState(() {
         _cacheSizeStr = _renderSize(value);
-        print(_cacheSizeStr);
       });
     } catch (err) {
       print(err);
@@ -31,7 +30,7 @@ class _SettingPageState extends State<SettingPage> {
   Future<double> _getTotalSizeOfFilesInDir(final FileSystemEntity file) async {
     try {
       if (file is File) {
-        int length = await file.length();
+        final int length = await file.length();
         return double.parse(length.toString());
       }
       if (file is Directory) {
@@ -54,23 +53,23 @@ class _SettingPageState extends State<SettingPage> {
     if (null == value) {
       return 0;
     }
-    List<String> unitArr = List()..add('B')..add('K')..add('M')..add('G');
+    final List<String> unitArr = List()..add('B')..add('K')..add('M')..add('G');
     int index = 0;
     while (value > 1024) {
       index++;
       value = value / 1024;
     }
-    String size = value.toStringAsFixed(2);
+    final String size = value.toStringAsFixed(2);
     return size + unitArr[index];
   }
 
   //清除缓存
   void _clearCache(BuildContext context) async {
-    Directory tempDir = await getTemporaryDirectory();
+    final Directory tempDir = await getTemporaryDirectory();
     //删除缓存目录
     await delDir(tempDir);
     await _loadCache();
-    final snackBar = SnackBar(content: Text('清除缓存成功'));
+    final SnackBar snackBar = SnackBar(content: Text('清除缓存成功'));
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
@@ -112,7 +111,10 @@ class _SettingPageState extends State<SettingPage> {
                 Navigator.pushNamed(context, '/account');
               },
               leading: Icon(
-                IconData(0xe610, fontFamily: 'iconfont'),
+                IconData(
+                  0xe610,
+                  fontFamily: 'iconfont',
+                ),
                 color: Color(0xff70a1ff),
               ),
               title: Text('账号资料'),
@@ -123,7 +125,10 @@ class _SettingPageState extends State<SettingPage> {
                 _clearCache(context);
               },
               leading: Icon(
-                IconData(0xe677, fontFamily: 'iconfont'),
+                IconData(
+                  0xe677,
+                  fontFamily: 'iconfont',
+                ),
                 color: Color(0xffff7f50),
               ),
               title: Text('清除缓存'),

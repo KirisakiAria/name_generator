@@ -82,8 +82,11 @@ class BaseInformationBox extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  'UID: 123456',
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  'UID: ${context.watch<User>().uid}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
                 ),
               )
             ],
@@ -130,7 +133,7 @@ class Menu extends StatelessWidget {
       iconData: 0xe692,
       title: '实验室',
       callback: (context) {
-        final snackBar = SnackBar(content: Text('敬请期待'));
+        final SnackBar snackBar = SnackBar(content: Text('敬请期待'));
         Scaffold.of(context).showSnackBar(snackBar);
       },
     ),
@@ -154,35 +157,46 @@ class CustomIcon extends StatelessWidget {
   final String title;
   final void Function(BuildContext context) callback;
 
-  CustomIcon({@required this.iconData, @required this.title, this.callback});
+  CustomIcon({
+    @required this.iconData,
+    @required this.title,
+    this.callback,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          callback(context);
-        },
-        child: Container(
-          child: SizedBox(
-            width: 90,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ClipOval(
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    color: Color(0xFFf5f5f5),
-                    child: Icon(IconData(iconData, fontFamily: 'iconfont'),
-                        color: Color(0xFF212121), size: 32),
+      onTap: () {
+        callback(context);
+      },
+      child: Container(
+        child: SizedBox(
+          width: 90,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ClipOval(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  color: Color(0xFFf5f5f5),
+                  child: Icon(
+                    IconData(
+                      iconData,
+                      fontFamily: 'iconfont',
+                    ),
+                    color: Color(0xFF212121),
+                    size: 32,
                   ),
                 ),
-                Text(
-                  title,
-                  style: TextStyle(height: 2.5),
-                )
-              ],
-            ),
+              ),
+              Text(
+                title,
+                style: TextStyle(height: 2.5),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

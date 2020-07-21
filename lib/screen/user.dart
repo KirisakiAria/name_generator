@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 //页面
 import './login.dart';
 import './register.dart';
+import './change_password.dart';
 
 class InheritedUserPage extends InheritedWidget {
-  final bool showRegister;
-  final void Function({@required bool show}) changeShowRegister;
+  final int screenIndex;
+  final void Function({@required int index}) changeScreen;
 
   InheritedUserPage({
     Key key,
-    @required this.showRegister,
-    @required this.changeShowRegister,
+    @required this.screenIndex,
+    @required this.changeScreen,
     @required Widget child,
   }) : super(key: key, child: child);
 
@@ -21,7 +22,7 @@ class InheritedUserPage extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedUserPage oldWidget) {
-    return showRegister != oldWidget.showRegister;
+    return screenIndex != oldWidget.screenIndex;
   }
 }
 
@@ -31,12 +32,12 @@ class InheritedUserPageContainer extends StatefulWidget {
 }
 
 class _InheritedUserPageState extends State<InheritedUserPageContainer> {
-  bool showRegister = false;
-  int count = 0;
+  //1登录 2注册 3修改密码
+  int screenIndex = 1;
 
-  changeShowRegister({@required bool show}) {
+  changeScreen({@required int index}) {
     setState(() {
-      showRegister = show;
+      screenIndex = index;
     });
   }
 
@@ -59,11 +60,10 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
         );
       },
       child: InheritedUserPage(
-        key: ValueKey<bool>(showRegister),
-        showRegister: showRegister,
+        key: ValueKey<int>(screenIndex),
+        screenIndex: screenIndex,
         child: _UserPage(),
-        changeShowRegister: ({@required bool show}) =>
-            changeShowRegister(show: show),
+        changeScreen: ({@required int index}) => changeScreen(index: index),
       ),
     );
   }
@@ -72,11 +72,13 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
 class _UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final showRegister = InheritedUserPage.of(context).showRegister;
-    if (showRegister) {
+    final screenIndex = InheritedUserPage.of(context).screenIndex;
+    if (screenIndex == 1) {
+      return LoginPage();
+    } else if (screenIndex == 2) {
       return RegisterPage();
     }
-    return LoginPage();
+    return ChangePasswordPage();
   }
 }
 

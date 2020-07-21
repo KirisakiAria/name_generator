@@ -7,5 +7,6 @@ class API {
   static const String name = '/name';
   static const String login = '/login';
   static const String register = '/register';
+  static const String changePassword = '/changepassword';
   static const String getAuthCode = '/sendcode';
 }
