@@ -153,7 +153,7 @@ class _AvatarState extends State<Avatar> {
       'avatar': avatar,
     });
     if (res.data['code'] == '1000') {
-      print(res.data);
+      context.read<User>().changeAvatar(avatar: avatar);
       final SnackBar snackBar = SnackBar(
         content: Text('修改头像成功'),
       );

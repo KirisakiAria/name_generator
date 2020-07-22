@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
     final String _token = _prefs.getString('token');
     if (_token != null) {
-      context.read<User>().changeOptions(
+      context.read<User>().changeUserData(
             username: _prefs.getString('username'),
             tel: _prefs.getString('tel'),
             uid: _prefs.getInt('uid'),

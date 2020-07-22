@@ -15,7 +15,7 @@ class User with ChangeNotifier, DiagnosticableTreeMixin {
   String get token => _token;
   bool get loginState => _loginState;
 
-  void changeOptions({
+  void changeUserData({
     String username,
     String tel,
     int uid,
@@ -29,6 +29,20 @@ class User with ChangeNotifier, DiagnosticableTreeMixin {
     _avatar = avatar;
     _token = token;
     _loginState = loginState;
+    notifyListeners();
+  }
+
+  void changeAvatar({
+    String avatar,
+  }) {
+    _avatar = avatar;
+    notifyListeners();
+  }
+
+  void changeUsername({
+    String username,
+  }) {
+    _username = username;
     notifyListeners();
   }
 
