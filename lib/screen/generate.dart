@@ -20,7 +20,7 @@ class GeneratePage extends StatefulWidget {
 }
 
 class _GeneratePageState extends State<GeneratePage> {
-  String name = '彼岸自在';
+  String _name = '彼岸自在';
 
   Future<void> _getData(BuildContext context) async {
     try {
@@ -29,7 +29,7 @@ class _GeneratePageState extends State<GeneratePage> {
       final Response res = await Request.init(context).httpGet(path);
       if (res.data['code'] == '1000') {
         setState(() {
-          name = res.data['data']['name'];
+          _name = res.data['data']['name'];
         });
       }
     } catch (err) {
@@ -48,7 +48,7 @@ class _GeneratePageState extends State<GeneratePage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: Display(name: name),
+            child: Display(name: _name),
           ),
           Container(
             padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
@@ -106,8 +106,9 @@ class Display extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 10),
           child: Image(
-              image: AssetImage('assets/images/pluto-payment-processed.png'),
-              width: 200),
+            image: AssetImage('assets/images/pluto-payment-processed.png'),
+            width: 200,
+          ),
         ),
         Container(
           padding: EdgeInsets.only(top: 40),
@@ -281,7 +282,7 @@ class OptionsDialog extends Dialog {
                     text: '确定',
                     callback: () => Navigator.pop(context),
                   ),
-                )
+                ),
               ],
             ),
           ),

@@ -13,9 +13,9 @@ class _SettingPageState extends State<SettingPage> {
   String _cacheSizeStr;
 
   //载入缓存
-  Future<Null> _loadCache() async {
+  Future<void> _loadCache() async {
     try {
-      //获取缓存文件夹
+      //获取缓存目录
       final Directory tempDir = await getTemporaryDirectory();
       final double value = await _getTotalSizeOfFilesInDir(tempDir);
       setState(() {
@@ -49,9 +49,9 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   //格式化缓存数据
-  _renderSize(double value) {
+  String _renderSize(double value) {
     if (null == value) {
-      return 0;
+      return '0.00MB';
     }
     final List<String> unitArr = List()..add('B')..add('K')..add('M')..add('G');
     int index = 0;
@@ -74,7 +74,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   ///递归方式删除目录（直至找到文件才删除）
-  Future<Null> delDir(FileSystemEntity file) async {
+  Future<void> delDir(FileSystemEntity file) async {
     if (file is Directory) {
       final List<FileSystemEntity> children = file.listSync();
       for (final FileSystemEntity child in children) {

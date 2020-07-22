@@ -35,7 +35,7 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
   //1登录 2注册 3修改密码
   int screenIndex = 1;
 
-  changeScreen({@required int index}) {
+  void changeScreen({@required int index}) {
     setState(() {
       screenIndex = index;
     });

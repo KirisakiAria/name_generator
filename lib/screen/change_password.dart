@@ -48,7 +48,8 @@ class _CustomFormState extends State<CustomForm> {
       _formKey.currentState.save();
       if (Utils.isPhone(tel)) {
         final String path = '${API.getAuthCode}';
-        final Response res = await Request.init(context).httpPost(path, {
+        final Response res =
+            await Request.init(context).httpPost(path, <String, dynamic>{
           'tel': tel,
           'change': '1',
         });
@@ -73,7 +74,8 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _changePassword(BuildContext context) async {
     try {
       final String path = '${API.changePassword}';
-      final Response res = await Request.init(context).httpPost(path, {
+      final Response res =
+          await Request.init(context).httpPost(path, <String, dynamic>{
         'tel': tel,
         'authCode': authCode,
         'password': password,
@@ -84,7 +86,7 @@ class _CustomFormState extends State<CustomForm> {
         );
         Scaffold.of(context).showSnackBar(snackBar);
         //2s后自动跳登录页
-        Future.delayed(Duration(seconds: 2), () {
+        Future<void>.delayed(Duration(seconds: 2), () {
           InheritedUserPage.of(context).changeScreen(index: 1);
         });
       }
@@ -203,7 +205,7 @@ class _CustomFormState extends State<CustomForm> {
                 inputFormatters: [
                   //不允许输入汉字
                   FilteringTextInputFormatter.deny(
-                    RegExp("[\u4e00-\u9fa5]"),
+                    RegExp('[\u4e00-\u9fa5]'),
                   ),
                   //长度限制20
                   LengthLimitingTextInputFormatter(20),

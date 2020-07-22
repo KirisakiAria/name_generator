@@ -30,7 +30,7 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
-  String tel, authCode, password;
+  String _tel, _authCode, _password;
   //定义GlobalKey为了获取到form的状态
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -46,10 +46,11 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _getAuthCode(BuildContext context) async {
     try {
       _formKey.currentState.save();
-      if (Utils.isPhone(tel)) {
+      if (Utils.isPhone(_tel)) {
         final String path = '${API.getAuthCode}';
-        final Response res = await Request.init(context).httpPost(path, {
-          'tel': tel,
+        final Response res =
+            await Request.init(context).httpPost(path, <String, dynamic>{
+          'tel': _tel,
         });
         if (res.data['code'] == '1000') {
           final SnackBar snackBar = SnackBar(
@@ -72,10 +73,11 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _register(BuildContext context) async {
     try {
       final String path = '${API.register}';
-      final Response res = await Request.init(context).httpPost(path, {
-        'tel': tel,
-        'authCode': authCode,
-        'password': password,
+      final Response res =
+          await Request.init(context).httpPost(path, <String, dynamic>{
+        'tel': _tel,
+        'authCode': _authCode,
+        'password': _password,
       });
       if (res.data['code'] == '1000') {
         final SnackBar snackBar = SnackBar(
@@ -83,7 +85,7 @@ class _CustomFormState extends State<CustomForm> {
         );
         Scaffold.of(context).showSnackBar(snackBar);
         //2s后自动跳登录页
-        Future.delayed(Duration(seconds: 2), () {
+        Future<void>.delayed(Duration(seconds: 2), () {
           InheritedUserPage.of(context).changeScreen(index: 1);
         });
       }
@@ -133,7 +135,7 @@ class _CustomFormState extends State<CustomForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  tel = value;
+                  _tel = value;
                 },
               ),
             ),
@@ -177,7 +179,7 @@ class _CustomFormState extends State<CustomForm> {
                         return null;
                       },
                       onSaved: (String value) {
-                        authCode = value;
+                        _authCode = value;
                       },
                     ),
                   ),
@@ -202,7 +204,7 @@ class _CustomFormState extends State<CustomForm> {
                 inputFormatters: [
                   //不允许输入汉字
                   FilteringTextInputFormatter.deny(
-                    RegExp("[\u4e00-\u9fa5]"),
+                    RegExp('[\u4e00-\u9fa5]'),
                   ),
                   //长度限制20
                   LengthLimitingTextInputFormatter(20),
@@ -230,7 +232,7 @@ class _CustomFormState extends State<CustomForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  password = value;
+                  _password = value;
                 },
               ),
             ),

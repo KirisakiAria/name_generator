@@ -65,9 +65,10 @@ class BaseInformationBox extends StatelessWidget {
                 child: ClipOval(
                   //透明图像占位符
                   child: FadeInImage.memoryNetwork(
-                      fit: BoxFit.cover,
-                      placeholder: kTransparentImage,
-                      image: '${API.origin}${context.watch<User>().avatar}'),
+                    fit: BoxFit.cover,
+                    placeholder: kTransparentImage,
+                    image: '${API.origin}${context.watch<User>().avatar}',
+                  ),
                 ),
               ),
               Container(
@@ -88,7 +89,7 @@ class BaseInformationBox extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -192,7 +193,7 @@ class CustomIcon extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(height: 2.5),
-              )
+              ),
             ],
           ),
         ),

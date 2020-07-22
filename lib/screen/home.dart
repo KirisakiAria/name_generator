@@ -29,15 +29,15 @@ class _HomePageState extends State<HomePage> {
 
   //获取登陆状态
   _getLoginStatus(BuildContext context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString('token');
-    if (token != null) {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    final String _token = _prefs.getString('token');
+    if (_token != null) {
       context.read<User>().changeOptions(
-            username: prefs.getString('username'),
-            tel: prefs.getString('tel'),
-            uid: prefs.getInt('uid'),
-            avatar: prefs.getString('avatar'),
-            token: prefs.getString('token'),
+            username: _prefs.getString('username'),
+            tel: _prefs.getString('tel'),
+            uid: _prefs.getInt('uid'),
+            avatar: _prefs.getString('avatar'),
+            token: _prefs.getString('token'),
             loginState: true,
           );
     }

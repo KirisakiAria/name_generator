@@ -71,11 +71,15 @@ class Request {
   }
 
   //post
-  Future<Response> httpPost(String path, dynamic postData) {
-    return request(path, 'post', postData);
+  Future<Response> httpPost(String path, dynamic data) {
+    return request(path, 'post', data);
   }
 
-  Future<Response> request(String path, String method, dynamic postData) async {
+  Future<Response> httpPut(String path, dynamic data) {
+    return request(path, 'put', data);
+  }
+
+  Future<Response> request(String path, String method, dynamic data) async {
     Response response;
     try {
       switch (method) {
@@ -83,9 +87,11 @@ class Request {
           response = await _dio.get(path);
           return response;
         case 'post':
-          //做一层json 转换
-          response = await _dio.post<Map<String, dynamic>>(path,
-              data: json.encode(postData));
+          response = await _dio.post<Map<String, dynamic>>(path, data: data);
+          return response;
+        case 'put':
+          response = await _dio.put<Map<String, dynamic>>(path, data: data);
+          return response;
       }
     } on DioError catch (exception) {
       print('请求出错：${exception.toString()}');

@@ -54,7 +54,7 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
-  String tel, password;
+  String _tel, _password;
   //定义GlobalKey为了获取到form的状态
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -70,9 +70,10 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _login(BuildContext context) async {
     try {
       final String path = '${API.login}';
-      final Response res = await Request.init(context).httpPost(path, {
-        'tel': tel,
-        'password': password,
+      final Response res =
+          await Request.init(context).httpPost(path, <String, dynamic>{
+        'tel': _tel,
+        'password': _password,
       });
       if (res.data['code'] == '1000') {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -137,7 +138,7 @@ class _CustomFormState extends State<CustomForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  tel = value;
+                  _tel = value;
                 },
               ),
             ),
@@ -147,7 +148,7 @@ class _CustomFormState extends State<CustomForm> {
                 inputFormatters: [
                   //不允许输入汉字
                   FilteringTextInputFormatter.deny(
-                    RegExp("[\u4e00-\u9fa5]"),
+                    RegExp('[\u4e00-\u9fa5]'),
                   ),
                   //长度限制20
                   LengthLimitingTextInputFormatter(20),
@@ -174,7 +175,7 @@ class _CustomFormState extends State<CustomForm> {
                   return null;
                 },
                 onSaved: (String value) {
-                  password = value;
+                  _password = value;
                 },
               ),
             ),
@@ -223,7 +224,7 @@ class _CustomFormState extends State<CustomForm> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
