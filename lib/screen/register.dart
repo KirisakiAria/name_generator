@@ -48,10 +48,12 @@ class _CustomFormState extends State<CustomForm> {
       _formKey.currentState.save();
       if (Utils.isPhone(_tel)) {
         final String path = '${API.getAuthCode}';
-        final Response res =
-            await Request.init(context).httpPost(path, <String, dynamic>{
-          'tel': _tel,
-        });
+        final Response res = await Request.init(context).httpPost(
+          path,
+          <String, dynamic>{
+            'tel': _tel,
+          },
+        );
         if (res.data['code'] == '1000') {
           final SnackBar snackBar = SnackBar(
             content: Text('验证码发送成功'),
@@ -59,8 +61,8 @@ class _CustomFormState extends State<CustomForm> {
           Scaffold.of(context).showSnackBar(snackBar);
         }
       } else {
-        final SnackBar snackBar = new SnackBar(
-          content: new Text('请输入正确的手机号'),
+        final SnackBar snackBar = SnackBar(
+          content: Text('请输入正确的手机号'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
       }
@@ -73,12 +75,14 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _register(BuildContext context) async {
     try {
       final String path = '${API.register}';
-      final Response res =
-          await Request.init(context).httpPost(path, <String, dynamic>{
-        'tel': _tel,
-        'authCode': _authCode,
-        'password': _password,
-      });
+      final Response res = await Request.init(context).httpPost(
+        path,
+        <String, dynamic>{
+          'tel': _tel,
+          'authCode': _authCode,
+          'password': _password,
+        },
+      );
       if (res.data['code'] == '1000') {
         final SnackBar snackBar = SnackBar(
           content: Text('注册成功，请登录'),
@@ -97,7 +101,11 @@ class _CustomFormState extends State<CustomForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 50, right: 50, top: 150),
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 150,
+      ),
       child: Form(
         key: _formKey,
         child: Column(

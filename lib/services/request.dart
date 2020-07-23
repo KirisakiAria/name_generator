@@ -57,7 +57,7 @@ class Request {
       //在返回响应数据之前做一些预处理
       if (response.data['code'] != '1000') {
         final SnackBar snackBar =
-            new SnackBar(content: new Text(response.data['message']));
+            SnackBar(content: Text(response.data['message']));
         Scaffold.of(context).showSnackBar(snackBar);
       }
       Navigator.pop(context);

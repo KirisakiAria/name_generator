@@ -70,11 +70,13 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _login(BuildContext context) async {
     try {
       final String path = '${API.login}';
-      final Response res =
-          await Request.init(context).httpPost(path, <String, dynamic>{
-        'tel': _tel,
-        'password': _password,
-      });
+      final Response res = await Request.init(context).httpPost(
+        path,
+        <String, dynamic>{
+          'tel': _tel,
+          'password': _password,
+        },
+      );
       if (res.data['code'] == '1000') {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final Map data = res.data['data'];
@@ -101,7 +103,11 @@ class _CustomFormState extends State<CustomForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 50, right: 50, top: 75),
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 50,
+        top: 75,
+      ),
       child: Form(
         key: _formKey,
         child: Column(

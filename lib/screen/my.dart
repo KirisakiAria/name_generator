@@ -37,7 +37,10 @@ class BaseInformationBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 100, bottom: 40),
+      padding: EdgeInsets.only(
+        top: 100,
+        bottom: 40,
+      ),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(
@@ -72,7 +75,10 @@ class BaseInformationBox extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 10, bottom: 5),
+                padding: EdgeInsets.only(
+                  top: 10,
+                  bottom: 5,
+                ),
                 child: Text(
                   context.watch<User>().username,
                   style: TextStyle(

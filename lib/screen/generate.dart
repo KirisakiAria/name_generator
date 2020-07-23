@@ -51,7 +51,10 @@ class _GeneratePageState extends State<GeneratePage> {
             child: Display(name: _name),
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+            padding: EdgeInsets.symmetric(
+              vertical: 40,
+              horizontal: 20,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -166,7 +169,10 @@ class SelectBox extends StatelessWidget {
           color: Color(Style.mainColor),
         ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 6,
+      ),
       child: Select(inheritedContext.currentValue),
     );
   }

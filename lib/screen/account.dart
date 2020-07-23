@@ -36,7 +36,10 @@ class _AccountPageState extends State<AccountPage> {
           children: <Widget>[
             Avatar(),
             Container(
-              padding: EdgeInsets.only(top: 5, bottom: 20),
+              padding: EdgeInsets.only(
+                top: 5,
+                bottom: 20,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -135,7 +138,10 @@ class _AvatarState extends State<Avatar> {
         filePath.substring(path.lastIndexOf('/') + 1, filePath.length);
     final FormData formdata = FormData.fromMap(
         {'file': await MultipartFile.fromFile(filePath, filename: name)});
-    final Response res = await Request.init(context).httpPost(path, formdata);
+    final Response res = await Request.init(context).httpPost(
+      path,
+      formdata,
+    );
     if (res.data['code'] == '1000') {
       print(res.data);
       _changeAvatar(
@@ -147,11 +153,13 @@ class _AvatarState extends State<Avatar> {
 
   Future<void> _changeAvatar({String avatar, BuildContext context}) async {
     final String path = '${API.changeAvatar}';
-    final Response res =
-        await Request.init(context).httpPut(path, <String, dynamic>{
-      'tel': context.read<User>().tel,
-      'avatar': avatar,
-    });
+    final Response res = await Request.init(context).httpPut(
+      path,
+      <String, dynamic>{
+        'tel': context.read<User>().tel,
+        'avatar': avatar,
+      },
+    );
     if (res.data['code'] == '1000') {
       context.read<User>().changeAvatar(avatar: avatar);
       final SnackBar snackBar = SnackBar(
@@ -213,11 +221,13 @@ class _UserNameState extends State<UserName> {
 
   Future<void> _changeUserName(BuildContext context) async {
     final String path = '${API.changeUserName}';
-    final Response res =
-        await Request.init(context).httpPut(path, <String, dynamic>{
-      'tel': context.read<User>().tel,
-      'username': username,
-    });
+    final Response res = await Request.init(context).httpPut(
+      path,
+      <String, dynamic>{
+        'tel': context.read<User>().tel,
+        'username': username,
+      },
+    );
     if (res.data['code'] == '1000') {
       final SnackBar snackBar = SnackBar(
         content: Text('修改用户名成功'),
