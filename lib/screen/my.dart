@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
-import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
 //请求
 import '../services/api.dart';
@@ -26,7 +26,10 @@ class _MyPageState extends State<MyPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        children: <Widget>[BaseInformationBox(), Menu()],
+        children: <Widget>[
+          BaseInformationBox(),
+          Menu(),
+        ],
       ),
     );
   }
@@ -65,6 +68,7 @@ class BaseInformationBox extends StatelessWidget {
             children: <Widget>[
               SizedBox(
                 width: 80,
+                height: 80,
                 child: ClipOval(
                   //透明图像占位符
                   child: FadeInImage.memoryNetwork(
@@ -82,9 +86,9 @@ class BaseInformationBox extends StatelessWidget {
                 child: Text(
                   context.watch<User>().username,
                   style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Container(
@@ -140,8 +144,66 @@ class Menu extends StatelessWidget {
       iconData: 0xe692,
       title: '实验室',
       callback: (context) {
-        final SnackBar snackBar = SnackBar(content: Text('敬请期待'));
+        final SnackBar snackBar = SnackBar(
+          content: Text('敬请期待'),
+        );
         Scaffold.of(context).showSnackBar(snackBar);
+      },
+    ),
+    CustomIcon(
+      iconData: 0xe60d,
+      title: '退出登录',
+      callback: (context) {
+        if (context.read<User>().loginState) {
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (context, anim1, anim2) {
+              return AlertDialog(
+                title: Text('提示'),
+                content: Text('是否退出登录?'),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(
+                      '取消',
+                      style: TextStyle(
+                        color: Color(Style.mainColor),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  FlatButton(
+                    child: Text(
+                      '确认',
+                      style: TextStyle(
+                        color: Color(Style.mainColor),
+                      ),
+                    ),
+                    onPressed: () async {
+                      context.read<User>().logOut();
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.clear();
+                      Navigator.pushNamed(context, '/login');
+                    },
+                  ),
+                ],
+              );
+            },
+            barrierDismissible: false,
+            barrierLabel: '',
+            transitionDuration: Duration(milliseconds: 200),
+            transitionBuilder: (context, anim1, anim2, child) {
+              return Transform.scale(
+                scale: anim1.value,
+                child: child,
+              );
+            },
+          );
+        } else {
+          Navigator.pushNamed(context, '/login');
+        }
       },
     ),
   ];
@@ -191,7 +253,6 @@ class CustomIcon extends StatelessWidget {
                       iconData,
                       fontFamily: 'iconfont',
                     ),
-                    color: Color(0xFF212121),
                     size: 32,
                   ),
                 ),

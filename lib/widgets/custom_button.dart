@@ -8,14 +8,15 @@ class CustomButton extends StatelessWidget {
   final double paddingVertical;
   final double paddingHorizontal;
   final void Function() callback;
-  CustomButton(
-      {@required this.text,
-      this.textColor = Colors.white,
-      this.bgColor = Colors.black,
-      this.borderColor = Colors.black,
-      this.paddingVertical = 16,
-      this.paddingHorizontal = 50,
-      this.callback});
+  CustomButton({
+    @required this.text,
+    this.textColor = Colors.white,
+    this.bgColor = Colors.black,
+    this.borderColor = Colors.black,
+    this.paddingVertical = 16,
+    this.paddingHorizontal = 50,
+    this.callback,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,9 @@ class CustomButton extends StatelessWidget {
             fontSize: 18,
             letterSpacing: 1.5),
       ),
-      onPressed: () => callback(),
+      onPressed: () {
+        callback();
+      },
     );
   }
 }

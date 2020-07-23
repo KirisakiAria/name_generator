@@ -12,6 +12,8 @@ import '../services/request.dart';
 import './user.dart';
 //组件
 import '../widgets/custom_button.dart';
+//common
+import '../common/style.dart';
 //utils
 import '../utils/Utils.dart';
 //model
@@ -85,6 +87,7 @@ class _CustomFormState extends State<CustomForm> {
               tel: data['tel'],
               uid: data['uid'],
               avatar: data['avatar'],
+              date: data['date'],
               token: data['token'],
               loginState: true,
             );
@@ -92,6 +95,7 @@ class _CustomFormState extends State<CustomForm> {
         prefs.setString('tel', data['tel']);
         prefs.setInt('uid', data['uid']);
         prefs.setString('avatar', data['avatar']);
+        prefs.setString('date', data['date']);
         prefs.setString('token', data['token']);
         Navigator.pushNamed(context, '/home');
       }
@@ -106,7 +110,7 @@ class _CustomFormState extends State<CustomForm> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 75,
+        top: 60,
       ),
       child: Form(
         key: _formKey,
@@ -124,15 +128,15 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xffd2d2d2),
+                      color: Color(Style.borderColor),
                     ),
                   ),
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
-                      color: Colors.black87,
-                      fontFamily: 'NijimiMincho',
-                      fontSize: 18),
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 18,
+                  ),
                 ),
                 validator: (String value) {
                   if (value.isEmpty) {
@@ -163,20 +167,20 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xffd2d2d2),
+                      color: Color(Style.borderColor),
                     ),
                   ),
-                  hintText: '请输入您的密码',
+                  hintText: '请输入您的密码(6-20位)',
                   labelText: '密碼',
                   labelStyle: TextStyle(
-                      color: Colors.black87,
-                      fontFamily: 'NijimiMincho',
-                      fontSize: 18),
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 18,
+                  ),
                 ),
                 obscureText: true,
                 validator: (String value) {
-                  if (value.isEmpty) {
-                    return '请输入密码';
+                  if (value.length < 6) {
+                    return '密码至少6位';
                   }
                   return null;
                 },
@@ -190,9 +194,11 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '登録',
-                bgColor: Color(0xff333333),
-                borderColor: Color(0xff333333),
-                callback: () => {_formValidate(context)},
+                bgColor: Color(Style.grey20),
+                borderColor: Color(Style.grey20),
+                callback: () {
+                  _formValidate(context);
+                },
               ),
             ),
             Container(
@@ -200,15 +206,16 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '注册',
-                textColor: Color(0xff333333),
+                textColor: Color(Style.grey20),
                 bgColor: Colors.white,
-                borderColor: Color(0xff333333),
-                callback: () =>
-                    {InheritedUserPage.of(context).changeScreen(index: 2)},
+                borderColor: Color(Style.grey20),
+                callback: () {
+                  InheritedUserPage.of(context).changeScreen(index: 2);
+                },
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(top: 45),
               child: GestureDetector(
                 onTap: () {
                   InheritedUserPage.of(context).changeScreen(index: 3);
@@ -224,6 +231,30 @@ class _CustomFormState extends State<CustomForm> {
                   ),
                   child: Text(
                     '忘记密码 ？',
+                    style: TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 15),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+                child: Container(
+                  padding: EdgeInsets.only(bottom: 3),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black12, //边框颜色
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    '暂不登录，直接使用',
                     style: TextStyle(
                       color: Colors.black54,
                     ),

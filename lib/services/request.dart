@@ -42,7 +42,7 @@ class Request {
           },
           barrierDismissible: false,
           barrierLabel: '',
-          transitionDuration: Duration(milliseconds: 400),
+          transitionDuration: Duration(milliseconds: 300),
           transitionBuilder: (context, anim1, anim2, child) {
             return Transform.scale(scale: anim1.value, child: child);
           });

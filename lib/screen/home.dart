@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
             tel: _prefs.getString('tel'),
             uid: _prefs.getInt('uid'),
             avatar: _prefs.getString('avatar'),
+            date: _prefs.getString('date'),
             token: _prefs.getString('token'),
             loginState: true,
           );

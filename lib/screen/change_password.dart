@@ -10,6 +10,8 @@ import '../services/request.dart';
 import './user.dart';
 //组件
 import '../widgets/custom_button.dart';
+//common
+import '../common/style.dart';
 //utils
 import '../utils/Utils.dart';
 
@@ -123,13 +125,12 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xffd2d2d2),
+                      color: Color(Style.borderColor),
                     ),
                   ),
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
-                    color: Colors.black87,
                     fontFamily: 'NijimiMincho',
                     fontSize: 18,
                   ),
@@ -153,7 +154,7 @@ class _CustomFormState extends State<CustomForm> {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Colors.black12, //边框颜色
+                    color: Color(Style.borderColor),
                   ),
                 ),
               ),
@@ -176,7 +177,6 @@ class _CustomFormState extends State<CustomForm> {
                         hintText: '请输入您的验证码',
                         labelText: '驗證碼',
                         labelStyle: TextStyle(
-                          color: Colors.black87,
                           fontFamily: 'NijimiMincho',
                           fontSize: 18,
                         ),
@@ -222,13 +222,12 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xffd2d2d2),
+                      color: Color(Style.borderColor),
                     ),
                   ),
-                  hintText: '请输入您的密码',
+                  hintText: '请输入您的密码(6-20位)',
                   labelText: '密碼',
                   labelStyle: TextStyle(
-                    color: Colors.black87,
                     fontFamily: 'NijimiMincho',
                     fontSize: 18,
                   ),
@@ -250,9 +249,11 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '修改密碼',
-                bgColor: Color(0xff333333),
-                borderColor: Color(0xff333333),
-                callback: () => {_formValidate(context)},
+                bgColor: Color(Style.grey20),
+                borderColor: Color(Style.grey20),
+                callback: () {
+                  _formValidate(context);
+                },
               ),
             ),
             Container(

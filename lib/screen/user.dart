@@ -63,7 +63,9 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
         key: ValueKey<int>(screenIndex),
         screenIndex: screenIndex,
         child: _UserPage(),
-        changeScreen: ({@required int index}) => changeScreen(index: index),
+        changeScreen: ({@required int index}) {
+          changeScreen(index: index);
+        },
       ),
     );
   }

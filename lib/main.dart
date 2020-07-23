@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 //provider
 import './model/name_options.dart';
 import './model/user.dart';
-//全局数据
+//commom
 import './common/global.dart';
+import './common/style.dart';
 //路由
 import './routes/routes.dart';
 //首页
@@ -38,8 +39,12 @@ class MyApp extends StatelessWidget {
       title: '网名生成器',
       home: HomePage(),
       theme: ThemeData(
-          appBarTheme:
-              AppBarTheme(iconTheme: IconThemeData(color: Colors.black87))),
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black87),
+        ),
+        primaryColor: Color(Style.mainColor),
+        accentColor: Color(Style.mainColor),
+      ),
       routes: Routes.mappingList,
     );
   }

@@ -2,7 +2,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 //第三方包
+import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+//model
+import '../model/user.dart';
 
 class SettingPage extends StatefulWidget {
   @override
@@ -69,7 +72,9 @@ class _SettingPageState extends State<SettingPage> {
     //删除缓存目录
     await delDir(tempDir);
     await _loadCache();
-    final SnackBar snackBar = SnackBar(content: Text('清除缓存成功'));
+    final SnackBar snackBar = SnackBar(
+      content: Text('清除缓存成功'),
+    );
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
@@ -97,7 +102,6 @@ class _SettingPageState extends State<SettingPage> {
       appBar: AppBar(
         title: Text(
           '设置',
-          style: TextStyle(color: Colors.black87),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -108,7 +112,11 @@ class _SettingPageState extends State<SettingPage> {
           children: <Widget>[
             ListTile(
               onTap: () {
-                Navigator.pushNamed(context, '/account');
+                if (context.read<User>().loginState) {
+                  Navigator.pushNamed(context, '/account');
+                } else {
+                  Navigator.pushNamed(context, '/login');
+                }
               },
               leading: Icon(
                 IconData(

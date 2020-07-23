@@ -41,10 +41,6 @@ class _GeneratePageState extends State<GeneratePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -60,13 +56,15 @@ class _GeneratePageState extends State<GeneratePage> {
               children: <Widget>[
                 CustomButton(
                   text: '生成',
-                  callback: () => {_getData(context)},
+                  callback: () {
+                    _getData(context);
+                  },
                 ),
                 CustomButton(
                   text: '選項',
                   textColor: Colors.black,
                   bgColor: Colors.white,
-                  callback: () => {
+                  callback: () {
                     showGeneralDialog(
                       context: context,
                       pageBuilder: (context, anim1, anim2) {
@@ -85,7 +83,7 @@ class _GeneratePageState extends State<GeneratePage> {
                           child: OptionsDialog(),
                         );
                       },
-                    ),
+                    );
                   },
                 ),
               ],
@@ -107,7 +105,7 @@ class Display extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 110),
           child: Image(
             image: AssetImage('assets/images/pluto-payment-processed.png'),
             width: 200,
@@ -263,20 +261,20 @@ class OptionsDialog extends Dialog {
                 ),
                 InheritedSelect(
                   list: OptionsData.typeList,
-                  callback: (context, newValue) => {
+                  callback: (context, newValue) {
                     context.read<NameOptions>().changeOptions(
                         type: newValue,
-                        number: context.read<NameOptions>().number)
+                        number: context.read<NameOptions>().number);
                   },
                   currentValue: context.watch<NameOptions>().type,
                   child: SelectBox(),
                 ),
                 InheritedSelect(
                   list: OptionsData.numberList,
-                  callback: (context, newValue) => {
+                  callback: (context, newValue) {
                     context.read<NameOptions>().changeOptions(
                         type: context.read<NameOptions>().type,
-                        number: newValue)
+                        number: newValue);
                   },
                   currentValue: context.watch<NameOptions>().number,
                   child: SelectBox(),
@@ -285,8 +283,10 @@ class OptionsDialog extends Dialog {
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(horizontal: 80),
                   child: CustomButton(
-                    text: '确定',
-                    callback: () => Navigator.pop(context),
+                    text: '確定',
+                    callback: () {
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
               ],

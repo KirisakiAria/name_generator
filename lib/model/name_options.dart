@@ -8,7 +8,10 @@ class NameOptions with ChangeNotifier, DiagnosticableTreeMixin {
   String get type => _type;
   String get number => _number;
 
-  void changeOptions({String type, String number}) {
+  void changeOptions({
+    @required String type,
+    @required String number,
+  }) {
     _type = type;
     _number = number;
     notifyListeners();
