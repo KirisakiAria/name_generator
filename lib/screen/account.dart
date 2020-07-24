@@ -9,8 +9,6 @@ import 'package:image_picker/image_picker.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
-//组件
-import '../widgets/custom_button.dart';
 //common
 import '../common/style.dart';
 //model
@@ -67,7 +65,9 @@ class _AvatarState extends State<Avatar> {
 
   //从相册获取图片
   Future<void> _getImage(BuildContext context) async {
-    final dynamic image = await _picker.getImage(source: ImageSource.gallery);
+    final dynamic image = await _picker.getImage(
+      source: ImageSource.gallery,
+    );
     if (image != null) {
       _upLoadImage(
         image: image,
@@ -88,14 +88,17 @@ class _AvatarState extends State<Avatar> {
     final String path = '${API.upload}';
     final String name =
         filePath.substring(path.lastIndexOf('/') + 1, filePath.length);
-    final FormData formdata = FormData.fromMap(
-        {'file': await MultipartFile.fromFile(filePath, filename: name)});
+    final FormData formdata = FormData.fromMap({
+      'file': await MultipartFile.fromFile(
+        filePath,
+        filename: name,
+      ),
+    });
     final Response res = await Request.init(context).httpPost(
       path,
       formdata,
     );
     if (res.data['code'] == '1000') {
-      print(res.data);
       _changeAvatar(
         avatar: res.data['data']['url'],
         context: context,
@@ -173,60 +176,59 @@ class UserName extends StatefulWidget {
 }
 
 class _UserNameState extends State<UserName> {
-  String username;
-
-  //修改用户名
-  Future<void> _changeUserName(BuildContext context) async {
-    final String path = '${API.changeUserName}';
-    final Response res = await Request.init(context).httpPut(
-      path,
-      <String, dynamic>{
-        'tel': context.read<User>().tel,
-        'username': username,
-      },
-    );
-    if (res.data['code'] == '1000') {
-      context.read<User>().changeUsername(username);
-      final SnackBar snackBar = SnackBar(
-        content: Text('修改用户名成功'),
-      );
-      Scaffold.of(context).showSnackBar(snackBar);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(
-        top: 25,
-        bottom: 20,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            '用户名',
-            style: TextStyle(fontSize: 16),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(right: 15),
-                child: Text(
-                  '${context.watch<User>().username}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black45,
+    return GestureDetector(
+      onTap: () {
+        showGeneralDialog(
+          context: context,
+          barrierColor: Colors.grey.withOpacity(.4),
+          pageBuilder: (context, anim1, anim2) {
+            return EditDialog();
+          },
+          barrierDismissible: false,
+          barrierLabel: '',
+          transitionDuration: Duration(milliseconds: 300),
+          transitionBuilder: (context, anim1, anim2, child) {
+            return Transform.scale(
+              scale: anim1.value,
+              child: child,
+            );
+          },
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 25,
+          bottom: 20,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              '用户名',
+              style: TextStyle(fontSize: 16),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Text(
+                    '${context.watch<User>().username}',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black45,
+                    ),
                   ),
                 ),
-              ),
-              Icon(
-                Icons.keyboard_arrow_right,
-                color: Colors.black45,
-              ),
-            ],
-          ),
-        ],
+                Icon(
+                  Icons.keyboard_arrow_right,
+                  color: Colors.black45,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -234,58 +236,125 @@ class _UserNameState extends State<UserName> {
 
 class EditDialog extends Dialog {
   EditDialog({Key key}) : super(key: key);
-  String _username;
-  //定义GlobalKey为了获取到form的状态
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  //表单验证
-  void _formValidate(BuildContext context) {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-    }
-  }
-
-  @override
+  @override //Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
   Widget build(BuildContext context) {
-    return Material(
-      //创建透明层
-      type: MaterialType.transparency, //透明类型
-      child: Center(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                inputFormatters: [
-                  //长度限制11
-                  LengthLimitingTextInputFormatter(10),
-                ],
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 1),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color(Style.borderColor),
+    return StatefulBuilder(
+      builder: (context, StateSetter setState) {
+        String _username;
+        //定义GlobalKey为了获取到form的状态
+        final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+        //修改用户名
+        Future<void> _changeUserName(BuildContext context) async {
+          final String path = '${API.changeUserName}';
+          final Response res = await Request.init(context).httpPut(
+            path,
+            <String, dynamic>{
+              'tel': context.read<User>().tel,
+              'username': _username,
+            },
+          );
+          if (res.data['code'] == '1000') {
+            context.read<User>().changeUsername(_username);
+            final SnackBar snackBar = SnackBar(
+              content: Text('修改用户名成功'),
+            );
+            Scaffold.of(context).showSnackBar(snackBar);
+          }
+        }
+
+        //表单验证
+        void _formValidate(BuildContext context) async {
+          if (_formKey.currentState.validate()) {
+            _formKey.currentState.save();
+            await _changeUserName(context);
+          }
+        }
+
+        return Material(
+          //创建透明层
+          type: MaterialType.transparency, //透明类型
+          color: Color(0xFF333333),
+          child: Center(
+            child: SizedBox(
+              width: 240,
+              height: 100,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
                     ),
                   ),
-                  hintText: '请输入新用户名（最长十位）',
                 ),
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return '请输入用户名';
-                  }
-                  return null;
-                },
-                onSaved: (String value) {
-                  _username = value;
-                },
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        inputFormatters: [
+                          //长度限制10
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(bottom: 1),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Color(Style.borderColor),
+                            ),
+                          ),
+                          hintText: '请输入新用户名（最长十位）',
+                        ),
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return '请输入用户名';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _username = value;
+                        },
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              child: Text(
+                                '取消',
+                                style: TextStyle(
+                                  color: Color(Style.mainColor),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                '确认',
+                                style: TextStyle(
+                                  color: Color(Style.mainColor),
+                                ),
+                              ),
+                              onPressed: () async {
+                                _formValidate(context);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              CustomButton(
-                text: '提交',
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

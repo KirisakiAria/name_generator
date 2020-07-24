@@ -79,7 +79,10 @@ class _GeneratePageState extends State<GeneratePage> {
                             Curves.easeInOutBack.transform(anim1.value) - 1;
                         return Transform(
                           transform: Matrix4.translationValues(
-                              0, curvedValue * -320, 0),
+                            0,
+                            curvedValue * -320,
+                            0,
+                          ),
                           child: OptionsDialog(),
                         );
                       },

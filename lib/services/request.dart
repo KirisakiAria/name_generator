@@ -36,16 +36,20 @@ class Request {
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
       //请求时显示loader
       showGeneralDialog(
-          context: context,
-          pageBuilder: (context, anim1, anim2) {
-            return LoadingDialog();
-          },
-          barrierDismissible: false,
-          barrierLabel: '',
-          transitionDuration: Duration(milliseconds: 300),
-          transitionBuilder: (context, anim1, anim2, child) {
-            return Transform.scale(scale: anim1.value, child: child);
-          });
+        context: context,
+        pageBuilder: (context, anim1, anim2) {
+          return LoadingDialog();
+        },
+        barrierDismissible: false,
+        barrierLabel: '',
+        transitionDuration: Duration(milliseconds: 300),
+        transitionBuilder: (context, anim1, anim2, child) {
+          return Transform.scale(
+            scale: anim1.value,
+            child: child,
+          );
+        },
+      );
       // 在请求被发送之前做一些事情
       return options; //continue
       // 如果你想完成请求并返回一些自定义数据，可以返回一个`Response`对象或返回`dio.resolve(data)`。

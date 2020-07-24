@@ -66,8 +66,11 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
-          _pageController.animateToPage(index,
-              duration: Duration(milliseconds: 400), curve: Curves.ease);
+          _pageController.animateToPage(
+            index,
+            duration: Duration(milliseconds: 400),
+            curve: Curves.ease,
+          );
         },
         currentIndex: _tabIndex,
         backgroundColor: Colors.white,
@@ -75,14 +78,20 @@ class _HomePageState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              IconData(0xe6ac, fontFamily: 'iconfont'),
+              IconData(
+                0xe6ac,
+                fontFamily: 'iconfont',
+              ),
               size: 28,
             ),
             title: Container(),
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              IconData(0xe65e, fontFamily: 'iconfont'),
+              IconData(
+                0xe65e,
+                fontFamily: 'iconfont',
+              ),
               size: 28,
             ),
             title: Container(),

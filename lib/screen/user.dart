@@ -102,7 +102,10 @@ class MySlideTransition extends AnimatedWidget {
     Offset offset = position.value;
     //动画反向执行时，调整x偏移，实现“从左边滑出隐藏”
     if (position.status == AnimationStatus.reverse) {
-      offset = Offset(-offset.dx, offset.dy);
+      offset = Offset(
+        -offset.dx,
+        offset.dy,
+      );
     }
     return FractionalTranslation(
       translation: offset,
