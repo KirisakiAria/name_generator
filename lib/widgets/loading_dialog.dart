@@ -20,6 +20,12 @@ class LoadingDialog extends Dialog {
                   Radius.circular(12),
                 ),
               ),
+              shadows: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black12, //阴影颜色
+                  blurRadius: 14, //阴影大小
+                ),
+              ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

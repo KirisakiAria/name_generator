@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -120,6 +121,8 @@ class _AvatarState extends State<Avatar> {
     );
     if (res.data['code'] == '1000') {
       context.read<User>().changeAvatar(avatar);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('avatar', avatar);
       final SnackBar snackBar = SnackBar(
         content: Text('修改头像成功'),
       );
@@ -179,8 +182,8 @@ class _UserNameState extends State<UserName> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showGeneralDialog(
+      onTap: () async {
+        Map result = await showGeneralDialog(
           context: context,
           barrierColor: Colors.grey.withOpacity(.4),
           pageBuilder: (context, anim1, anim2) {
@@ -196,6 +199,12 @@ class _UserNameState extends State<UserName> {
             );
           },
         );
+        if (result['success']) {
+          final SnackBar snackBar = SnackBar(
+            content: Text('修改用户名成功'),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        }
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -257,10 +266,10 @@ class EditDialog extends Dialog {
           );
           if (res.data['code'] == '1000') {
             context.read<User>().changeUsername(_username);
-            final SnackBar snackBar = SnackBar(
-              content: Text('修改用户名成功'),
-            );
-            Scaffold.of(context).showSnackBar(snackBar);
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            prefs.setString('username', _username);
+            Navigator.of(context).pop(<String, bool>{'success': true});
           }
         }
 
@@ -275,24 +284,31 @@ class EditDialog extends Dialog {
         return Material(
           //创建透明层
           type: MaterialType.transparency, //透明类型
-          color: Color(0xFF333333),
+          color: Color(Style.grey20),
           child: Center(
             child: SizedBox(
-              width: 240,
-              height: 100,
+              width: 300,
+              height: 140,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
-                      Radius.circular(12),
+                      Radius.circular(10),
                     ),
                   ),
+                  shadows: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black12, //阴影颜色
+                      blurRadius: 14, //阴影大小
+                    ),
+                  ],
                 ),
                 child: Form(
                   key: _formKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       TextFormField(
                         inputFormatters: [
@@ -300,7 +316,6 @@ class EditDialog extends Dialog {
                           LengthLimitingTextInputFormatter(10),
                         ],
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 1),
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Color(Style.borderColor),
@@ -319,7 +334,9 @@ class EditDialog extends Dialog {
                         },
                       ),
                       Container(
+                        padding: EdgeInsets.only(top: 10),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             FlatButton(
                               child: Text(
@@ -329,7 +346,8 @@ class EditDialog extends Dialog {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.pop(
+                                    context, <String, bool>{'success': false});
                               },
                             ),
                             FlatButton(
@@ -341,7 +359,6 @@ class EditDialog extends Dialog {
                               ),
                               onPressed: () async {
                                 _formValidate(context);
-                                Navigator.pop(context);
                               },
                             ),
                           ],

@@ -159,6 +159,9 @@ class Menu extends StatelessWidget {
             context: context,
             pageBuilder: (context, anim1, anim2) {
               return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 title: Text('提示'),
                 content: Text('是否退出登录?'),
                 actions: <Widget>[
