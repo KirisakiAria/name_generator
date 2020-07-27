@@ -12,7 +12,7 @@ import '../widgets/custom_button.dart';
 import '../common/style.dart';
 import '../common/optionsData.dart';
 //model
-import '../model/name_options.dart';
+import '../model/word_options.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -20,16 +20,21 @@ class GeneratePage extends StatefulWidget {
 }
 
 class _GeneratePageState extends State<GeneratePage> {
-  String _name = '彼岸自在';
+  String _word = '彼岸自在';
 
   Future<void> _getData(BuildContext context) async {
     try {
-      final String path =
-          '${API.name}?type=${context.read<NameOptions>().type}?number=${context.read<NameOptions>().number}';
-      final Response res = await Request.init(context).httpGet(path);
+      final String path = API.word;
+      final Response res = await Request.init(context).httpPost(
+        path,
+        <String, dynamic>{
+          'type': context.read<WordOptions>().type,
+          'number': context.read<WordOptions>().number,
+        },
+      );
       if (res.data['code'] == '1000') {
         setState(() {
-          _name = res.data['data']['name'];
+          _word = res.data['data']['word'];
         });
       }
     } catch (err) {
@@ -44,7 +49,7 @@ class _GeneratePageState extends State<GeneratePage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: Display(name: _name),
+            child: Display(word: _word),
           ),
           Container(
             padding: EdgeInsets.symmetric(
@@ -100,8 +105,8 @@ class _GeneratePageState extends State<GeneratePage> {
 
 //图片/文字显示区域
 class Display extends StatelessWidget {
-  final String name;
-  Display({@required this.name});
+  final String word;
+  Display({@required this.word});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +122,7 @@ class Display extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(top: 40),
           child: Text(
-            name,
+            word,
             style: TextStyle(
               fontFamily: 'NijimiMincho',
               fontSize: 46,
@@ -265,21 +270,17 @@ class OptionsDialog extends Dialog {
                 InheritedSelect(
                   list: OptionsData.typeList,
                   callback: (context, newValue) {
-                    context.read<NameOptions>().changeOptions(
-                        type: newValue,
-                        number: context.read<NameOptions>().number);
+                    context.read<WordOptions>().changeType(type: newValue);
                   },
-                  currentValue: context.watch<NameOptions>().type,
+                  currentValue: context.watch<WordOptions>().type,
                   child: SelectBox(),
                 ),
                 InheritedSelect(
                   list: OptionsData.numberList,
                   callback: (context, newValue) {
-                    context.read<NameOptions>().changeOptions(
-                        type: context.read<NameOptions>().type,
-                        number: newValue);
+                    context.read<WordOptions>().changeNumber(number: newValue);
                   },
-                  currentValue: context.watch<NameOptions>().number,
+                  currentValue: context.watch<WordOptions>().number,
                   child: SelectBox(),
                 ),
                 Container(

@@ -1,18 +1,23 @@
 import 'package:flutter/foundation.dart';
 import '../common/optionsData.dart';
 
-class NameOptions with ChangeNotifier, DiagnosticableTreeMixin {
+class WordOptions with ChangeNotifier, DiagnosticableTreeMixin {
   String _type = OptionsData.typeList[0];
   String _number = OptionsData.numberList[0];
 
   String get type => _type;
   String get number => _number;
 
-  void changeOptions({
+  void changeType({
     @required String type,
-    @required String number,
   }) {
     _type = type;
+    notifyListeners();
+  }
+
+  void changeNumber({
+    @required String number,
+  }) {
     _number = number;
     notifyListeners();
   }

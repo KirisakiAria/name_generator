@@ -49,7 +49,7 @@ class _CustomFormState extends State<CustomForm> {
     try {
       _formKey.currentState.save();
       if (Utils.isPhone(_tel)) {
-        final String path = '${API.getAuthCode}';
+        final String path = API.getAuthCode;
         final Response res = await Request.init(context).httpPost(
           path,
           <String, dynamic>{
@@ -76,7 +76,7 @@ class _CustomFormState extends State<CustomForm> {
   //注册
   Future<void> _register(BuildContext context) async {
     try {
-      final String path = '${API.register}';
+      final String path = API.register;
       final Response res = await Request.init(context).httpPost(
         path,
         <String, dynamic>{

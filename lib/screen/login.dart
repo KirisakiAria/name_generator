@@ -71,7 +71,7 @@ class _CustomFormState extends State<CustomForm> {
   //登陆
   Future<void> _login(BuildContext context) async {
     try {
-      final String path = '${API.login}';
+      final String path = API.login;
       final Response res = await Request.init(context).httpPost(
         path,
         <String, dynamic>{

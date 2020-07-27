@@ -86,7 +86,7 @@ class _AvatarState extends State<Avatar> {
     @required BuildContext context,
   }) async {
     final filePath = image.path;
-    final String path = '${API.upload}';
+    final String path = API.upload;
     final String name =
         filePath.substring(path.lastIndexOf('/') + 1, filePath.length);
     final FormData formdata = FormData.fromMap({
@@ -111,7 +111,7 @@ class _AvatarState extends State<Avatar> {
     @required String avatar,
     @required BuildContext context,
   }) async {
-    final String path = '${API.changeAvatar}';
+    final String path = API.changeAvatar;
     final Response res = await Request.init(context).httpPut(
       path,
       <String, dynamic>{
@@ -256,7 +256,7 @@ class EditDialog extends Dialog {
 
         //修改用户名
         Future<void> _changeUserName(BuildContext context) async {
-          final String path = '${API.changeUserName}';
+          final String path = API.changeUserName;
           final Response res = await Request.init(context).httpPut(
             path,
             <String, dynamic>{

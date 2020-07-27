@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //provider
-import './model/name_options.dart';
+import './model/word_options.dart';
 import './model/user.dart';
 //commom
 import './common/global.dart';
@@ -17,8 +17,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Global.init();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider<NameOptions>(
-      create: (_) => NameOptions(),
+    ChangeNotifierProvider<WordOptions>(
+      create: (_) => WordOptions(),
     ),
     ChangeNotifierProvider<User>(
       create: (_) => User(),
