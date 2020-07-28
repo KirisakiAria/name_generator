@@ -5,11 +5,11 @@ class API {
   static const String version = 'v1';
   static const String api_prefix = '$origin/api/$version';
   static const String word = '/word';
-  static const String login = '/login';
-  static const String register = '/register';
-  static const String changePassword = '/changepassword';
+  static const String login = '/user/login';
+  static const String register = '/user/register';
+  static const String changePassword = '/user/changepassword';
   static const String getAuthCode = '/sendcode';
   static const String upload = '/upload';
   static const String changeAvatar = '/user/avatar';
-  static const String changeUserName = '/user/username';
+  static const String changeUsername = '/user/username';
 }

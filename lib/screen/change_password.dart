@@ -19,6 +19,11 @@ class ChangePasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: CustomForm(),
       ),
@@ -88,13 +93,9 @@ class _CustomFormState extends State<CustomForm> {
       );
       if (res.data['code'] == '1000') {
         final SnackBar snackBar = SnackBar(
-          content: Text('修改密码成功，请登录'),
+          content: Text('修改密码成功'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
-        //2s后自动跳登录页
-        Future<void>.delayed(Duration(seconds: 2), () {
-          InheritedUserPage.of(context).changeScreen(index: 1);
-        });
       }
     } catch (err) {
       print(err);
@@ -107,7 +108,7 @@ class _CustomFormState extends State<CustomForm> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 150,
+        top: 80,
       ),
       child: Form(
         key: _formKey,
@@ -258,27 +259,30 @@ class _CustomFormState extends State<CustomForm> {
             ),
             Container(
               margin: EdgeInsets.only(top: 40),
-              child: GestureDetector(
-                onTap: () {
-                  InheritedUserPage.of(context).changeScreen(index: 1);
-                },
-                child: Container(
-                  padding: EdgeInsets.only(bottom: 3),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.black12, //边框颜色
+              //是否显示“直接登录”按钮
+              child: InheritedUserPage.of(context).loginLinkIsShowed
+                  ? GestureDetector(
+                      onTap: () {
+                        InheritedUserPage.of(context).changeScreen(index: 1);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(bottom: 3),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.black12, //边框颜色
+                            ),
+                          ),
+                        ),
+                        child: Text(
+                          '直接登录',
+                          style: TextStyle(
+                            color: Colors.black54,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  child: Text(
-                    '直接登录',
-                    style: TextStyle(
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-              ),
+                    )
+                  : Container(),
             ),
           ],
         ),

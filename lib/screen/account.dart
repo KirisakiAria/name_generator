@@ -38,7 +38,8 @@ class _AccountPageState extends State<AccountPage> {
           padding: EdgeInsets.symmetric(horizontal: 30),
           children: <Widget>[
             Avatar(),
-            UserName(),
+            Username(),
+            Password(),
             InfoContainer(
               title: '手机号',
               value: '${context.watch<User>().tel}',
@@ -173,12 +174,12 @@ class _AvatarState extends State<Avatar> {
 }
 
 //修改用户名
-class UserName extends StatefulWidget {
+class Username extends StatefulWidget {
   @override
-  _UserNameState createState() => _UserNameState();
+  _UsernameState createState() => _UsernameState();
 }
 
-class _UserNameState extends State<UserName> {
+class _UsernameState extends State<Username> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -187,7 +188,7 @@ class _UserNameState extends State<UserName> {
           context: context,
           barrierColor: Colors.grey.withOpacity(.4),
           pageBuilder: (context, anim1, anim2) {
-            return EditDialog();
+            return EditUserNameDialog();
           },
           barrierDismissible: false,
           barrierLabel: '',
@@ -225,6 +226,7 @@ class _UserNameState extends State<UserName> {
                   child: Text(
                     '${context.watch<User>().username}',
                     style: TextStyle(
+                      height: 1,
                       fontSize: 16,
                       color: Colors.black45,
                     ),
@@ -243,8 +245,65 @@ class _UserNameState extends State<UserName> {
   }
 }
 
-class EditDialog extends Dialog {
-  EditDialog({Key key}) : super(key: key);
+//修改密码
+class Password extends StatefulWidget {
+  @override
+  _PasswordState createState() => _PasswordState();
+}
+
+class _PasswordState extends State<Password> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/login',
+          arguments: <String, int>{
+            'index': 3,
+          },
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 25,
+          bottom: 20,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              '修改密码',
+              style: TextStyle(fontSize: 16),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Text(
+                    '点此修改',
+                    style: TextStyle(
+                      height: 1,
+                      fontSize: 16,
+                      color: Colors.black45,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.keyboard_arrow_right,
+                  color: Colors.black45,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EditUserNameDialog extends Dialog {
+  EditUserNameDialog({Key key}) : super(key: key);
 
   @override //Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
   Widget build(BuildContext context) {
@@ -255,8 +314,8 @@ class EditDialog extends Dialog {
         final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
         //修改用户名
-        Future<void> _changeUserName(BuildContext context) async {
-          final String path = API.changeUserName;
+        Future<void> _changeUsername(BuildContext context) async {
+          final String path = API.changeUsername;
           final Response res = await Request.init(context).httpPut(
             path,
             <String, dynamic>{
@@ -277,7 +336,7 @@ class EditDialog extends Dialog {
         void _formValidate(BuildContext context) async {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
-            await _changeUserName(context);
+            await _changeUsername(context);
           }
         }
 
@@ -398,7 +457,6 @@ class InfoContainer extends StatelessWidget {
           Row(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.only(right: 35),
                 child: Text(
                   value,
                   style: TextStyle(

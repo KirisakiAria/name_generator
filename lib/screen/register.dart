@@ -19,6 +19,11 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: CustomForm(),
       ),
@@ -106,7 +111,7 @@ class _CustomFormState extends State<CustomForm> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 150,
+        top: 80,
       ),
       child: Form(
         key: _formKey,
@@ -224,7 +229,7 @@ class _CustomFormState extends State<CustomForm> {
                       color: Color(Style.borderColor),
                     ),
                   ),
-                  hintText: '请输入您的密码(6-20位)',
+                  hintText: '请输入您的密码（6-20位）',
                   labelText: '密碼',
                   labelStyle: TextStyle(
                     fontFamily: 'NijimiMincho',

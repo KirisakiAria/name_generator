@@ -7,11 +7,13 @@ import './change_password.dart';
 
 class InheritedUserPage extends InheritedWidget {
   final int screenIndex;
+  final bool loginLinkIsShowed;
   final void Function({@required int index}) changeScreen;
 
   InheritedUserPage({
     Key key,
     @required this.screenIndex,
+    @required this.loginLinkIsShowed,
     @required this.changeScreen,
     @required Widget child,
   }) : super(key: key, child: child);
@@ -34,15 +36,29 @@ class InheritedUserPageContainer extends StatefulWidget {
 class _InheritedUserPageState extends State<InheritedUserPageContainer> {
   //1登录 2注册 3修改密码
   int screenIndex = 1;
+  bool loginLinkIsShowed = true;
 
+  //切换登录、注册、修改密码页面
   void changeScreen({@required int index}) {
     setState(() {
       screenIndex = index;
     });
   }
 
+  //是否显示“直接登录”按钮（从个人信息-修改密码进入的页面无需此按钮）
+  void hideLoginLink() {
+    setState(() {
+      loginLinkIsShowed = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Map arguments = ModalRoute.of(context).settings.arguments;
+    if (arguments != null) {
+      changeScreen(index: arguments['index']);
+      hideLoginLink();
+    }
     return AnimatedSwitcher(
       //当child发生变化时（类型或key不同），旧child执行隐藏动画，新child执行显示动画
       duration: Duration(milliseconds: 450),
@@ -62,6 +78,7 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
       child: InheritedUserPage(
         key: ValueKey<int>(screenIndex),
         screenIndex: screenIndex,
+        loginLinkIsShowed: loginLinkIsShowed,
         child: _UserPage(),
         changeScreen: ({@required int index}) {
           changeScreen(index: index);
