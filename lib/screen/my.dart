@@ -1,17 +1,16 @@
 //核心库
+import 'dart:async';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
-//组件
-import '../widgets/custom_button.dart';
 //common
 import '../common/style.dart';
-import '../common/optionsData.dart';
 //model
 import '../model/user.dart';
 
@@ -21,15 +20,54 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+  Future<void> _loadData(BuildContext context) async {
+    final String path = API.getUserData;
+    final Response res = await Request.init(context).httpPost(
+      path,
+      <String, String>{
+        'tel': context.read<User>().tel,
+      },
+    );
+    if (res.data['code'] == '1000') {
+      final Map data = res.data['data'];
+      context.read<User>().changeUserData(
+            username: data['username'],
+            tel: data['tel'],
+            uid: data['uid'],
+            avatar: data['avatar'],
+            date: data['date'],
+            token: data['token'],
+            loginState: true,
+          );
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('username', data['username']);
+      prefs.setString('tel', data['tel']);
+      prefs.setInt('uid', data['uid']);
+      prefs.setString('avatar', data['avatar']);
+      prefs.setString('date', data['date']);
+      prefs.setString('token', data['token']);
+    }
+  }
+
+  Future<void> _refresh(BuildContext context) {
+    return _loadData(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: <Widget>[
-          BaseInformationBox(),
-          Menu(),
-        ],
+      body: RefreshIndicator(
+        onRefresh: _refresh(context),
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: <Widget>[
+              BaseInformationBox(),
+              Menu(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -45,17 +83,18 @@ class BaseInformationBox extends StatelessWidget {
         bottom: 40,
       ),
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(40),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 80, 180, 0.1),
+            blurRadius: 12,
+            offset: Offset(0, 6),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromRGBO(0, 80, 180, 0.1),
-              blurRadius: 12,
-              offset: Offset(0, 6),
-            ),
-          ]),
+        ],
+      ),
       child: GestureDetector(
         onTap: () {
           //未登录状态下点击会跳到登录页

@@ -81,7 +81,6 @@ class _CustomFormState extends State<CustomForm> {
         },
       );
       if (res.data['code'] == '1000') {
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
         final Map data = res.data['data'];
         context.read<User>().changeUserData(
               username: data['username'],
@@ -92,6 +91,7 @@ class _CustomFormState extends State<CustomForm> {
               token: data['token'],
               loginState: true,
             );
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', data['username']);
         prefs.setString('tel', data['tel']);
         prefs.setInt('uid', data['uid']);

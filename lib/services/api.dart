@@ -9,6 +9,7 @@ class API {
   static const String register = '/user/register';
   static const String changePassword = '/user/changepassword';
   static const String getAuthCode = '/sendcode';
+  static const String getUserData = '/user/getdata';
   static const String upload = '/upload';
   static const String changeAvatar = '/user/avatar';
   static const String changeUsername = '/user/username';
