@@ -62,15 +62,15 @@ class _CustomFormState extends State<CustomForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //表单验证
-  void _formValidate(BuildContext context) {
+  void _formValidate() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      _login(context);
+      _login();
     }
   }
 
   //登陆
-  Future<void> _login(BuildContext context) async {
+  Future<void> _login() async {
     try {
       final String path = API.login;
       final Response res = await Request.init(context).httpPost(
@@ -198,7 +198,7 @@ class _CustomFormState extends State<CustomForm> {
                 bgColor: Color(Style.grey20),
                 borderColor: Color(Style.grey20),
                 callback: () {
-                  _formValidate(context);
+                  _formValidate();
                 },
               ),
             ),

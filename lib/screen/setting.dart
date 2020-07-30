@@ -67,7 +67,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   //清除缓存
-  void _clearCache(BuildContext context) async {
+  void _clearCache() async {
     final Directory tempDir = await getTemporaryDirectory();
     //删除缓存目录
     await delDir(tempDir);
@@ -102,6 +102,7 @@ class _SettingPageState extends State<SettingPage> {
       appBar: AppBar(
         title: Text(
           '设置',
+          style: TextStyle(color: Colors.black87),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -125,12 +126,15 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 color: Color(0xff70a1ff),
               ),
-              title: Text('账号资料'),
+              title: Text(
+                '账号资料',
+                style: TextStyle(height: 1),
+              ),
               trailing: Icon(Icons.keyboard_arrow_right),
             ),
             ListTile(
               onTap: () {
-                _clearCache(context);
+                _clearCache();
               },
               leading: Icon(
                 IconData(
@@ -141,6 +145,17 @@ class _SettingPageState extends State<SettingPage> {
               ),
               title: Text('清除缓存'),
               subtitle: Text('缓存大小：$_cacheSizeStr'),
+            ),
+            ListTile(
+              onTap: () {},
+              leading: Icon(
+                IconData(
+                  0xe68f,
+                  fontFamily: 'iconfont',
+                ),
+                color: Color(0xff2ed573),
+              ),
+              title: Text('检查更新'),
             ),
           ],
         ),

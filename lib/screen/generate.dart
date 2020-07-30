@@ -22,7 +22,7 @@ class GeneratePage extends StatefulWidget {
 class _GeneratePageState extends State<GeneratePage> {
   String _word = '彼岸自在';
 
-  Future<void> _getData(BuildContext context) async {
+  Future<void> _getData() async {
     try {
       final String path = API.word;
       final Response res = await Request.init(context).httpPost(
@@ -62,7 +62,7 @@ class _GeneratePageState extends State<GeneratePage> {
                 CustomButton(
                   text: '生成',
                   callback: () {
-                    _getData(context);
+                    _getData();
                   },
                 ),
                 CustomButton(
@@ -140,7 +140,7 @@ class InheritedSelect extends InheritedWidget {
   //options列表
   final List<String> list;
   //选择之后回调
-  final void Function(BuildContext context, String newValue) callback;
+  final void Function(String newValue) callback;
   //当前值
   final dynamic currentValue;
 
@@ -220,7 +220,7 @@ class _SelectState extends State<Select> {
         onChanged: (dynamic newValue) {
           setState(() {
             dropdownValue = newValue;
-            inheritedContext.callback(context, newValue);
+            inheritedContext.callback(newValue);
           });
         },
         items:
@@ -269,7 +269,7 @@ class OptionsDialog extends Dialog {
                 ),
                 InheritedSelect(
                   list: OptionsData.typeList,
-                  callback: (context, newValue) {
+                  callback: (newValue) {
                     context.read<WordOptions>().changeType(type: newValue);
                   },
                   currentValue: context.watch<WordOptions>().type,
@@ -277,7 +277,7 @@ class OptionsDialog extends Dialog {
                 ),
                 InheritedSelect(
                   list: OptionsData.numberList,
-                  callback: (context, newValue) {
+                  callback: (newValue) {
                     context.read<WordOptions>().changeNumber(number: newValue);
                   },
                   currentValue: context.watch<WordOptions>().number,

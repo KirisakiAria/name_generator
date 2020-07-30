@@ -42,15 +42,15 @@ class _CustomFormState extends State<CustomForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //表单验证
-  void _formValidate(BuildContext context) {
+  void _formValidate() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      _register(context);
+      _register();
     }
   }
 
   //获取验证码
-  Future<void> _getAuthCode(BuildContext context) async {
+  Future<void> _getAuthCode() async {
     try {
       _formKey.currentState.save();
       if (Utils.isPhone(_tel)) {
@@ -79,7 +79,7 @@ class _CustomFormState extends State<CustomForm> {
   }
 
   //注册
-  Future<void> _register(BuildContext context) async {
+  Future<void> _register() async {
     try {
       final String path = API.register;
       final Response res = await Request.init(context).httpPost(
@@ -198,7 +198,7 @@ class _CustomFormState extends State<CustomForm> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _getAuthCode(context);
+                      _getAuthCode();
                     },
                     child: Container(
                       padding: EdgeInsets.only(right: 15),
@@ -256,7 +256,7 @@ class _CustomFormState extends State<CustomForm> {
                 bgColor: Color(Style.grey20),
                 borderColor: Color(Style.grey20),
                 callback: () {
-                  _formValidate(context);
+                  _formValidate();
                 },
               ),
             ),

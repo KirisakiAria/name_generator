@@ -28,6 +28,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(
         title: Text(
           '账号资料',
+          style: TextStyle(color: Colors.black87),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -63,28 +64,22 @@ class Avatar extends StatefulWidget {
 
 class _AvatarState extends State<Avatar> {
   final ImagePicker _picker = ImagePicker();
-  PickedFile _image;
 
   //从相册获取图片
-  Future<void> _getImage(BuildContext context) async {
+  Future<void> _getImage() async {
     final dynamic image = await _picker.getImage(
       source: ImageSource.gallery,
     );
     if (image != null) {
       _upLoadImage(
         image: image,
-        context: context,
       );
-      setState(() {
-        _image = image;
-      });
     }
   }
 
   //上传图片
   Future<void> _upLoadImage({
     @required PickedFile image,
-    @required BuildContext context,
   }) async {
     final filePath = image.path;
     final String path = API.upload;
@@ -103,14 +98,12 @@ class _AvatarState extends State<Avatar> {
     if (res.data['code'] == '1000') {
       _changeAvatar(
         avatar: res.data['data']['url'],
-        context: context,
       );
     }
   }
 
   Future<void> _changeAvatar({
     @required String avatar,
-    @required BuildContext context,
   }) async {
     final String path = API.changeAvatar;
     final Response res = await Request.init(context).httpPut(
@@ -135,7 +128,7 @@ class _AvatarState extends State<Avatar> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _getImage(context);
+        _getImage();
       },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -144,7 +137,10 @@ class _AvatarState extends State<Avatar> {
           children: <Widget>[
             Text(
               '头像',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                height: 1,
+                fontSize: 16,
+              ),
             ),
             Row(
               children: <Widget>[
@@ -208,16 +204,16 @@ class _UsernameState extends State<Username> {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(
-          top: 25,
-          bottom: 20,
-        ),
+        padding: EdgeInsets.symmetric(vertical: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               '用户名',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                height: 1,
+                fontSize: 16,
+              ),
             ),
             Row(
               children: <Widget>[
@@ -265,16 +261,16 @@ class _PasswordState extends State<Password> {
         );
       },
       child: Container(
-        padding: EdgeInsets.only(
-          top: 25,
-          bottom: 20,
-        ),
+        padding: EdgeInsets.symmetric(vertical: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
               '修改密码',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                height: 1,
+                fontSize: 16,
+              ),
             ),
             Row(
               children: <Widget>[
@@ -333,7 +329,7 @@ class EditUserNameDialog extends Dialog {
         }
 
         //表单验证
-        void _formValidate(BuildContext context) async {
+        void _formValidate() async {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
             await _changeUsername(context);
@@ -417,7 +413,7 @@ class EditUserNameDialog extends Dialog {
                                 ),
                               ),
                               onPressed: () async {
-                                _formValidate(context);
+                                _formValidate();
                               },
                             ),
                           ],
@@ -446,13 +442,15 @@ class InfoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
             title,
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
           Row(
             children: <Widget>[

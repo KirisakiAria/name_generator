@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //获取登陆状态
-  _getLoginStatus(BuildContext context) async {
+  _getLoginStatus() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String _token = prefs.getString('token');
     if (_token != null) {
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _getLoginStatus(context);
+    _getLoginStatus();
     return Scaffold(
       body: PageView.builder(
         onPageChanged: _onPageChange,

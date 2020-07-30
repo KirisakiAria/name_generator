@@ -20,7 +20,7 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  Future<void> _loadData(BuildContext context) async {
+  Future<void> _loadData() async {
     final String path = API.getUserData;
     final Response res = await Request.init(context).httpPost(
       path,
@@ -49,16 +49,12 @@ class _MyPageState extends State<MyPage> {
     }
   }
 
-  Future<void> _refresh(BuildContext context) {
-    return _loadData(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: RefreshIndicator(
-        onRefresh: _refresh(context),
+        onRefresh: _loadData,
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Column(
@@ -178,13 +174,16 @@ class Menu extends StatelessWidget {
     CustomIcon(
       iconData: 0xe617,
       title: '关于',
+      callback: (context) {
+        Navigator.pushNamed(context, '/about');
+      },
     ),
     CustomIcon(
       iconData: 0xe692,
       title: '实验室',
       callback: (context) {
         final SnackBar snackBar = SnackBar(
-          content: Text('敬请期待'),
+          content: Text('暂未开放, 敬请期待'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
       },

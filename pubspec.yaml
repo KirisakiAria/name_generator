@@ -31,6 +31,7 @@ flutter:
   assets:
     - assets/images/pluto-payment-processed.png
     - assets/images/peach__blossom.png
+    - assets/images/pluto-searching.png
   fonts:
     - family: iconfont
       fonts:
