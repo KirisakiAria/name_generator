@@ -97,7 +97,7 @@ class _AvatarState extends State<Avatar> {
     );
     if (res.data['code'] == '1000') {
       _changeAvatar(
-        avatar: res.data['data']['url'],
+        avatar: res.data['data']['path'],
       );
     }
   }
