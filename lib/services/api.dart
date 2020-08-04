@@ -4,7 +4,7 @@ class API {
   static const String origin = 'http://localhost:8888';
   static const String version = 'v1';
   static const String api_prefix = '$origin/api/$version';
-  static const String word = '/word';
+  static const String word = '/word/random';
   static const String login = '/user/login';
   static const String register = '/user/register';
   static const String changePassword = '/user/changepassword';

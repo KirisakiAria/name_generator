@@ -103,32 +103,58 @@ class _GeneratePageState extends State<GeneratePage> {
   }
 }
 
-//图片/文字显示区域
-class Display extends StatelessWidget {
+class Display extends StatefulWidget {
   final String word;
   Display({@required this.word});
 
   @override
+  _DisplayState createState() => _DisplayState(word: word);
+}
+
+//图片/文字显示区域
+class _DisplayState extends State<Display> {
+  String word;
+  _DisplayState({@required this.word});
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(top: 110),
-          child: Image(
-            image: AssetImage('assets/images/pluto-payment-processed.png'),
-            width: 200,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 40),
-          child: Text(
-            word,
-            style: TextStyle(
-              fontFamily: 'NijimiMincho',
-              fontSize: 46,
-              letterSpacing: 5,
+        Positioned.fill(
+          top: 30,
+          child: Align(
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.favorite,
+              size: 40,
+              color: Colors.pink,
             ),
           ),
+        ),
+        Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(top: 100),
+              child: Image(
+                image: AssetImage('assets/images/pluto-payment-processed.png'),
+                width: 190,
+              ),
+            ),
+            GestureDetector(
+              onDoubleTap: () {},
+              child: Container(
+                padding: EdgeInsets.only(top: 45),
+                child: Text(
+                  word,
+                  style: TextStyle(
+                    fontFamily: 'NijimiMincho',
+                    fontSize: 50,
+                    letterSpacing: 10,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
