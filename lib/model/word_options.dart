@@ -3,7 +3,7 @@ import '../common/optionsData.dart';
 
 class WordOptions with ChangeNotifier, DiagnosticableTreeMixin {
   String _type = OptionsData.typeList[0];
-  String _number = OptionsData.numberList[0];
+  String _number = OptionsData.numberList[1];
 
   String get type => _type;
   String get number => _number;

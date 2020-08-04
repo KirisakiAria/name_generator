@@ -1,5 +1,6 @@
 //核心库
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
@@ -53,7 +54,7 @@ class _GeneratePageState extends State<GeneratePage> {
           ),
           Container(
             padding: EdgeInsets.symmetric(
-              vertical: 40,
+              vertical: 0,
               horizontal: 20,
             ),
             child: Row(
@@ -97,6 +98,16 @@ class _GeneratePageState extends State<GeneratePage> {
               ],
             ),
           ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 25),
+            child: Text(
+              '提示：单击复制，长按加收藏',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black38,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -108,26 +119,54 @@ class Display extends StatefulWidget {
   Display({@required this.word});
 
   @override
-  _DisplayState createState() => _DisplayState(word: word);
+  _DisplayState createState() => _DisplayState();
 }
 
 //图片/文字显示区域
-class _DisplayState extends State<Display> {
-  String word;
-  _DisplayState({@required this.word});
+class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
+  Duration _duration = Duration(milliseconds: 500);
+  AnimationController _controller;
+  Animation<double> _opacityAnimation, _sizeAnimation;
+  static final _opacityTween = new Tween<double>(begin: 1.0, end: 0.0);
+  static final _sizeTween = new Tween<double>(begin: 0.0, end: 120.0);
+
+  love() {}
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: _duration)
+      ..addListener(() {
+        // 用于实时更新_animation.value
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          // 监听动画完成的状态
+          //_controller.reverse();
+          _controller.reset();
+        }
+      });
+    CurvedAnimation curvedanimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.fastOutSlowIn,
+    );
+    _sizeAnimation = _sizeTween.animate(curvedanimation);
+    _opacityAnimation = _opacityTween.animate(curvedanimation);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          top: 30,
-          child: Align(
-            alignment: Alignment.center,
+          top: 10,
+          child: Opacity(
+            opacity: _opacityAnimation.value,
             child: Icon(
               Icons.favorite,
-              size: 40,
-              color: Colors.pink,
+              size: _sizeAnimation.value,
+              color: Color(0xffff6b81),
             ),
           ),
         ),
@@ -141,11 +180,20 @@ class _DisplayState extends State<Display> {
               ),
             ),
             GestureDetector(
-              onDoubleTap: () {},
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: widget.word));
+                final SnackBar snackBar = SnackBar(
+                  content: Text('复制成功'),
+                );
+                Scaffold.of(context).showSnackBar(snackBar);
+              },
+              onLongPress: () {
+                _controller.forward();
+              },
               child: Container(
                 padding: EdgeInsets.only(top: 45),
                 child: Text(
-                  word,
+                  widget.word,
                   style: TextStyle(
                     fontFamily: 'NijimiMincho',
                     fontSize: 50,
