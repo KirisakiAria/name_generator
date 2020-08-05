@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 //第三方包
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:dio/dio.dart';
+//请求
+import '../services/api.dart';
+import '../services/request.dart';
 //model
 import '../model/user.dart';
 
@@ -89,6 +93,17 @@ class _SettingPageState extends State<SettingPage> {
     await file.delete();
   }
 
+  //更新
+  Future<void> _findUpdate() async {
+    try {
+      final String path = API.word;
+      final Response res = await Request.init(context).httpGet(path);
+      if (res.data['code'] == '1000') {}
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -147,7 +162,9 @@ class _SettingPageState extends State<SettingPage> {
               subtitle: Text('缓存大小：$_cacheSizeStr'),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                _findUpdate();
+              },
               leading: Icon(
                 IconData(
                   0xe68f,

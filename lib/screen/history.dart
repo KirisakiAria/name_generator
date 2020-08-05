@@ -1,5 +1,6 @@
 //核心库
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //第三方包
 import 'package:dio/dio.dart';
 //common
@@ -98,11 +99,20 @@ class ListItem extends StatelessWidget {
             ),
             color: type == '中国风' ? Colors.pinkAccent : Colors.blue,
           ),
-          Container(
-            margin: EdgeInsets.only(left: 15),
-            child: Text(
-              this.word,
-              style: TextStyle(fontSize: 16),
+          GestureDetector(
+            onTap: () {
+              Clipboard.setData(ClipboardData(text: word));
+              final SnackBar snackBar = SnackBar(
+                content: Text('复制成功'),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            },
+            child: Container(
+              margin: EdgeInsets.only(left: 15),
+              child: Text(
+                this.word,
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ),
         ],

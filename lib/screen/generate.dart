@@ -20,7 +20,8 @@ class GeneratePage extends StatefulWidget {
   _GeneratePageState createState() => _GeneratePageState();
 }
 
-class _GeneratePageState extends State<GeneratePage> {
+class _GeneratePageState extends State<GeneratePage>
+    with AutomaticKeepAliveClientMixin {
   String _word = '彼岸自在';
   String _type = '中国风';
 
@@ -46,7 +47,11 @@ class _GeneratePageState extends State<GeneratePage> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -106,7 +111,7 @@ class _GeneratePageState extends State<GeneratePage> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 25),
             child: Text(
-              '提示：单击复制，长按加收藏',
+              '提示：单击文字复制，长按加收藏',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.black38,
