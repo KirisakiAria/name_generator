@@ -22,6 +22,7 @@ class GeneratePage extends StatefulWidget {
 
 class _GeneratePageState extends State<GeneratePage> {
   String _word = '彼岸自在';
+  String _type = '中国风';
 
   Future<void> _getData() async {
     try {
@@ -36,6 +37,7 @@ class _GeneratePageState extends State<GeneratePage> {
       if (res.data['code'] == '1000') {
         setState(() {
           _word = res.data['data']['word'];
+          _type = context.read<WordOptions>().type;
         });
       }
     } catch (err) {
@@ -50,7 +52,10 @@ class _GeneratePageState extends State<GeneratePage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: Display(word: _word),
+            child: Display(
+              word: _word,
+              type: _type,
+            ),
           ),
           Container(
             padding: EdgeInsets.symmetric(
@@ -116,7 +121,11 @@ class _GeneratePageState extends State<GeneratePage> {
 
 class Display extends StatefulWidget {
   final String word;
-  Display({@required this.word});
+  final String type;
+  Display({
+    @required this.word,
+    @required this.type,
+  });
 
   @override
   _DisplayState createState() => _DisplayState();
@@ -130,7 +139,21 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
   static final _opacityTween = new Tween<double>(begin: 1.0, end: 0.0);
   static final _sizeTween = new Tween<double>(begin: 0.0, end: 120.0);
 
-  love() {}
+  Future<void> _love() async {
+    try {
+      final String path = API.favourite;
+      await Request.init(context).httpPost(
+        path,
+        <String, dynamic>{
+          'type': context.read<WordOptions>().type,
+          'number': context.read<WordOptions>().number,
+          'word': widget.word,
+        },
+      );
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   void initState() {
@@ -188,6 +211,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 Scaffold.of(context).showSnackBar(snackBar);
               },
               onLongPress: () {
+                _love();
                 _controller.forward();
               },
               child: Container(
@@ -195,9 +219,10 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 child: Text(
                   widget.word,
                   style: TextStyle(
-                    fontFamily: 'NijimiMincho',
+                    fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
                     fontSize: 50,
                     letterSpacing: 10,
+                    height: 1,
                   ),
                 ),
               ),

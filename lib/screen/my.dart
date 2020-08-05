@@ -152,6 +152,8 @@ class Menu extends StatelessWidget {
       callback: (context) {
         if (!context.read<User>().loginState) {
           Navigator.pushNamed(context, '/login');
+        } else {
+          Navigator.pushNamed(context, '/favourites');
         }
       },
     ),
@@ -161,6 +163,8 @@ class Menu extends StatelessWidget {
       callback: (context) {
         if (!context.read<User>().loginState) {
           Navigator.pushNamed(context, '/login');
+        } else {
+          Navigator.pushNamed(context, '/history');
         }
       },
     ),
