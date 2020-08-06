@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方包
 import 'package:dio/dio.dart';
-//common
+//请求相关
 import '../services/api.dart';
 import '../services/request.dart';
+//common
+import '../common/loading_status.dart';
 
 class FavouritesPage extends StatelessWidget {
   @override
@@ -31,14 +33,29 @@ class FavouritesList extends StatefulWidget {
 
 class _FavouritesListState extends State<FavouritesList> {
   List<dynamic> favouritesList = <dynamic>[];
+  ScrollController _scrollController = ScrollController();
+  LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
+  int page = 0;
 
-  Future<void> _getData() async {
+  Future<void> _getData({bool refresh = true}) async {
     try {
+      if (refresh) {
+        page = 0;
+        favouritesList.clear();
+      }
+      _loadingStatus = LoadingStatus.STATUS_LOADING;
       final String path = API.favourite;
-      final Response res = await Request.init(context).httpGet(path);
+      final Response res =
+          await Request.init(context).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
         setState(() {
-          favouritesList = res.data['data']['list'];
+          if (res.data['data']['list'].length > 0) {
+            favouritesList.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_IDEL;
+            page++;
+          } else {
+            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+          }
         });
       }
     } catch (err) {
@@ -49,7 +66,20 @@ class _FavouritesListState extends State<FavouritesList> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    _getData(refresh: false);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
+          _getData(refresh: false);
+        }
+      }
+    });
+  }
+
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,13 +88,18 @@ class _FavouritesListState extends State<FavouritesList> {
       onRefresh: _getData,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 6),
-        itemCount: favouritesList.length,
+        controller: _scrollController,
+        itemCount: favouritesList.length + 1,
         itemBuilder: (context, index) {
-          return ListItem(
-            type: favouritesList[index]['type'],
-            word: favouritesList[index]['word'],
-            callback: _getData,
-          );
+          if (index == favouritesList.length) {
+            return _LoadingView(_loadingStatus);
+          } else {
+            return ListItem(
+              type: favouritesList[index]['type'],
+              word: favouritesList[index]['word'],
+              callback: _getData,
+            );
+          }
         },
       ),
     );
@@ -154,6 +189,42 @@ class ListItem extends StatelessWidget {
                   },
                 ),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LoadingView extends StatelessWidget {
+  final LoadingStatus _loadingStatus;
+  _LoadingView(this._loadingStatus);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            IconData(
+              0xe65e,
+              fontFamily: 'iconfont',
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 12),
+            child: Builder(
+              builder: (conext) {
+                if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
+                  return Text('上拉加载更多');
+                } else if (_loadingStatus == LoadingStatus.STATUS_LOADING) {
+                  return Text('加载中');
+                }
+                return Text('加载完成');
+              },
             ),
           ),
         ],
