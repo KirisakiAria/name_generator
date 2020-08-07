@@ -6,6 +6,7 @@ import '../screen/account.dart';
 import '../screen/about.dart';
 import '../screen/history.dart';
 import '../screen/favourites.dart';
+import '../screen/webview.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> mappingList = <String, WidgetBuilder>{
@@ -16,5 +17,6 @@ class Routes {
     '/about': (BuildContext context) => AboutPage(),
     '/history': (BuildContext context) => HistoryPage(),
     '/favourites': (BuildContext context) => FavouritesPage(),
+    '/webview': (BuildContext context) => WebviewPage(),
   };
 }

@@ -45,6 +45,9 @@ class AboutPage extends StatelessWidget {
                 child: ListView(
                   children: [
                     ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/webview');
+                      },
                       title: Text(
                         '隐私协议',
                         style: TextStyle(
