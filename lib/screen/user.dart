@@ -54,7 +54,7 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
 
   @override
   Widget build(BuildContext context) {
-    Map arguments = ModalRoute.of(context).settings.arguments;
+    Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
     if (arguments != null) {
       changeScreen(index: arguments['index']);
       hideLoginLink();

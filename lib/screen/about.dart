@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 //common
 import '../common/style.dart';
+import '../common/global.dart';
 
 class AboutPage extends StatelessWidget {
   @override
@@ -46,7 +47,11 @@ class AboutPage extends StatelessWidget {
                   children: [
                     ListTile(
                       onTap: () {
-                        Navigator.pushNamed(context, '/webview');
+                        Navigator.pushNamed(context, '/webview',
+                            arguments: <String, String>{
+                              'title': '隐私协议',
+                              'url': 'http://localhost:8080/#/'
+                            });
                       },
                       title: Text(
                         '隐私协议',
@@ -97,7 +102,7 @@ class AboutPage extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     child: Text(
-                      'V0.0.1',
+                      'V ${Global.version}',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.black38,
