@@ -28,7 +28,7 @@ class _GeneratePageState extends State<GeneratePage>
   Future<void> _getData() async {
     try {
       final String path = API.word;
-      final Response res = await Request.init(context).httpPost(
+      final Response res = await Request.init(context: context).httpPost(
         path,
         <String, dynamic>{
           'type': context.read<WordOptions>().type,
@@ -147,7 +147,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
   Future<void> _love() async {
     try {
       final String path = API.favourite;
-      await Request.init(context).httpPost(
+      await Request.init(context: context).httpPost(
         path,
         <String, dynamic>{
           'type': context.read<WordOptions>().type,

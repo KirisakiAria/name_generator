@@ -91,7 +91,7 @@ class _AvatarState extends State<Avatar> {
         filename: name,
       ),
     });
-    final Response res = await Request.init(context).httpPost(
+    final Response res = await Request.init(context: context).httpPost(
       path,
       formdata,
     );
@@ -106,7 +106,7 @@ class _AvatarState extends State<Avatar> {
     @required String avatar,
   }) async {
     final String path = API.changeAvatar;
-    final Response res = await Request.init(context).httpPut(
+    final Response res = await Request.init(context: context).httpPut(
       path,
       <String, dynamic>{
         'tel': context.read<User>().tel,
@@ -312,7 +312,7 @@ class EditUserNameDialog extends Dialog {
         //修改用户名
         Future<void> _changeUsername(BuildContext context) async {
           final String path = API.changeUsername;
-          final Response res = await Request.init(context).httpPut(
+          final Response res = await Request.init(context: context).httpPut(
             path,
             <String, dynamic>{
               'tel': context.read<User>().tel,

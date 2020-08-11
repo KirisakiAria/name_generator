@@ -73,7 +73,7 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _login() async {
     try {
       final String path = API.login;
-      final Response res = await Request.init(context).httpPost(
+      final Response res = await Request.init(context: context).httpPost(
         path,
         <String, dynamic>{
           'tel': _tel,

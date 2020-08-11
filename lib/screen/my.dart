@@ -22,7 +22,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   Future<void> _loadData() async {
     final String path = API.getUserData;
-    final Response res = await Request.init(context).httpPost(
+    final Response res = await Request.init(context: context).httpPost(
       path,
       <String, String>{
         'tel': context.read<User>().tel,

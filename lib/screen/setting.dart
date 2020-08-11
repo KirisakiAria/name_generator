@@ -97,7 +97,7 @@ class _SettingPageState extends State<SettingPage> {
   Future<void> _findUpdate() async {
     try {
       final String path = API.word;
-      final Response res = await Request.init(context).httpGet(path);
+      final Response res = await Request.init(context: context).httpGet(path);
       if (res.data['code'] == '1000') {}
     } catch (err) {
       print(err);

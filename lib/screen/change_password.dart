@@ -55,7 +55,7 @@ class _CustomFormState extends State<CustomForm> {
       _formKey.currentState.save();
       if (Utils.isPhone(tel)) {
         final String path = API.getAuthCode;
-        final Response res = await Request.init(context).httpPost(
+        final Response res = await Request.init(context: context).httpPost(
           path,
           <String, dynamic>{
             'tel': tel,
@@ -83,7 +83,7 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _changePassword() async {
     try {
       final String path = API.changePassword;
-      final Response res = await Request.init(context).httpPost(
+      final Response res = await Request.init(context: context).httpPost(
         path,
         <String, dynamic>{
           'tel': tel,

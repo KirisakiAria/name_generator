@@ -15,4 +15,5 @@ class API {
   static const String upload = '/upload';
   static const String changeAvatar = '/user/avatar';
   static const String changeUsername = '/user/username';
+  static const String error = '/information/error';
 }
