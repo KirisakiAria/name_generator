@@ -74,7 +74,7 @@ class _GeneratePageState extends State<GeneratePage>
                       Navigator.pushNamed(context, '/webview',
                           arguments: <String, String>{
                             'title': '隐私协议',
-                            'url': 'http://192.168.10.234:8081/#/privacypolicy'
+                            'url': 'http://192.168.50.83:8083/#/privacypolicy'
                           });
                     },
                 ),
@@ -87,7 +87,7 @@ class _GeneratePageState extends State<GeneratePage>
                       Navigator.pushNamed(context, '/webview',
                           arguments: <String, String>{
                             'title': '服务条款',
-                            'url': 'http://192.168.10.234:8081/#/terms'
+                            'url': 'http://192.168.50.83:8083/#/terms'
                           });
                     },
                 ),
@@ -129,6 +129,7 @@ class _GeneratePageState extends State<GeneratePage>
           ],
         );
       },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
       barrierDismissible: false,
       transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (context, anim1, anim2, child) {

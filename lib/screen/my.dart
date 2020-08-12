@@ -236,6 +236,7 @@ class Menu extends StatelessWidget {
                 ],
               );
             },
+            barrierColor: Color.fromRGBO(0, 0, 0, .4),
             barrierDismissible: false,
             transitionDuration: Duration(milliseconds: 200),
             transitionBuilder: (context, anim1, anim2, child) {

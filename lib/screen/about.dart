@@ -48,11 +48,11 @@ class AboutPage extends StatelessWidget {
                   children: [
                     ListTile(
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, '/webview', arguments: <String, String>{
-                          'title': '隐私协议',
-                          'url': 'http://192.168.10.234:8081/#/privacypolicy'
-                        });
+                        Navigator.pushNamed(context, '/webview',
+                            arguments: <String, String>{
+                              'title': '隐私协议',
+                              'url': 'http://192.168.50.83:8083/#/privacypolicy'
+                            });
                       },
                       title: Text(
                         '隐私协议',
@@ -68,7 +68,7 @@ class AboutPage extends StatelessWidget {
                         Navigator.pushNamed(context, '/webview',
                             arguments: <String, String>{
                               'title': '服务条款',
-                              'url': 'http://192.168.10.234:8081/#/terms'
+                              'url': 'http://192.168.50.83:8083/#/terms'
                             });
                       },
                       title: Text(
@@ -85,7 +85,7 @@ class AboutPage extends StatelessWidget {
                         Navigator.pushNamed(context, '/webview',
                             arguments: <String, String>{
                               'title': '使用方法',
-                              'url': 'http://192.168.10.234:8081/#/usage'
+                              'url': 'http://192.168.50.83:8083/#/usage'
                             });
                       },
                       title: Text(
@@ -107,7 +107,7 @@ class AboutPage extends StatelessWidget {
                             arguments: <String, String>{
                               'title': '使用方法',
                               'url':
-                                  'http://192.168.10.234:8081/#/feedback?tel=$tel&?username=$username'
+                                  'http://192.168.50.83:8083/#/feedback?tel=$tel&username=$username'
                             });
                       },
                       title: Text(
