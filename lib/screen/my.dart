@@ -237,7 +237,6 @@ class Menu extends StatelessWidget {
               );
             },
             barrierDismissible: false,
-            barrierLabel: '',
             transitionDuration: Duration(milliseconds: 200),
             transitionBuilder: (context, anim1, anim2, child) {
               return Transform.scale(

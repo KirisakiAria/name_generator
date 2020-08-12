@@ -1,8 +1,10 @@
 //核心库
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/gestures.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 //请求
 import '../services/api.dart';
@@ -44,6 +46,111 @@ class _GeneratePageState extends State<GeneratePage>
     } catch (err) {
       print(err);
     }
+  }
+
+  //服务条款和隐私协议弹窗
+  _showPopup() {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, anim1, anim2) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text('服务条款与隐私协议提示'),
+          content: RichText(
+            text: TextSpan(
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 16,
+              ),
+              children: <TextSpan>[
+                TextSpan(text: '我们根据相关法律法规制定了'),
+                TextSpan(
+                  text: '隐私协议',
+                  style: TextStyle(color: Colors.lightBlue),
+                  recognizer: new TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.pushNamed(context, '/webview',
+                          arguments: <String, String>{
+                            'title': '隐私协议',
+                            'url': 'http://192.168.10.234:8081/#/privacypolicy'
+                          });
+                    },
+                ),
+                TextSpan(text: '和'),
+                TextSpan(
+                  text: '服务条款',
+                  style: TextStyle(color: Colors.lightBlue),
+                  recognizer: new TapGestureRecognizer()
+                    ..onTap = () {
+                      Navigator.pushNamed(context, '/webview',
+                          arguments: <String, String>{
+                            'title': '服务条款',
+                            'url': 'http://192.168.10.234:8081/#/terms'
+                          });
+                    },
+                ),
+                TextSpan(
+                  text:
+                      '建议您认真阅读这些条款。您同意之后便可以正常使用《彼岸自在》提供的服务，若您拒绝，则无法使用《彼岸自在》并退出应用程序。',
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                '拒绝',
+                style: TextStyle(
+                  color: Color(Style.mainColor),
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () {
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              },
+            ),
+            FlatButton(
+              child: Text(
+                '同意',
+                style: TextStyle(
+                  color: Color(Style.mainColor),
+                  fontSize: 16,
+                ),
+              ),
+              onPressed: () async {
+                final SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+                prefs.setBool('accepted', true);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+      barrierDismissible: false,
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding widgetsBinding = WidgetsBinding.instance;
+    widgetsBinding.addPostFrameCallback((callback) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final dynamic accepted = prefs.getBool('accepted');
+      if (accepted == null) {
+        _showPopup();
+      }
+    });
   }
 
   @override
@@ -88,7 +195,6 @@ class _GeneratePageState extends State<GeneratePage>
                       },
                       barrierColor: Colors.grey.withOpacity(.4),
                       barrierDismissible: false,
-                      barrierLabel: '',
                       transitionDuration: Duration(milliseconds: 400),
                       transitionBuilder: (context, anim1, anim2, child) {
                         final double curvedValue =
@@ -171,7 +277,6 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           // 监听动画完成的状态
-          //_controller.reverse();
           _controller.reset();
         }
       });

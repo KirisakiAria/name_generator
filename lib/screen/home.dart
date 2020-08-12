@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     _getLoginStatus();
+    //_showPopup();
     return Scaffold(
       body: PageView.builder(
         onPageChanged: _onPageChange,

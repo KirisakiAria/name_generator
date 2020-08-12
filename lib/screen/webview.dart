@@ -11,6 +11,7 @@ class _WebviewPageState extends State<WebviewPage> {
   Widget build(BuildContext context) {
     Map<String, String> arguments = ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           arguments['title'],

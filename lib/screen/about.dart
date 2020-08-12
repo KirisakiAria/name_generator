@@ -1,11 +1,12 @@
 //核心库
 import 'package:flutter/material.dart';
+//第三方库
+import 'package:shared_preferences/shared_preferences.dart';
 //common
 import '../common/style.dart';
 import '../common/global.dart';
 
 class AboutPage extends StatelessWidget {
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,11 +48,11 @@ class AboutPage extends StatelessWidget {
                   children: [
                     ListTile(
                       onTap: () {
-                        Navigator.pushNamed(context, '/webview',
-                            arguments: <String, String>{
-                              'title': '隐私协议',
-                              'url': 'http://localhost:8080/#/'
-                            });
+                        Navigator.pushNamed(
+                            context, '/webview', arguments: <String, String>{
+                          'title': '隐私协议',
+                          'url': 'http://192.168.10.234:8081/#/privacypolicy'
+                        });
                       },
                       title: Text(
                         '隐私协议',
@@ -63,6 +64,13 @@ class AboutPage extends StatelessWidget {
                       trailing: Icon(Icons.keyboard_arrow_right),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/webview',
+                            arguments: <String, String>{
+                              'title': '服务条款',
+                              'url': 'http://192.168.10.234:8081/#/terms'
+                            });
+                      },
                       title: Text(
                         '服务条款',
                         style: TextStyle(
@@ -73,6 +81,13 @@ class AboutPage extends StatelessWidget {
                       trailing: Icon(Icons.keyboard_arrow_right),
                     ),
                     ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/webview',
+                            arguments: <String, String>{
+                              'title': '使用方法',
+                              'url': 'http://192.168.10.234:8081/#/usage'
+                            });
+                      },
                       title: Text(
                         '使用方法',
                         style: TextStyle(
@@ -83,6 +98,18 @@ class AboutPage extends StatelessWidget {
                       trailing: Icon(Icons.keyboard_arrow_right),
                     ),
                     ListTile(
+                      onTap: () async {
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        final String username = prefs.getString('username');
+                        final String tel = prefs.getString('tel');
+                        Navigator.pushNamed(context, '/webview',
+                            arguments: <String, String>{
+                              'title': '使用方法',
+                              'url':
+                                  'http://192.168.10.234:8081/#/feedback?tel=$tel&?username=$username'
+                            });
+                      },
                       title: Text(
                         '意见反馈',
                         style: TextStyle(

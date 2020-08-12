@@ -187,7 +187,6 @@ class _UsernameState extends State<Username> {
             return EditUserNameDialog();
           },
           barrierDismissible: false,
-          barrierLabel: '',
           transitionDuration: Duration(milliseconds: 300),
           transitionBuilder: (context, anim1, anim2, child) {
             return Transform.scale(
