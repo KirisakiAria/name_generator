@@ -42,6 +42,7 @@ class Request {
               },
               barrierDismissible: false,
               barrierLabel: '',
+              barrierColor: Colors.transparent,
               transitionDuration: Duration(milliseconds: 300),
               transitionBuilder: (context, anim1, anim2, child) {
                 return Transform.scale(

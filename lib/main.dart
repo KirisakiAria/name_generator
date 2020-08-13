@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //第三方库
 import 'package:device_info/device_info.dart';
-import 'package:dio/dio.dart';
 //请求
 import './services/api.dart';
 import './services/request.dart';

@@ -121,7 +121,7 @@ class _CustomFormState extends State<CustomForm> {
               child: TextFormField(
                 inputFormatters: [
                   //只允许输入数字
-                  WhitelistingTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                   //长度限制11
                   LengthLimitingTextInputFormatter(11),
                 ],

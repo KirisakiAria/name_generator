@@ -8,13 +8,14 @@ import '../services/api.dart';
 import '../services/request.dart';
 //common
 import '../common/loading_status.dart';
+import '../common/custom_icon_data.dart';
 
 class FavouritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '收藏',
           style: TextStyle(color: Colors.black87),
         ),
@@ -146,18 +147,12 @@ class ListItem extends StatelessWidget {
       ),
       child: Row(
         children: <Widget>[
-          Icon(
-            IconData(
-              type == '中国风' ? 0xec15 : 0xe63f,
-              fontFamily: 'iconfont',
-            ),
-            color: type == '中国风' ? Colors.pinkAccent : Colors.blue,
-          ),
+          WordIcon(type),
           GestureDetector(
             onTap: () {
               Clipboard.setData(ClipboardData(text: word));
               final SnackBar snackBar = SnackBar(
-                content: Text('复制成功'),
+                content: const Text('复制成功'),
               );
               Scaffold.of(context).showSnackBar(snackBar);
             },
@@ -209,8 +204,8 @@ class _LoadingView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(
-            IconData(
-              0xe65e,
+            const IconData(
+              CustomIconData.cat,
               fontFamily: 'iconfont',
             ),
           ),
@@ -219,16 +214,40 @@ class _LoadingView extends StatelessWidget {
             child: Builder(
               builder: (conext) {
                 if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
-                  return Text('上拉加载更多');
+                  return const Text('上拉加载更多');
                 } else if (_loadingStatus == LoadingStatus.STATUS_LOADING) {
-                  return Text('加载中');
+                  return const Text('加载中');
                 }
-                return Text('加载完成');
+                return const Text('加载完成');
               },
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class WordIcon extends StatelessWidget {
+  final String type;
+  WordIcon(this.type);
+  @override
+  Widget build(BuildContext context) {
+    if (type == '中国风') {
+      return Icon(
+        const IconData(
+          CustomIconData.chinese,
+          fontFamily: 'iconfont',
+        ),
+        color: Colors.pinkAccent,
+      );
+    }
+    return Icon(
+      const IconData(
+        CustomIconData.japanese,
+        fontFamily: 'iconfont',
+      ),
+      color: Colors.blue,
     );
   }
 }

@@ -8,6 +8,7 @@ import '../screen/generate.dart';
 import '../screen/my.dart';
 //common
 import '../common/style.dart';
+import '../common/custom_icon_data.dart';
 //model
 import '../model/user.dart';
 
@@ -74,8 +75,8 @@ class _HomePageState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              IconData(
-                0xe6ac,
+              const IconData(
+                CustomIconData.generate,
                 fontFamily: 'iconfont',
               ),
               size: 28,
@@ -84,8 +85,8 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              IconData(
-                0xe65e,
+              const IconData(
+                CustomIconData.cat,
                 fontFamily: 'iconfont',
               ),
               size: 28,

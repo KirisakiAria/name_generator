@@ -26,7 +26,7 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '账号资料',
           style: TextStyle(color: Colors.black87),
         ),
@@ -118,7 +118,7 @@ class _AvatarState extends State<Avatar> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('avatar', avatar);
       final SnackBar snackBar = SnackBar(
-        content: Text('修改头像成功'),
+        content: const Text('修改头像成功'),
       );
       Scaffold.of(context).showSnackBar(snackBar);
     }
@@ -197,7 +197,7 @@ class _UsernameState extends State<Username> {
         );
         if (result['success']) {
           final SnackBar snackBar = SnackBar(
-            content: Text('修改用户名成功'),
+            content: const Text('修改用户名成功'),
           );
           Scaffold.of(context).showSnackBar(snackBar);
         }

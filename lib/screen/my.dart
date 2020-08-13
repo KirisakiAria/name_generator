@@ -11,6 +11,7 @@ import '../services/api.dart';
 import '../services/request.dart';
 //common
 import '../common/style.dart';
+import '../common/custom_icon_data.dart';
 //model
 import '../model/user.dart';
 
@@ -145,114 +146,6 @@ class BaseInformationBox extends StatelessWidget {
 
 //菜单列表
 class Menu extends StatelessWidget {
-  final List<Widget> iconlist = <Widget>[
-    CustomIcon(
-      iconData: 0xe666,
-      title: '我的收藏',
-      callback: (context) {
-        if (!context.read<User>().loginState) {
-          Navigator.pushNamed(context, '/login');
-        } else {
-          Navigator.pushNamed(context, '/favourites');
-        }
-      },
-    ),
-    CustomIcon(
-      iconData: 0xe607,
-      title: '查询记录',
-      callback: (context) {
-        if (!context.read<User>().loginState) {
-          Navigator.pushNamed(context, '/login');
-        } else {
-          Navigator.pushNamed(context, '/history');
-        }
-      },
-    ),
-    CustomIcon(
-      iconData: 0xe654,
-      title: '设置',
-      callback: (context) {
-        Navigator.pushNamed(context, '/setting');
-      },
-    ),
-    CustomIcon(
-      iconData: 0xe617,
-      title: '关于',
-      callback: (context) {
-        Navigator.pushNamed(context, '/about');
-      },
-    ),
-    CustomIcon(
-      iconData: 0xe692,
-      title: '实验室',
-      callback: (context) {
-        final SnackBar snackBar = SnackBar(
-          content: Text('暂未开放, 敬请期待'),
-        );
-        Scaffold.of(context).showSnackBar(snackBar);
-      },
-    ),
-    CustomIcon(
-      iconData: 0xe60d,
-      title: '退出登录',
-      callback: (context) {
-        if (context.read<User>().loginState) {
-          showGeneralDialog(
-            context: context,
-            pageBuilder: (context, anim1, anim2) {
-              return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                title: Text('提示'),
-                content: Text('是否退出登录?'),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text(
-                      '取消',
-                      style: TextStyle(
-                        color: Color(Style.mainColor),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  FlatButton(
-                    child: Text(
-                      '确认',
-                      style: TextStyle(
-                        color: Color(Style.mainColor),
-                      ),
-                    ),
-                    onPressed: () async {
-                      context.read<User>().logOut();
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.clear();
-                      Navigator.pushNamed(context, '/login');
-                    },
-                  ),
-                ],
-              );
-            },
-            barrierColor: Color.fromRGBO(0, 0, 0, .4),
-            barrierDismissible: false,
-            transitionDuration: Duration(milliseconds: 200),
-            transitionBuilder: (context, anim1, anim2, child) {
-              return Transform.scale(
-                scale: anim1.value,
-                child: child,
-              );
-            },
-          );
-        } else {
-          Navigator.pushNamed(context, '/login');
-        }
-      },
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -260,55 +153,263 @@ class Menu extends StatelessWidget {
       child: Wrap(
         spacing: 35,
         runSpacing: 30,
-        children: iconlist,
-      ),
-    );
-  }
-}
-
-class CustomIcon extends StatelessWidget {
-  final int iconData;
-  final String title;
-  final void Function(BuildContext context) callback;
-
-  CustomIcon({
-    @required this.iconData,
-    @required this.title,
-    this.callback,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        callback(context);
-      },
-      child: Container(
-        child: SizedBox(
-          width: 90,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ClipOval(
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  color: Color(0xFFf5f5f5),
-                  child: Icon(
-                    IconData(
-                      iconData,
-                      fontFamily: 'iconfont',
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              if (!context.read<User>().loginState) {
+                Navigator.pushNamed(context, '/login');
+              } else {
+                Navigator.pushNamed(context, '/favourites');
+              }
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        color: Color(0xFFf5f5f5),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.favourite,
+                            fontFamily: 'iconfont',
+                          ),
+                          size: 32,
+                        ),
+                      ),
                     ),
-                    size: 32,
-                  ),
+                    Text(
+                      '我的收藏',
+                      style: TextStyle(height: 2.5),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                title,
-                style: TextStyle(height: 2.5),
-              ),
-            ],
+            ),
           ),
-        ),
+          GestureDetector(
+            onTap: () {
+              if (!context.read<User>().loginState) {
+                Navigator.pushNamed(context, '/login');
+              } else {
+                Navigator.pushNamed(context, '/history');
+              }
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        color: Color(0xFFf5f5f5),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.history,
+                            fontFamily: 'iconfont',
+                          ),
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '查询记录',
+                      style: TextStyle(height: 2.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/setting');
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        color: Color(0xFFf5f5f5),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.setting,
+                            fontFamily: 'iconfont',
+                          ),
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '设置',
+                      style: TextStyle(height: 2.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/about');
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        color: Color(0xFFf5f5f5),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.about,
+                            fontFamily: 'iconfont',
+                          ),
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '关于',
+                      style: TextStyle(height: 2.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              final SnackBar snackBar = SnackBar(
+                content: const Text('暂未开放, 敬请期待'),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        color: Color(0xFFf5f5f5),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.laboratory,
+                            fontFamily: 'iconfont',
+                          ),
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '实验室',
+                      style: TextStyle(height: 2.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              if (context.read<User>().loginState) {
+                showGeneralDialog(
+                  context: context,
+                  pageBuilder: (context, anim1, anim2) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      title: const Text('提示'),
+                      content: const Text('是否退出登录?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text(
+                            '取消',
+                            style: TextStyle(
+                              color: Color(Style.mainColor),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text(
+                            '确认',
+                            style: TextStyle(
+                              color: Color(Style.mainColor),
+                            ),
+                          ),
+                          onPressed: () async {
+                            context.read<User>().logOut();
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.clear();
+                            Navigator.pushNamed(context, '/login');
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                  barrierColor: Color.fromRGBO(0, 0, 0, .4),
+                  barrierDismissible: false,
+                  transitionDuration: Duration(milliseconds: 200),
+                  transitionBuilder: (context, anim1, anim2, child) {
+                    return Transform.scale(
+                      scale: anim1.value,
+                      child: child,
+                    );
+                  },
+                );
+              } else {
+                Navigator.pushNamed(context, '/login');
+              }
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(15),
+                        color: Color(0xFFf5f5f5),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.logout,
+                            fontFamily: 'iconfont',
+                          ),
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '退出登录',
+                      style: TextStyle(height: 2.5),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

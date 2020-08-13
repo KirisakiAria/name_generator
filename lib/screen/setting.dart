@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 //第三方包
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:dio/dio.dart';
-//请求
-import '../services/api.dart';
-import '../services/request.dart';
 //model
 import '../model/user.dart';
+//common
+import '../common/custom_icon_data.dart';
 
 class SettingPage extends StatefulWidget {
   @override
@@ -77,7 +75,7 @@ class _SettingPageState extends State<SettingPage> {
     await delDir(tempDir);
     await _loadCache();
     final SnackBar snackBar = SnackBar(
-      content: Text('清除缓存成功'),
+      content: const Text('清除缓存成功'),
     );
     Scaffold.of(context).showSnackBar(snackBar);
   }
@@ -104,7 +102,7 @@ class _SettingPageState extends State<SettingPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           '设置',
           style: TextStyle(color: Colors.black87),
         ),
@@ -124,8 +122,8 @@ class _SettingPageState extends State<SettingPage> {
                 }
               },
               leading: Icon(
-                IconData(
-                  0xe610,
+                const IconData(
+                  CustomIconData.account,
                   fontFamily: 'iconfont',
                 ),
                 color: Color(0xff70a1ff),
@@ -141,13 +139,13 @@ class _SettingPageState extends State<SettingPage> {
                 _clearCache();
               },
               leading: Icon(
-                IconData(
-                  0xe677,
+                const IconData(
+                  CustomIconData.clearCache,
                   fontFamily: 'iconfont',
                 ),
                 color: Color(0xffff7f50),
               ),
-              title: Text('清除缓存'),
+              title: const Text('清除缓存'),
               subtitle: Text('缓存大小：$_cacheSizeStr'),
             ),
           ],

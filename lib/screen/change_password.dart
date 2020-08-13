@@ -64,13 +64,13 @@ class _CustomFormState extends State<CustomForm> {
         );
         if (res.data['code'] == '1000') {
           final SnackBar snackBar = SnackBar(
-            content: Text('验证码发送成功'),
+            content: const Text('验证码发送成功'),
           );
           Scaffold.of(context).showSnackBar(snackBar);
         }
       } else {
         final SnackBar snackBar = SnackBar(
-          content: Text('请输入正确的手机号'),
+          content: const Text('请输入正确的手机号'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
       }
@@ -93,7 +93,7 @@ class _CustomFormState extends State<CustomForm> {
       );
       if (res.data['code'] == '1000') {
         final SnackBar snackBar = SnackBar(
-          content: Text('修改密码成功'),
+          content: const Text('修改密码成功'),
         );
         Scaffold.of(context).showSnackBar(snackBar);
       }
@@ -118,7 +118,7 @@ class _CustomFormState extends State<CustomForm> {
               child: TextFormField(
                 inputFormatters: [
                   //只允许输入数字
-                  WhitelistingTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                   //长度限制11
                   LengthLimitingTextInputFormatter(11),
                 ],
@@ -165,7 +165,7 @@ class _CustomFormState extends State<CustomForm> {
                     child: TextFormField(
                       inputFormatters: [
                         //只允许输入数字
-                        WhitelistingTextInputFormatter.digitsOnly,
+                        FilteringTextInputFormatter.allow(RegExp('[0-9]')),
                         //长度限制6
                         LengthLimitingTextInputFormatter(6),
                       ],
