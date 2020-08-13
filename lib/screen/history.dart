@@ -1,8 +1,9 @@
 //核心库
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-//第三方包
+//第三方库
 import 'package:dio/dio.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求相关
 import '../services/api.dart';
 import '../services/request.dart';
@@ -89,7 +90,9 @@ class _HistoryListState extends State<HistoryList> {
       onRefresh: _getData,
       child: ListView.builder(
         physics: AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.symmetric(vertical: 6),
+        padding: EdgeInsets.symmetric(
+          vertical: 6.h,
+        ),
         controller: _scrollController,
         itemCount: historyList.length + 1,
         itemBuilder: (context, index) {
@@ -117,8 +120,11 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(
+        horizontal: 15.w,
+        vertical: 6.h,
+      ),
+      padding: EdgeInsets.all(15.w),
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
@@ -139,7 +145,9 @@ class ListItem extends StatelessWidget {
               Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(
-              margin: EdgeInsets.only(left: 15),
+              margin: EdgeInsets.only(
+                left: 15.w,
+              ),
               child: Text(
                 this.word,
                 style: TextStyle(fontSize: 16),
@@ -159,7 +167,9 @@ class _LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(
+        vertical: 20.h,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -170,7 +180,9 @@ class _LoadingView extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 12),
+            padding: EdgeInsets.only(
+              left: 12.w,
+            ),
             child: Builder(
               builder: (conext) {
                 if (_loadingStatus == LoadingStatus.STATUS_IDEL) {

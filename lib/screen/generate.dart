@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -16,6 +17,7 @@ import '../common/style.dart';
 import '../common/optionsData.dart';
 //model
 import '../model/word_options.dart';
+import '../model/user.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -173,7 +175,7 @@ class _GeneratePageState extends State<GeneratePage>
           Container(
             padding: EdgeInsets.symmetric(
               vertical: 0,
-              horizontal: 20,
+              horizontal: 20.w,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -216,7 +218,9 @@ class _GeneratePageState extends State<GeneratePage>
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 25),
+            padding: EdgeInsets.symmetric(
+              vertical: 25.h,
+            ),
             child: Text(
               '提示：单击文字复制，长按加收藏',
               style: TextStyle(
@@ -294,7 +298,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
     return Stack(
       children: <Widget>[
         Positioned.fill(
-          top: 10,
+          top: 10.h,
           child: Opacity(
             opacity: _opacityAnimation.value,
             child: Icon(
@@ -307,10 +311,12 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
         Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top: 100),
+              padding: EdgeInsets.only(
+                top: 90.h,
+              ),
               child: Image(
                 image: AssetImage('assets/images/pluto-payment-processed.png'),
-                width: 190,
+                width: 180.w,
               ),
             ),
             GestureDetector(
@@ -322,17 +328,27 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 Scaffold.of(context).showSnackBar(snackBar);
               },
               onLongPress: () {
-                _love();
-                _controller.forward();
+                final bool loginState = context.read<User>().loginState;
+                if (loginState) {
+                  _love();
+                  _controller.forward();
+                } else {
+                  final SnackBar snackBar = SnackBar(
+                    content: Text('请先登录再加收藏'),
+                  );
+                  Scaffold.of(context).showSnackBar(snackBar);
+                }
               },
               child: Container(
-                padding: EdgeInsets.only(top: 45),
+                padding: EdgeInsets.only(
+                  top: 50.h,
+                ),
                 child: Text(
                   widget.word,
                   style: TextStyle(
                     fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                    fontSize: 50,
-                    letterSpacing: 10,
+                    fontSize: 54,
+                    letterSpacing: 12,
                     height: 1,
                   ),
                 ),
@@ -378,7 +394,7 @@ class SelectBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final inheritedContext = InheritedSelect.of(context);
     return Container(
-      width: 150,
+      width: 165.w,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1.5,
@@ -386,8 +402,8 @@ class SelectBox extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 6,
+        horizontal: 20.w,
+        vertical: 10.h,
       ),
       child: Select(inheritedContext.currentValue),
     );
@@ -457,7 +473,7 @@ class OptionsDialog extends Dialog {
         alignment: Alignment.bottomCenter,
         child: SizedBox(
           width: double.infinity,
-          height: 320,
+          height: 320.h,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(
@@ -495,7 +511,9 @@ class OptionsDialog extends Dialog {
                 ),
                 Container(
                   width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 80),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 80.w,
+                  ),
                   child: CustomButton(
                     text: '確定',
                     callback: () {

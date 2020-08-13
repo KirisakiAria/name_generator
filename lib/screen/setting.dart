@@ -1,9 +1,10 @@
 //核心库
 import 'dart:io';
 import 'package:flutter/material.dart';
-//第三方包
+//第三方库
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //model
 import '../model/user.dart';
 //common

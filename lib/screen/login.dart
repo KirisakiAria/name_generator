@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -28,11 +29,13 @@ class LoginPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: EdgeInsets.only(
+                bottom: 35.h,
+              ),
               alignment: Alignment.topRight,
               child: Image(
                 image: AssetImage('assets/images/peach__blossom.png'),
-                width: 240,
+                width: 210.w,
               ),
             ),
             Text(
@@ -109,9 +112,9 @@ class _CustomFormState extends State<CustomForm> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 60,
+        left: 50.w,
+        right: 50.w,
+        top: 80.h,
       ),
       child: Form(
         key: _formKey,
@@ -154,7 +157,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(
+                top: 30.h,
+              ),
               child: TextFormField(
                 inputFormatters: [
                   //不允许输入汉字
@@ -191,7 +196,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 50),
+              margin: EdgeInsets.only(
+                top: 50.h,
+              ),
               width: double.infinity,
               child: CustomButton(
                 text: '登録',
@@ -203,7 +210,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(
+                top: 20.h,
+              ),
               width: double.infinity,
               child: CustomButton(
                 text: '注册',
@@ -216,13 +225,17 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 45),
+              margin: EdgeInsets.only(
+                top: 55.h,
+              ),
               child: GestureDetector(
                 onTap: () {
                   InheritedUserPage.of(context).changeScreen(index: 3);
                 },
                 child: Container(
-                  padding: EdgeInsets.only(bottom: 3),
+                  padding: EdgeInsets.only(
+                    bottom: 3.h,
+                  ),
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
@@ -240,13 +253,16 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 15),
+              margin: EdgeInsets.only(
+                top: 15.h,
+              ),
               child: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/home');
                 },
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),
+                  margin: EdgeInsets.only(bottom: 20.h),
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(

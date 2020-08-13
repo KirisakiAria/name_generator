@@ -22,7 +22,9 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       padding: EdgeInsets.symmetric(
-          horizontal: paddingHorizontal, vertical: paddingVertical),
+        horizontal: paddingHorizontal,
+        vertical: paddingVertical,
+      ),
       color: bgColor,
       elevation: 0,
       disabledElevation: 0,

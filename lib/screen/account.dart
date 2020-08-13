@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -36,7 +37,9 @@ class _AccountPageState extends State<AccountPage> {
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
         builder: (context) => ListView(
-          padding: EdgeInsets.symmetric(horizontal: 30),
+          padding: EdgeInsets.symmetric(
+            horizontal: 30.w,
+          ),
           children: <Widget>[
             Avatar(),
             Username(),
@@ -131,7 +134,9 @@ class _AvatarState extends State<Avatar> {
         _getImage();
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: EdgeInsets.symmetric(
+          vertical: 10.h,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -145,8 +150,8 @@ class _AvatarState extends State<Avatar> {
             Row(
               children: <Widget>[
                 SizedBox(
-                  width: 80,
-                  height: 80,
+                  width: 70.w,
+                  height: 70.w,
                   child: ClipOval(
                     //透明图像占位符
                     child: FadeInImage.memoryNetwork(
@@ -203,7 +208,9 @@ class _UsernameState extends State<Username> {
         }
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -217,7 +224,9 @@ class _UsernameState extends State<Username> {
             Row(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(right: 15),
+                  padding: EdgeInsets.only(
+                    right: 15.w,
+                  ),
                   child: Text(
                     '${context.watch<User>().username}',
                     style: TextStyle(
@@ -260,7 +269,9 @@ class _PasswordState extends State<Password> {
         );
       },
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -274,7 +285,9 @@ class _PasswordState extends State<Password> {
             Row(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(right: 15),
+                  padding: EdgeInsets.only(
+                    right: 15.w,
+                  ),
                   child: Text(
                     '点此修改',
                     style: TextStyle(
@@ -341,10 +354,12 @@ class EditUserNameDialog extends Dialog {
           color: Color(Style.grey20),
           child: Center(
             child: SizedBox(
-              width: 300,
-              height: 140,
+              width: 300.w,
+              height: 140.h,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                ),
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -388,7 +403,9 @@ class EditUserNameDialog extends Dialog {
                         },
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 10),
+                        padding: EdgeInsets.only(
+                          top: 10.h,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -441,7 +458,9 @@ class InfoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.symmetric(
+        vertical: 20.h,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

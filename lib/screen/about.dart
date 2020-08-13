@@ -1,15 +1,18 @@
 //核心库
 import 'package:flutter/material.dart';
 //第三方库
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
 //common
 import '../common/style.dart';
 import '../common/global.dart';
+//model
+import '../model/user.dart';
 
 class AboutPage extends StatelessWidget {
   @override
@@ -29,15 +32,19 @@ class AboutPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 30),
+                margin: EdgeInsets.only(
+                  top: 30.h,
+                ),
                 alignment: Alignment.center,
                 child: Image(
-                  width: 150,
+                  width: 120.w,
                   image: AssetImage('assets/images/pluto-searching.png'),
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 40),
+                margin: EdgeInsets.symmetric(
+                  vertical: 30.h,
+                ),
                 child: Text(
                   '彼岸自在',
                   style: TextStyle(
@@ -49,7 +56,9 @@ class AboutPage extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(
+                    left: 10.w,
+                  ),
                   child: ListView(
                     children: [
                       ListTile(
@@ -105,10 +114,8 @@ class AboutPage extends StatelessWidget {
                       ),
                       ListTile(
                         onTap: () async {
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          final String username = prefs.getString('username');
-                          final String tel = prefs.getString('tel');
+                          final String username = context.read<User>().username;
+                          final String tel = context.read<User>().tel;
                           Navigator.pushNamed(context, '/webview',
                               arguments: <String, String>{
                                 'title': '使用方法',
@@ -175,7 +182,10 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 50, bottom: 20),
+                margin: EdgeInsets.only(
+                  top: 50.h,
+                  bottom: 20.h,
+                ),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -188,7 +198,9 @@ class AboutPage extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(
+                        top: 10.h,
+                      ),
                       child: Text(
                         '© 2020 伟大鱼塘 All Rights Reserved',
                         style: TextStyle(

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -76,8 +77,8 @@ class BaseInformationBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 100,
-        bottom: 40,
+        top: 85.h,
+        bottom: 40.h,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -103,8 +104,8 @@ class BaseInformationBox extends StatelessWidget {
           child: Column(
             children: <Widget>[
               SizedBox(
-                width: 80,
-                height: 80,
+                width: 80.w,
+                height: 80.w,
                 child: ClipOval(
                   //透明图像占位符
                   child: FadeInImage.memoryNetwork(
@@ -116,8 +117,8 @@ class BaseInformationBox extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 10,
-                  bottom: 5,
+                  top: 16.h,
+                  bottom: 15.h,
                 ),
                 child: Text(
                   context.watch<User>().username,
@@ -149,10 +150,12 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 30),
+      padding: EdgeInsets.symmetric(
+        vertical: 40.h,
+      ),
       child: Wrap(
-        spacing: 35,
-        runSpacing: 30,
+        spacing: 25,
+        runSpacing: 32,
         children: <Widget>[
           GestureDetector(
             onTap: () {
@@ -164,20 +167,20 @@ class Menu extends StatelessWidget {
             },
             child: Container(
               child: SizedBox(
-                width: 90,
+                width: 90.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15.w),
                         color: Color(0xFFf5f5f5),
                         child: Icon(
                           const IconData(
                             CustomIconData.favourite,
                             fontFamily: 'iconfont',
                           ),
-                          size: 32,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -200,20 +203,20 @@ class Menu extends StatelessWidget {
             },
             child: Container(
               child: SizedBox(
-                width: 90,
+                width: 90.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15.w),
                         color: Color(0xFFf5f5f5),
                         child: Icon(
                           const IconData(
                             CustomIconData.history,
                             fontFamily: 'iconfont',
                           ),
-                          size: 32,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -232,20 +235,20 @@ class Menu extends StatelessWidget {
             },
             child: Container(
               child: SizedBox(
-                width: 90,
+                width: 90.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15.w),
                         color: Color(0xFFf5f5f5),
                         child: Icon(
                           const IconData(
                             CustomIconData.setting,
                             fontFamily: 'iconfont',
                           ),
-                          size: 32,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -264,20 +267,20 @@ class Menu extends StatelessWidget {
             },
             child: Container(
               child: SizedBox(
-                width: 90,
+                width: 90.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15.w),
                         color: Color(0xFFf5f5f5),
                         child: Icon(
                           const IconData(
                             CustomIconData.about,
                             fontFamily: 'iconfont',
                           ),
-                          size: 32,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -299,20 +302,20 @@ class Menu extends StatelessWidget {
             },
             child: Container(
               child: SizedBox(
-                width: 90,
+                width: 90.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15.w),
                         color: Color(0xFFf5f5f5),
                         child: Icon(
                           const IconData(
                             CustomIconData.laboratory,
                             fontFamily: 'iconfont',
                           ),
-                          size: 32,
+                          size: 30,
                         ),
                       ),
                     ),
@@ -383,20 +386,20 @@ class Menu extends StatelessWidget {
             },
             child: Container(
               child: SizedBox(
-                width: 90,
+                width: 90.w,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsets.all(15.w),
                         color: Color(0xFFf5f5f5),
                         child: Icon(
                           const IconData(
                             CustomIconData.logout,
                             fontFamily: 'iconfont',
                           ),
-                          size: 32,
+                          size: 30,
                         ),
                       ),
                     ),

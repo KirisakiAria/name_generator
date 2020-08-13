@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //page
 import '../screen/generate.dart';
 import '../screen/my.dart';
@@ -47,8 +48,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(
+      context,
+      width: 375,
+      height: 900,
+    );
     _getLoginStatus();
-    //_showPopup();
     return Scaffold(
       body: PageView.builder(
         onPageChanged: _onPageChange,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
 import 'package:dio/dio.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -106,9 +107,9 @@ class _CustomFormState extends State<CustomForm> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        left: 50,
-        right: 50,
-        top: 80,
+        left: 50.w,
+        right: 50.w,
+        top: 80.h,
       ),
       child: Form(
         key: _formKey,
@@ -151,7 +152,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(
+                top: 30.h,
+              ),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
@@ -198,7 +201,9 @@ class _CustomFormState extends State<CustomForm> {
                       _getAuthCode();
                     },
                     child: Container(
-                      padding: EdgeInsets.only(right: 15),
+                      padding: EdgeInsets.only(
+                        right: 15.w,
+                      ),
                       child: Text(
                         '发送验证码',
                         style: TextStyle(color: Colors.black54),
@@ -209,7 +214,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 30),
+              margin: EdgeInsets.only(
+                top: 30.h,
+              ),
               child: TextFormField(
                 inputFormatters: [
                   //不允许输入汉字
@@ -246,7 +253,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 50),
+              margin: EdgeInsets.only(
+                top: 50.h,
+              ),
               width: double.infinity,
               child: CustomButton(
                 text: '修改密碼',
@@ -258,7 +267,9 @@ class _CustomFormState extends State<CustomForm> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: EdgeInsets.only(
+                top: 40.h,
+              ),
               child: InheritedUserPage.of(context).loginLinkIsShowed
                   ? GestureDetector(
                       onTap: () {

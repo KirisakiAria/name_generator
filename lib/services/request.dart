@@ -21,7 +21,7 @@ class Request {
 
   Request.init({BuildContext context}) {
     _dio.options.headers = {
-      'appname': Global.appName,
+      'appname': 'bianzizai',
       'packagename': Global.packageName,
       'version': Global.version,
       'buildnumber': Global.buildNumber,

@@ -1,4 +1,7 @@
+//核心库
 import 'package:flutter/material.dart';
+//第三方库
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoadingDialog extends Dialog {
   LoadingDialog({Key key}) : super(key: key);
@@ -10,8 +13,8 @@ class LoadingDialog extends Dialog {
       type: MaterialType.transparency, //透明类型
       child: Center(
         child: SizedBox(
-          width: 120,
-          height: 120,
+          width: 120.w,
+          height: 120.h,
           child: Container(
             decoration: ShapeDecoration(
               color: Colors.white,
@@ -34,7 +37,7 @@ class LoadingDialog extends Dialog {
                 CircularProgressIndicator(),
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 20,
+                    top: 20.h,
                   ),
                   child: Text(
                     '加载中',

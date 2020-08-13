@@ -1,4 +1,4 @@
-package com.greatpond.namegenerator;
+package com.greatpond.bianzizai;
 
 import io.flutter.embedding.android.FlutterActivity;
 

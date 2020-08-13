@@ -1,4 +1,4 @@
-name: namegenerator
+name: bianzizai
 description: 彼岸自在
 
 publish_to: "none"
@@ -21,6 +21,7 @@ dependencies:
   webview_flutter: ^0.3.22+1
   device_info: ^0.4.2+4
   url_launcher: ^5.5.0
+  flutter_screenutil: ^2.3.1
 
 dev_dependencies:
   flutter_test:
