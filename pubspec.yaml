@@ -2,7 +2,7 @@ name: namegenerator
 description: 彼岸自在
 
 publish_to: "none"
-version: 0.0.1
+version: 1.0.0
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -20,6 +20,7 @@ dependencies:
   image_picker: ^0.6.7+4
   webview_flutter: ^0.3.22+1
   device_info: ^0.4.2+4
+  url_launcher: ^5.5.0
 
 dev_dependencies:
   flutter_test:

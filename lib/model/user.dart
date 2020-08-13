@@ -4,7 +4,7 @@ class User with ChangeNotifier, DiagnosticableTreeMixin {
   String _username = '未登录';
   String _tel;
   int _uid = 0;
-  String _avatar = '/avatar.png';
+  String _avatar = '/img/avatar.png';
   String _date = '';
   String _token;
   bool _loginState = false;
@@ -50,7 +50,7 @@ class User with ChangeNotifier, DiagnosticableTreeMixin {
     _username = '未登录';
     _tel = tel;
     _uid = 0;
-    _avatar = '/avatar.png';
+    _avatar = '/img/avatar.png';
     _date = '';
     _token = '';
     _loginState = false;

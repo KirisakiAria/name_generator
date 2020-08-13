@@ -19,10 +19,6 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: CustomForm(),
@@ -111,7 +107,7 @@ class _CustomFormState extends State<CustomForm> {
       padding: EdgeInsets.only(
         left: 50,
         right: 50,
-        top: 80,
+        top: 150,
       ),
       child: Form(
         key: _formKey,

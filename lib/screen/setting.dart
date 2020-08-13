@@ -93,17 +93,6 @@ class _SettingPageState extends State<SettingPage> {
     await file.delete();
   }
 
-  //更新
-  Future<void> _findUpdate() async {
-    try {
-      final String path = API.word;
-      final Response res = await Request.init(context: context).httpGet(path);
-      if (res.data['code'] == '1000') {}
-    } catch (err) {
-      print(err);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -160,19 +149,6 @@ class _SettingPageState extends State<SettingPage> {
               ),
               title: Text('清除缓存'),
               subtitle: Text('缓存大小：$_cacheSizeStr'),
-            ),
-            ListTile(
-              onTap: () {
-                _findUpdate();
-              },
-              leading: Icon(
-                IconData(
-                  0xe68f,
-                  fontFamily: 'iconfont',
-                ),
-                color: Color(0xff2ed573),
-              ),
-              title: Text('检查更新'),
             ),
           ],
         ),

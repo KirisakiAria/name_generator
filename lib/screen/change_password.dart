@@ -259,7 +259,6 @@ class _CustomFormState extends State<CustomForm> {
             ),
             Container(
               margin: EdgeInsets.only(top: 40),
-              //是否显示“直接登录”按钮
               child: InheritedUserPage.of(context).loginLinkIsShowed
                   ? GestureDetector(
                       onTap: () {
@@ -275,7 +274,7 @@ class _CustomFormState extends State<CustomForm> {
                           ),
                         ),
                         child: Text(
-                          '直接登录',
+                          '登录',
                           style: TextStyle(
                             color: Colors.black54,
                           ),
