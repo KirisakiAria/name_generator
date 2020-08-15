@@ -1,9 +1,11 @@
 //核心库
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/adapter.dart';
 import './api.dart';
 //common
 import '../common/global.dart';
@@ -31,6 +33,11 @@ class Request {
     _dio.options.baseUrl = API.api_prefix;
     _dio.options.connectTimeout = CONNECT_TIMEOUT;
     _dio.options.receiveTimeout = RECEIVE_TIMEOUT;
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+    };
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options) async {

@@ -19,6 +19,15 @@ import './routes/routes.dart';
 //首页
 import './screen/home.dart';
 
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 Future<Null> main() async {
   //错误信息收集
   FlutterError.onError = (FlutterErrorDetails details) async {
@@ -28,6 +37,7 @@ Future<Null> main() async {
   runZoned<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     Global.init();
+    HttpOverrides.global = new MyHttpOverrides();
     runApp(
       MultiProvider(
         providers: [
