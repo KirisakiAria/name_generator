@@ -51,7 +51,11 @@ class _FavouritesListState extends State<FavouritesList> {
           await Request.init(context: context).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
         setState(() {
-          if (res.data['data']['list'].length > 0) {
+          int length = res.data['data']['list'].length;
+          if (length > 0 && length < 15) {
+            favouritesList.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+          } else if (length > 15) {
             favouritesList.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_IDEL;
             page++;

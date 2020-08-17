@@ -51,7 +51,11 @@ class _HistoryListState extends State<HistoryList> {
           await Request.init(context: context).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
         setState(() {
-          if (res.data['data']['list'].length > 0) {
+          int length = res.data['data']['list'].length;
+          if (length > 0 && length < 15) {
+            historyList.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+          } else if (length > 15) {
             historyList.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_IDEL;
             page++;
