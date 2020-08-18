@@ -69,7 +69,7 @@ class AboutPage extends StatelessWidget {
                           '隐私协议',
                           style: TextStyle(
                             height: 1,
-                            color: Color(Style.grey20),
+                            color: Style.grey20,
                           ),
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),
@@ -86,7 +86,7 @@ class AboutPage extends StatelessWidget {
                           '服务条款',
                           style: TextStyle(
                             height: 1,
-                            color: Color(Style.grey20),
+                            color: Style.grey20,
                           ),
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),
@@ -103,7 +103,7 @@ class AboutPage extends StatelessWidget {
                           '使用方法',
                           style: TextStyle(
                             height: 1,
-                            color: Color(Style.grey20),
+                            color: Style.grey20,
                           ),
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),
@@ -124,7 +124,7 @@ class AboutPage extends StatelessWidget {
                           '意见反馈',
                           style: TextStyle(
                             height: 1,
-                            color: Color(Style.grey20),
+                            color: Style.grey20,
                           ),
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),
@@ -142,7 +142,7 @@ class AboutPage extends StatelessWidget {
                           '给个好评',
                           style: TextStyle(
                             height: 1,
-                            color: Color(Style.grey20),
+                            color: Style.grey20,
                           ),
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),
@@ -169,7 +169,7 @@ class AboutPage extends StatelessWidget {
                           '检查更新',
                           style: TextStyle(
                             height: 1,
-                            color: Color(Style.grey20),
+                            color: Style.grey20,
                           ),
                         ),
                         trailing: Icon(Icons.keyboard_arrow_right),

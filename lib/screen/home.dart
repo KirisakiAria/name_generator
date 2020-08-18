@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../screen/generate.dart';
 import '../screen/my.dart';
 //common
-import '../common/style.dart';
 import '../common/custom_icon_data.dart';
 //model
 import '../model/user.dart';

@@ -18,7 +18,7 @@ import '../common/optionsData.dart';
 //model
 import '../model/word_options.dart';
 import '../model/user.dart';
-import '../model/Skin.dart';
+import '../model/skin.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -109,7 +109,7 @@ class _GeneratePageState extends State<GeneratePage>
               child: Text(
                 '拒绝',
                 style: TextStyle(
-                  color: Color(Style.mainColor),
+                  color: Style.defaultColor['text'],
                   fontSize: 16,
                 ),
               ),
@@ -121,7 +121,7 @@ class _GeneratePageState extends State<GeneratePage>
               child: Text(
                 '同意',
                 style: TextStyle(
-                  color: Color(Style.mainColor),
+                  color: Style.defaultColor['text'],
                   fontSize: 16,
                 ),
               ),
@@ -188,9 +188,10 @@ class _GeneratePageState extends State<GeneratePage>
                   text: '生成',
                   callback: () {
                     //_getData();
-                    context
-                        .read<SkinProvider>()
-                        .changeTheme(theme: Style.nightTheme);
+                    context.read<SkinProvider>().changeTheme(
+                          theme: Style.nightTheme,
+                          color: Style.nightColor,
+                        );
                   },
                 ),
                 CustomButton(
@@ -232,7 +233,7 @@ class _GeneratePageState extends State<GeneratePage>
               '提示：单击文字复制，长按加收藏',
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.black38,
+                color: context.watch<SkinProvider>().color['subtitle'],
               ),
             ),
           ),
@@ -444,7 +445,7 @@ class _SelectState extends State<Select> {
         elevation: 0,
         isExpanded: true,
         style: TextStyle(
-          color: Color(Style.mainColor),
+          color: Style.defaultColor['text'],
           fontSize: 20,
           height: 1.1,
         ),

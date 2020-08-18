@@ -131,7 +131,7 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(Style.borderColor),
+                      color: Style.defaultColor['border'],
                     ),
                   ),
                   hintText: '请输入您的手机号',
@@ -172,7 +172,7 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(Style.borderColor),
+                      color: Style.defaultColor['border'],
                     ),
                   ),
                   hintText: '请输入您的密码(6-20位)',
@@ -201,8 +201,8 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '登録',
-                bgColor: Color(Style.grey20),
-                borderColor: Color(Style.grey20),
+                bgColor: Style.grey20,
+                borderColor: Style.grey20,
                 callback: () {
                   _formValidate();
                 },
@@ -215,9 +215,9 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '注册',
-                textColor: Color(Style.grey20),
+                textColor: Style.grey20,
                 bgColor: Colors.white,
-                borderColor: Color(Style.grey20),
+                borderColor: Style.grey20,
                 callback: () {
                   InheritedUserPage.of(context).changeScreen(index: 2);
                 },

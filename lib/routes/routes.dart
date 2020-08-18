@@ -3,7 +3,7 @@ import '../screen/home.dart';
 import '../screen/user.dart';
 import '../screen/setting.dart';
 import '../screen/account.dart';
-import '../screen/skin.dart';
+import '../screen/change_skin.dart';
 import '../screen/laboratory.dart';
 import '../screen/about.dart';
 import '../screen/history.dart';

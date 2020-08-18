@@ -15,6 +15,7 @@ import '../common/style.dart';
 import '../common/custom_icon_data.dart';
 //model
 import '../model/user.dart';
+import '../model/skin.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -80,13 +81,13 @@ class BaseInformationBox extends StatelessWidget {
         bottom: 40.h,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.watch<SkinProvider>().color['background'],
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(40),
         ),
         boxShadow: [
           BoxShadow(
-            color: Color.fromRGBO(0, 80, 180, 0.1),
+            color: context.watch<SkinProvider>().color['infoShadow'],
             blurRadius: 12,
             offset: Offset(0, 6),
           ),
@@ -133,7 +134,7 @@ class BaseInformationBox extends StatelessWidget {
                   'UID: ${context.watch<UserProvider>().uid}',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: context.watch<SkinProvider>().color['subtitle'],
                   ),
                 ),
               ),
@@ -174,12 +175,13 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: Color(0xFFf5f5f5),
+                        color: context.watch<SkinProvider>().color['item'],
                         child: Icon(
                           const IconData(
                             CustomIconData.favourite,
                             fontFamily: 'iconfont',
                           ),
+                          color: context.watch<SkinProvider>().color['text'],
                           size: 30,
                         ),
                       ),
@@ -210,12 +212,13 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: Color(0xFFf5f5f5),
+                        color: context.watch<SkinProvider>().color['item'],
                         child: Icon(
                           const IconData(
                             CustomIconData.history,
                             fontFamily: 'iconfont',
                           ),
+                          color: context.watch<SkinProvider>().color['text'],
                           size: 30,
                         ),
                       ),
@@ -242,12 +245,13 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: Color(0xFFf5f5f5),
+                        color: context.watch<SkinProvider>().color['item'],
                         child: Icon(
                           const IconData(
                             CustomIconData.setting,
                             fontFamily: 'iconfont',
                           ),
+                          color: context.watch<SkinProvider>().color['text'],
                           size: 30,
                         ),
                       ),
@@ -274,12 +278,13 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: Color(0xFFf5f5f5),
+                        color: context.watch<SkinProvider>().color['item'],
                         child: Icon(
                           const IconData(
                             CustomIconData.about,
                             fontFamily: 'iconfont',
                           ),
+                          color: context.watch<SkinProvider>().color['text'],
                           size: 30,
                         ),
                       ),
@@ -310,12 +315,13 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: Color(0xFFf5f5f5),
+                        color: context.watch<SkinProvider>().color['item'],
                         child: Icon(
                           const IconData(
                             CustomIconData.laboratory,
                             fontFamily: 'iconfont',
                           ),
+                          color: context.watch<SkinProvider>().color['text'],
                           size: 30,
                         ),
                       ),
@@ -346,7 +352,7 @@ class Menu extends StatelessWidget {
                           child: Text(
                             '取消',
                             style: TextStyle(
-                              color: Color(Style.mainColor),
+                              color: Style.defaultColor['text'],
                             ),
                           ),
                           onPressed: () {
@@ -357,7 +363,7 @@ class Menu extends StatelessWidget {
                           child: Text(
                             '确认',
                             style: TextStyle(
-                              color: Color(Style.mainColor),
+                              color: Style.defaultColor['text'],
                             ),
                           ),
                           onPressed: () async {
@@ -394,12 +400,13 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: Color(0xFFf5f5f5),
+                        color: context.watch<SkinProvider>().color['item'],
                         child: Icon(
                           const IconData(
                             CustomIconData.logout,
                             fontFamily: 'iconfont',
                           ),
+                          color: context.watch<SkinProvider>().color['text'],
                           size: 30,
                         ),
                       ),

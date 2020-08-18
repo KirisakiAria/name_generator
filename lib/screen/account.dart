@@ -349,7 +349,7 @@ class EditUserNameDialog extends Dialog {
         return Material(
           //创建透明层
           type: MaterialType.transparency, //透明类型
-          color: Color(Style.grey20),
+          color: Style.grey20,
           child: Center(
             child: SizedBox(
               width: 300.w,
@@ -385,7 +385,7 @@ class EditUserNameDialog extends Dialog {
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: Color(Style.borderColor),
+                              color: Style.defaultColor['border'],
                             ),
                           ),
                           hintText: '请输入新用户名（最长十位）',
@@ -411,7 +411,7 @@ class EditUserNameDialog extends Dialog {
                               child: Text(
                                 '取消',
                                 style: TextStyle(
-                                  color: Color(Style.mainColor),
+                                  color: Style.defaultColor['text'],
                                 ),
                               ),
                               onPressed: () {
@@ -423,7 +423,7 @@ class EditUserNameDialog extends Dialog {
                               child: Text(
                                 '确认',
                                 style: TextStyle(
-                                  color: Color(Style.mainColor),
+                                  color: Style.defaultColor['text'],
                                 ),
                               ),
                               onPressed: () async {
