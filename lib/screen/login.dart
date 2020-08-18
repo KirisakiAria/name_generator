@@ -24,7 +24,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -85,7 +84,7 @@ class _CustomFormState extends State<CustomForm> {
       );
       if (res.data['code'] == '1000') {
         final Map data = res.data['data'];
-        context.read<User>().changeUserData(
+        context.read<UserProvider>().changeUserData(
               username: data['username'],
               tel: data['tel'],
               uid: data['uid'],

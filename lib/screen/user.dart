@@ -1,7 +1,5 @@
 //核心库
 import 'package:flutter/material.dart';
-//第三方库
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 //页面
 import './login.dart';
 import './register.dart';

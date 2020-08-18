@@ -27,7 +27,8 @@ class Request {
       'packagename': Global.packageName,
       'version': Global.version,
       'buildnumber': Global.buildNumber,
-      'authorization': context != null ? context.read<User>().token : '',
+      'authorization':
+          context != null ? context.read<UserProvider>().token : '',
       'secret': API.secret,
     };
     _dio.options.baseUrl = API.api_prefix;

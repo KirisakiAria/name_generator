@@ -21,12 +21,8 @@ class AboutPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           '关于',
-          style: TextStyle(color: Colors.black87),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
       ),
-      backgroundColor: Colors.white,
       body: Builder(
         builder: (BuildContext context) => Container(
           child: Column(
@@ -114,8 +110,9 @@ class AboutPage extends StatelessWidget {
                       ),
                       ListTile(
                         onTap: () async {
-                          final String username = context.read<User>().username;
-                          final String tel = context.read<User>().tel;
+                          final String username =
+                              context.read<UserProvider>().username;
+                          final String tel = context.read<UserProvider>().tel;
                           Navigator.pushNamed(context, '/webview',
                               arguments: <String, String>{
                                 'title': '使用方法',

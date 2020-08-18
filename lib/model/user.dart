@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class User with ChangeNotifier, DiagnosticableTreeMixin {
+class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
   String _username = '未登录';
   String _tel;
   int _uid = 0;

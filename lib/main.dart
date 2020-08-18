@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'package:bianzizai/model/Skin.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,6 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 Future<Null> main() async {
-  //错误信息收集
   FlutterError.onError = (FlutterErrorDetails details) async {
     Zone.current.handleUncaughtError(details.exception, details.stack);
   };
@@ -41,11 +41,14 @@ Future<Null> main() async {
     runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider<WordOptions>(
-            create: (_) => WordOptions(),
+          ChangeNotifierProvider<WordOptionsProvider>(
+            create: (_) => WordOptionsProvider(),
           ),
-          ChangeNotifierProvider<User>(
-            create: (_) => User(),
+          ChangeNotifierProvider<UserProvider>(
+            create: (_) => UserProvider(),
+          ),
+          ChangeNotifierProvider<SkinProvider>(
+            create: (_) => SkinProvider(),
           ),
         ],
         child: MyApp(),
@@ -97,13 +100,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: '网名生成器',
       home: HomePage(),
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.black87),
-        ),
-        primaryColor: Color(Style.mainColor),
-        accentColor: Color(Style.mainColor),
-      ),
+      theme: context.watch<SkinProvider>().theme,
       routes: Routes.mappingList,
     );
   }

@@ -16,10 +16,7 @@ class _WebviewPageState extends State<WebviewPage> {
       appBar: AppBar(
         title: Text(
           arguments['title'],
-          style: TextStyle(color: Colors.black87),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
       ),
       body: WebView(
         initialUrl: arguments['url'],

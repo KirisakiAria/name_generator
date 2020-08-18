@@ -21,10 +21,10 @@ class ChangePasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        title: Text(
+          '修改密码',
+        ),
       ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: CustomForm(),
       ),

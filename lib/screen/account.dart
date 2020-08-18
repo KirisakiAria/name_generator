@@ -29,10 +29,7 @@ class _AccountPageState extends State<AccountPage> {
       appBar: AppBar(
         title: const Text(
           '账号资料',
-          style: TextStyle(color: Colors.black87),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
       ),
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
@@ -46,11 +43,11 @@ class _AccountPageState extends State<AccountPage> {
             Password(),
             InfoContainer(
               title: '手机号',
-              value: '${context.watch<User>().tel}',
+              value: '${context.watch<UserProvider>().tel}',
             ),
             InfoContainer(
               title: '注册日期',
-              value: '${context.watch<User>().date}',
+              value: '${context.watch<UserProvider>().date}',
             ),
           ],
         ),
@@ -112,12 +109,12 @@ class _AvatarState extends State<Avatar> {
     final Response res = await Request.init(context: context).httpPut(
       path,
       <String, dynamic>{
-        'tel': context.read<User>().tel,
+        'tel': context.read<UserProvider>().tel,
         'avatar': avatar,
       },
     );
     if (res.data['code'] == '1000') {
-      context.read<User>().changeAvatar(avatar);
+      context.read<UserProvider>().changeAvatar(avatar);
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('avatar', avatar);
       final SnackBar snackBar = SnackBar(
@@ -157,7 +154,8 @@ class _AvatarState extends State<Avatar> {
                     child: FadeInImage.memoryNetwork(
                       fit: BoxFit.cover,
                       placeholder: kTransparentImage,
-                      image: '${API.origin}${context.watch<User>().avatar}',
+                      image:
+                          '${API.origin}${context.watch<UserProvider>().avatar}',
                     ),
                   ),
                 ),
@@ -228,7 +226,7 @@ class _UsernameState extends State<Username> {
                     right: 15.w,
                   ),
                   child: Text(
-                    '${context.watch<User>().username}',
+                    '${context.watch<UserProvider>().username}',
                     style: TextStyle(
                       height: 1,
                       fontSize: 16,
@@ -327,12 +325,12 @@ class EditUserNameDialog extends Dialog {
           final Response res = await Request.init(context: context).httpPut(
             path,
             <String, dynamic>{
-              'tel': context.read<User>().tel,
+              'tel': context.read<UserProvider>().tel,
               'username': _username,
             },
           );
           if (res.data['code'] == '1000') {
-            context.read<User>().changeUsername(_username);
+            context.read<UserProvider>().changeUsername(_username);
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
             prefs.setString('username', _username);

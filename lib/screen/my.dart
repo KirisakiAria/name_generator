@@ -27,12 +27,12 @@ class _MyPageState extends State<MyPage> {
     final Response res = await Request.init(context: context).httpPost(
       path,
       <String, String>{
-        'tel': context.read<User>().tel,
+        'tel': context.read<UserProvider>().tel,
       },
     );
     if (res.data['code'] == '1000') {
       final Map data = res.data['data'];
-      context.read<User>().changeUserData(
+      context.read<UserProvider>().changeUserData(
             username: data['username'],
             tel: data['tel'],
             uid: data['uid'],
@@ -54,7 +54,6 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: RefreshIndicator(
         onRefresh: _loadData,
         child: SingleChildScrollView(
@@ -96,7 +95,7 @@ class BaseInformationBox extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           //未登录状态下点击会跳到登录页
-          if (!context.read<User>().loginState) {
+          if (!context.read<UserProvider>().loginState) {
             Navigator.pushNamed(context, '/login');
           }
         },
@@ -111,7 +110,8 @@ class BaseInformationBox extends StatelessWidget {
                   child: FadeInImage.memoryNetwork(
                     fit: BoxFit.cover,
                     placeholder: kTransparentImage,
-                    image: '${API.origin}${context.watch<User>().avatar}',
+                    image:
+                        '${API.origin}${context.watch<UserProvider>().avatar}',
                   ),
                 ),
               ),
@@ -121,7 +121,7 @@ class BaseInformationBox extends StatelessWidget {
                   bottom: 15.h,
                 ),
                 child: Text(
-                  context.watch<User>().username,
+                  context.watch<UserProvider>().username,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -130,7 +130,7 @@ class BaseInformationBox extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  'UID: ${context.watch<User>().uid}',
+                  'UID: ${context.watch<UserProvider>().uid}',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
@@ -159,7 +159,7 @@ class Menu extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              if (!context.read<User>().loginState) {
+              if (!context.read<UserProvider>().loginState) {
                 Navigator.pushNamed(context, '/login');
               } else {
                 Navigator.pushNamed(context, '/favourites');
@@ -195,7 +195,7 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              if (!context.read<User>().loginState) {
+              if (!context.read<UserProvider>().loginState) {
                 Navigator.pushNamed(context, '/login');
               } else {
                 Navigator.pushNamed(context, '/history');
@@ -295,10 +295,11 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              final SnackBar snackBar = SnackBar(
-                content: const Text('暂未开放, 敬请期待'),
-              );
-              Scaffold.of(context).showSnackBar(snackBar);
+              Navigator.pushNamed(context, '/laboratory');
+              // final SnackBar snackBar = SnackBar(
+              //   content: const Text('暂未开放, 敬请期待'),
+              // );
+              // Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(
               child: SizedBox(
@@ -330,7 +331,7 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              if (context.read<User>().loginState) {
+              if (context.read<UserProvider>().loginState) {
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (context, anim1, anim2) {
@@ -360,7 +361,7 @@ class Menu extends StatelessWidget {
                             ),
                           ),
                           onPressed: () async {
-                            context.read<User>().logOut();
+                            context.read<UserProvider>().logOut();
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             prefs.clear();

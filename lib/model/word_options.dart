@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../common/optionsData.dart';
 
-class WordOptions with ChangeNotifier, DiagnosticableTreeMixin {
+class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   String _type = OptionsData.typeList[0];
   String _number = OptionsData.numberList[1];
 

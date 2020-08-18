@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String _token = prefs.getString('token');
     if (_token != null) {
-      context.read<User>().changeUserData(
+      context.read<UserProvider>().changeUserData(
             username: prefs.getString('username'),
             tel: prefs.getString('tel'),
             uid: prefs.getInt('uid'),
@@ -75,8 +75,6 @@ class _HomePageState extends State<HomePage> {
           );
         },
         currentIndex: _tabIndex,
-        backgroundColor: Colors.white,
-        unselectedItemColor: Colors.black38,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
@@ -99,7 +97,6 @@ class _HomePageState extends State<HomePage> {
             title: Container(),
           ),
         ],
-        selectedItemColor: Color(Style.mainColor),
       ),
     );
   }

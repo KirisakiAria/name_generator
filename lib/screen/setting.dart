@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 //model
 import '../model/user.dart';
 //common
@@ -105,10 +104,7 @@ class _SettingPageState extends State<SettingPage> {
       appBar: AppBar(
         title: const Text(
           '设置',
-          style: TextStyle(color: Colors.black87),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
       ),
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
@@ -116,7 +112,7 @@ class _SettingPageState extends State<SettingPage> {
           children: <Widget>[
             ListTile(
               onTap: () {
-                if (context.read<User>().loginState) {
+                if (context.read<UserProvider>().loginState) {
                   Navigator.pushNamed(context, '/account');
                 } else {
                   Navigator.pushNamed(context, '/login');

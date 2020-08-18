@@ -3,6 +3,8 @@ import '../screen/home.dart';
 import '../screen/user.dart';
 import '../screen/setting.dart';
 import '../screen/account.dart';
+import '../screen/skin.dart';
+import '../screen/laboratory.dart';
 import '../screen/about.dart';
 import '../screen/history.dart';
 import '../screen/favourites.dart';
@@ -14,6 +16,8 @@ class Routes {
     '/login': (BuildContext context) => InheritedUserPageContainer(),
     '/setting': (BuildContext context) => SettingPage(),
     '/account': (BuildContext context) => AccountPage(),
+    '/skin': (BuildContext context) => SkinPage(),
+    '/laboratory': (BuildContext context) => LaboratoryPage(),
     '/about': (BuildContext context) => AboutPage(),
     '/history': (BuildContext context) => HistoryPage(),
     '/favourites': (BuildContext context) => FavouritesPage(),

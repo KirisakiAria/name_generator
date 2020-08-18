@@ -18,10 +18,7 @@ class HistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           '查询记录',
-          style: TextStyle(color: Colors.black87),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
       ),
       body: HistoryList(),
     );

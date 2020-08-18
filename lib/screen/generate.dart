@@ -18,6 +18,7 @@ import '../common/optionsData.dart';
 //model
 import '../model/word_options.dart';
 import '../model/user.dart';
+import '../model/Skin.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -35,14 +36,14 @@ class _GeneratePageState extends State<GeneratePage>
       final Response res = await Request.init(context: context).httpPost(
         path,
         <String, dynamic>{
-          'type': context.read<WordOptions>().type,
-          'number': context.read<WordOptions>().number,
+          'type': context.read<WordOptionsProvider>().type,
+          'number': context.read<WordOptionsProvider>().number,
         },
       );
       if (res.data['code'] == '1000') {
         setState(() {
           _word = res.data['data']['word'];
-          _type = context.read<WordOptions>().type;
+          _type = context.read<WordOptionsProvider>().type;
         });
       }
     } catch (err) {
@@ -73,11 +74,14 @@ class _GeneratePageState extends State<GeneratePage>
                   style: TextStyle(color: Colors.lightBlue),
                   recognizer: new TapGestureRecognizer()
                     ..onTap = () {
-                      Navigator.pushNamed(context, '/webview',
-                          arguments: <String, String>{
-                            'title': '隐私协议',
-                            'url': 'http://192.168.50.83:8083/#/privacypolicy'
-                          });
+                      Navigator.pushNamed(
+                        context,
+                        '/webview',
+                        arguments: <String, String>{
+                          'title': '隐私协议',
+                          'url': 'http://192.168.50.83:8083/#/privacypolicy'
+                        },
+                      );
                     },
                 ),
                 TextSpan(text: '和'),
@@ -163,7 +167,7 @@ class _GeneratePageState extends State<GeneratePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -183,7 +187,10 @@ class _GeneratePageState extends State<GeneratePage>
                 CustomButton(
                   text: '生成',
                   callback: () {
-                    _getData();
+                    //_getData();
+                    context
+                        .read<SkinProvider>()
+                        .changeTheme(theme: Style.nightTheme);
                   },
                 ),
                 CustomButton(
@@ -261,8 +268,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
       await Request.init(context: context).httpPost(
         path,
         <String, dynamic>{
-          'type': context.read<WordOptions>().type,
-          'number': context.read<WordOptions>().number,
+          'type': context.read<WordOptionsProvider>().type,
+          'number': context.read<WordOptionsProvider>().number,
           'word': widget.word,
         },
       );
@@ -312,7 +319,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
-                top: 90.h,
+                top: 5.h,
               ),
               child: Image(
                 image: AssetImage('assets/images/pluto-payment-processed.png'),
@@ -328,7 +335,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 Scaffold.of(context).showSnackBar(snackBar);
               },
               onLongPress: () {
-                final bool loginState = context.read<User>().loginState;
+                final bool loginState = context.read<UserProvider>().loginState;
                 if (loginState) {
                   _love();
                   _controller.forward();
@@ -398,7 +405,6 @@ class SelectBox extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           width: 1.5,
-          color: Color(Style.mainColor),
         ),
       ),
       padding: EdgeInsets.symmetric(
@@ -433,7 +439,6 @@ class _SelectState extends State<Select> {
         value: dropdownValue,
         icon: Icon(
           Icons.keyboard_arrow_down,
-          color: Color(Style.mainColor),
         ),
         iconSize: 18,
         elevation: 0,
@@ -496,17 +501,21 @@ class OptionsDialog extends Dialog {
                 InheritedSelect(
                   list: OptionsData.typeList,
                   callback: (newValue) {
-                    context.read<WordOptions>().changeType(type: newValue);
+                    context
+                        .read<WordOptionsProvider>()
+                        .changeType(type: newValue);
                   },
-                  currentValue: context.watch<WordOptions>().type,
+                  currentValue: context.watch<WordOptionsProvider>().type,
                   child: SelectBox(),
                 ),
                 InheritedSelect(
                   list: OptionsData.numberList,
                   callback: (newValue) {
-                    context.read<WordOptions>().changeNumber(number: newValue);
+                    context
+                        .read<WordOptionsProvider>()
+                        .changeNumber(number: newValue);
                   },
-                  currentValue: context.watch<WordOptions>().number,
+                  currentValue: context.watch<WordOptionsProvider>().number,
                   child: SelectBox(),
                 ),
                 Container(
