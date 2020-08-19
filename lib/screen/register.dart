@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
 import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
@@ -13,6 +14,8 @@ import './user.dart';
 import '../widgets/custom_button.dart';
 //common
 import '../common/style.dart';
+//model
+import '../model/skin.dart';
 //utils
 import '../utils/Utils.dart';
 
@@ -128,6 +131,11 @@ class _CustomFormState extends State<CustomForm> {
                       color: Style.defaultColor['border'],
                     ),
                   ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.watch<SkinProvider>().color['border'],
+                    ),
+                  ),
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
@@ -173,6 +181,8 @@ class _CustomFormState extends State<CustomForm> {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(bottom: 1),
                         enabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none),
+                        focusedBorder:
                             UnderlineInputBorder(borderSide: BorderSide.none),
                         errorBorder:
                             UnderlineInputBorder(borderSide: BorderSide.none),
@@ -231,6 +241,11 @@ class _CustomFormState extends State<CustomForm> {
                       color: Style.defaultColor['border'],
                     ),
                   ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.watch<SkinProvider>().color['border'],
+                    ),
+                  ),
                   hintText: '请输入您的密码（6-20位）',
                   labelText: '密碼',
                   labelStyle: TextStyle(
@@ -257,8 +272,9 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '注册',
-                bgColor: Style.grey20,
-                borderColor: Style.grey20,
+                bgColor: context.watch<SkinProvider>().color['button'],
+                textColor: context.watch<SkinProvider>().color['background'],
+                borderColor: Style.defaultColor['button'],
                 callback: () {
                   _formValidate();
                 },
@@ -279,14 +295,15 @@ class _CustomFormState extends State<CustomForm> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.black12, //边框颜色
+                        color:
+                            context.watch<SkinProvider>().color['line'], //边框颜色
                       ),
                     ),
                   ),
                   child: Text(
                     '已有账号，登录',
                     style: TextStyle(
-                      color: Colors.black54,
+                      color: context.watch<SkinProvider>().color['subtitle'],
                     ),
                   ),
                 ),

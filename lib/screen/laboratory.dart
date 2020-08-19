@@ -18,12 +18,10 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           '实验室',
         ),
-        backgroundColor: Colors.white,
       ),
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Container(),

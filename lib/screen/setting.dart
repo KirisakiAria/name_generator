@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 //model
 import '../model/user.dart';
+import '../model/skin.dart';
 //common
 import '../common/custom_icon_data.dart';
 
@@ -100,7 +101,6 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           '设置',
@@ -108,44 +108,64 @@ class _SettingPageState extends State<SettingPage> {
       ),
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
-        builder: (context) => ListView(
-          children: <Widget>[
-            ListTile(
-              onTap: () {
-                if (context.read<UserProvider>().loginState) {
-                  Navigator.pushNamed(context, '/account');
-                } else {
-                  Navigator.pushNamed(context, '/login');
-                }
-              },
-              leading: Icon(
-                const IconData(
-                  CustomIconData.account,
-                  fontFamily: 'iconfont',
+        builder: (context) => ListTileTheme(
+          iconColor: context.watch<SkinProvider>().color['subtitle'],
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                onTap: () {
+                  if (context.read<UserProvider>().loginState) {
+                    Navigator.pushNamed(context, '/account');
+                  } else {
+                    Navigator.pushNamed(context, '/login');
+                  }
+                },
+                leading: Icon(
+                  const IconData(
+                    CustomIconData.account,
+                    fontFamily: 'iconfont',
+                  ),
+                  color: Color(0xff70a1ff),
                 ),
-                color: Color(0xff70a1ff),
-              ),
-              title: Text(
-                '账号资料',
-                style: TextStyle(height: 1),
-              ),
-              trailing: Icon(Icons.keyboard_arrow_right),
-            ),
-            ListTile(
-              onTap: () {
-                _clearCache();
-              },
-              leading: Icon(
-                const IconData(
-                  CustomIconData.clearCache,
-                  fontFamily: 'iconfont',
+                title: Text(
+                  '账号资料',
+                  style: TextStyle(height: 1),
                 ),
-                color: Color(0xffff7f50),
+                trailing: Icon(Icons.keyboard_arrow_right),
               ),
-              title: const Text('清除缓存'),
-              subtitle: Text('缓存大小：$_cacheSizeStr'),
-            ),
-          ],
+              ListTile(
+                onTap: () {
+                  Navigator.pushNamed(context, '/change_skin');
+                },
+                leading: Icon(
+                  const IconData(
+                    CustomIconData.theme,
+                    fontFamily: 'iconfont',
+                  ),
+                  color: Color(0xfffeca57),
+                ),
+                title: Text(
+                  '主题风格',
+                  style: TextStyle(height: 1),
+                ),
+                trailing: Icon(Icons.keyboard_arrow_right),
+              ),
+              ListTile(
+                onTap: () {
+                  _clearCache();
+                },
+                leading: Icon(
+                  const IconData(
+                    CustomIconData.clearCache,
+                    fontFamily: 'iconfont',
+                  ),
+                  color: Color(0xffff7f50),
+                ),
+                title: const Text('清除缓存'),
+                subtitle: Text('缓存大小：$_cacheSizeStr'),
+              ),
+            ],
+          ),
         ),
       ),
     );

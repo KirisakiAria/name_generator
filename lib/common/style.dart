@@ -8,23 +8,30 @@ class Style {
   static const Map<String, Color> defaultColor = <String, Color>{
     'background': Colors.white,
     'text': Color(0xff2f2f2f),
-    'selectedItem': Color(0xff2f2f2f),
+    'selectedItem': Color(0xff2e2e2e),
     'unselectedItem': Colors.black38,
     'border': Color(0xffa9a9a9),
-    'item': Color(0xfff5f5f5),
+    'widget': Color(0xfff5f5f5),
     'subtitle': Colors.black45,
-    'infoShadow': Color.fromRGBO(0, 80, 180, 0.1)
+    'infoShadow': Color.fromRGBO(0, 80, 180, 0.1),
+    'button': Colors.black,
+    'hint': Color(0xffa9a9a9),
+    'line': Colors.black12,
   };
 
   //夜间
   static const Map<String, Color> nightColor = <String, Color>{
     'background': Color(0xff121212),
-    'text': Color(0xffefefef),
-    'selectedItem': Colors.white,
+    'text': Color(0xfff1f1f1),
+    'selectedItem': Color(0xfff1f1f1),
     'unselectedItem': Color(0xffb2b2b2),
-    'item': grey20,
-    'subtitle': Colors.white,
-    'infoShadow': Color.fromRGBO(0, 0, 0, 0)
+    'border': Color(0xfff1f1f1),
+    'widget': grey20,
+    'subtitle': Color(0xfff1f1f1),
+    'infoShadow': Color.fromRGBO(0, 0, 0, 0),
+    'button': Colors.white,
+    'hint': Color(0xfff1f1f1),
+    'line': Color.fromRGBO(0, 0, 0, 0),
   };
 
   //主题分类
@@ -49,8 +56,21 @@ class Style {
       unselectedItemColor: defaultColor['unselectedItem'],
       backgroundColor: defaultColor['background'],
     ),
-    primaryColor: defaultColor['backgounrd'],
-    accentColor: defaultColor['backgounrd'],
+    primaryColor: defaultColor['background'],
+    accentColor: defaultColor['background'],
+    dialogTheme: DialogTheme(
+      backgroundColor: defaultColor['widget'],
+    ),
+    iconTheme: IconThemeData(
+      color: Color(0xff999999),
+    ),
+    primaryIconTheme: IconThemeData(
+      color: Color(0xff999999),
+    ),
+    accentIconTheme: IconThemeData(
+      color: Color(0xff999999),
+    ),
+    hintColor: defaultColor['hint'],
     textTheme: TextTheme(
       button: TextStyle(
         color: defaultColor['text'],
@@ -87,6 +107,7 @@ class Style {
       ),
     ),
   );
+
   static final ThemeData nightTheme = ThemeData(
     appBarTheme: AppBarTheme(
       color: nightColor['background'],
@@ -108,8 +129,21 @@ class Style {
       unselectedItemColor: nightColor['unselectedItem'],
       backgroundColor: nightColor['background'],
     ),
-    primaryColor: grey20,
-    accentColor: grey20,
+    primaryColor: nightColor['widget'],
+    accentColor: nightColor['widget'],
+    dialogTheme: DialogTheme(
+      backgroundColor: nightColor['widget'],
+    ),
+    iconTheme: IconThemeData(
+      color: nightColor['text'],
+    ),
+    primaryIconTheme: IconThemeData(
+      color: nightColor['text'],
+    ),
+    accentIconTheme: IconThemeData(
+      color: nightColor['text'],
+    ),
+    hintColor: nightColor['hint'],
     textTheme: TextTheme(
       button: TextStyle(
         color: nightColor['text'],
@@ -144,6 +178,24 @@ class Style {
       subtitle2: TextStyle(
         color: nightColor['text'],
       ),
+      caption: TextStyle(
+        color: nightColor['text'],
+      ),
     ),
   );
+
+  static const List<Map<String, Color>> colorList = <Map<String, Color>>[
+    defaultColor,
+    nightColor,
+  ];
+
+  static final List<ThemeData> themeList = <ThemeData>[
+    defaultTheme,
+    nightTheme,
+  ];
+
+  static final List<String> themeNameList = <String>[
+    '默认',
+    '夜间',
+  ];
 }

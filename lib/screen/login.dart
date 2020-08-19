@@ -19,34 +19,38 @@ import '../common/style.dart';
 import '../utils/Utils.dart';
 //model
 import '../model/user.dart';
+import '../model/skin.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(
-                bottom: 35.h,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(
+                  bottom: 35.h,
+                ),
+                alignment: Alignment.topRight,
+                child: Image(
+                  image: AssetImage('assets/images/peach__blossom.png'),
+                  width: 210.w,
+                ),
               ),
-              alignment: Alignment.topRight,
-              child: Image(
-                image: AssetImage('assets/images/peach__blossom.png'),
-                width: 210.w,
+              Text(
+                '歳歳年年',
+                style: TextStyle(
+                  fontSize: 36,
+                  letterSpacing: 15,
+                  fontFamily: 'NijimiMincho',
+                ),
               ),
-            ),
-            Text(
-              '歳歳年年',
-              style: TextStyle(
-                fontSize: 36,
-                letterSpacing: 15,
-                fontFamily: 'NijimiMincho',
-              ),
-            ),
-            CustomForm(),
-          ],
+              CustomForm(),
+            ],
+          ),
         ),
       ),
     );
@@ -131,7 +135,12 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Style.defaultColor['border'],
+                      color: context.watch<SkinProvider>().color['border'],
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.watch<SkinProvider>().color['border'],
                     ),
                   ),
                   hintText: '请输入您的手机号',
@@ -172,7 +181,12 @@ class _CustomFormState extends State<CustomForm> {
                   contentPadding: EdgeInsets.only(bottom: 1),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Style.defaultColor['border'],
+                      color: context.watch<SkinProvider>().color['border'],
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: context.watch<SkinProvider>().color['border'],
                     ),
                   ),
                   hintText: '请输入您的密码(6-20位)',
@@ -201,8 +215,9 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '登録',
-                bgColor: Style.grey20,
-                borderColor: Style.grey20,
+                bgColor: context.watch<SkinProvider>().color['button'],
+                textColor: context.watch<SkinProvider>().color['background'],
+                borderColor: context.watch<SkinProvider>().color['background'],
                 callback: () {
                   _formValidate();
                 },
@@ -215,9 +230,9 @@ class _CustomFormState extends State<CustomForm> {
               width: double.infinity,
               child: CustomButton(
                 text: '注册',
-                textColor: Style.grey20,
-                bgColor: Colors.white,
-                borderColor: Style.grey20,
+                bgColor: Style.defaultColor['background'],
+                textColor: Style.defaultColor['button'],
+                borderColor: Style.defaultColor['button'],
                 callback: () {
                   InheritedUserPage.of(context).changeScreen(index: 2);
                 },
@@ -238,14 +253,15 @@ class _CustomFormState extends State<CustomForm> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.black12, //边框颜色
+                        color:
+                            context.watch<SkinProvider>().color['line'], //边框颜色
                       ),
                     ),
                   ),
                   child: Text(
                     '忘记密码 ？',
                     style: TextStyle(
-                      color: Colors.black54,
+                      color: context.watch<SkinProvider>().color['subtitle'],
                     ),
                   ),
                 ),
@@ -265,14 +281,15 @@ class _CustomFormState extends State<CustomForm> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.black12, //边框颜色
+                        color:
+                            context.watch<SkinProvider>().color['line'], //边框颜色
                       ),
                     ),
                   ),
                   child: Text(
                     '暂不登录，直接使用',
                     style: TextStyle(
-                      color: Colors.black54,
+                      color: context.watch<SkinProvider>().color['subtitle'],
                     ),
                   ),
                 ),

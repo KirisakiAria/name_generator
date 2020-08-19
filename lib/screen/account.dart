@@ -15,6 +15,7 @@ import '../services/request.dart';
 import '../common/style.dart';
 //model
 import '../model/user.dart';
+import '../model/skin.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -25,7 +26,6 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           '账号资料',
@@ -33,23 +33,26 @@ class _AccountPageState extends State<AccountPage> {
       ),
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
-        builder: (context) => ListView(
-          padding: EdgeInsets.symmetric(
-            horizontal: 30.w,
+        builder: (context) => ListTileTheme(
+          iconColor: context.watch<SkinProvider>().color['subtitle'],
+          child: ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: 30.w,
+            ),
+            children: <Widget>[
+              Avatar(),
+              Username(),
+              Password(),
+              InfoContainer(
+                title: '手机号',
+                value: '${context.watch<UserProvider>().tel}',
+              ),
+              InfoContainer(
+                title: '注册日期',
+                value: '${context.watch<UserProvider>().date}',
+              ),
+            ],
           ),
-          children: <Widget>[
-            Avatar(),
-            Username(),
-            Password(),
-            InfoContainer(
-              title: '手机号',
-              value: '${context.watch<UserProvider>().tel}',
-            ),
-            InfoContainer(
-              title: '注册日期',
-              value: '${context.watch<UserProvider>().date}',
-            ),
-          ],
         ),
       ),
     );
@@ -161,7 +164,6 @@ class _AvatarState extends State<Avatar> {
                 ),
                 Icon(
                   Icons.keyboard_arrow_right,
-                  color: Colors.black45,
                 ),
               ],
             ),
@@ -230,13 +232,11 @@ class _UsernameState extends State<Username> {
                     style: TextStyle(
                       height: 1,
                       fontSize: 16,
-                      color: Colors.black45,
                     ),
                   ),
                 ),
                 Icon(
                   Icons.keyboard_arrow_right,
-                  color: Colors.black45,
                 ),
               ],
             ),
@@ -291,13 +291,11 @@ class _PasswordState extends State<Password> {
                     style: TextStyle(
                       height: 1,
                       fontSize: 16,
-                      color: Colors.black45,
                     ),
                   ),
                 ),
                 Icon(
                   Icons.keyboard_arrow_right,
-                  color: Colors.black45,
                 ),
               ],
             ),
@@ -353,13 +351,13 @@ class EditUserNameDialog extends Dialog {
           child: Center(
             child: SizedBox(
               width: 300.w,
-              height: 140.h,
+              height: 170.h,
               child: Container(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
+                  horizontal: 30.w,
                 ),
                 decoration: ShapeDecoration(
-                  color: Colors.white,
+                  color: context.watch<SkinProvider>().color['background'],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
@@ -385,7 +383,14 @@ class EditUserNameDialog extends Dialog {
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: Style.defaultColor['border'],
+                              color:
+                                  context.watch<SkinProvider>().color['border'],
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  context.watch<SkinProvider>().color['border'],
                             ),
                           ),
                           hintText: '请输入新用户名（最长十位）',
@@ -402,16 +407,18 @@ class EditUserNameDialog extends Dialog {
                       ),
                       Container(
                         padding: EdgeInsets.only(
-                          top: 10.h,
+                          top: 20.h,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
+                          children: <Widget>[
                             FlatButton(
                               child: Text(
                                 '取消',
                                 style: TextStyle(
-                                  color: Style.defaultColor['text'],
+                                  color: context
+                                      .watch<SkinProvider>()
+                                      .color['text'],
                                 ),
                               ),
                               onPressed: () {
@@ -423,7 +430,9 @@ class EditUserNameDialog extends Dialog {
                               child: Text(
                                 '确认',
                                 style: TextStyle(
-                                  color: Style.defaultColor['text'],
+                                  color: context
+                                      .watch<SkinProvider>()
+                                      .color['text'],
                                 ),
                               ),
                               onPressed: () async {
@@ -475,7 +484,6 @@ class InfoContainer extends StatelessWidget {
                   value,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.black45,
                   ),
                 ),
               ),

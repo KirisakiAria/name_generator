@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../common/style.dart';
 
 class SkinProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  ThemeData _theme = Style.defaultTheme;
-  Map<String, Color> _color = Style.defaultColor;
+  ThemeData _theme = Style.themeList[0];
+  Map<String, Color> _color = Style.colorList[0];
 
   ThemeData get theme => _theme;
   Map<String, Color> get color => _color;

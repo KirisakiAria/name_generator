@@ -9,10 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../services/api.dart';
 import '../services/request.dart';
 //common
-import '../common/style.dart';
 import '../common/global.dart';
 //model
 import '../model/user.dart';
+import '../model/skin.dart';
 
 class AboutPage extends StatelessWidget {
   @override
@@ -29,11 +29,11 @@ class AboutPage extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
-                  top: 30.h,
+                  top: 20.h,
                 ),
                 alignment: Alignment.center,
                 child: Image(
-                  width: 120.w,
+                  width: 130.w,
                   image: AssetImage('assets/images/pluto-searching.png'),
                 ),
               ),
@@ -45,7 +45,7 @@ class AboutPage extends StatelessWidget {
                   '彼岸自在',
                   style: TextStyle(
                     fontFamily: 'NijimiMincho',
-                    fontSize: 30,
+                    fontSize: 34,
                     letterSpacing: 5,
                   ),
                 ),
@@ -55,126 +55,149 @@ class AboutPage extends StatelessWidget {
                   padding: EdgeInsets.only(
                     left: 10.w,
                   ),
-                  child: ListView(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, '/webview', arguments: <String, String>{
-                            'title': '隐私协议',
-                            'url': 'http://192.168.50.83:8083/#/privacypolicy'
-                          });
-                        },
-                        title: Text(
-                          '隐私协议',
-                          style: TextStyle(
-                            height: 1,
-                            color: Style.grey20,
+                  child: ListTileTheme(
+                    iconColor: context.watch<SkinProvider>().color['subtitle'],
+                    child: ListView(
+                      children: <Widget>[
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/webview',
+                                arguments: <String, String>{
+                                  'title': '隐私协议',
+                                  'url':
+                                      'http://192.168.50.83:8083/#/privacypolicy'
+                                });
+                          },
+                          title: Text(
+                            '隐私协议',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
                           ),
                         ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/webview',
-                              arguments: <String, String>{
-                                'title': '服务条款',
-                                'url': 'http://192.168.50.83:8083/#/terms'
-                              });
-                        },
-                        title: Text(
-                          '服务条款',
-                          style: TextStyle(
-                            height: 1,
-                            color: Style.grey20,
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/webview',
+                                arguments: <String, String>{
+                                  'title': '服务条款',
+                                  'url': 'http://192.168.50.83:8083/#/terms'
+                                });
+                          },
+                          title: Text(
+                            '服务条款',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
                           ),
                         ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/webview',
-                              arguments: <String, String>{
-                                'title': '使用方法',
-                                'url': 'http://192.168.50.83:8083/#/usage'
-                              });
-                        },
-                        title: Text(
-                          '使用方法',
-                          style: TextStyle(
-                            height: 1,
-                            color: Style.grey20,
+                        ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/webview',
+                                arguments: <String, String>{
+                                  'title': '使用方法',
+                                  'url': 'http://192.168.50.83:8083/#/usage'
+                                });
+                          },
+                          title: Text(
+                            '使用方法',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
                           ),
                         ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          final String username =
-                              context.read<UserProvider>().username;
-                          final String tel = context.read<UserProvider>().tel;
-                          Navigator.pushNamed(context, '/webview',
-                              arguments: <String, String>{
-                                'title': '使用方法',
-                                'url':
-                                    'http://192.168.50.83:8083/#/feedback?tel=$tel&username=$username'
-                              });
-                        },
-                        title: Text(
-                          '意见反馈',
-                          style: TextStyle(
-                            height: 1,
-                            color: Style.grey20,
+                        ListTile(
+                          onTap: () async {
+                            final String username =
+                                context.read<UserProvider>().username;
+                            final String tel = context.read<UserProvider>().tel;
+                            Navigator.pushNamed(context, '/webview',
+                                arguments: <String, String>{
+                                  'title': '使用方法',
+                                  'url':
+                                      'http://192.168.50.83:8083/#/feedback?tel=$tel&username=$username'
+                                });
+                          },
+                          title: Text(
+                            '意见反馈',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
                           ),
                         ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          try {
-                            launch('market://details?id=${Global.packageName}');
-                          } catch (e) {
-                            launch(
-                                'https://play.google.com/store/apps/details?id=${Global.packageName}');
-                          }
-                        },
-                        title: Text(
-                          '给个好评',
-                          style: TextStyle(
-                            height: 1,
-                            color: Style.grey20,
-                          ),
-                        ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                      ListTile(
-                        onTap: () async {
-                          try {
-                            final String path = API.update;
-                            final Response res =
-                                await Request.init(context: context)
-                                    .httpGet('$path?version=${Global.version}');
-                            if (res.data['code'] == '1000') {
-                              print(res.data['message']);
-                              final SnackBar snackBar = SnackBar(
-                                content: Text(res.data['message']),
-                              );
-                              Scaffold.of(context).showSnackBar(snackBar);
+                        ListTile(
+                          onTap: () async {
+                            try {
+                              launch(
+                                  'market://details?id=${Global.packageName}');
+                            } catch (e) {
+                              launch(
+                                  'https://play.google.com/store/apps/details?id=${Global.packageName}');
                             }
-                          } catch (err) {
-                            print(err);
-                          }
-                        },
-                        title: Text(
-                          '检查更新',
-                          style: TextStyle(
-                            height: 1,
-                            color: Style.grey20,
+                          },
+                          title: Text(
+                            '给个好评',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
                           ),
                         ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                      ),
-                    ],
+                        ListTile(
+                          onTap: () async {
+                            try {
+                              final String path = API.update;
+                              final Response res = await Request.init(
+                                      context: context)
+                                  .httpGet('$path?version=${Global.version}');
+                              if (res.data['code'] == '1000') {
+                                print(res.data['message']);
+                                final SnackBar snackBar = SnackBar(
+                                  content: Text(res.data['message']),
+                                );
+                                Scaffold.of(context).showSnackBar(snackBar);
+                              }
+                            } catch (err) {
+                              print(err);
+                            }
+                          },
+                          title: Text(
+                            '检查更新',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -190,7 +213,6 @@ class AboutPage extends StatelessWidget {
                         'V ${Global.version}',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black38,
                         ),
                       ),
                     ),
@@ -202,7 +224,6 @@ class AboutPage extends StatelessWidget {
                         '© 2020 伟大鱼塘 All Rights Reserved',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.black38,
                         ),
                       ),
                     ),

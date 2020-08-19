@@ -10,9 +10,9 @@ class CustomButton extends StatelessWidget {
   final void Function() callback;
   CustomButton({
     @required this.text,
-    this.textColor = Colors.white,
-    this.bgColor = Colors.black,
-    this.borderColor = Colors.black,
+    @required this.textColor,
+    @required this.bgColor,
+    @required this.borderColor,
     this.paddingVertical = 16,
     this.paddingHorizontal = 50,
     this.callback,

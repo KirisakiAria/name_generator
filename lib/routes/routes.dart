@@ -16,7 +16,7 @@ class Routes {
     '/login': (BuildContext context) => InheritedUserPageContainer(),
     '/setting': (BuildContext context) => SettingPage(),
     '/account': (BuildContext context) => AccountPage(),
-    '/skin': (BuildContext context) => SkinPage(),
+    '/change_skin': (BuildContext context) => SkinPage(),
     '/laboratory': (BuildContext context) => LaboratoryPage(),
     '/about': (BuildContext context) => AboutPage(),
     '/history': (BuildContext context) => HistoryPage(),

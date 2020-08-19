@@ -56,83 +56,86 @@ class _GeneratePageState extends State<GeneratePage>
     showGeneralDialog(
       context: context,
       pageBuilder: (context, anim1, anim2) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Text('服务条款与隐私协议提示'),
-          content: RichText(
-            text: TextSpan(
-              style: TextStyle(
-                color: Colors.black87,
-                fontSize: 16,
-              ),
-              children: <TextSpan>[
-                TextSpan(text: '我们根据相关法律法规制定了'),
-                TextSpan(
-                  text: '隐私协议',
-                  style: TextStyle(color: Colors.lightBlue),
-                  recognizer: new TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.pushNamed(
-                        context,
-                        '/webview',
-                        arguments: <String, String>{
-                          'title': '隐私协议',
-                          'url': 'http://192.168.50.83:8083/#/privacypolicy'
-                        },
-                      );
-                    },
+        return WillPopScope(
+          onWillPop: () async => Future.value(false),
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: Text('服务条款与隐私协议提示'),
+            content: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 16,
+                  color: context.watch<SkinProvider>().color['text'],
                 ),
-                TextSpan(text: '和'),
-                TextSpan(
-                  text: '服务条款',
-                  style: TextStyle(color: Colors.lightBlue),
-                  recognizer: new TapGestureRecognizer()
-                    ..onTap = () {
-                      Navigator.pushNamed(context, '/webview',
+                children: <TextSpan>[
+                  TextSpan(text: '我们根据相关法律法规制定了'),
+                  TextSpan(
+                    text: '隐私协议',
+                    style: TextStyle(color: Colors.lightBlue),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushNamed(
+                          context,
+                          '/webview',
                           arguments: <String, String>{
-                            'title': '服务条款',
-                            'url': 'http://192.168.50.83:8083/#/terms'
-                          });
-                    },
-                ),
-                TextSpan(
-                  text:
-                      '建议您认真阅读这些条款。您同意之后便可以正常使用《彼岸自在》提供的服务，若您拒绝，则无法使用《彼岸自在》并退出应用程序。',
-                ),
-              ],
+                            'title': '隐私协议',
+                            'url': 'http://192.168.50.83:8083/#/privacypolicy'
+                          },
+                        );
+                      },
+                  ),
+                  TextSpan(text: '和'),
+                  TextSpan(
+                    text: '服务条款',
+                    style: TextStyle(color: Colors.lightBlue),
+                    recognizer: new TapGestureRecognizer()
+                      ..onTap = () {
+                        Navigator.pushNamed(context, '/webview',
+                            arguments: <String, String>{
+                              'title': '服务条款',
+                              'url': 'http://192.168.50.83:8083/#/terms'
+                            });
+                      },
+                  ),
+                  TextSpan(
+                    text:
+                        '建议您认真阅读这些条款。您同意之后便可以正常使用《彼岸自在》提供的服务，若您拒绝，则无法使用《彼岸自在》并退出应用程序。',
+                  ),
+                ],
+              ),
             ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(
+                  '拒绝',
+                  style: TextStyle(
+                    color: context.watch<SkinProvider>().color['text'],
+                    fontSize: 16,
+                  ),
+                ),
+                onPressed: () {
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  '同意',
+                  style: TextStyle(
+                    color: context.watch<SkinProvider>().color['text'],
+                    fontSize: 16,
+                  ),
+                ),
+                onPressed: () async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setBool('accepted', true);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                '拒绝',
-                style: TextStyle(
-                  color: Style.defaultColor['text'],
-                  fontSize: 16,
-                ),
-              ),
-              onPressed: () {
-                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-              },
-            ),
-            FlatButton(
-              child: Text(
-                '同意',
-                style: TextStyle(
-                  color: Style.defaultColor['text'],
-                  fontSize: 16,
-                ),
-              ),
-              onPressed: () async {
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                prefs.setBool('accepted', true);
-                Navigator.pop(context);
-              },
-            ),
-          ],
         );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
@@ -167,7 +170,9 @@ class _GeneratePageState extends State<GeneratePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -186,18 +191,18 @@ class _GeneratePageState extends State<GeneratePage>
               children: <Widget>[
                 CustomButton(
                   text: '生成',
+                  bgColor: context.watch<SkinProvider>().color['button'],
+                  textColor: context.watch<SkinProvider>().color['background'],
+                  borderColor: Style.defaultColor['button'],
                   callback: () {
-                    //_getData();
-                    context.read<SkinProvider>().changeTheme(
-                          theme: Style.nightTheme,
-                          color: Style.nightColor,
-                        );
+                    _getData();
                   },
                 ),
                 CustomButton(
                   text: '選項',
-                  textColor: Colors.black,
-                  bgColor: Colors.white,
+                  bgColor: Style.defaultColor['background'],
+                  textColor: Style.defaultColor['button'],
+                  borderColor: Style.defaultColor['button'],
                   callback: () {
                     showGeneralDialog(
                       context: context,
@@ -232,7 +237,6 @@ class _GeneratePageState extends State<GeneratePage>
             child: Text(
               '提示：单击文字复制，长按加收藏',
               style: TextStyle(
-                fontSize: 12,
                 color: context.watch<SkinProvider>().color['subtitle'],
               ),
             ),
@@ -406,6 +410,7 @@ class SelectBox extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           width: 1.5,
+          color: context.watch<SkinProvider>().color['text'],
         ),
       ),
       padding: EdgeInsets.symmetric(
@@ -440,12 +445,13 @@ class _SelectState extends State<Select> {
         value: dropdownValue,
         icon: Icon(
           Icons.keyboard_arrow_down,
+          color: context.watch<SkinProvider>().color['text'],
         ),
         iconSize: 18,
         elevation: 0,
         isExpanded: true,
         style: TextStyle(
-          color: Style.defaultColor['text'],
+          color: context.watch<SkinProvider>().color['text'],
           fontSize: 20,
           height: 1.1,
         ),
@@ -455,6 +461,7 @@ class _SelectState extends State<Select> {
             inheritedContext.callback(newValue);
           });
         },
+        dropdownColor: context.watch<SkinProvider>().color['background'],
         items:
             inheritedContext.list.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
@@ -485,7 +492,7 @@ class OptionsDialog extends Dialog {
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
-              color: Colors.white,
+              color: context.watch<SkinProvider>().color['widget'],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -526,6 +533,10 @@ class OptionsDialog extends Dialog {
                   ),
                   child: CustomButton(
                     text: '確定',
+                    bgColor: context.watch<SkinProvider>().color['button'],
+                    textColor:
+                        context.watch<SkinProvider>().color['background'],
+                    borderColor: Style.defaultColor['button'],
                     callback: () {
                       Navigator.pop(context);
                     },

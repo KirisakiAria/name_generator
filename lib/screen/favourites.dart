@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
 import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求相关
 import '../services/api.dart';
 import '../services/request.dart';
+//model
+import '../model/skin.dart';
 //common
 import '../common/loading_status.dart';
 import '../common/custom_icon_data.dart';
@@ -52,7 +55,7 @@ class _FavouritesListState extends State<FavouritesList> {
           if (length > 0 && length < 15) {
             favouritesList.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
-          } else if (length > 15) {
+          } else if (length >= 15) {
             favouritesList.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_IDEL;
             page++;
@@ -143,9 +146,12 @@ class ListItem extends StatelessWidget {
         horizontal: 15.w,
         vertical: 6.h,
       ),
-      padding: EdgeInsets.all(15.w),
+      padding: EdgeInsets.symmetric(
+        horizontal: 15.w,
+        vertical: 5.h,
+      ),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: context.watch<SkinProvider>().color['widget'],
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(30),
@@ -182,7 +188,7 @@ class ListItem extends StatelessWidget {
                     '取消收藏',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.black38,
+                      color: context.watch<SkinProvider>().color['subtitle'],
                     ),
                   ),
                   onPressed: () {
@@ -217,6 +223,7 @@ class _LoadingView extends StatelessWidget {
               CustomIconData.cat,
               fontFamily: 'iconfont',
             ),
+            color: context.watch<SkinProvider>().color['text'],
           ),
           Container(
             padding: EdgeInsets.only(

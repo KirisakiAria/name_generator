@@ -175,7 +175,7 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: context.watch<SkinProvider>().color['item'],
+                        color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
                             CustomIconData.favourite,
@@ -212,7 +212,7 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: context.watch<SkinProvider>().color['item'],
+                        color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
                             CustomIconData.history,
@@ -245,7 +245,7 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: context.watch<SkinProvider>().color['item'],
+                        color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
                             CustomIconData.setting,
@@ -278,7 +278,7 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: context.watch<SkinProvider>().color['item'],
+                        color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
                             CustomIconData.about,
@@ -315,7 +315,7 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: context.watch<SkinProvider>().color['item'],
+                        color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
                             CustomIconData.laboratory,
@@ -352,7 +352,8 @@ class Menu extends StatelessWidget {
                           child: Text(
                             '取消',
                             style: TextStyle(
-                              color: Style.defaultColor['text'],
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
                             ),
                           ),
                           onPressed: () {
@@ -363,7 +364,8 @@ class Menu extends StatelessWidget {
                           child: Text(
                             '确认',
                             style: TextStyle(
-                              color: Style.defaultColor['text'],
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
                             ),
                           ),
                           onPressed: () async {
@@ -400,7 +402,7 @@ class Menu extends StatelessWidget {
                     ClipOval(
                       child: Container(
                         padding: EdgeInsets.all(15.w),
-                        color: context.watch<SkinProvider>().color['item'],
+                        color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
                             CustomIconData.logout,
