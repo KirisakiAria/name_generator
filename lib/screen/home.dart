@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     final int themeIndex = prefs.getInt('themeIndex');
     if (themeIndex != null) {
       context.read<SkinProvider>().changeTheme(
+            themeIndex: themeIndex,
             theme: Style.themeList[themeIndex],
             color: Style.colorList[themeIndex],
           );

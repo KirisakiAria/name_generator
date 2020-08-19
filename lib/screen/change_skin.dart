@@ -18,21 +18,15 @@ class _SkinPageState extends State<SkinPage> {
   final Color _color = Color(0xffe9ccd3);
   List<_Item> _items = <_Item>[];
 
-  _initList() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int themeIndex = prefs.getInt('themeIndex');
-    List<_Item> _tempItems = <_Item>[];
+  //初始化主题列表，根据Style类里的三个List填充
+  Future<void> _initList() async {
     Style.themeList.asMap().forEach((index, value) {
-      _tempItems.add(
+      _items.add(
         _Item(
           text: Style.themeNameList[index],
           themeIndex: index,
-          selected: index == themeIndex ? true : false,
         ),
       );
-    });
-    setState(() {
-      _items.addAll(_tempItems);
     });
   }
 
@@ -73,19 +67,19 @@ class _SkinPageState extends State<SkinPage> {
 class _Item extends StatelessWidget {
   final String text;
   final int themeIndex;
-  final bool selected;
 
   _Item({
     @required this.text,
     @required this.themeIndex,
-    @required this.selected,
   });
 
   @override
   Widget build(BuildContext context) {
+    final int activedIndex = context.watch<SkinProvider>().themeIndex;
     return GestureDetector(
       onTap: () async {
         context.read<SkinProvider>().changeTheme(
+              themeIndex: themeIndex,
               theme: Style.themeList[themeIndex],
               color: Style.colorList[themeIndex],
             );
@@ -109,8 +103,8 @@ class _Item extends StatelessWidget {
                 ),
                 shadows: <BoxShadow>[
                   BoxShadow(
-                    color: Color.fromRGBO(120, 120, 120, 0.1), //阴影颜色
-                    blurRadius: 6, //阴影大小
+                    color: Color.fromRGBO(120, 120, 120, 0.1),
+                    blurRadius: 6,
                     offset: Offset(0, 6),
                   ),
                 ],
@@ -128,7 +122,9 @@ class _Item extends StatelessWidget {
                       fontSize: 18,
                       letterSpacing: 5,
                       fontFamily: 'NijimiMincho',
-                      color: Colors.white,
+                      color: themeIndex == activedIndex
+                          ? Colors.black54
+                          : Colors.white,
                     ),
                   ),
                 )),
