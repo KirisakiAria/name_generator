@@ -3,10 +3,10 @@ import '../common/optionsData.dart';
 
 class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   String _type = OptionsData.typeList[0];
-  String _number = OptionsData.numberList[1];
+  String _length = OptionsData.lengthList[1];
 
   String get type => _type;
-  String get number => _number;
+  String get length => _length;
 
   void changeType({
     @required String type,
@@ -16,9 +16,9 @@ class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void changeNumber({
-    @required String number,
+    @required String length,
   }) {
-    _number = number;
+    _length = length;
     notifyListeners();
   }
 
@@ -26,6 +26,6 @@ class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(StringProperty('type', type));
-    properties.add(StringProperty('number', number));
+    properties.add(StringProperty('length', length));
   }
 }

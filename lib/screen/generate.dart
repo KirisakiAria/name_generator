@@ -37,7 +37,7 @@ class _GeneratePageState extends State<GeneratePage>
         path,
         <String, dynamic>{
           'type': context.read<WordOptionsProvider>().type,
-          'number': context.read<WordOptionsProvider>().number,
+          'length': context.read<WordOptionsProvider>().length,
         },
       );
       if (res.data['code'] == '1000') {
@@ -274,7 +274,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
         path,
         <String, dynamic>{
           'type': context.read<WordOptionsProvider>().type,
-          'number': context.read<WordOptionsProvider>().number,
+          'length': context.read<WordOptionsProvider>().length,
           'word': widget.word,
         },
       );
@@ -517,13 +517,13 @@ class OptionsDialog extends Dialog {
                   child: SelectBox(),
                 ),
                 InheritedSelect(
-                  list: OptionsData.numberList,
+                  list: OptionsData.lengthList,
                   callback: (newValue) {
                     context
                         .read<WordOptionsProvider>()
-                        .changeNumber(number: newValue);
+                        .changeNumber(length: newValue);
                   },
-                  currentValue: context.watch<WordOptionsProvider>().number,
+                  currentValue: context.watch<WordOptionsProvider>().length,
                   child: SelectBox(),
                 ),
                 Container(

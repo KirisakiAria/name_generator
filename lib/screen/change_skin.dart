@@ -104,7 +104,7 @@ class _Item extends StatelessWidget {
                 shadows: <BoxShadow>[
                   BoxShadow(
                     color: Color.fromRGBO(120, 120, 120, 0.1),
-                    blurRadius: 6,
+                    blurRadius: themeIndex == activedIndex?24:6,
                     offset: Offset(0, 6),
                   ),
                 ],
@@ -123,11 +123,11 @@ class _Item extends StatelessWidget {
                       letterSpacing: 5,
                       fontFamily: 'NijimiMincho',
                       color: themeIndex == activedIndex
-                          ? Colors.black54
-                          : Colors.white,
+                          ?  Colors.white
+                          :Colors.black54,
                     ),
                   ),
-                )),
+                ),),
           ],
         ),
       ),
