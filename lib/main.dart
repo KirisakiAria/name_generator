@@ -19,24 +19,15 @@ import './routes/routes.dart';
 //首页
 import './screen/home.dart';
 
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
-
 Future<Null> main() async {
   FlutterError.onError = (FlutterErrorDetails details) async {
     Zone.current.handleUncaughtError(details.exception, details.stack);
   };
 
+  //runZoned类似于沙箱，沙箱可以捕获、拦截或修改一些代码行为
   runZoned<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     Global.init();
-    HttpOverrides.global = new MyHttpOverrides();
     runApp(
       MultiProvider(
         providers: [

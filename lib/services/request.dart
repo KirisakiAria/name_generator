@@ -34,10 +34,12 @@ class Request {
     _dio.options.baseUrl = API.api_prefix;
     _dio.options.connectTimeout = CONNECT_TIMEOUT;
     _dio.options.receiveTimeout = RECEIVE_TIMEOUT;
+    //解决https证书不通过的问题（实际上是允许所有https证书，不安全，找到更好的办法后会更新）
     (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
+        (HttpClient client) {
       client.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
+      return client;
     };
     _dio.interceptors.add(
       InterceptorsWrapper(

@@ -33,6 +33,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   //递归的方式得到缓存文件夹内所有文件大小的总数（直至找到文件才计算大小）
+  //FileSystemEntity是File、Directory的超类
   Future<double> _getTotalSizeOfFilesInDir(final FileSystemEntity file) async {
     try {
       if (file is File) {
@@ -59,6 +60,7 @@ class _SettingPageState extends State<SettingPage> {
     if (null == value) {
       return '0.00MB';
     }
+    //级联运算符 (..) 可以实现对同一个对像进行一系列的操作
     final List<String> unitArr = List()..add('B')..add('K')..add('M')..add('G');
     int index = 0;
     while (value > 1024) {
@@ -106,7 +108,7 @@ class _SettingPageState extends State<SettingPage> {
           '设置',
         ),
       ),
-      //context必须是Scaffold的子context，Scaffold.of才能生效
+      //context对象必须是Scaffold的子context，Scaffold.of才能生效。所以这里使用了Builder包装了一层，向下传递了context对象。
       body: Builder(
         builder: (context) => ListTileTheme(
           iconColor: context.watch<SkinProvider>().color['subtitle'],

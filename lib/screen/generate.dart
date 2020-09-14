@@ -154,6 +154,7 @@ class _GeneratePageState extends State<GeneratePage>
   void initState() {
     super.initState();
     WidgetsBinding widgetsBinding = WidgetsBinding.instance;
+    //绘制完最后一帧时回调，并且只调用一次。类似于Vue里的mounted钩子
     widgetsBinding.addPostFrameCallback((callback) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final dynamic accepted = prefs.getBool('accepted');
