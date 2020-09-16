@@ -101,6 +101,7 @@ class _UserPage extends StatelessWidget {
   }
 }
 
+//重写动画
 class MySlideTransition extends AnimatedWidget {
   MySlideTransition({
     Key key,

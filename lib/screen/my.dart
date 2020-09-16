@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../services/api.dart';
 import '../services/request.dart';
 //common
-import '../common/style.dart';
 import '../common/custom_icon_data.dart';
 //model
 import '../model/user.dart';
@@ -300,11 +299,11 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, '/laboratory');
-              // final SnackBar snackBar = SnackBar(
-              //   content: const Text('暂未开放, 敬请期待'),
-              // );
-              // Scaffold.of(context).showSnackBar(snackBar);
+              //Navigator.pushNamed(context, '/laboratory');
+              final SnackBar snackBar = SnackBar(
+                content: const Text('暂未开放, 敬请期待'),
+              );
+              Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(
               child: SizedBox(

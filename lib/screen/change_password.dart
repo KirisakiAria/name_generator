@@ -1,4 +1,5 @@
 //核心库
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
@@ -41,6 +42,9 @@ class CustomForm extends StatefulWidget {
 
 class _CustomFormState extends State<CustomForm> {
   String tel, authCode, password;
+  String _btnStr = '获取验证码';
+  int _count = 59;
+  Timer _timer;
   //定义GlobalKey为了获取到form的状态
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -66,6 +70,7 @@ class _CustomFormState extends State<CustomForm> {
           },
         );
         if (res.data['code'] == '1000') {
+          countdown();
           final SnackBar snackBar = SnackBar(
             content: const Text('验证码发送成功'),
           );
@@ -103,6 +108,39 @@ class _CustomFormState extends State<CustomForm> {
     } catch (err) {
       print(err);
     }
+  }
+
+  //验证码倒计时
+  void countdown() {
+    setState(() {
+      if (_timer != null) {
+        return;
+      }
+      // Timer的第一秒倒计时是有一点延迟的，为了立刻显示效果可以添加下一行。
+      _btnStr = '${_count--}秒重新获取';
+      _timer = Timer.periodic(
+        Duration(seconds: 1),
+        (timer) {
+          setState(() {
+            if (_count > 0) {
+              _btnStr = '${_count--}秒重新获取';
+            } else {
+              _btnStr = '获取验证码';
+              _count = 59;
+              _timer.cancel();
+              _timer = null;
+            }
+          });
+        },
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _timer = null;
+    super.dispose();
   }
 
   @override
@@ -207,14 +245,16 @@ class _CustomFormState extends State<CustomForm> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      _getAuthCode();
+                      if (_count > 0) {
+                        _getAuthCode();
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.only(
                         right: 15.w,
                       ),
                       child: Text(
-                        '发送验证码',
+                        _btnStr,
                         style: TextStyle(color: Colors.black54),
                       ),
                     ),

@@ -15,6 +15,8 @@ import '../model/user.dart';
 import '../model/skin.dart';
 
 class AboutPage extends StatelessWidget {
+  final String host = 'https://www.bianzizai.com';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +66,7 @@ class AboutPage extends StatelessWidget {
                             Navigator.pushNamed(context, '/webview',
                                 arguments: <String, String>{
                                   'title': '隐私协议',
-                                  'url':
-                                      'http://192.168.50.83:8083/#/privacypolicy'
+                                  'url': '$host/#/privacypolicy'
                                 });
                           },
                           title: Text(
@@ -85,7 +86,7 @@ class AboutPage extends StatelessWidget {
                             Navigator.pushNamed(context, '/webview',
                                 arguments: <String, String>{
                                   'title': '服务条款',
-                                  'url': 'http://192.168.50.83:8083/#/terms'
+                                  'url': '$host/#/terms'
                                 });
                           },
                           title: Text(
@@ -105,7 +106,7 @@ class AboutPage extends StatelessWidget {
                             Navigator.pushNamed(context, '/webview',
                                 arguments: <String, String>{
                                   'title': '使用方法',
-                                  'url': 'http://192.168.50.83:8083/#/usage'
+                                  'url': '$host/#/usage'
                                 });
                           },
                           title: Text(
@@ -127,9 +128,9 @@ class AboutPage extends StatelessWidget {
                             final String tel = context.read<UserProvider>().tel;
                             Navigator.pushNamed(context, '/webview',
                                 arguments: <String, String>{
-                                  'title': '使用方法',
+                                  'title': '意见反馈',
                                   'url':
-                                      'http://192.168.50.83:8083/#/feedback?tel=$tel&username=$username'
+                                      '$host/#/feedback?tel=$tel&username=$username'
                                 });
                           },
                           title: Text(
