@@ -76,6 +76,8 @@ class Request {
           return response;
         },
         onError: (DioError e) {
+          final SnackBar snackBar = SnackBar(content: Text('服务器开小差了，请稍后再试~'));
+          Scaffold.of(context).showSnackBar(snackBar);
           if (context != null) {
             Navigator.pop(context);
           }
