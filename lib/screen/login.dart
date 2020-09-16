@@ -240,7 +240,7 @@ class _CustomFormState extends State<CustomForm> {
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 55.h,
+                top: 50.h,
               ),
               child: GestureDetector(
                 onTap: () {
@@ -270,6 +270,7 @@ class _CustomFormState extends State<CustomForm> {
             Container(
               margin: EdgeInsets.only(
                 top: 15.h,
+                bottom: 15.h,
               ),
               child: GestureDetector(
                 onTap: () {
