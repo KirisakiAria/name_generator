@@ -13,8 +13,8 @@ class LoadingDialog extends Dialog {
       type: MaterialType.transparency, //透明类型
       child: Center(
         child: SizedBox(
-          width: 120.w,
-          height: 120.h,
+          width: 125.w,
+          height: 125.w,
           child: Container(
             decoration: ShapeDecoration(
               color: Colors.white,
@@ -34,14 +34,18 @@ class LoadingDialog extends Dialog {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                CircularProgressIndicator(),
+                CircularProgressIndicator(
+                  strokeWidth: 5.5,
+                  backgroundColor: Colors.white,
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.black87),
+                ),
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 20.h,
+                    top: 30.h,
                   ),
                   child: Text(
                     '加载中',
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
               ],
