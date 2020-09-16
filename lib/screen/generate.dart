@@ -27,6 +27,7 @@ class GeneratePage extends StatefulWidget {
 
 class _GeneratePageState extends State<GeneratePage>
     with AutomaticKeepAliveClientMixin {
+  final String host = 'https://www.bianzizai.com';
   String _word = '彼岸自在';
   String _type = '中国风';
 
@@ -81,7 +82,7 @@ class _GeneratePageState extends State<GeneratePage>
                           '/webview',
                           arguments: <String, String>{
                             'title': '隐私协议',
-                            'url': 'http://192.168.50.83:8083/#/privacypolicy'
+                            'url': '$host/#/privacypolicy'
                           },
                         );
                       },
@@ -95,7 +96,7 @@ class _GeneratePageState extends State<GeneratePage>
                         Navigator.pushNamed(context, '/webview',
                             arguments: <String, String>{
                               'title': '服务条款',
-                              'url': 'http://192.168.50.83:8083/#/terms'
+                              'url': '$host/#/terms'
                             });
                       },
                   ),

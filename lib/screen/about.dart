@@ -222,7 +222,7 @@ class AboutPage extends StatelessWidget {
                         top: 10.h,
                       ),
                       child: Text(
-                        '© 2020 伟大鱼塘 All Rights Reserved',
+                        '© 2020 彼岸自在 All Rights Reserved',
                         style: TextStyle(
                           fontSize: 14,
                         ),

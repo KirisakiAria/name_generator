@@ -72,7 +72,7 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   //清除缓存
-  void _clearCache() async {
+  void _clearCache(BuildContext context) async {
     final Directory tempDir = await getTemporaryDirectory();
     //删除缓存目录
     await delDir(tempDir);
@@ -154,7 +154,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               ListTile(
                 onTap: () {
-                  _clearCache();
+                  _clearCache(context);
                 },
                 leading: Icon(
                   const IconData(
