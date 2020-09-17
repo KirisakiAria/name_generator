@@ -13,6 +13,7 @@ import '../model/skin.dart';
 //common
 import '../common/loading_status.dart';
 import '../common/custom_icon_data.dart';
+import '../common/style.dart';
 
 class FavouritesPage extends StatelessWidget {
   @override
@@ -91,6 +92,8 @@ class _FavouritesListState extends State<FavouritesList> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: Style.grey20,
+      backgroundColor: Colors.white,
       onRefresh: _getData,
       child: ListView.builder(
         padding: EdgeInsets.symmetric(

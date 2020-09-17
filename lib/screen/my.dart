@@ -12,6 +12,7 @@ import '../services/api.dart';
 import '../services/request.dart';
 //common
 import '../common/custom_icon_data.dart';
+import '../common/style.dart';
 //model
 import '../model/user.dart';
 import '../model/skin.dart';
@@ -55,6 +56,8 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
+        color: Style.grey20,
+        backgroundColor: Colors.white,
         onRefresh: _loadData,
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),

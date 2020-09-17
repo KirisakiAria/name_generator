@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+//comon
+import '../common/style.dart';
 
 class LoadingDialog extends Dialog {
   LoadingDialog({Key key}) : super(key: key);
@@ -37,7 +39,7 @@ class LoadingDialog extends Dialog {
                 CircularProgressIndicator(
                   strokeWidth: 5.5,
                   backgroundColor: Colors.white,
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.black87),
+                  valueColor: new AlwaysStoppedAnimation<Color>(Style.grey20),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
