@@ -51,6 +51,7 @@ class _HistoryListState extends State<HistoryList> {
       final Response res =
           await Request.init(context: context).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
+        print(res.data);
         setState(() {
           int length = res.data['data']['list'].length;
           if (length > 0 && length < 15) {
@@ -73,7 +74,7 @@ class _HistoryListState extends State<HistoryList> {
   @override
   void initState() {
     super.initState();
-    _getData(refresh: false);
+    _getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {

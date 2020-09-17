@@ -73,7 +73,7 @@ class _FavouritesListState extends State<FavouritesList> {
   @override
   void initState() {
     super.initState();
-    _getData(refresh: false);
+    _getData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -96,6 +96,7 @@ class _FavouritesListState extends State<FavouritesList> {
       backgroundColor: Colors.white,
       onRefresh: _getData,
       child: ListView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.symmetric(
           vertical: 6.h,
         ),
