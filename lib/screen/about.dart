@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ota_update/ota_update.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -14,8 +15,51 @@ import '../common/global.dart';
 import '../model/user.dart';
 import '../model/skin.dart';
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
+  @override
+  _AboutPageState createState() => _AboutPageState();
+}
+
+class _AboutPageState extends State<AboutPage> {
   final String host = 'https://www.bianzizai.com';
+  String downloadLink;
+  OtaEvent currentEvent;
+
+  Future<void> getDownloadLink() async {
+    final String path = API.downloadlink;
+    final Response res = await Request.init(context: context).httpGet(path);
+    if (res.data['code'] == '1000') {
+      setState(() {
+        downloadLink = res.data['data']['link'];
+      });
+    }
+  }
+
+  void getNewestApk({BuildContext context}) {
+    try {
+      //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
+      OtaUpdate()
+          .execute(
+        '$host/download/bianzizai.apk',
+      )
+          .listen(
+        (OtaEvent event) {
+          setState(() => currentEvent = event);
+        },
+      );
+    } catch (e) {
+      final SnackBar snackBar = SnackBar(
+        content: Text('下载更新失败，请到官网下载'),
+      );
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDownloadLink();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +166,26 @@ class AboutPage extends StatelessWidget {
                           ),
                         ),
                         ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/webview',
+                                arguments: <String, String>{
+                                  'title': '更新日志',
+                                  'url': '$host/#/update'
+                                });
+                          },
+                          title: Text(
+                            '更新日志',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
+                          ),
+                        ),
+                        ListTile(
                           onTap: () async {
                             final String username =
                                 context.read<UserProvider>().username;
@@ -175,11 +239,13 @@ class AboutPage extends StatelessWidget {
                                       context: context)
                                   .httpGet('$path?version=${Global.version}');
                               if (res.data['code'] == '1000') {
-                                print(res.data['message']);
                                 final SnackBar snackBar = SnackBar(
                                   content: Text(res.data['message']),
                                 );
                                 Scaffold.of(context).showSnackBar(snackBar);
+                                if (!res.data['new']) {
+                                  getNewestApk(context: context);
+                                }
                               }
                             } catch (err) {
                               print(err);

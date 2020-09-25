@@ -104,7 +104,7 @@ class _Item extends StatelessWidget {
                 shadows: <BoxShadow>[
                   BoxShadow(
                     color: Color.fromRGBO(120, 120, 120, 0.1),
-                    blurRadius: themeIndex == activedIndex?24:6,
+                    blurRadius: themeIndex == activedIndex ? 24 : 6,
                     offset: Offset(0, 6),
                   ),
                 ],
@@ -113,21 +113,22 @@ class _Item extends StatelessWidget {
               width: 280.w,
             ),
             Container(
-                alignment: Alignment.center,
-                child: Transform.rotate(
-                  angle: 1.57,
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 18,
-                      letterSpacing: 5,
-                      fontFamily: 'NijimiMincho',
-                      color: themeIndex == activedIndex
-                          ?  Colors.white
-                          :Colors.black54,
-                    ),
+              alignment: Alignment.center,
+              child: Transform.rotate(
+                angle: 1.57,
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 18,
+                    letterSpacing: 5,
+                    fontFamily: 'NijimiMincho',
+                    color: themeIndex == activedIndex
+                        ? Colors.white
+                        : Colors.black54,
                   ),
-                ),),
+                ),
+              ),
+            ),
           ],
         ),
       ),

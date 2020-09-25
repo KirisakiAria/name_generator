@@ -1,8 +1,8 @@
 class API {
   //所有请求头都带此密钥
   static const String secret = '0Q3prsna4TLry26Zmu2bPnpl6hM2fw';
-  //static const String origin = 'https://localhost:443';
-  static const String origin = 'https://api.bianzizai.com';
+  static const String origin = 'http://localhost:2077';
+  //static const String origin = 'https://api.bianzizai.com';
   static const String version = 'v1';
   static const String api_prefix = '$origin/api/$version';
   static const String word = '/word/random';
@@ -18,4 +18,5 @@ class API {
   static const String changeUsername = '/user/username';
   static const String error = '/information/error';
   static const String update = '/app/update';
+  static const String downloadlink = '/service/downloadlink';
 }
