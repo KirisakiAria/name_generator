@@ -21,6 +21,8 @@ import '../model/skin.dart';
 import '../utils/Utils.dart';
 
 class ChangePasswordPage extends StatelessWidget {
+  final FocusNode blankNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +30,13 @@ class ChangePasswordPage extends StatelessWidget {
         automaticallyImplyLeading:
             !InheritedUserPage.of(context).loginLinkIsShowed,
       ),
-      body: SingleChildScrollView(
-        child: CustomForm(),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(blankNode);
+        },
+        child: SingleChildScrollView(
+          child: CustomForm(),
+        ),
       ),
     );
   }

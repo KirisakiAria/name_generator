@@ -21,11 +21,18 @@ import '../model/skin.dart';
 import '../utils/Utils.dart';
 
 class RegisterPage extends StatelessWidget {
+  final FocusNode blankNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: CustomForm(),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(blankNode);
+        },
+        child: SingleChildScrollView(
+          child: CustomForm(),
+        ),
       ),
     );
   }

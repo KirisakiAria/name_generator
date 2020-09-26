@@ -22,34 +22,41 @@ import '../model/user.dart';
 import '../model/skin.dart';
 
 class LoginPage extends StatelessWidget {
+  final FocusNode blankNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(
-                  bottom: 35.h,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(blankNode);
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    bottom: 35.h,
+                  ),
+                  alignment: Alignment.topRight,
+                  child: Image(
+                    image: AssetImage('assets/images/peach__blossom.png'),
+                    width: 210.w,
+                  ),
                 ),
-                alignment: Alignment.topRight,
-                child: Image(
-                  image: AssetImage('assets/images/peach__blossom.png'),
-                  width: 210.w,
+                Text(
+                  '歳歳年年',
+                  style: TextStyle(
+                    fontSize: 36,
+                    letterSpacing: 15,
+                    fontFamily: 'NijimiMincho',
+                  ),
                 ),
-              ),
-              Text(
-                '歳歳年年',
-                style: TextStyle(
-                  fontSize: 36,
-                  letterSpacing: 15,
-                  fontFamily: 'NijimiMincho',
-                ),
-              ),
-              CustomForm(),
-            ],
+                CustomForm(),
+              ],
+            ),
           ),
         ),
       ),

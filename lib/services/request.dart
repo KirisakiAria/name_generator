@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/adapter.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:cookie_jar/cookie_jar.dart';
+//api
 import './api.dart';
 //common
 import '../common/global.dart';
@@ -41,9 +44,13 @@ class Request {
           (X509Certificate cert, String host, int port) => true;
       return client;
     };
+    //添加cookie
+    CookieJar cookieJar = CookieJar();
+    _dio.interceptors.add(CookieManager(cookieJar));
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options) async {
+          print(_dio.options.headers);
           if (context != null) {
             showGeneralDialog(
               context: context,

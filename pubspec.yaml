@@ -2,7 +2,7 @@ name: bianzizai
 description: 彼岸自在
 
 publish_to: "none"
-version: 1.0.0
+version: 1.0.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -22,7 +22,8 @@ dependencies:
   device_info: ^0.4.2+4
   url_launcher: ^5.5.0
   flutter_screenutil: ^2.3.1
-  ota_update: ^2.4.1
+  cookie_jar: ^1.0.1
+  dio_cookie_manager: ^1.0.0
 
 dev_dependencies:
   flutter_test:

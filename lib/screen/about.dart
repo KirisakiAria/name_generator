@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ota_update/ota_update.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -22,44 +21,6 @@ class AboutPage extends StatefulWidget {
 
 class _AboutPageState extends State<AboutPage> {
   final String host = 'https://www.bianzizai.com';
-  String downloadLink;
-  OtaEvent currentEvent;
-
-  Future<void> getDownloadLink() async {
-    final String path = API.downloadlink;
-    final Response res = await Request.init(context: context).httpGet(path);
-    if (res.data['code'] == '1000') {
-      setState(() {
-        downloadLink = res.data['data']['link'];
-      });
-    }
-  }
-
-  void getNewestApk({BuildContext context}) {
-    try {
-      //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
-      OtaUpdate()
-          .execute(
-        '$host/download/bianzizai.apk',
-      )
-          .listen(
-        (OtaEvent event) {
-          setState(() => currentEvent = event);
-        },
-      );
-    } catch (e) {
-      final SnackBar snackBar = SnackBar(
-        content: Text('下载更新失败，请到官网下载'),
-      );
-      Scaffold.of(context).showSnackBar(snackBar);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getDownloadLink();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,9 +204,6 @@ class _AboutPageState extends State<AboutPage> {
                                   content: Text(res.data['message']),
                                 );
                                 Scaffold.of(context).showSnackBar(snackBar);
-                                if (!res.data['new']) {
-                                  getNewestApk(context: context);
-                                }
                               }
                             } catch (err) {
                               print(err);

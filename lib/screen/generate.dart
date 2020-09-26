@@ -330,7 +330,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               child: Image(
                 image: AssetImage('assets/images/pluto-payment-processed.png'),
-                width: 180.w,
+                width: 165.w,
               ),
             ),
             GestureDetector(
@@ -361,7 +361,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                   widget.word,
                   style: TextStyle(
                     fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                    fontSize: 54,
+                    fontSize: 48,
                     letterSpacing: 12,
                     height: 1,
                   ),
