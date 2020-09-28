@@ -50,7 +50,6 @@ class Request {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options) async {
-          print(_dio.options.headers);
           if (context != null) {
             showGeneralDialog(
               context: context,

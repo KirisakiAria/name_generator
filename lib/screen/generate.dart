@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share/share.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -28,6 +29,7 @@ class GeneratePage extends StatefulWidget {
 class _GeneratePageState extends State<GeneratePage>
     with AutomaticKeepAliveClientMixin {
   final String host = 'https://www.bianzizai.com';
+  final String shareContent = '【彼岸自在，最懂你的网名生成器】';
   String _word = '彼岸自在';
   String _type = '中国风';
 
@@ -174,6 +176,31 @@ class _GeneratePageState extends State<GeneratePage>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            color: context.watch<SkinProvider>().color['background'],
+            itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+              PopupMenuItem<String>(
+                value: 'share',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(Icons.share),
+                    Text('分享'),
+                  ],
+                ),
+              ),
+            ],
+            onSelected: (String action) {
+              // 点击选项的时候
+              switch (action) {
+                case 'share':
+                  Share.share('$shareContent 官网：$host');
+                  break;
+              }
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -326,11 +353,11 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
-                top: 5.h,
+                top: 25.h,
               ),
               child: Image(
                 image: AssetImage('assets/images/pluto-payment-processed.png'),
-                width: 165.w,
+                width: 160.w,
               ),
             ),
             GestureDetector(
@@ -361,8 +388,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                   widget.word,
                   style: TextStyle(
                     fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                    fontSize: 48,
-                    letterSpacing: 12,
+                    fontSize: 50,
+                    letterSpacing: 8,
                     height: 1,
                   ),
                 ),
