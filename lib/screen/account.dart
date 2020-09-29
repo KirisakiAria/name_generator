@@ -122,7 +122,9 @@ class _AvatarState extends State<Avatar> {
       prefs.setString('avatar', avatar);
       final SnackBar snackBar = SnackBar(
         content: const Text('修改头像成功'),
+        duration: Duration(seconds: 2),
       );
+      Scaffold.of(context).removeCurrentSnackBar();
       Scaffold.of(context).showSnackBar(snackBar);
     }
   }
@@ -203,7 +205,9 @@ class _UsernameState extends State<Username> {
         if (result['success']) {
           final SnackBar snackBar = SnackBar(
             content: const Text('修改用户名成功'),
+            duration: Duration(seconds: 2),
           );
+          Scaffold.of(context).removeCurrentSnackBar();
           Scaffold.of(context).showSnackBar(snackBar);
         }
       },
@@ -286,7 +290,7 @@ class _PasswordState extends State<Password> {
                   padding: EdgeInsets.only(
                     right: 15.w,
                   ),
-                  child: Text(
+                  child: const Text(
                     '点此修改',
                     style: TextStyle(
                       height: 1,

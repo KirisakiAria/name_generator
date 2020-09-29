@@ -91,6 +91,8 @@ class _HomePageState extends State<HomePage> {
               curve: Curves.ease,
             );
           },
+          selectedFontSize: 0,
+          unselectedFontSize: 0,
           currentIndex: _tabIndex,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -101,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 size: 28,
               ),
-              title: Container(),
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -111,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 size: 28,
               ),
-              title: Container(),
+              label: '',
             ),
           ],
         ),

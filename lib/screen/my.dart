@@ -305,7 +305,9 @@ class Menu extends StatelessWidget {
               //Navigator.pushNamed(context, '/laboratory');
               final SnackBar snackBar = SnackBar(
                 content: const Text('暂未开放, 敬请期待'),
+                duration: Duration(seconds: 2),
               );
+              Scaffold.of(context).removeCurrentSnackBar();
               Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(

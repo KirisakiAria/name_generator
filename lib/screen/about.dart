@@ -48,7 +48,7 @@ class _AboutPageState extends State<AboutPage> {
                 margin: EdgeInsets.symmetric(
                   vertical: 30.h,
                 ),
-                child: Text(
+                child: const Text(
                   '彼岸自在',
                   style: TextStyle(
                     fontFamily: 'NijimiMincho',
@@ -202,7 +202,9 @@ class _AboutPageState extends State<AboutPage> {
                               if (res.data['code'] == '1000') {
                                 final SnackBar snackBar = SnackBar(
                                   content: Text(res.data['message']),
+                                  duration: Duration(seconds: 2),
                                 );
+                                Scaffold.of(context).removeCurrentSnackBar();
                                 Scaffold.of(context).showSnackBar(snackBar);
                               }
                             } catch (err) {
@@ -245,7 +247,7 @@ class _AboutPageState extends State<AboutPage> {
                       margin: EdgeInsets.only(
                         top: 10.h,
                       ),
-                      child: Text(
+                      child: const Text(
                         '© 2020 彼岸自在 All Rights Reserved',
                         style: TextStyle(
                           fontSize: 14,

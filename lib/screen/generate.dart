@@ -65,7 +65,7 @@ class _GeneratePageState extends State<GeneratePage>
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            title: Text('服务条款与隐私协议提示'),
+            title: const Text('服务条款与隐私协议提示'),
             content: RichText(
               text: TextSpan(
                 style: TextStyle(
@@ -190,6 +190,16 @@ class _GeneratePageState extends State<GeneratePage>
                   ],
                 ),
               ),
+              PopupMenuItem<String>(
+                value: 'about',
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(Icons.info),
+                    Text('关于'),
+                  ],
+                ),
+              ),
             ],
             onSelected: (String action) {
               // 点击选项的时候
@@ -197,80 +207,101 @@ class _GeneratePageState extends State<GeneratePage>
                 case 'share':
                   Share.share('$shareContent 官网：$host');
                   break;
+                case 'about':
+                  Navigator.pushNamed(context, '/about');
+                  break;
               }
             },
           ),
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Display(
-              word: _word,
-              type: _type,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 0,
-              horizontal: 20.w,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                CustomButton(
-                  text: '生成',
-                  bgColor: context.watch<SkinProvider>().color['button'],
-                  textColor: context.watch<SkinProvider>().color['background'],
-                  borderColor: Style.defaultColor['button'],
-                  callback: () {
-                    _getData();
-                  },
-                ),
-                CustomButton(
-                  text: '選項',
-                  bgColor: Style.defaultColor['background'],
-                  textColor: Style.defaultColor['button'],
-                  borderColor: Style.defaultColor['button'],
-                  callback: () {
-                    showGeneralDialog(
-                      context: context,
-                      pageBuilder: (context, anim1, anim2) {
-                        return OptionsDialog();
-                      },
-                      barrierColor: Colors.grey.withOpacity(.4),
-                      barrierDismissible: false,
-                      transitionDuration: Duration(milliseconds: 400),
-                      transitionBuilder: (context, anim1, anim2, child) {
-                        final double curvedValue =
-                            Curves.easeInOutBack.transform(anim1.value) - 1;
-                        return Transform(
-                          transform: Matrix4.translationValues(
-                            0,
-                            curvedValue * -320,
-                            0,
-                          ),
-                          child: OptionsDialog(),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 25.h,
-            ),
-            child: Text(
-              '提示：单击文字复制，长按加收藏',
-              style: TextStyle(
-                color: context.watch<SkinProvider>().color['subtitle'],
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onVerticalDragStart: (details) {
+          if (context.read<WordOptionsProvider>().type == '中国风') {
+            context.read<WordOptionsProvider>().changeType(type: '日式');
+          } else {
+            context.read<WordOptionsProvider>().changeType(type: '中国风');
+          }
+          final SnackBar snackBar = SnackBar(
+            content: Text('类型切换：${context.read<WordOptionsProvider>().type}'),
+            duration: Duration(seconds: 2),
+          );
+          Scaffold.of(context).removeCurrentSnackBar();
+          Scaffold.of(context).showSnackBar(snackBar);
+        },
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Display(
+                word: _word,
+                type: _type,
               ),
             ),
-          ),
-        ],
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 20.w,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  CustomButton(
+                    text: '生成',
+                    bgColor: context.watch<SkinProvider>().color['button'],
+                    textColor:
+                        context.watch<SkinProvider>().color['background'],
+                    borderColor: Style.defaultColor['button'],
+                    callback: () {
+                      _getData();
+                    },
+                  ),
+                  CustomButton(
+                    text: '選項',
+                    bgColor: Style.defaultColor['background'],
+                    textColor: Style.defaultColor['button'],
+                    borderColor: Style.defaultColor['button'],
+                    callback: () {
+                      showGeneralDialog(
+                        context: context,
+                        pageBuilder: (context, anim1, anim2) {
+                          return OptionsDialog();
+                        },
+                        barrierColor: Colors.grey.withOpacity(.4),
+                        barrierDismissible: false,
+                        transitionDuration: Duration(milliseconds: 400),
+                        transitionBuilder: (context, anim1, anim2, child) {
+                          final double curvedValue =
+                              Curves.easeInOutBack.transform(anim1.value) - 1;
+                          return Transform(
+                            transform: Matrix4.translationValues(
+                              0,
+                              curvedValue * -320,
+                              0,
+                            ),
+                            child: OptionsDialog(),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 25.h,
+              ),
+              child: Text(
+                '提示：单击文字复制，长按加收藏，上划快速切换类型',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: context.watch<SkinProvider>().color['subtitle'],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -364,8 +395,10 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               onTap: () {
                 Clipboard.setData(ClipboardData(text: widget.word));
                 final SnackBar snackBar = SnackBar(
-                  content: Text('复制成功'),
+                  content: const Text('复制成功'),
+                  duration: Duration(seconds: 2),
                 );
+                Scaffold.of(context).removeCurrentSnackBar();
                 Scaffold.of(context).showSnackBar(snackBar);
               },
               onLongPress: () {
@@ -375,8 +408,10 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                   _controller.forward();
                 } else {
                   final SnackBar snackBar = SnackBar(
-                    content: Text('请先登录再加收藏'),
+                    content: const Text('请先登录再加收藏'),
+                    duration: Duration(seconds: 2),
                   );
+                  Scaffold.of(context).removeCurrentSnackBar();
                   Scaffold.of(context).showSnackBar(snackBar);
                 }
               },
@@ -388,7 +423,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                   widget.word,
                   style: TextStyle(
                     fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                    fontSize: 50,
+                    fontSize: 52,
                     letterSpacing: 8,
                     height: 1,
                   ),
@@ -527,7 +562,7 @@ class OptionsDialog extends Dialog {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Container(
-                  child: Text(
+                  child: const Text(
                     '选项',
                     style: TextStyle(
                       fontSize: 20,
@@ -537,7 +572,7 @@ class OptionsDialog extends Dialog {
                 ),
                 InheritedSelect(
                   list: OptionsData.typeList,
-                  callback: (newValue) {
+                  callback: (String newValue) {
                     context
                         .read<WordOptionsProvider>()
                         .changeType(type: newValue);
@@ -547,7 +582,7 @@ class OptionsDialog extends Dialog {
                 ),
                 InheritedSelect(
                   list: OptionsData.lengthList,
-                  callback: (newValue) {
+                  callback: (String newValue) {
                     context
                         .read<WordOptionsProvider>()
                         .changeNumber(length: newValue);

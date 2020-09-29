@@ -170,7 +170,9 @@ class ListItem extends StatelessWidget {
               Clipboard.setData(ClipboardData(text: word));
               final SnackBar snackBar = SnackBar(
                 content: const Text('复制成功'),
+                duration: Duration(seconds: 2),
               );
+              Scaffold.of(context).removeCurrentSnackBar();
               Scaffold.of(context).showSnackBar(snackBar);
             },
             child: Container(

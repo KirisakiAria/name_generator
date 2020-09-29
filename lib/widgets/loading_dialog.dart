@@ -45,7 +45,7 @@ class LoadingDialog extends Dialog {
                   padding: EdgeInsets.only(
                     top: 30.h,
                   ),
-                  child: Text(
+                  child: const Text(
                     '加载中',
                     style: TextStyle(fontSize: 14),
                   ),

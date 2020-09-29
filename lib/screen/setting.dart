@@ -79,7 +79,9 @@ class _SettingPageState extends State<SettingPage> {
     await _loadCache();
     final SnackBar snackBar = SnackBar(
       content: const Text('清除缓存成功'),
+      duration: Duration(seconds: 2),
     );
+    Scaffold.of(context).removeCurrentSnackBar();
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
@@ -129,7 +131,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   color: Color(0xff70a1ff),
                 ),
-                title: Text(
+                title: const Text(
                   '账号资料',
                   style: TextStyle(height: 1),
                 ),
@@ -146,7 +148,7 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                   color: Color(0xfffeca57),
                 ),
-                title: Text(
+                title: const Text(
                   '主题风格',
                   style: TextStyle(height: 1),
                 ),
