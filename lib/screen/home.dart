@@ -53,9 +53,7 @@ class _HomePageState extends State<HomePage> {
     final dynamic token = prefs.getString('token');
     final dynamic tel = prefs.getString('tel');
     if (token != null) {
-      context.read<UserProvider>().changeUserData(
-            token: token,
-          );
+      context.read<UserProvider>().changeToken(token);
       final String path = API.getUserData;
       final Response res = await Request.init(
         context: context,

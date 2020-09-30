@@ -36,13 +36,18 @@ class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  void changeAvatar(avatar) {
+  void changeAvatar(String avatar) {
     _avatar = avatar;
     notifyListeners();
   }
 
-  void changeUsername(username) {
+  void changeUsername(String username) {
     _username = username;
+    notifyListeners();
+  }
+
+  void changeToken(String token) {
+    _token = token;
     notifyListeners();
   }
 

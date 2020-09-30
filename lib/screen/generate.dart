@@ -32,6 +32,7 @@ class _GeneratePageState extends State<GeneratePage>
   final String shareContent = '【彼岸自在，最懂你的网名生成器】';
   String _word = '彼岸自在';
   String _type = '中国风';
+  String _romaji = 'Higanjizai';
 
   Future<void> _getData() async {
     try {
@@ -46,9 +47,11 @@ class _GeneratePageState extends State<GeneratePage>
         },
       );
       if (res.data['code'] == '1000') {
+        print(res.data);
         setState(() {
           _word = res.data['data']['word'];
           _type = context.read<WordOptionsProvider>().type;
+          _romaji = res.data['data']['romaji'];
         });
       }
     } catch (err) {
@@ -239,6 +242,7 @@ class _GeneratePageState extends State<GeneratePage>
               child: Display(
                 word: _word,
                 type: _type,
+                romaji: _romaji,
               ),
             ),
             Container(
@@ -311,11 +315,12 @@ class _GeneratePageState extends State<GeneratePage>
 }
 
 class Display extends StatefulWidget {
-  final String word;
-  final String type;
+  final String word, type, romaji;
+
   Display({
     @required this.word,
     @required this.type,
+    this.romaji,
   });
 
   @override
@@ -424,14 +429,32 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 padding: EdgeInsets.only(
                   top: 50.h,
                 ),
-                child: Text(
-                  widget.word,
-                  style: TextStyle(
-                    fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                    fontSize: 52,
-                    letterSpacing: 8,
-                    height: 1,
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.word,
+                      style: TextStyle(
+                        fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
+                        fontSize: 52,
+                        letterSpacing: 8,
+                        height: 1,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                        top: 15.h,
+                      ),
+                      child: Text(
+                        widget.romaji,
+                        style: TextStyle(
+                          fontFamily: 'NijimiMincho',
+                          fontSize: 14,
+                          letterSpacing: 8,
+                          height: 1,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
