@@ -32,7 +32,7 @@ class _AccountPageState extends State<AccountPage> {
       ),
       //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
-        builder: (context) => ListTileTheme(
+        builder: (BuildContext context) => ListTileTheme(
           iconColor: context.watch<SkinProvider>().color['subtitle'],
           child: ListView(
             padding: EdgeInsets.symmetric(
@@ -191,12 +191,21 @@ class _UsernameState extends State<Username> {
         Map result = await showGeneralDialog(
           context: context,
           barrierColor: Colors.grey.withOpacity(.4),
-          pageBuilder: (context, anim1, anim2) {
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> anim1,
+            Animation<double> anim2,
+          ) {
             return EditUserNameDialog();
           },
           barrierDismissible: false,
           transitionDuration: Duration(milliseconds: 300),
-          transitionBuilder: (context, anim1, anim2, child) {
+          transitionBuilder: (
+            BuildContext context,
+            Animation<double> anim1,
+            Animation<double> anim2,
+            Widget child,
+          ) {
             return Transform.scale(
               scale: anim1.value,
               child: child,
@@ -317,7 +326,10 @@ class EditUserNameDialog extends Dialog {
   @override //Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
   Widget build(BuildContext context) {
     return StatefulBuilder(
-      builder: (context, StateSetter setState) {
+      builder: (
+        BuildContext context,
+        StateSetter setState,
+      ) {
         String _username;
         //定义GlobalKey为了获取到form的状态
         final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

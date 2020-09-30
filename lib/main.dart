@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import './model/word_options.dart';
 import './model/user.dart';
 import './model/skin.dart';
+import './model/laboratory_options.dart';
 //commom
 import './common/global.dart';
 //路由
@@ -38,13 +39,16 @@ Future<Null> main() async {
       MultiProvider(
         providers: [
           ChangeNotifierProvider<WordOptionsProvider>(
-            create: (_) => WordOptionsProvider(),
+            create: (BuildContext _) => WordOptionsProvider(),
           ),
           ChangeNotifierProvider<UserProvider>(
-            create: (_) => UserProvider(),
+            create: (BuildContext _) => UserProvider(),
           ),
           ChangeNotifierProvider<SkinProvider>(
-            create: (_) => SkinProvider(),
+            create: (BuildContext _) => SkinProvider(),
+          ),
+          ChangeNotifierProvider<LaboratoryOptionsProvider>(
+            create: (BuildContext _) => LaboratoryOptionsProvider(),
           ),
         ],
         child: MyApp(),
@@ -56,7 +60,7 @@ Future<Null> main() async {
           SystemUiOverlayStyle(statusBarColor: Colors.transparent);
       SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     }
-  }, onError: (error, stackTrace) async {
+  }, onError: (dynamic error, dynamic stackTrace) async {
     print(error);
   });
 }

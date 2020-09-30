@@ -102,7 +102,10 @@ class _HomePageState extends State<HomePage> {
         body: PageView.builder(
           onPageChanged: _onPageChange,
           controller: _pageController,
-          itemBuilder: (BuildContext context, int index) {
+          itemBuilder: (
+            BuildContext context,
+            int index,
+          ) {
             if (index == 0) {
               return GeneratePage();
             }

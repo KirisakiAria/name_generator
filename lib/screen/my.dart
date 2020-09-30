@@ -296,13 +296,7 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              //Navigator.pushNamed(context, '/laboratory');
-              final SnackBar snackBar = SnackBar(
-                content: const Text('暂未开放, 敬请期待'),
-                duration: Duration(seconds: 2),
-              );
-              Scaffold.of(context).removeCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(snackBar);
+              Navigator.pushNamed(context, '/laboratory');
             },
             child: Container(
               child: SizedBox(
@@ -338,13 +332,17 @@ class Menu extends StatelessWidget {
               if (context.read<UserProvider>().loginState) {
                 showGeneralDialog(
                   context: context,
-                  pageBuilder: (context, anim1, anim2) {
+                  pageBuilder: (
+                    BuildContext context,
+                    Animation<double> anim1,
+                    Animation<double> anim2,
+                  ) {
                     return AlertDialog(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       title: const Text('提示'),
-                      content: const Text('是否退出登录?'),
+                      content: const Text('是否退出登录？'),
                       actions: <Widget>[
                         FlatButton(
                           child: Text(
@@ -380,7 +378,12 @@ class Menu extends StatelessWidget {
                   barrierColor: Color.fromRGBO(0, 0, 0, .4),
                   barrierDismissible: false,
                   transitionDuration: Duration(milliseconds: 200),
-                  transitionBuilder: (context, anim1, anim2, child) {
+                  transitionBuilder: (
+                    BuildContext context,
+                    Animation<double> anim1,
+                    Animation<double> anim2,
+                    Widget child,
+                  ) {
                     return Transform.scale(
                       scale: anim1.value,
                       child: child,

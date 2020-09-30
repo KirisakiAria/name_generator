@@ -20,6 +20,7 @@ import '../common/optionsData.dart';
 import '../model/word_options.dart';
 import '../model/user.dart';
 import '../model/skin.dart';
+import '../model/laboratory_options.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -63,7 +64,11 @@ class _GeneratePageState extends State<GeneratePage>
   _showPopup() {
     showGeneralDialog(
       context: context,
-      pageBuilder: (context, anim1, anim2) {
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
         return WillPopScope(
           onWillPop: () async => Future.value(false),
           child: AlertDialog(
@@ -149,7 +154,12 @@ class _GeneratePageState extends State<GeneratePage>
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
       barrierDismissible: false,
       transitionDuration: Duration(milliseconds: 200),
-      transitionBuilder: (context, anim1, anim2, child) {
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
         return Transform.scale(
           scale: anim1.value,
           child: child,
@@ -223,7 +233,7 @@ class _GeneratePageState extends State<GeneratePage>
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
-        onVerticalDragStart: (details) {
+        onVerticalDragStart: (DragStartDetails details) {
           if (context.read<WordOptionsProvider>().type == '中国风') {
             context.read<WordOptionsProvider>().changeType(type: '日式');
           } else {
@@ -271,13 +281,22 @@ class _GeneratePageState extends State<GeneratePage>
                     callback: () {
                       showGeneralDialog(
                         context: context,
-                        pageBuilder: (context, anim1, anim2) {
+                        pageBuilder: (
+                          BuildContext context,
+                          Animation<double> anim1,
+                          Animation<double> anim2,
+                        ) {
                           return OptionsDialog();
                         },
                         barrierColor: Colors.grey.withOpacity(.4),
                         barrierDismissible: false,
                         transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (context, anim1, anim2, child) {
+                        transitionBuilder: (
+                          BuildContext context,
+                          Animation<double> anim1,
+                          Animation<double> anim2,
+                          Widget child,
+                        ) {
                           final double curvedValue =
                               Curves.easeInOutBack.transform(anim1.value) - 1;
                           return Transform(
@@ -440,17 +459,21 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                         height: 1,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(
-                        top: 15.h,
-                      ),
-                      child: Text(
-                        widget.romaji,
-                        style: TextStyle(
-                          fontFamily: 'NijimiMincho',
-                          fontSize: 14,
-                          letterSpacing: 8,
-                          height: 1,
+                    Offstage(
+                      offstage:
+                          !context.watch<LaboratoryOptionsProvider>().romaji,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          top: 15.h,
+                        ),
+                        child: Text(
+                          widget.romaji,
+                          style: TextStyle(
+                            fontFamily: 'NijimiMincho',
+                            fontSize: 14,
+                            letterSpacing: 8,
+                            height: 1,
+                          ),
                         ),
                       ),
                     ),

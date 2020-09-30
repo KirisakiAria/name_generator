@@ -17,6 +17,9 @@ class Style {
     'button': Colors.black,
     'hint': Color(0xffa9a9a9),
     'line': Colors.black12,
+    'switchThumb': Colors.white,
+    'inactiveSwitchTrack': Colors.black26,
+    'activeSwitchTrack': Color(0xffff6348),
   };
 
   //夜间
@@ -32,6 +35,9 @@ class Style {
     'button': Colors.white,
     'hint': Color(0xfff1f1f1),
     'line': Color.fromRGBO(0, 0, 0, 0),
+    'switchThumb': Colors.white,
+    'inactiveSwitchTrack': Color(0xffbfbfbf),
+    'activeSwitchTrack': Color(0xffff6348),
   };
 
   //主题分类

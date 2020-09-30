@@ -112,7 +112,7 @@ class _SettingPageState extends State<SettingPage> {
       ),
       //context对象必须是Scaffold的子context，Scaffold.of才能生效。所以这里使用了Builder包装了一层，向下传递了context对象。
       body: Builder(
-        builder: (context) => ListTileTheme(
+        builder: (BuildContext context) => ListTileTheme(
           iconColor: context.watch<SkinProvider>().color['subtitle'],
           child: ListView(
             children: <Widget>[

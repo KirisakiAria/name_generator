@@ -5,10 +5,8 @@ class LaboratoryOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   bool get romaji => _romaji;
 
-  void toggleRomaji({
-    @required bool romaji,
-  }) {
-    _romaji = romaji;
+  void toggleRomaji() {
+    _romaji = !romaji;
     notifyListeners();
   }
 

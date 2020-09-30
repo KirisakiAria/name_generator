@@ -53,7 +53,7 @@ class _SkinPageState extends State<SkinPage> {
       ),
       backgroundColor: _color,
       body: Builder(
-        builder: (contenxt) {
+        builder: (BuildContext contenxt) {
           return ListView(
             padding: EdgeInsets.all(20.w),
             children: _items,

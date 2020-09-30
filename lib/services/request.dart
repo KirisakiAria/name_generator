@@ -55,14 +55,23 @@ class Request {
           if (showLoadingDialog) {
             showGeneralDialog(
               context: context,
-              pageBuilder: (context, anim1, anim2) {
+              pageBuilder: (
+                BuildContext context,
+                Animation<double> anim1,
+                Animation<double> anim2,
+              ) {
                 return LoadingDialog();
               },
               barrierDismissible: false,
               barrierLabel: '',
               barrierColor: Colors.transparent,
               transitionDuration: Duration(milliseconds: 300),
-              transitionBuilder: (context, anim1, anim2, child) {
+              transitionBuilder: (
+                BuildContext context,
+                Animation<double> anim1,
+                Animation<double> anim2,
+                Widget child,
+              ) {
                 return Transform.scale(
                   scale: anim1.value,
                   child: child,

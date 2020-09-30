@@ -345,32 +345,32 @@ class _CustomFormState extends State<CustomForm> {
               margin: EdgeInsets.only(
                 top: 40.h,
               ),
-              child: InheritedUserPage.of(context).loginLinkIsShowed
-                  ? GestureDetector(
-                      onTap: () {
-                        InheritedUserPage.of(context).changeScreen(index: 1);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.only(bottom: 3),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: context
-                                  .watch<SkinProvider>()
-                                  .color['line'], //边框颜色
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          '登录',
-                          style: TextStyle(
-                            color:
-                                context.watch<SkinProvider>().color['subtitle'],
-                          ),
+              child: Offstage(
+                offstage: !InheritedUserPage.of(context).loginLinkIsShowed,
+                child: GestureDetector(
+                  onTap: () {
+                    InheritedUserPage.of(context).changeScreen(index: 1);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: 3),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: context
+                              .watch<SkinProvider>()
+                              .color['line'], //边框颜色
                         ),
                       ),
-                    )
-                  : Container(),
+                    ),
+                    child: Text(
+                      '登录',
+                      style: TextStyle(
+                        color: context.watch<SkinProvider>().color['subtitle'],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

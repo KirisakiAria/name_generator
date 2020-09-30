@@ -103,7 +103,10 @@ class _FavouritesListState extends State<FavouritesList> {
         ),
         controller: _scrollController,
         itemCount: favouritesList.length + 1,
-        itemBuilder: (context, index) {
+        itemBuilder: (
+          BuildContext context,
+          int index,
+        ) {
           if (index == favouritesList.length) {
             return _LoadingView(_loadingStatus);
           } else {
@@ -238,7 +241,7 @@ class _LoadingView extends StatelessWidget {
               left: 12.w,
             ),
             child: Builder(
-              builder: (conext) {
+              builder: (BuildContext conext) {
                 if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
                   return const Text('上拉加载更多');
                 } else if (_loadingStatus == LoadingStatus.STATUS_LOADING) {
