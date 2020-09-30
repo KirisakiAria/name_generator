@@ -17,6 +17,7 @@ import '../common/custom_icon_data.dart';
 //model
 import '../model/user.dart';
 import '../model/skin.dart';
+import '../model/laboratory_options.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -74,8 +75,16 @@ class _HomePageState extends State<HomePage> {
               date: data['date'],
               loginState: true,
             );
+        _initSetting();
       }
     }
+  }
+
+  //读取本地配置
+  Future<void> _initSetting() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool romaji = prefs.getBool('romaji');
+    context.read<LaboratoryOptionsProvider>().toggleRomaji(romaji: romaji);
   }
 
   @override

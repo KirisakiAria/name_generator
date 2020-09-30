@@ -16,6 +16,7 @@ import '../common/style.dart';
 //model
 import '../model/user.dart';
 import '../model/skin.dart';
+import '../model/laboratory_options.dart';
 
 class MyPage extends StatefulWidget {
   @override
@@ -157,7 +158,12 @@ class Menu extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!context.read<UserProvider>().loginState) {
-                Navigator.pushNamed(context, '/login');
+                final SnackBar snackBar = SnackBar(
+                  content: const Text('请先登录'),
+                  duration: Duration(seconds: 2),
+                );
+                Scaffold.of(context).removeCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(snackBar);
               } else {
                 Navigator.pushNamed(context, '/favourites');
               }
@@ -194,7 +200,12 @@ class Menu extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (!context.read<UserProvider>().loginState) {
-                Navigator.pushNamed(context, '/login');
+                final SnackBar snackBar = SnackBar(
+                  content: const Text('请先登录'),
+                  duration: Duration(seconds: 2),
+                );
+                Scaffold.of(context).removeCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(snackBar);
               } else {
                 Navigator.pushNamed(context, '/history');
               }
@@ -369,6 +380,9 @@ class Menu extends StatelessWidget {
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             prefs.clear();
+                            context
+                                .read<LaboratoryOptionsProvider>()
+                                .clearAllSetting();
                             Navigator.pushNamed(context, '/login');
                           },
                         ),

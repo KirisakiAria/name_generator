@@ -29,8 +29,8 @@ class GeneratePage extends StatefulWidget {
 
 class _GeneratePageState extends State<GeneratePage>
     with AutomaticKeepAliveClientMixin {
-  final String host = 'https://www.bianzizai.com';
-  final String shareContent = '【彼岸自在，最懂你的网名生成器】';
+  static const String host = 'https://www.bianzizai.com';
+  static const String shareContent = '【彼岸自在，最懂你的网名生成器】';
   String _word = '彼岸自在';
   String _type = '中国风';
   String _romaji = 'Higanjizai';
@@ -45,6 +45,7 @@ class _GeneratePageState extends State<GeneratePage>
         <String, dynamic>{
           'type': context.read<WordOptionsProvider>().type,
           'length': context.read<WordOptionsProvider>().length,
+          'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
         },
       );
       if (res.data['code'] == '1000') {

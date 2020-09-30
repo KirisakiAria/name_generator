@@ -75,7 +75,7 @@ class _SettingPageState extends State<SettingPage> {
   void _clearCache(BuildContext context) async {
     final Directory tempDir = await getTemporaryDirectory();
     //删除缓存目录
-    await delDir(tempDir);
+    await _delDir(tempDir);
     await _loadCache();
     final SnackBar snackBar = SnackBar(
       content: const Text('清除缓存成功'),
@@ -86,11 +86,11 @@ class _SettingPageState extends State<SettingPage> {
   }
 
   ///递归方式删除目录（直至找到文件才删除）
-  Future<void> delDir(FileSystemEntity file) async {
+  Future<void> _delDir(FileSystemEntity file) async {
     if (file is Directory) {
       final List<FileSystemEntity> children = file.listSync();
       for (final FileSystemEntity child in children) {
-        await delDir(child);
+        await _delDir(child);
       }
     }
     await file.delete();

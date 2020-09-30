@@ -20,7 +20,7 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  final String host = 'https://www.bianzizai.com';
+  static const String host = 'https://www.bianzizai.com';
 
   @override
   Widget build(BuildContext context) {

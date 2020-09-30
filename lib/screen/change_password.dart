@@ -79,7 +79,7 @@ class _CustomFormState extends State<CustomForm> {
           },
         );
         if (res.data['code'] == '1000') {
-          countdown();
+          _countdown();
           final SnackBar snackBar = SnackBar(
             content: const Text('验证码发送成功'),
             duration: Duration(seconds: 2),
@@ -128,7 +128,7 @@ class _CustomFormState extends State<CustomForm> {
   }
 
   //验证码倒计时
-  void countdown() {
+  void _countdown() {
     setState(() {
       if (_timer != null) {
         return;

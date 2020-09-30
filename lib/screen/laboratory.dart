@@ -2,12 +2,10 @@
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
-//model
-import '../model/user.dart';
-//common
-import '../common/custom_icon_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //model
 import '../model/skin.dart';
+import '../model/user.dart';
 import '../model/laboratory_options.dart';
 
 class LaboratoryPage extends StatefulWidget {
@@ -35,6 +33,13 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                   '日文罗马注音',
                   style: TextStyle(height: 1),
                 ),
+                subtitle: const Text(
+                  '文字下方添加罗马音，但会增大网络延迟',
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 2,
+                  ),
+                ),
                 trailing: Switch(
                   activeColor:
                       context.watch<SkinProvider>().color['switchThumb'],
@@ -46,8 +51,21 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                       .watch<SkinProvider>()
                       .color['inactiveSwitchTrack'],
                   value: context.watch<LaboratoryOptionsProvider>().romaji,
-                  onChanged: (bool value) {
-                    context.read<LaboratoryOptionsProvider>().toggleRomaji();
+                  onChanged: (bool value) async {
+                    if (!context.read<UserProvider>().loginState) {
+                      final SnackBar snackBar = SnackBar(
+                        content: const Text('请先登录'),
+                        duration: Duration(seconds: 2),
+                      );
+                      Scaffold.of(context).removeCurrentSnackBar();
+                      Scaffold.of(context).showSnackBar(snackBar);
+                    } else {
+                      context.read<LaboratoryOptionsProvider>().toggleRomaji();
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool('romaji',
+                          context.read<LaboratoryOptionsProvider>().romaji);
+                    }
                   },
                 ),
               ),

@@ -46,7 +46,7 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
   }
 
   //是否显示“直接登录”按钮（从个人信息-修改密码进入的页面无需此按钮）
-  void hideLoginLink() {
+  void _hideLoginLink() {
     setState(() {
       loginLinkIsShowed = false;
     });
@@ -57,7 +57,7 @@ class _InheritedUserPageState extends State<InheritedUserPageContainer> {
     Map<String, dynamic> arguments = ModalRoute.of(context).settings.arguments;
     if (arguments != null) {
       changeScreen(index: arguments['index']);
-      hideLoginLink();
+      _hideLoginLink();
     }
     return AnimatedSwitcher(
       //当child发生变化时（类型或key不同），旧child执行隐藏动画，新child执行显示动画
