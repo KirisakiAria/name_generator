@@ -48,8 +48,9 @@ class _FavouritesListState extends State<FavouritesList> {
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
       final String path = API.favourite;
-      final Response res =
-          await Request.init(context: context).httpGet(path + '?page=$page');
+      final Response res = await Request.init(
+        context: context,
+      ).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
         setState(() {
           int length = res.data['data']['list'].length;
@@ -133,8 +134,9 @@ class ListItem extends StatelessWidget {
   }) async {
     try {
       final String path = API.favourite;
-      final Response res =
-          await Request.init(context: context).httpDelete('$path/$word');
+      final Response res = await Request.init(
+        context: context,
+      ).httpDelete('$path/$word');
       if (res.data['code'] == '1000') {
         callback();
       }

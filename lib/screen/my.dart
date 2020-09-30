@@ -23,9 +23,11 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  Future<void> _loadData() async {
+  Future<void> _getUserData() async {
     final String path = API.getUserData;
-    final Response res = await Request.init(context: context).httpPost(
+    final Response res = await Request.init(
+      context: context,
+    ).httpPost(
       path,
       <String, String>{
         'tel': context.read<UserProvider>().tel,
@@ -39,16 +41,8 @@ class _MyPageState extends State<MyPage> {
             uid: data['uid'],
             avatar: data['avatar'],
             date: data['date'],
-            token: data['token'],
             loginState: true,
           );
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('username', data['username']);
-      prefs.setString('tel', data['tel']);
-      prefs.setInt('uid', data['uid']);
-      prefs.setString('avatar', data['avatar']);
-      prefs.setString('date', data['date']);
-      prefs.setString('token', data['token']);
     }
   }
 
@@ -58,7 +52,7 @@ class _MyPageState extends State<MyPage> {
       body: RefreshIndicator(
         color: Style.grey20,
         backgroundColor: Colors.white,
-        onRefresh: _loadData,
+        onRefresh: _getUserData,
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           child: Column(
@@ -79,8 +73,8 @@ class BaseInformationBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 85.h,
-        bottom: 40.h,
+        top: 110.h,
+        bottom: 30.h,
       ),
       decoration: BoxDecoration(
         color: context.watch<SkinProvider>().color['background'],

@@ -2,8 +2,12 @@
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+//请求
+import '../services/api.dart';
+import '../services/request.dart';
 //page
 import '../screen/generate.dart';
 import '../screen/my.dart';
@@ -31,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   //设置主题
-  _getTheme() async {
+  Future<void> _getTheme() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final int themeIndex = prefs.getInt('themeIndex');
     if (themeIndex != null) {
@@ -44,20 +48,47 @@ class _HomePageState extends State<HomePage> {
   }
 
   //获取登陆状态
-  _getLoginStatus() async {
+  Future<void> _getUserData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String token = prefs.getString('token');
+    final dynamic token = prefs.getString('token');
+    final dynamic tel = prefs.getString('tel');
     if (token != null) {
       context.read<UserProvider>().changeUserData(
-            username: prefs.getString('username'),
-            tel: prefs.getString('tel'),
-            uid: prefs.getInt('uid'),
-            avatar: prefs.getString('avatar'),
-            date: prefs.getString('date'),
-            token: prefs.getString('token'),
-            loginState: true,
+            token: token,
           );
+      final String path = API.getUserData;
+      final Response res = await Request.init(
+        context: context,
+        showLoadingDialog: false,
+      ).httpPost(
+        path,
+        <String, String>{
+          'tel': tel,
+        },
+      );
+      if (res.data['code'] == '1000') {
+        final Map data = res.data['data'];
+        context.read<UserProvider>().changeUserData(
+              username: data['username'],
+              tel: data['tel'],
+              uid: data['uid'],
+              avatar: data['avatar'],
+              date: data['date'],
+              loginState: true,
+            );
+      }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding widgetsBinding = WidgetsBinding.instance;
+    //绘制完最后一帧时回调，并且只调用一次。类似于Vue里的mounted钩子
+    widgetsBinding.addPostFrameCallback((callback) async {
+      _getTheme();
+      _getUserData();
+    });
   }
 
   @override
@@ -67,8 +98,6 @@ class _HomePageState extends State<HomePage> {
       width: 375,
       height: 900,
     );
-    _getTheme();
-    _getLoginStatus();
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

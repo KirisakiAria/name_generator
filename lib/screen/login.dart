@@ -30,6 +30,7 @@ class LoginPage extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
           onTap: () {
             FocusScope.of(context).requestFocus(blankNode);
           },
@@ -86,7 +87,9 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _login() async {
     try {
       final String path = API.login;
-      final Response res = await Request.init(context: context).httpPost(
+      final Response res = await Request.init(
+        context: context,
+      ).httpPost(
         path,
         <String, dynamic>{
           'tel': _tel,
@@ -105,12 +108,8 @@ class _CustomFormState extends State<CustomForm> {
               loginState: true,
             );
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('username', data['username']);
-        prefs.setString('tel', data['tel']);
-        prefs.setInt('uid', data['uid']);
-        prefs.setString('avatar', data['avatar']);
-        prefs.setString('date', data['date']);
         prefs.setString('token', data['token']);
+        prefs.setString('tel', data['tel']);
         Navigator.pushNamed(context, '/home');
       }
     } catch (err) {
@@ -132,6 +131,7 @@ class _CustomFormState extends State<CustomForm> {
           children: <Widget>[
             Container(
               child: TextFormField(
+                autocorrect: false,
                 inputFormatters: [
                   //只允许输入数字
                   FilteringTextInputFormatter.allow(RegExp('[0-9]')),
@@ -176,6 +176,7 @@ class _CustomFormState extends State<CustomForm> {
                 top: 30.h,
               ),
               child: TextFormField(
+                autocorrect: false,
                 inputFormatters: [
                   //不允许输入汉字
                   FilteringTextInputFormatter.deny(

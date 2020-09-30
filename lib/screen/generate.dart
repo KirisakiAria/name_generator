@@ -36,7 +36,9 @@ class _GeneratePageState extends State<GeneratePage>
   Future<void> _getData() async {
     try {
       final String path = API.word;
-      final Response res = await Request.init(context: context).httpPost(
+      final Response res = await Request.init(
+        context: context,
+      ).httpPost(
         path,
         <String, dynamic>{
           'type': context.read<WordOptionsProvider>().type,
@@ -217,6 +219,7 @@ class _GeneratePageState extends State<GeneratePage>
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
+        //垂直滑动切换类型
         onVerticalDragStart: (details) {
           if (context.read<WordOptionsProvider>().type == '中国风') {
             context.read<WordOptionsProvider>().changeType(type: '日式');
@@ -330,7 +333,9 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
   Future<void> _love() async {
     try {
       final String path = API.favourite;
-      await Request.init(context: context).httpPost(
+      await Request.init(
+        context: context,
+      ).httpPost(
         path,
         <String, dynamic>{
           'type': context.read<WordOptionsProvider>().type,

@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
@@ -94,7 +93,9 @@ class _AvatarState extends State<Avatar> {
         filename: name,
       ),
     });
-    final Response res = await Request.init(context: context).httpPost(
+    final Response res = await Request.init(
+      context: context,
+    ).httpPost(
       path,
       formdata,
     );
@@ -109,7 +110,9 @@ class _AvatarState extends State<Avatar> {
     @required String avatar,
   }) async {
     final String path = API.changeAvatar;
-    final Response res = await Request.init(context: context).httpPut(
+    final Response res = await Request.init(
+      context: context,
+    ).httpPut(
       path,
       <String, dynamic>{
         'tel': context.read<UserProvider>().tel,
@@ -118,8 +121,6 @@ class _AvatarState extends State<Avatar> {
     );
     if (res.data['code'] == '1000') {
       context.read<UserProvider>().changeAvatar(avatar);
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('avatar', avatar);
       final SnackBar snackBar = SnackBar(
         content: const Text('修改头像成功'),
         duration: Duration(seconds: 2),
@@ -324,7 +325,9 @@ class EditUserNameDialog extends Dialog {
         //修改用户名
         Future<void> _changeUsername(BuildContext context) async {
           final String path = API.changeUsername;
-          final Response res = await Request.init(context: context).httpPut(
+          final Response res = await Request.init(
+            context: context,
+          ).httpPut(
             path,
             <String, dynamic>{
               'tel': context.read<UserProvider>().tel,
@@ -333,9 +336,6 @@ class EditUserNameDialog extends Dialog {
           );
           if (res.data['code'] == '1000') {
             context.read<UserProvider>().changeUsername(_username);
-            final SharedPreferences prefs =
-                await SharedPreferences.getInstance();
-            prefs.setString('username', _username);
             Navigator.of(context).pop(<String, bool>{'success': true});
           }
         }
@@ -380,6 +380,7 @@ class EditUserNameDialog extends Dialog {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       TextFormField(
+                        autocorrect: false,
                         inputFormatters: [
                           //长度限制10
                           LengthLimitingTextInputFormatter(10),

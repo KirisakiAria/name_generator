@@ -197,8 +197,8 @@ class _AboutPageState extends State<AboutPage> {
                             try {
                               final String path = API.update;
                               final Response res = await Request.init(
-                                      context: context)
-                                  .httpGet('$path?version=${Global.version}');
+                                context: context,
+                              ).httpGet('$path?version=${Global.version}');
                               if (res.data['code'] == '1000') {
                                 final SnackBar snackBar = SnackBar(
                                   content: Text(res.data['message']),

@@ -24,14 +24,16 @@ class Request {
 
   final Dio _dio = Dio();
 
-  Request.init({BuildContext context}) {
+  Request.init({
+    BuildContext context,
+    bool showLoadingDialog = true,
+  }) {
     _dio.options.headers = {
       'appname': 'bianzizai',
       'packagename': Global.packageName,
       'version': Global.version,
       'buildnumber': Global.buildNumber,
-      'authorization':
-          context != null ? context.read<UserProvider>().token : '',
+      'authorization': context.read<UserProvider>().token,
       'secret': API.secret,
     };
     _dio.options.baseUrl = API.api_prefix;
@@ -50,7 +52,7 @@ class Request {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options) async {
-          if (context != null) {
+          if (showLoadingDialog) {
             showGeneralDialog(
               context: context,
               pageBuilder: (context, anim1, anim2) {
@@ -71,7 +73,7 @@ class Request {
           return options; //continue
         },
         onResponse: (Response response) async {
-          if (context != null) {
+          if (showLoadingDialog) {
             if (response.data['code'] != '1000') {
               final SnackBar snackBar =
                   SnackBar(content: Text(response.data['message']));
@@ -83,13 +85,13 @@ class Request {
           return response;
         },
         onError: (DioError e) {
-          final SnackBar snackBar = SnackBar(
-            content: const Text('服务器开小差了，请稍后再试~'),
-            duration: Duration(seconds: 2),
-          );
-          Scaffold.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(snackBar);
-          if (context != null) {
+          if (showLoadingDialog) {
+            final SnackBar snackBar = SnackBar(
+              content: const Text('服务器开小差了，请稍后再试~'),
+              duration: Duration(seconds: 2),
+            );
+            Scaffold.of(context).removeCurrentSnackBar();
+            Scaffold.of(context).showSnackBar(snackBar);
             Navigator.pop(context);
           }
         },

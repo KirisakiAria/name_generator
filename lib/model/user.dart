@@ -6,7 +6,7 @@ class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
   int _uid = 0;
   String _avatar = '/avatar/avatar.png';
   String _date = '';
-  String _token;
+  String _token = '';
   bool _loginState = false;
 
   String get username => _username;
@@ -18,21 +18,21 @@ class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
   bool get loginState => _loginState;
 
   void changeUserData({
-    @required String username,
-    @required String tel,
-    @required int uid,
-    @required String avatar,
-    @required String date,
-    @required String token,
-    @required bool loginState,
+    String username,
+    String tel,
+    int uid,
+    String avatar,
+    String date,
+    String token,
+    bool loginState,
   }) {
-    _username = username;
-    _tel = tel;
-    _uid = uid;
-    _avatar = avatar;
-    _date = date;
-    _token = token;
-    _loginState = loginState;
+    _username = username != null ? username : _username;
+    _tel = tel != null ? tel : _tel;
+    _uid = uid != null ? uid : _uid;
+    _avatar = avatar != null ? avatar : _avatar;
+    _date = date != null ? date : _date;
+    _token = token != null ? token : _token;
+    _loginState = loginState != null ? loginState : _loginState;
     notifyListeners();
   }
 
