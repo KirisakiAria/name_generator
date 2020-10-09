@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
     if (token != null) {
       context.read<UserProvider>().changeToken(token);
       final String path = API.getUserData;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
         showLoadingDialog: false,
       ).httpPost(
@@ -80,10 +80,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  //读取本地配置
+  //读取并初始化本地配置
   Future<void> _initSetting() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool romaji = prefs.getBool('romaji');
+    final bool romaji = prefs.getBool('romaji') ?? false;
     context.read<LaboratoryOptionsProvider>().toggleRomaji(romaji: romaji);
   }
 

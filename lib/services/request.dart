@@ -24,7 +24,7 @@ class Request {
 
   final Dio _dio = Dio();
 
-  Request.init({
+  Request({
     BuildContext context,
     bool showLoadingDialog = true,
   }) {

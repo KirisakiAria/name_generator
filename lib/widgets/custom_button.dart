@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
   final Color borderColor;
   final double paddingVertical;
   final double paddingHorizontal;
-  final void Function() callback;
+  final VoidCallback callback;
   CustomButton({
     @required this.text,
     @required this.textColor,
@@ -42,9 +42,7 @@ class CustomButton extends StatelessWidget {
             fontSize: 18,
             letterSpacing: 1.5),
       ),
-      onPressed: () {
-        callback();
-      },
+      onPressed: () => callback(),
     );
   }
 }

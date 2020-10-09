@@ -27,9 +27,7 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(blankNode);
-        },
+        onTap: () => FocusScope.of(context).requestFocus(blankNode),
         child: SingleChildScrollView(
           child: CustomForm(),
         ),
@@ -65,7 +63,7 @@ class _CustomFormState extends State<CustomForm> {
       _formKey.currentState.save();
       if (Utils.isPhone(_tel)) {
         final String path = API.getAuthCode;
-        final Response res = await Request.init(
+        final Response res = await Request(
           context: context,
         ).httpPost(
           path,
@@ -99,7 +97,7 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _register() async {
     try {
       final String path = API.register;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpPost(
         path,
@@ -118,7 +116,7 @@ class _CustomFormState extends State<CustomForm> {
         Scaffold.of(context).showSnackBar(snackBar);
         //2s后自动跳登录页
         Future<void>.delayed(Duration(seconds: 2), () {
-          InheritedUserPage.of(context).changeScreen(index: 1);
+          InheritedUserPage.of(context).changeScreen(1);
         });
       }
     } catch (err) {
@@ -335,9 +333,7 @@ class _CustomFormState extends State<CustomForm> {
                 bgColor: context.watch<SkinProvider>().color['button'],
                 textColor: context.watch<SkinProvider>().color['background'],
                 borderColor: Style.defaultColor['button'],
-                callback: () {
-                  _formValidate();
-                },
+                callback: () => _formValidate(),
               ),
             ),
             Container(
@@ -345,9 +341,7 @@ class _CustomFormState extends State<CustomForm> {
                 top: 40.h,
               ),
               child: GestureDetector(
-                onTap: () {
-                  InheritedUserPage.of(context).changeScreen(index: 1);
-                },
+                onTap: () => InheritedUserPage.of(context).changeScreen(1),
                 child: Container(
                   padding: EdgeInsets.only(
                     bottom: 3.h,

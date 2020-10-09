@@ -52,7 +52,11 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                       .color['inactiveSwitchTrack'],
                   value: context.watch<LaboratoryOptionsProvider>().romaji,
                   onChanged: (bool value) async {
-                    if (!context.read<UserProvider>().loginState) {
+                    final bool loginState =
+                        context.read<UserProvider>().loginState;
+                    final LaboratoryOptionsProvider laboratoryOptionsProvider =
+                        context.read<LaboratoryOptionsProvider>();
+                    if (!loginState) {
                       final SnackBar snackBar = SnackBar(
                         content: const Text('请先登录'),
                         duration: Duration(seconds: 2),
@@ -60,11 +64,11 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                       Scaffold.of(context).removeCurrentSnackBar();
                       Scaffold.of(context).showSnackBar(snackBar);
                     } else {
-                      context.read<LaboratoryOptionsProvider>().toggleRomaji();
+                      laboratoryOptionsProvider.toggleRomaji();
+                      print(laboratoryOptionsProvider.romaji);
                       final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-                      prefs.setBool('romaji',
-                          context.read<LaboratoryOptionsProvider>().romaji);
+                      prefs.setBool('romaji', laboratoryOptionsProvider.romaji);
                     }
                   },
                 ),

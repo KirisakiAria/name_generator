@@ -39,7 +39,7 @@ class LoadingDialog extends Dialog {
                 CircularProgressIndicator(
                   strokeWidth: 5.5,
                   backgroundColor: Colors.white,
-                  valueColor: new AlwaysStoppedAnimation<Color>(Style.grey20),
+                  valueColor: AlwaysStoppedAnimation<Color>(Style.grey20),
                 ),
                 Padding(
                   padding: EdgeInsets.only(

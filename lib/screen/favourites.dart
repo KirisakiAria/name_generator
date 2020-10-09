@@ -48,7 +48,7 @@ class _FavouritesListState extends State<FavouritesList> {
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
       final String path = API.favourite;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
@@ -124,7 +124,7 @@ class _FavouritesListState extends State<FavouritesList> {
 
 class ListItem extends StatelessWidget {
   final String type, word;
-  final void Function() callback;
+  final VoidCallback callback;
   ListItem({
     @required this.type,
     @required this.word,
@@ -137,7 +137,7 @@ class ListItem extends StatelessWidget {
   }) async {
     try {
       final String path = API.favourite;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpDelete('$path/$word');
       if (res.data['code'] == '1000') {
@@ -202,12 +202,10 @@ class ListItem extends StatelessWidget {
                       color: context.watch<SkinProvider>().color['subtitle'],
                     ),
                   ),
-                  onPressed: () {
-                    _cancel(
-                      word: word,
-                      context: context,
-                    );
-                  },
+                  onPressed: () => _cancel(
+                    word: word,
+                    context: context,
+                  ),
                 ),
               ),
             ),

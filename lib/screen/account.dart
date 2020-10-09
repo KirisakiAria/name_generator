@@ -93,7 +93,7 @@ class _AvatarState extends State<Avatar> {
         filename: name,
       ),
     });
-    final Response res = await Request.init(
+    final Response res = await Request(
       context: context,
     ).httpPost(
       path,
@@ -110,7 +110,7 @@ class _AvatarState extends State<Avatar> {
     @required String avatar,
   }) async {
     final String path = API.changeAvatar;
-    final Response res = await Request.init(
+    final Response res = await Request(
       context: context,
     ).httpPut(
       path,
@@ -133,9 +133,7 @@ class _AvatarState extends State<Avatar> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        _getImage();
-      },
+      onTap: () => _getImage(),
       child: Container(
         padding: EdgeInsets.symmetric(
           vertical: 10.h,
@@ -271,15 +269,13 @@ class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
-          context,
-          '/login',
-          arguments: <String, int>{
-            'index': 3,
-          },
-        );
-      },
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/login',
+        arguments: <String, int>{
+          'index': 3,
+        },
+      ),
       child: Container(
         padding: EdgeInsets.symmetric(
           vertical: 20.h,
@@ -337,7 +333,7 @@ class EditUserNameDialog extends Dialog {
         //修改用户名
         Future<void> _changeUsername(BuildContext context) async {
           final String path = API.changeUsername;
-          final Response res = await Request.init(
+          final Response res = await Request(
             context: context,
           ).httpPut(
             path,
@@ -438,10 +434,10 @@ class EditUserNameDialog extends Dialog {
                                       .color['text'],
                                 ),
                               ),
-                              onPressed: () {
-                                Navigator.pop(
-                                    context, <String, bool>{'success': false});
-                              },
+                              onPressed: () => Navigator.pop(
+                                context,
+                                <String, bool>{'success': false},
+                              ),
                             ),
                             FlatButton(
                               child: Text(
@@ -452,9 +448,7 @@ class EditUserNameDialog extends Dialog {
                                       .color['text'],
                                 ),
                               ),
-                              onPressed: () async {
-                                _formValidate();
-                              },
+                              onPressed: () async => _formValidate(),
                             ),
                           ],
                         ),

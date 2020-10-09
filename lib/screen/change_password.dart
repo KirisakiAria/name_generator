@@ -31,9 +31,7 @@ class ChangePasswordPage extends StatelessWidget {
             !InheritedUserPage.of(context).loginLinkIsShowed,
       ),
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(blankNode);
-        },
+        onTap: () => FocusScope.of(context).requestFocus(blankNode),
         child: SingleChildScrollView(
           child: CustomForm(),
         ),
@@ -69,7 +67,7 @@ class _CustomFormState extends State<CustomForm> {
       _formKey.currentState.save();
       if (Utils.isPhone(tel)) {
         final String path = API.getAuthCode;
-        final Response res = await Request.init(
+        final Response res = await Request(
           context: context,
         ).httpPost(
           path,
@@ -104,7 +102,7 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _changePassword() async {
     try {
       final String path = API.changePassword;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpPost(
         path,
@@ -336,9 +334,7 @@ class _CustomFormState extends State<CustomForm> {
                 bgColor: context.watch<SkinProvider>().color['button'],
                 textColor: context.watch<SkinProvider>().color['background'],
                 borderColor: Style.defaultColor['button'],
-                callback: () {
-                  _formValidate();
-                },
+                callback: () => _formValidate(),
               ),
             ),
             Container(
@@ -348,9 +344,7 @@ class _CustomFormState extends State<CustomForm> {
               child: Offstage(
                 offstage: !InheritedUserPage.of(context).loginLinkIsShowed,
                 child: GestureDetector(
-                  onTap: () {
-                    InheritedUserPage.of(context).changeScreen(index: 1);
-                  },
+                  onTap: () => InheritedUserPage.of(context).changeScreen(1),
                   child: Container(
                     padding: EdgeInsets.only(bottom: 3),
                     decoration: BoxDecoration(

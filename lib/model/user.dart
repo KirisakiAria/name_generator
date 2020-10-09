@@ -26,13 +26,13 @@ class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
     String token,
     bool loginState,
   }) {
-    _username = username != null ? username : _username;
-    _tel = tel != null ? tel : _tel;
-    _uid = uid != null ? uid : _uid;
-    _avatar = avatar != null ? avatar : _avatar;
-    _date = date != null ? date : _date;
-    _token = token != null ? token : _token;
-    _loginState = loginState != null ? loginState : _loginState;
+    _username = username ?? _username;
+    _tel = tel ?? _tel;
+    _uid = uid ?? _uid;
+    _avatar = avatar ?? _avatar;
+    _date = date ?? _date;
+    _token = token ?? _token;
+    _loginState = loginState ?? _loginState;
     notifyListeners();
   }
 

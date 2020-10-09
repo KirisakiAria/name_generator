@@ -10,11 +10,7 @@ class LaboratoryOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   }
 
   void toggleRomaji({bool romaji}) {
-    if (romaji == null) {
-      _romaji = !_romaji;
-    } else {
-      _romaji = romaji;
-    }
+    _romaji = romaji ?? !_romaji;
     notifyListeners();
   }
 

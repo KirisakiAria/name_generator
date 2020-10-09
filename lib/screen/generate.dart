@@ -38,7 +38,7 @@ class _GeneratePageState extends State<GeneratePage>
   Future<void> _getData() async {
     try {
       final String path = API.word;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpPost(
         path,
@@ -49,7 +49,6 @@ class _GeneratePageState extends State<GeneratePage>
         },
       );
       if (res.data['code'] == '1000') {
-        print(res.data);
         setState(() {
           _word = res.data['data']['word'];
           _type = context.read<WordOptionsProvider>().type;
@@ -88,7 +87,7 @@ class _GeneratePageState extends State<GeneratePage>
                   TextSpan(
                     text: '隐私协议',
                     style: TextStyle(color: Colors.lightBlue),
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Navigator.pushNamed(
                           context,
@@ -104,7 +103,7 @@ class _GeneratePageState extends State<GeneratePage>
                   TextSpan(
                     text: '服务条款',
                     style: TextStyle(color: Colors.lightBlue),
-                    recognizer: new TapGestureRecognizer()
+                    recognizer: TapGestureRecognizer()
                       ..onTap = () {
                         Navigator.pushNamed(context, '/webview',
                             arguments: <String, String>{
@@ -129,9 +128,8 @@ class _GeneratePageState extends State<GeneratePage>
                     fontSize: 16,
                   ),
                 ),
-                onPressed: () {
-                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                },
+                onPressed: () =>
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
               ),
               FlatButton(
                 child: Text(
@@ -177,9 +175,7 @@ class _GeneratePageState extends State<GeneratePage>
     widgetsBinding.addPostFrameCallback((callback) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final dynamic accepted = prefs.getBool('accepted');
-      if (accepted == null) {
-        _showPopup();
-      }
+      accepted ?? _showPopup();
     });
   }
 
@@ -235,13 +231,15 @@ class _GeneratePageState extends State<GeneratePage>
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
         onVerticalDragStart: (DragStartDetails details) {
-          if (context.read<WordOptionsProvider>().type == '中国风') {
-            context.read<WordOptionsProvider>().changeType(type: '日式');
+          final WordOptionsProvider wordOptionsProviderprovider =
+              context.read<WordOptionsProvider>();
+          if (wordOptionsProviderprovider.type == '中国风') {
+            wordOptionsProviderprovider.changeType(type: '日式');
           } else {
-            context.read<WordOptionsProvider>().changeType(type: '中国风');
+            wordOptionsProviderprovider.changeType(type: '中国风');
           }
           final SnackBar snackBar = SnackBar(
-            content: Text('类型切换：${context.read<WordOptionsProvider>().type}'),
+            content: Text('类型切换：${wordOptionsProviderprovider.type}'),
             duration: Duration(seconds: 2),
           );
           Scaffold.of(context).removeCurrentSnackBar();
@@ -270,47 +268,43 @@ class _GeneratePageState extends State<GeneratePage>
                     textColor:
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
-                    callback: () {
-                      _getData();
-                    },
+                    callback: () => _getData(),
                   ),
                   CustomButton(
                     text: '選項',
                     bgColor: Style.defaultColor['background'],
                     textColor: Style.defaultColor['button'],
                     borderColor: Style.defaultColor['button'],
-                    callback: () {
-                      showGeneralDialog(
-                        context: context,
-                        pageBuilder: (
-                          BuildContext context,
-                          Animation<double> anim1,
-                          Animation<double> anim2,
-                        ) {
-                          return OptionsDialog();
-                        },
-                        barrierColor: Colors.grey.withOpacity(.4),
-                        barrierDismissible: false,
-                        transitionDuration: Duration(milliseconds: 400),
-                        transitionBuilder: (
-                          BuildContext context,
-                          Animation<double> anim1,
-                          Animation<double> anim2,
-                          Widget child,
-                        ) {
-                          final double curvedValue =
-                              Curves.easeInOutBack.transform(anim1.value) - 1;
-                          return Transform(
-                            transform: Matrix4.translationValues(
-                              0,
-                              curvedValue * -320,
-                              0,
-                            ),
-                            child: OptionsDialog(),
-                          );
-                        },
-                      );
-                    },
+                    callback: () => showGeneralDialog(
+                      context: context,
+                      pageBuilder: (
+                        BuildContext context,
+                        Animation<double> anim1,
+                        Animation<double> anim2,
+                      ) {
+                        return OptionsDialog();
+                      },
+                      barrierColor: Colors.grey.withOpacity(.4),
+                      barrierDismissible: false,
+                      transitionDuration: Duration(milliseconds: 400),
+                      transitionBuilder: (
+                        BuildContext context,
+                        Animation<double> anim1,
+                        Animation<double> anim2,
+                        Widget child,
+                      ) {
+                        final double curvedValue =
+                            Curves.easeInOutBack.transform(anim1.value) - 1;
+                        return Transform(
+                          transform: Matrix4.translationValues(
+                            0,
+                            curvedValue * -320,
+                            0,
+                          ),
+                          child: OptionsDialog(),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -352,13 +346,13 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
   Duration _duration = Duration(milliseconds: 500);
   AnimationController _controller;
   Animation<double> _opacityAnimation, _sizeAnimation;
-  static final _opacityTween = new Tween<double>(begin: 1.0, end: 0.0);
-  static final _sizeTween = new Tween<double>(begin: 0.0, end: 120.0);
+  static final _opacityTween = Tween<double>(begin: 1.0, end: 0.0);
+  static final _sizeTween = Tween<double>(begin: 0.0, end: 120.0);
 
   Future<void> _love() async {
     try {
       final String path = API.favourite;
-      await Request.init(
+      await Request(
         context: context,
       ).httpPost(
         path,
@@ -653,9 +647,7 @@ class OptionsDialog extends Dialog {
                     textColor:
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
-                    callback: () {
-                      Navigator.pop(context);
-                    },
+                    callback: () => Navigator.pop(context),
                   ),
                 ),
               ],

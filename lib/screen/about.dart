@@ -67,13 +67,14 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListView(
                       children: <Widget>[
                         ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/webview',
-                                arguments: <String, String>{
-                                  'title': '隐私协议',
-                                  'url': '$host/#/privacypolicy'
-                                });
-                          },
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/webview',
+                            arguments: <String, String>{
+                              'title': '隐私协议',
+                              'url': '$host/#/privacypolicy',
+                            },
+                          ),
                           title: Text(
                             '隐私协议',
                             style: TextStyle(
@@ -87,13 +88,14 @@ class _AboutPageState extends State<AboutPage> {
                           ),
                         ),
                         ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/webview',
-                                arguments: <String, String>{
-                                  'title': '服务条款',
-                                  'url': '$host/#/terms'
-                                });
-                          },
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/webview',
+                            arguments: <String, String>{
+                              'title': '服务条款',
+                              'url': '$host/#/terms',
+                            },
+                          ),
                           title: Text(
                             '服务条款',
                             style: TextStyle(
@@ -107,13 +109,14 @@ class _AboutPageState extends State<AboutPage> {
                           ),
                         ),
                         ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/webview',
-                                arguments: <String, String>{
-                                  'title': '使用方法',
-                                  'url': '$host/#/usage'
-                                });
-                          },
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/webview',
+                            arguments: <String, String>{
+                              'title': '使用方法',
+                              'url': '$host/#/usage',
+                            },
+                          ),
                           title: Text(
                             '使用方法',
                             style: TextStyle(
@@ -127,13 +130,14 @@ class _AboutPageState extends State<AboutPage> {
                           ),
                         ),
                         ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/webview',
-                                arguments: <String, String>{
-                                  'title': '更新日志',
-                                  'url': '$host/#/update'
-                                });
-                          },
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/webview',
+                            arguments: <String, String>{
+                              'title': '更新日志',
+                              'url': '$host/#/update',
+                            },
+                          ),
                           title: Text(
                             '更新日志',
                             style: TextStyle(
@@ -196,7 +200,7 @@ class _AboutPageState extends State<AboutPage> {
                           onTap: () async {
                             try {
                               final String path = API.update;
-                              final Response res = await Request.init(
+                              final Response res = await Request(
                                 context: context,
                               ).httpGet('$path?version=${Global.version}');
                               if (res.data['code'] == '1000') {

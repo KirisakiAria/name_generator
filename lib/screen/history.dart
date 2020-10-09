@@ -48,7 +48,7 @@ class _HistoryListState extends State<HistoryList> {
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
       final String path = API.history;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {

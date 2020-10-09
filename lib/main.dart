@@ -30,7 +30,7 @@ Future<Null> main() async {
   FlutterError.onError = (FlutterErrorDetails details) async {
     Zone.current.handleUncaughtError(details.exception, details.stack);
   };
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = MyHttpOverrides();
   //runZoned类似于沙箱，沙箱可以捕获、拦截或修改一些代码行为
   runZoned<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();

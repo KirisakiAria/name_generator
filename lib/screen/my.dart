@@ -26,7 +26,7 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   Future<void> _getUserData() async {
     final String path = API.getUserData;
-    final Response res = await Request.init(
+    final Response res = await Request(
       context: context,
     ).httpPost(
       path,
@@ -93,7 +93,8 @@ class BaseInformationBox extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           //未登录状态下点击会跳到登录页
-          if (!context.read<UserProvider>().loginState) {
+          final bool loginState = context.read<UserProvider>().loginState;
+          if (!loginState) {
             Navigator.pushNamed(context, '/login');
           }
         },
@@ -157,7 +158,8 @@ class Menu extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              if (!context.read<UserProvider>().loginState) {
+              final bool loginState = context.read<UserProvider>().loginState;
+              if (!loginState) {
                 final SnackBar snackBar = SnackBar(
                   content: const Text('请先登录'),
                   duration: Duration(seconds: 2),
@@ -199,7 +201,8 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              if (!context.read<UserProvider>().loginState) {
+              final bool loginState = context.read<UserProvider>().loginState;
+              if (!loginState) {
                 final SnackBar snackBar = SnackBar(
                   content: const Text('请先登录'),
                   duration: Duration(seconds: 2),
@@ -240,9 +243,7 @@ class Menu extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/setting');
-            },
+            onTap: () => Navigator.pushNamed(context, '/setting'),
             child: Container(
               child: SizedBox(
                 width: 90.w,
@@ -273,9 +274,7 @@ class Menu extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/about');
-            },
+            onTap: () => Navigator.pushNamed(context, '/about'),
             child: Container(
               child: SizedBox(
                 width: 90.w,
@@ -306,9 +305,7 @@ class Menu extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/laboratory');
-            },
+            onTap: () => Navigator.pushNamed(context, '/laboratory'),
             child: Container(
               child: SizedBox(
                 width: 90.w,
@@ -340,7 +337,8 @@ class Menu extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              if (context.read<UserProvider>().loginState) {
+              final bool loginState = context.read<UserProvider>().loginState;
+              if (loginState) {
                 showGeneralDialog(
                   context: context,
                   pageBuilder: (
@@ -363,9 +361,7 @@ class Menu extends StatelessWidget {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          onPressed: () => Navigator.pop(context),
                         ),
                         FlatButton(
                           child: Text(

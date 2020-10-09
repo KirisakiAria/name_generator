@@ -31,9 +31,7 @@ class LoginPage extends StatelessWidget {
       child: Scaffold(
         body: GestureDetector(
           behavior: HitTestBehavior.translucent,
-          onTap: () {
-            FocusScope.of(context).requestFocus(blankNode);
-          },
+          onTap: () => FocusScope.of(context).requestFocus(blankNode),
           child: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -87,7 +85,7 @@ class _CustomFormState extends State<CustomForm> {
   Future<void> _login() async {
     try {
       final String path = API.login;
-      final Response res = await Request.init(
+      final Response res = await Request(
         context: context,
       ).httpPost(
         path,
@@ -226,9 +224,7 @@ class _CustomFormState extends State<CustomForm> {
                 bgColor: context.watch<SkinProvider>().color['button'],
                 textColor: context.watch<SkinProvider>().color['background'],
                 borderColor: context.watch<SkinProvider>().color['background'],
-                callback: () {
-                  _formValidate();
-                },
+                callback: () => _formValidate(),
               ),
             ),
             Container(
@@ -241,9 +237,7 @@ class _CustomFormState extends State<CustomForm> {
                 bgColor: Style.defaultColor['background'],
                 textColor: Style.defaultColor['button'],
                 borderColor: Style.defaultColor['button'],
-                callback: () {
-                  InheritedUserPage.of(context).changeScreen(index: 2);
-                },
+                callback: () => InheritedUserPage.of(context).changeScreen(2),
               ),
             ),
             Container(
@@ -251,9 +245,7 @@ class _CustomFormState extends State<CustomForm> {
                 top: 50.h,
               ),
               child: GestureDetector(
-                onTap: () {
-                  InheritedUserPage.of(context).changeScreen(index: 3);
-                },
+                onTap: () => InheritedUserPage.of(context).changeScreen(3),
                 child: Container(
                   padding: EdgeInsets.only(
                     bottom: 3.h,
@@ -281,9 +273,7 @@ class _CustomFormState extends State<CustomForm> {
                 bottom: 15.h,
               ),
               child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/home');
-                },
+                onTap: () => Navigator.pushNamed(context, '/home'),
                 child: Container(
                   padding: EdgeInsets.only(bottom: 3),
                   margin: EdgeInsets.only(bottom: 20.h),
