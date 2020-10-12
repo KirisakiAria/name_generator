@@ -129,7 +129,6 @@ class _CustomFormState extends State<CustomForm> {
           children: <Widget>[
             Container(
               child: TextFormField(
-                autocorrect: false,
                 inputFormatters: [
                   //只允许输入数字
                   FilteringTextInputFormatter.allow(RegExp('[0-9]')),
@@ -137,7 +136,9 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(11),
                 ],
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 1),
+                  contentPadding: EdgeInsets.only(
+                    bottom: 1,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: context.watch<SkinProvider>().color['border'],
@@ -174,7 +175,6 @@ class _CustomFormState extends State<CustomForm> {
                 top: 30.h,
               ),
               child: TextFormField(
-                autocorrect: false,
                 inputFormatters: [
                   //不允许输入汉字
                   FilteringTextInputFormatter.deny(
@@ -248,7 +248,7 @@ class _CustomFormState extends State<CustomForm> {
                 onTap: () => InheritedUserPage.of(context).changeScreen(3),
                 child: Container(
                   padding: EdgeInsets.only(
-                    bottom: 3.h,
+                    bottom: 3,
                   ),
                   decoration: BoxDecoration(
                     border: Border(
@@ -275,8 +275,12 @@ class _CustomFormState extends State<CustomForm> {
               child: GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/home'),
                 child: Container(
-                  padding: EdgeInsets.only(bottom: 3),
-                  margin: EdgeInsets.only(bottom: 20.h),
+                  padding: EdgeInsets.only(
+                    bottom: 3,
+                  ),
+                  margin: EdgeInsets.only(
+                    bottom: 20.h,
+                  ),
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(

@@ -444,7 +444,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                   top: 50.h,
                 ),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Text(
                       widget.word,
                       style: TextStyle(
@@ -598,9 +598,11 @@ class OptionsDialog extends Dialog {
           width: double.infinity,
           height: 320.h,
           child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
               ),
               color: context.watch<SkinProvider>().color['widget'],
             ),

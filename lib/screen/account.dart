@@ -388,7 +388,6 @@ class EditUserNameDialog extends Dialog {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       TextFormField(
-                        autocorrect: false,
                         inputFormatters: [
                           //长度限制10
                           LengthLimitingTextInputFormatter(10),

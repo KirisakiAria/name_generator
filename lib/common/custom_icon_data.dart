@@ -4,6 +4,7 @@ class CustomIconData {
   static const int chinese = 0xec15;
   static const int japanese = 0xe63f;
   static const int cat = 0xe65e;
+  static const int search = 0xe600;
   static const int account = 0xe610;
   static const int theme = 0xe750;
   static const int clearCache = 0xe677;

@@ -171,7 +171,6 @@ class _CustomFormState extends State<CustomForm> {
           children: <Widget>[
             Container(
               child: TextFormField(
-                autocorrect: false,
                 inputFormatters: [
                   //只允许输入数字
                   FilteringTextInputFormatter.allow(RegExp('[0-9]')),
@@ -179,7 +178,9 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(11),
                 ],
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 1),
+                  contentPadding: EdgeInsets.only(
+                    bottom: 1,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Style.defaultColor['border'],
@@ -226,7 +227,6 @@ class _CustomFormState extends State<CustomForm> {
                 children: <Widget>[
                   Expanded(
                     child: TextFormField(
-                      autocorrect: false,
                       inputFormatters: [
                         //只允许输入数字
                         FilteringTextInputFormatter.allow(RegExp('[0-9]')),
@@ -234,7 +234,9 @@ class _CustomFormState extends State<CustomForm> {
                         LengthLimitingTextInputFormatter(6),
                       ],
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(bottom: 1),
+                        contentPadding: EdgeInsets.only(
+                          bottom: 1,
+                        ),
                         enabledBorder:
                             UnderlineInputBorder(borderSide: BorderSide.none),
                         focusedBorder:
@@ -283,7 +285,6 @@ class _CustomFormState extends State<CustomForm> {
                 top: 30.h,
               ),
               child: TextFormField(
-                autocorrect: false,
                 inputFormatters: [
                   //不允许输入汉字
                   FilteringTextInputFormatter.deny(
@@ -293,7 +294,9 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(20),
                 ],
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 1),
+                  contentPadding: EdgeInsets.only(
+                    bottom: 1,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Style.defaultColor['border'],
@@ -344,7 +347,7 @@ class _CustomFormState extends State<CustomForm> {
                 onTap: () => InheritedUserPage.of(context).changeScreen(1),
                 child: Container(
                   padding: EdgeInsets.only(
-                    bottom: 3.h,
+                    bottom: 3,
                   ),
                   decoration: BoxDecoration(
                     border: Border(

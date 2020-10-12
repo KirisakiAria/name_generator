@@ -88,7 +88,7 @@ class _Item extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.only(
-          bottom: 20.w,
+          bottom: 15.h,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,7 +109,7 @@ class _Item extends StatelessWidget {
                   ),
                 ],
               ),
-              height: 60.w,
+              height: 65.h,
               width: 280.w,
             ),
             Container(

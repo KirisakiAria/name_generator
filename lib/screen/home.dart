@@ -10,6 +10,7 @@ import '../services/api.dart';
 import '../services/request.dart';
 //page
 import '../screen/generate.dart';
+import '../screen/search.dart';
 import '../screen/my.dart';
 //common
 import '../common/style.dart';
@@ -118,9 +119,12 @@ class _HomePageState extends State<HomePage> {
             if (index == 0) {
               return GeneratePage();
             }
+            if (index == 1) {
+              return SearchPage();
+            }
             return MyPage();
           },
-          itemCount: 2,
+          itemCount: 3,
         ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
@@ -138,6 +142,16 @@ class _HomePageState extends State<HomePage> {
               icon: Icon(
                 const IconData(
                   CustomIconData.generate,
+                  fontFamily: 'iconfont',
+                ),
+                size: 28,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                const IconData(
+                  CustomIconData.search,
                   fontFamily: 'iconfont',
                 ),
                 size: 28,

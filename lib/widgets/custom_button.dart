@@ -31,16 +31,20 @@ class CustomButton extends StatelessWidget {
       highlightElevation: 0,
       splashColor: Colors.white,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: borderColor, width: 2),
+        side: BorderSide(
+          color: borderColor,
+          width: 2,
+        ),
         borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       child: Text(
         text,
         style: TextStyle(
-            color: textColor,
-            fontFamily: 'SoukouMincho',
-            fontSize: 18,
-            letterSpacing: 1.5),
+          color: textColor,
+          fontFamily: 'SoukouMincho',
+          fontSize: 18,
+          letterSpacing: 1.5,
+        ),
       ),
       onPressed: () => callback(),
     );

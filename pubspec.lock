@@ -133,7 +133,7 @@ packages:
       name: code_builder
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.4.1"
+    version: "3.5.0"
   collection:
     dependency: transitive
     description:
@@ -736,5 +736,5 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
-  dart: ">=2.10.0-110 <=2.11.0-177.0.dev"
+  dart: ">=2.10.0-110 <=2.11.0-161.0.dev"
   flutter: ">=1.16.0 <2.0.0"

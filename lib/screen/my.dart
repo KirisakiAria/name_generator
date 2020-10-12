@@ -77,12 +77,14 @@ class BaseInformationBox extends StatelessWidget {
         top: 110.h,
         bottom: 30.h,
       ),
-      decoration: BoxDecoration(
-        color: context.watch<SkinProvider>().color['background'],
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(40),
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(40),
+          ),
         ),
-        boxShadow: [
+        color: context.watch<SkinProvider>().color['background'],
+        shadows: [
           BoxShadow(
             color: context.watch<SkinProvider>().color['infoShadow'],
             blurRadius: 12,
