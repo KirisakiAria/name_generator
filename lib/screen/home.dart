@@ -101,11 +101,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-      context,
-      width: 375,
-      height: 900,
-    );
+    ScreenUtil.init(context, designSize: Size(375, 900));
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

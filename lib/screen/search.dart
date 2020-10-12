@@ -22,88 +22,152 @@ import '../model/user.dart';
 import '../model/skin.dart';
 import '../model/laboratory_options.dart';
 
+final FocusNode blankNode = FocusNode();
+
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController controller = TextEditingController();
+  String _searchText = '';
 
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(() {
-      print('input ${controller.text}');
-    });
+  void _search(String searchText) {
+    _searchText = searchText;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(blankNode),
+        child: InheritedContext(
+          searchText: _searchText,
+          search: _search,
+          child: Column(
+            children: <Widget>[
+              SearchInput(),
+              List(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InheritedContext extends InheritedWidget {
+  //选择之后回调
+  final void Function(String searchTxt) search;
+  //当前值
+  final String searchText;
+
+  InheritedContext({
+    Key key,
+    @required this.searchText,
+    @required this.search,
+    @required Widget child,
+  }) : super(key: key, child: child);
+
+  static InheritedContext of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<InheritedContext>();
+  }
+
+  //是否重建widget就取决于数据是否相同
+  @override
+  bool updateShouldNotify(InheritedContext oldWidget) {
+    return searchText != oldWidget.searchText;
+  }
+}
+
+class SearchInput extends StatelessWidget {
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final inheritedContext = InheritedContext.of(context);
+    return Container(
+      padding: EdgeInsets.only(right: 10.w),
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(24),
+          ),
+        ),
+        color: Color(0xFFf5f5f5),
+      ),
+      margin: EdgeInsets.only(
+        top: 70.h,
+        left: 20.w,
+        right: 20.w,
+      ),
+      child: Row(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(right: 20),
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(24),
+          Expanded(
+            child: TextField(
+              controller: controller,
+              inputFormatters: [
+                //长度限制10
+                LengthLimitingTextInputFormatter(10),
+              ],
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                ),
+                border: InputBorder.none,
+                hintText: '根据关键字搜索网名',
+                hintStyle: TextStyle(
+                  fontSize: 14,
                 ),
               ),
-              color: Colors.black12,
             ),
-            margin: EdgeInsets.only(
-              top: 70.h,
-              left: 20.w,
-              right: 20.w,
+          ),
+          Container(
+            width: 32.w,
+            height: 32.w,
+            decoration: ShapeDecoration(
+              shape: CircleBorder(),
+              gradient: LinearGradient(
+                colors: <Color>[
+                  Color(0xffFBAB7E),
+                  Color(0xffF7CE68),
+                ],
+              ),
             ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    inputFormatters: [
-                      //长度限制10
-                      LengthLimitingTextInputFormatter(10),
-                    ],
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                      ),
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 25.w,
-                  height: 25.w,
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Color(0xff25D1D1),
-                        Color(0xff3BE6AD),
-                        Color(0xff20DDAA)
-                      ],
-                    ),
-                  ),
-                  child: RaisedButton.icon(
-                    elevation: 0,
-                    disabledElevation: 0,
-                    highlightElevation: 0,
-                    splashColor: Colors.white,
-                    shape: CircleBorder(),
-                    icon: Icon(Icons.search),
-                    label: new Text(''),
-                    onPressed: null,
-                  ),
-                ),
-              ],
+            child: MaterialButton(
+              padding: EdgeInsets.all(0),
+              elevation: 0,
+              disabledElevation: 0,
+              highlightElevation: 0,
+              splashColor: Colors.white,
+              child: Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 18,
+              ),
+              onPressed: () {
+                inheritedContext.search(controller.text);
+                FocusScope.of(context).requestFocus(blankNode);
+              },
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class List extends StatefulWidget {
+  @override
+  _ListState createState() => _ListState();
+}
+
+class _ListState extends State<List> {
+  @override
+  Widget build(BuildContext context) {
+    final inheritedContext = InheritedContext.of(context);
+    return Center(
+      child: Text(inheritedContext.searchText),
     );
   }
 }
