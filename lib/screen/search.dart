@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -163,11 +164,38 @@ class List extends StatefulWidget {
 }
 
 class _ListState extends State<List> {
+  Future<void> _refreshData() async {}
+
   @override
   Widget build(BuildContext context) {
     final inheritedContext = InheritedContext.of(context);
-    return Center(
-      child: Text(inheritedContext.searchText),
+    return Expanded(
+      child: StaggeredGridView.countBuilder(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        crossAxisCount: 4,
+        itemCount: 15,
+        itemBuilder: (BuildContext context, int index) => Container(
+          decoration: ShapeDecoration(
+            color: context.watch<SkinProvider>().color['background'],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            shadows: <BoxShadow>[
+              BoxShadow(
+                color: Color(0xffe2e2e2),
+                blurRadius: 4,
+                offset: Offset(1, 2),
+              ),
+            ],
+          ),
+        ),
+        staggeredTileBuilder: (int index) =>
+            StaggeredTile.count(2, index == 1 ? 0.8 : 1.2),
+        mainAxisSpacing: 18.h,
+        crossAxisSpacing: 14.w,
+      ),
     );
   }
 }
