@@ -17,6 +17,7 @@ import '../widgets/custom_button.dart';
 //common
 import '../common/style.dart';
 import '../common/optionsData.dart';
+import '../common/loading_status.dart';
 //model
 import '../model/word_options.dart';
 import '../model/user.dart';
@@ -31,10 +32,52 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
+
   String _searchText = '';
+  List<Map<String, dynamic>> _list = <Map<String, dynamic>>[];
+  int _page = 0;
+
+  Future<void> _getData(String searchText) async {
+    try {
+      final String path = API.search;
+      _loadingStatus = LoadingStatus.STATUS_LOADING;
+      Response res = await Request(
+        context: context,
+      ).httpPost(
+        path,
+        <String, dynamic>{
+          'searchContent': searchText,
+          'pageSize': 20,
+          'currentPage': _page,
+        },
+      );
+      if (res.data['code'] == 1000 &&
+          _loadingStatus != LoadingStatus.STATUS_COMPLETED) {
+        _list.addAll(res.data['length'].list);
+        if (res.data['length'] < 20) {
+          _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+        } else {
+          _page++;
+          _loadingStatus = LoadingStatus.STATUS_IDEL;
+        }
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
 
   void _search(String searchText) {
-    _searchText = searchText;
+    _loadingStatus = LoadingStatus.STATUS_IDEL;
+    Scaffold.of(context).removeCurrentSnackBar();
+    if (searchText == '') {
+      final SnackBar snackBar = SnackBar(content: Text('请输入关键字'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    } else {
+      _searchText = searchText;
+      _page = 0;
+      _getData(searchText);
+    }
   }
 
   @override
@@ -45,10 +88,12 @@ class _SearchPageState extends State<SearchPage> {
         child: InheritedContext(
           searchText: _searchText,
           search: _search,
+          list: _list,
+          page: _page,
           child: Column(
             children: <Widget>[
               SearchInput(),
-              List(),
+              SearchList(),
             ],
           ),
         ),
@@ -60,13 +105,19 @@ class _SearchPageState extends State<SearchPage> {
 class InheritedContext extends InheritedWidget {
   //选择之后回调
   final void Function(String searchTxt) search;
-  //当前值
+  //搜索文本
   final String searchText;
+  //列表
+  final List<Map<String, dynamic>> list;
+  //当前页数
+  final int page;
 
   InheritedContext({
     Key key,
     @required this.searchText,
     @required this.search,
+    @required this.list,
+    @required this.page,
     @required Widget child,
   }) : super(key: key, child: child);
 
@@ -86,7 +137,7 @@ class SearchInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inheritedContext = InheritedContext.of(context);
+    final InheritedContext inheritedContext = InheritedContext.of(context);
     return Container(
       padding: EdgeInsets.only(right: 10.w),
       decoration: ShapeDecoration(
@@ -158,43 +209,63 @@ class SearchInput extends StatelessWidget {
   }
 }
 
-class List extends StatefulWidget {
+class SearchList extends StatefulWidget {
   @override
-  _ListState createState() => _ListState();
+  _SearchListState createState() => _SearchListState();
 }
 
-class _ListState extends State<List> {
-  Future<void> _refreshData() async {}
+class _SearchListState extends State<SearchList> {
+  ScrollController _scrollController = ScrollController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scrollController.addListener(() {
+  //     if (_scrollController.position.pixels ==
+  //         _scrollController.position.maxScrollExtent) {
+  //       if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
+  //         _getData(refresh: false);
+  //       }
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final inheritedContext = InheritedContext.of(context);
+    final InheritedContext inheritedContext = InheritedContext.of(context);
+    final int page = inheritedContext.page;
+    final List<Map<String, dynamic>> list = inheritedContext.list;
+    print(list);
     return Expanded(
-      child: StaggeredGridView.countBuilder(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-        crossAxisCount: 4,
-        itemCount: 15,
-        itemBuilder: (BuildContext context, int index) => Container(
-          decoration: ShapeDecoration(
-            color: context.watch<SkinProvider>().color['background'],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
+      child: Offstage(
+        offstage: list.length == 0,
+        child: StaggeredGridView.countBuilder(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          crossAxisCount: 4,
+          itemCount: 20,
+          itemBuilder: (BuildContext context, int index) => Container(
+            decoration: ShapeDecoration(
+              color: context.watch<SkinProvider>().color['background'],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
               ),
+              shadows: <BoxShadow>[
+                BoxShadow(
+                  color: Color(0xffe2e2e2),
+                  blurRadius: 4,
+                  offset: Offset(1, 2),
+                ),
+              ],
             ),
-            shadows: <BoxShadow>[
-              BoxShadow(
-                color: Color(0xffe2e2e2),
-                blurRadius: 4,
-                offset: Offset(1, 2),
-              ),
-            ],
+            child: Text('1'),
           ),
+          staggeredTileBuilder: (int index) =>
+              StaggeredTile.count(2, index == 1 ? 0.8 : 1.2),
+          mainAxisSpacing: 18.h,
+          crossAxisSpacing: 14.w,
         ),
-        staggeredTileBuilder: (int index) =>
-            StaggeredTile.count(2, index == 1 ? 0.8 : 1.2),
-        mainAxisSpacing: 18.h,
-        crossAxisSpacing: 14.w,
       ),
     );
   }

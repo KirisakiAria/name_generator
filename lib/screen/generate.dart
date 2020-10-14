@@ -514,7 +514,7 @@ class InheritedSelect extends InheritedWidget {
 class SelectBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final inheritedContext = InheritedSelect.of(context);
+    final InheritedSelect inheritedSelect = InheritedSelect.of(context);
     return Container(
       width: 165.w,
       decoration: BoxDecoration(
@@ -527,7 +527,7 @@ class SelectBox extends StatelessWidget {
         horizontal: 20.w,
         vertical: 10.h,
       ),
-      child: Select(inheritedContext.currentValue),
+      child: Select(inheritedSelect.currentValue),
     );
   }
 }
@@ -548,7 +548,7 @@ class _SelectState extends State<Select> {
 
   @override
   Widget build(BuildContext context) {
-    final inheritedContext = InheritedSelect.of(context);
+    final InheritedSelect inheritedSelect = InheritedSelect.of(context);
     return DropdownButtonHideUnderline(
       child: DropdownButton<String>(
         isDense: true,
@@ -568,12 +568,12 @@ class _SelectState extends State<Select> {
         onChanged: (dynamic newValue) {
           setState(() {
             dropdownValue = newValue;
-            inheritedContext.callback(newValue);
+            inheritedSelect.callback(newValue);
           });
         },
         dropdownColor: context.watch<SkinProvider>().color['background'],
         items:
-            inheritedContext.list.map<DropdownMenuItem<String>>((String value) {
+            inheritedSelect.list.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value),
