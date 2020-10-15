@@ -13,7 +13,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../services/api.dart';
 import '../services/request.dart';
 //组件
-import '../widgets/custom_button.dart';
+import '../widgets/loading_view.dart';
 //common
 import '../common/style.dart';
 import '../common/optionsData.dart';
@@ -35,13 +35,12 @@ class _SearchPageState extends State<SearchPage> {
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
 
   String _searchText = '';
-  List<Map<String, dynamic>> _list = <Map<String, dynamic>>[];
+  List<dynamic> _list = <dynamic>[];
   int _page = 0;
 
   Future<void> _getData(String searchText) async {
     try {
       final String path = API.search;
-      _loadingStatus = LoadingStatus.STATUS_LOADING;
       Response res = await Request(
         context: context,
       ).httpPost(
@@ -52,15 +51,17 @@ class _SearchPageState extends State<SearchPage> {
           'currentPage': _page,
         },
       );
-      if (res.data['code'] == 1000 &&
-          _loadingStatus != LoadingStatus.STATUS_COMPLETED) {
-        _list.addAll(res.data['length'].list);
-        if (res.data['length'] < 20) {
-          _loadingStatus = LoadingStatus.STATUS_COMPLETED;
-        } else {
-          _page++;
-          _loadingStatus = LoadingStatus.STATUS_IDEL;
-        }
+      if (res.data['code'] == '1000') {
+        setState(() {
+          final int length = res.data['data']['list'].length;
+          _list.addAll(res.data['data']['list']);
+          if (length < 20) {
+            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+          } else {
+            _page++;
+            _loadingStatus = LoadingStatus.STATUS_IDEL;
+          }
+        });
       }
     } catch (err) {
       print(err);
@@ -68,12 +69,12 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _search(String searchText) {
-    _loadingStatus = LoadingStatus.STATUS_IDEL;
     Scaffold.of(context).removeCurrentSnackBar();
     if (searchText == '') {
       final SnackBar snackBar = SnackBar(content: Text('请输入关键字'));
       Scaffold.of(context).showSnackBar(snackBar);
     } else {
+      _loadingStatus = LoadingStatus.STATUS_LOADING;
       _searchText = searchText;
       _page = 0;
       _getData(searchText);
@@ -89,7 +90,6 @@ class _SearchPageState extends State<SearchPage> {
           searchText: _searchText,
           search: _search,
           list: _list,
-          page: _page,
           child: Column(
             children: <Widget>[
               SearchInput(),
@@ -108,16 +108,13 @@ class InheritedContext extends InheritedWidget {
   //搜索文本
   final String searchText;
   //列表
-  final List<Map<String, dynamic>> list;
-  //当前页数
-  final int page;
+  final List<dynamic> list;
 
   InheritedContext({
     Key key,
     @required this.searchText,
     @required this.search,
     @required this.list,
-    @required this.page,
     @required Widget child,
   }) : super(key: key, child: child);
 
@@ -233,16 +230,14 @@ class _SearchListState extends State<SearchList> {
   @override
   Widget build(BuildContext context) {
     final InheritedContext inheritedContext = InheritedContext.of(context);
-    final int page = inheritedContext.page;
-    final List<Map<String, dynamic>> list = inheritedContext.list;
-    print(list);
+    final List<dynamic> list = inheritedContext.list;
     return Expanded(
       child: Offstage(
         offstage: list.length == 0,
         child: StaggeredGridView.countBuilder(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           crossAxisCount: 4,
-          itemCount: 20,
+          itemCount: list.length,
           itemBuilder: (BuildContext context, int index) => Container(
             decoration: ShapeDecoration(
               color: context.watch<SkinProvider>().color['background'],
@@ -259,10 +254,12 @@ class _SearchListState extends State<SearchList> {
                 ),
               ],
             ),
-            child: Text('1'),
+            child: Center(
+              child: Text(list[index]['word']),
+            ),
           ),
           staggeredTileBuilder: (int index) =>
-              StaggeredTile.count(2, index == 1 ? 0.8 : 1.2),
+              StaggeredTile.count(2, index == 1 ? 1 : 1.25),
           mainAxisSpacing: 18.h,
           crossAxisSpacing: 14.w,
         ),

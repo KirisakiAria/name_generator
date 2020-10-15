@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求相关
 import '../services/api.dart';
 import '../services/request.dart';
+//组件
+import '../widgets/loading_view.dart';
 //model
 import '../model/skin.dart';
 //common
@@ -53,7 +55,7 @@ class _FavouritesListState extends State<FavouritesList> {
       ).httpGet(path + '?page=$page');
       if (res.data['code'] == '1000') {
         setState(() {
-          int length = res.data['data']['list'].length;
+          final int length = res.data['data']['list'].length;
           if (length > 0 && length < 15) {
             favouritesList.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
@@ -108,7 +110,7 @@ class _FavouritesListState extends State<FavouritesList> {
           int index,
         ) {
           if (index == favouritesList.length) {
-            return _LoadingView(_loadingStatus);
+            return LoadingView(_loadingStatus);
           } else {
             return ListItem(
               type: favouritesList[index]['type'],
@@ -208,47 +210,6 @@ class ListItem extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _LoadingView extends StatelessWidget {
-  final LoadingStatus _loadingStatus;
-  _LoadingView(this._loadingStatus);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 20,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(
-            const IconData(
-              CustomIconData.cat,
-              fontFamily: 'iconfont',
-            ),
-            color: context.watch<SkinProvider>().color['text'],
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              left: 12.w,
-            ),
-            child: Builder(
-              builder: (BuildContext conext) {
-                if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
-                  return const Text('上拉加载更多');
-                } else if (_loadingStatus == LoadingStatus.STATUS_LOADING) {
-                  return const Text('加载中');
-                }
-                return const Text('加载完成');
-              },
             ),
           ),
         ],
