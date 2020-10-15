@@ -37,34 +37,31 @@ class FavouritesList extends StatefulWidget {
 }
 
 class _FavouritesListState extends State<FavouritesList> {
-  List<dynamic> favouritesList = <dynamic>[];
+  List<dynamic> _list = <dynamic>[];
   ScrollController _scrollController = ScrollController();
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
-  int page = 0;
+  int _page = 0;
 
   Future<void> _getData({bool refresh = true}) async {
     try {
       if (refresh) {
-        page = 0;
-        favouritesList.clear();
+        _page = 0;
+        _list.clear();
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
       final String path = API.favourite;
       final Response res = await Request(
         context: context,
-      ).httpGet(path + '?page=$page');
+      ).httpGet(path + '?page=$_page');
       if (res.data['code'] == '1000') {
         setState(() {
           final int length = res.data['data']['list'].length;
-          if (length > 0 && length < 15) {
-            favouritesList.addAll(res.data['data']['list']);
+          if (length == 0) {
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
-          } else if (length >= 15) {
-            favouritesList.addAll(res.data['data']['list']);
-            _loadingStatus = LoadingStatus.STATUS_IDEL;
-            page++;
           } else {
-            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+            _list.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_IDEL;
+            _page++;
           }
         });
       }
@@ -87,6 +84,7 @@ class _FavouritesListState extends State<FavouritesList> {
     });
   }
 
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
@@ -104,17 +102,17 @@ class _FavouritesListState extends State<FavouritesList> {
           vertical: 6.h,
         ),
         controller: _scrollController,
-        itemCount: favouritesList.length + 1,
+        itemCount: _list.length + 1,
         itemBuilder: (
           BuildContext context,
           int index,
         ) {
-          if (index == favouritesList.length) {
+          if (index == _list.length) {
             return LoadingView(_loadingStatus);
           } else {
             return ListItem(
-              type: favouritesList[index]['type'],
-              word: favouritesList[index]['word'],
+              type: _list[index]['type'],
+              word: _list[index]['word'],
               callback: _getData,
             );
           }

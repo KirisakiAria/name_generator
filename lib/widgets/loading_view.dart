@@ -10,14 +10,14 @@ import '../common/loading_status.dart';
 import '../common/custom_icon_data.dart';
 
 class LoadingView extends StatelessWidget {
-  final LoadingStatus _loadingStatus;
-  LoadingView(this._loadingStatus);
+  final LoadingStatus loadingStatus;
+  LoadingView(this.loadingStatus);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 20,
+        vertical: 15.h,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,9 +35,9 @@ class LoadingView extends StatelessWidget {
             ),
             child: Builder(
               builder: (BuildContext conext) {
-                if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
+                if (loadingStatus == LoadingStatus.STATUS_IDEL) {
                   return const Text('上拉加载更多');
-                } else if (_loadingStatus == LoadingStatus.STATUS_LOADING) {
+                } else if (loadingStatus == LoadingStatus.STATUS_LOADING) {
                   return const Text('加载中');
                 }
                 return const Text('加载完成');

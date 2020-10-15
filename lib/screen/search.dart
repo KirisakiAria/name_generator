@@ -31,7 +31,8 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends State<SearchPage>
+    with AutomaticKeepAliveClientMixin {
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
 
   String _searchText = '';
@@ -54,12 +55,12 @@ class _SearchPageState extends State<SearchPage> {
       if (res.data['code'] == '1000') {
         setState(() {
           final int length = res.data['data']['list'].length;
-          _list.addAll(res.data['data']['list']);
-          if (length < 20) {
+          if (length == 0) {
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
           } else {
-            _page++;
+            _list.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_IDEL;
+            _page++;
           }
         });
       }
@@ -68,21 +69,34 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _search(String searchText) {
-    Scaffold.of(context).removeCurrentSnackBar();
-    if (searchText == '') {
-      final SnackBar snackBar = SnackBar(content: Text('请输入关键字'));
-      Scaffold.of(context).showSnackBar(snackBar);
-    } else {
-      _loadingStatus = LoadingStatus.STATUS_LOADING;
-      _searchText = searchText;
-      _page = 0;
-      _getData(searchText);
+  void _search({String searchText, bool refresh = false}) {
+    if (_loadingStatus != LoadingStatus.STATUS_LOADING) {
+      Scaffold.of(context).removeCurrentSnackBar();
+      setState(() {
+        if (searchText != null) {
+          _searchText = searchText;
+        }
+        if (_searchText == '') {
+          final SnackBar snackBar = SnackBar(content: Text('请输入关键字'));
+          Scaffold.of(context).showSnackBar(snackBar);
+        } else {
+          if (refresh) {
+            _page = 0;
+            _list = [];
+          }
+          _loadingStatus = LoadingStatus.STATUS_LOADING;
+          _getData(_searchText);
+        }
+      });
     }
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(blankNode),
@@ -90,6 +104,7 @@ class _SearchPageState extends State<SearchPage> {
           searchText: _searchText,
           search: _search,
           list: _list,
+          loadingStatus: _loadingStatus,
           child: Column(
             children: <Widget>[
               SearchInput(),
@@ -104,17 +119,20 @@ class _SearchPageState extends State<SearchPage> {
 
 class InheritedContext extends InheritedWidget {
   //选择之后回调
-  final void Function(String searchTxt) search;
+  final void Function({@required String searchText, bool refresh}) search;
   //搜索文本
   final String searchText;
   //列表
   final List<dynamic> list;
+  //列表加载状态
+  final LoadingStatus loadingStatus;
 
   InheritedContext({
     Key key,
     @required this.searchText,
     @required this.search,
     @required this.list,
+    @required this.loadingStatus,
     @required Widget child,
   }) : super(key: key, child: child);
 
@@ -130,77 +148,84 @@ class InheritedContext extends InheritedWidget {
 }
 
 class SearchInput extends StatelessWidget {
-  final TextEditingController controller = TextEditingController();
+  //设置成静态是为了不让textfiled的值被清空
+  static final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final InheritedContext inheritedContext = InheritedContext.of(context);
     return Container(
-      padding: EdgeInsets.only(right: 10.w),
-      decoration: ShapeDecoration(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(24),
-          ),
-        ),
-        color: Color(0xFFf5f5f5),
-      ),
-      margin: EdgeInsets.only(
+      padding: EdgeInsets.only(
         top: 70.h,
+        bottom: 20.h,
         left: 20.w,
         right: 20.w,
       ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: TextField(
-              controller: controller,
-              inputFormatters: [
-                //长度限制10
-                LengthLimitingTextInputFormatter(10),
-              ],
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 20.w,
-                ),
-                border: InputBorder.none,
-                hintText: '根据关键字搜索网名',
-                hintStyle: TextStyle(
-                  fontSize: 14,
-                ),
-              ),
+      child: Container(
+        padding: EdgeInsets.only(right: 10.w),
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(24),
             ),
           ),
-          Container(
-            width: 32.w,
-            height: 32.w,
-            decoration: ShapeDecoration(
-              shape: CircleBorder(),
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xffFBAB7E),
-                  Color(0xffF7CE68),
+          color: Color(0xFFf5f5f5),
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextField(
+                controller: controller,
+                inputFormatters: [
+                  //长度限制10
+                  LengthLimitingTextInputFormatter(10),
                 ],
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                  ),
+                  border: InputBorder.none,
+                  hintText: '根据关键字搜索网名',
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
               ),
             ),
-            child: MaterialButton(
-              padding: EdgeInsets.all(0),
-              elevation: 0,
-              disabledElevation: 0,
-              highlightElevation: 0,
-              splashColor: Colors.white,
-              child: Icon(
-                Icons.search,
-                color: Colors.white,
-                size: 18,
+            Container(
+              width: 32.w,
+              height: 32.w,
+              decoration: ShapeDecoration(
+                shape: CircleBorder(),
+                gradient: LinearGradient(
+                  colors: <Color>[
+                    Color(0xffFBAB7E),
+                    Color(0xffF7CE68),
+                  ],
+                ),
               ),
-              onPressed: () {
-                inheritedContext.search(controller.text);
-                FocusScope.of(context).requestFocus(blankNode);
-              },
+              child: MaterialButton(
+                padding: EdgeInsets.all(0),
+                elevation: 0,
+                disabledElevation: 0,
+                highlightElevation: 0,
+                splashColor: Colors.white,
+                child: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 18,
+                ),
+                onPressed: () {
+                  inheritedContext.search(
+                    searchText: controller.text,
+                    refresh: true,
+                  );
+                  FocusScope.of(context).requestFocus(blankNode);
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -213,56 +238,124 @@ class SearchList extends StatefulWidget {
 
 class _SearchListState extends State<SearchList> {
   ScrollController _scrollController = ScrollController();
+  ScrollController _scrollControllerPlaceholder = ScrollController();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _scrollController.addListener(() {
-  //     if (_scrollController.position.pixels ==
-  //         _scrollController.position.maxScrollExtent) {
-  //       if (_loadingStatus == LoadingStatus.STATUS_IDEL) {
-  //         _getData(refresh: false);
-  //       }
-  //     }
-  //   });
-  // }
+  LinearGradient _randomColor(index) {
+    if (index % 5 == 0) {
+      return LinearGradient(
+        colors: <Color>[
+          Color(0xffffecd2),
+          Color(0xfffcb69f),
+        ],
+      );
+    } else if (index % 4 == 0) {
+      return LinearGradient(
+        colors: <Color>[
+          Color(0xffff9a9e),
+          Color(0xffF7CE68),
+        ],
+      );
+    } else if (index % 3 == 0) {
+      return LinearGradient(
+        colors: <Color>[
+          Color(0xffff9a9e),
+          Color(0xfffad0c4),
+        ],
+      );
+    } else if (index % 2 == 0) {
+      return LinearGradient(
+        colors: <Color>[
+          Color(0xfffad0c4),
+          Color(0xfffda085),
+        ],
+      );
+    } else {
+      return LinearGradient(
+        colors: <Color>[
+          Color(0xffFF99AC),
+          Color(0xfffda085),
+        ],
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final InheritedContext inheritedContext = InheritedContext.of(context);
+    final LoadingStatus loadingStatus = inheritedContext.loadingStatus;
     final List<dynamic> list = inheritedContext.list;
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (loadingStatus == LoadingStatus.STATUS_IDEL) {
+          inheritedContext.search();
+        }
+      }
+    });
     return Expanded(
-      child: Offstage(
-        offstage: list.length == 0,
-        child: StaggeredGridView.countBuilder(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          crossAxisCount: 4,
-          itemCount: list.length,
-          itemBuilder: (BuildContext context, int index) => Container(
-            decoration: ShapeDecoration(
-              color: context.watch<SkinProvider>().color['background'],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+      child: ListView(
+        padding: EdgeInsets.symmetric(vertical: 0),
+        controller: _scrollController,
+        children: <Widget>[
+          StaggeredGridView.countBuilder(
+            controller: _scrollControllerPlaceholder,
+            shrinkWrap: true,
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            crossAxisCount: 4,
+            itemCount: list.length,
+            itemBuilder: (BuildContext context, int index) => GestureDetector(
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: list[index]['word']));
+                final SnackBar snackBar = SnackBar(
+                  content: const Text('复制成功'),
+                  duration: Duration(seconds: 2),
+                );
+                Scaffold.of(context).removeCurrentSnackBar();
+                Scaffold.of(context).showSnackBar(snackBar);
+              },
+              child: Container(
+                decoration: ShapeDecoration(
+                  gradient: _randomColor(index),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  shadows: <BoxShadow>[
+                    BoxShadow(
+                      color: Color(0xffe2e2e2),
+                      blurRadius: 4,
+                      offset: Offset(1, 2),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Text(
+                    list[index]['word'],
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
-              shadows: <BoxShadow>[
-                BoxShadow(
-                  color: Color(0xffe2e2e2),
-                  blurRadius: 4,
-                  offset: Offset(1, 2),
-                ),
-              ],
             ),
-            child: Center(
-              child: Text(list[index]['word']),
-            ),
+            staggeredTileBuilder: (int index) =>
+                StaggeredTile.count(2, index == 1 ? 0.7 : 0.9),
+            mainAxisSpacing: 18.h,
+            crossAxisSpacing: 14.w,
           ),
-          staggeredTileBuilder: (int index) =>
-              StaggeredTile.count(2, index == 1 ? 1 : 1.25),
-          mainAxisSpacing: 18.h,
-          crossAxisSpacing: 14.w,
-        ),
+          Offstage(
+            offstage: list.length == 0,
+            child: LoadingView(loadingStatus),
+          ),
+        ],
       ),
     );
   }

@@ -37,34 +37,31 @@ class HistoryList extends StatefulWidget {
 }
 
 class _HistoryListState extends State<HistoryList> {
-  List<dynamic> historyList = <dynamic>[];
+  List<dynamic> _list = <dynamic>[];
   ScrollController _scrollController = ScrollController();
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
-  int page = 0;
+  int _page = 0;
 
   Future<void> _getData({bool refresh = true}) async {
     try {
       if (refresh) {
-        page = 0;
-        historyList.clear();
+        _page = 0;
+        _list.clear();
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
       final String path = API.history;
       final Response res = await Request(
         context: context,
-      ).httpGet(path + '?page=$page');
+      ).httpGet(path + '?page=$_page');
       if (res.data['code'] == '1000') {
         setState(() {
-          int length = res.data['data']['list'].length;
-          if (length > 0 && length < 15) {
-            historyList.addAll(res.data['data']['list']);
+          final int length = res.data['data']['list'].length;
+          if (length == 0) {
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
-          } else if (length >= 15) {
-            historyList.addAll(res.data['data']['list']);
-            _loadingStatus = LoadingStatus.STATUS_IDEL;
-            page++;
           } else {
-            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+            _list.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_IDEL;
+            _page++;
           }
         });
       }
@@ -87,6 +84,7 @@ class _HistoryListState extends State<HistoryList> {
     });
   }
 
+  @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
@@ -104,17 +102,17 @@ class _HistoryListState extends State<HistoryList> {
           vertical: 6.h,
         ),
         controller: _scrollController,
-        itemCount: historyList.length + 1,
+        itemCount: _list.length + 1,
         itemBuilder: (
           BuildContext context,
           int index,
         ) {
-          if (index == historyList.length) {
+          if (index == _list.length) {
             return LoadingView(_loadingStatus);
           } else {
             return ListItem(
-              type: historyList[index]['type'],
-              word: historyList[index]['word'],
+              type: _list[index]['type'],
+              word: _list[index]['word'],
             );
           }
         },

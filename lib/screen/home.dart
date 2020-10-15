@@ -100,6 +100,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: Size(375, 900));
     return WillPopScope(
@@ -114,11 +120,11 @@ class _HomePageState extends State<HomePage> {
           ) {
             if (index == 0) {
               return GeneratePage();
-            }
-            if (index == 1) {
+            } else if (index == 1) {
               return SearchPage();
+            } else {
+              return MyPage();
             }
-            return MyPage();
           },
           itemCount: 3,
         ),
