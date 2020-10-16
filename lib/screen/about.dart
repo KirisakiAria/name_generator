@@ -41,7 +41,7 @@ class _AboutPageState extends State<AboutPage> {
                 alignment: Alignment.center,
                 child: Image(
                   width: 130.w,
-                  image: AssetImage('assets/images/pluto-searching.png'),
+                  image: AssetImage('assets/images/about/about.png'),
                 ),
               ),
               Container(

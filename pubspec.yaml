@@ -36,9 +36,12 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/pluto-payment-processed.png
-    - assets/images/peach__blossom.png
-    - assets/images/pluto-searching.png
+    - assets/images/theme/japanese-default-theme.png
+    - assets/images/theme/chinese-default-theme.png
+    - assets/images/login/login.png
+    - assets/images/about/about.png
+    - assets/images/inspiration/top.png
+    - assets/images/inspiration/middle.png
   fonts:
     - family: iconfont
       fonts:

@@ -4,10 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 //第三方库
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share/share.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 //请求
 import '../services/api.dart';
@@ -15,14 +13,10 @@ import '../services/request.dart';
 //组件
 import '../widgets/loading_view.dart';
 //common
-import '../common/style.dart';
-import '../common/optionsData.dart';
 import '../common/loading_status.dart';
 //model
 import '../model/word_options.dart';
 import '../model/user.dart';
-import '../model/skin.dart';
-import '../model/laboratory_options.dart';
 
 final FocusNode blankNode = FocusNode();
 
@@ -162,7 +156,9 @@ class SearchInput extends StatelessWidget {
         right: 20.w,
       ),
       child: Container(
-        padding: EdgeInsets.only(right: 10.w),
+        padding: EdgeInsets.only(
+          right: 10.w,
+        ),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(

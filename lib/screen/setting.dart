@@ -71,7 +71,7 @@ class _SettingPageState extends State<SettingPage> {
     return size + unitArr[index];
   }
 
-  //清除缓存
+  //清除缓存 这里传入context是为了让context找到Scaffold
   void _clearCache(BuildContext context) async {
     final Directory tempDir = await getTemporaryDirectory();
     //删除缓存目录

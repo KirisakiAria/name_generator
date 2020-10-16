@@ -11,6 +11,7 @@ import '../services/request.dart';
 //page
 import '../screen/generate.dart';
 import '../screen/search.dart';
+import '../screen/inspiration.dart';
 import '../screen/my.dart';
 //common
 import '../common/style.dart';
@@ -122,11 +123,13 @@ class _HomePageState extends State<HomePage> {
               return GeneratePage();
             } else if (index == 1) {
               return SearchPage();
+            } else if (index == 2) {
+              return InspirationPage();
             } else {
               return MyPage();
             }
           },
-          itemCount: 3,
+          itemCount: 4,
         ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
@@ -139,34 +142,53 @@ class _HomePageState extends State<HomePage> {
           selectedFontSize: 0,
           unselectedFontSize: 0,
           currentIndex: _tabIndex,
+          type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              backgroundColor:
+                  context.watch<SkinProvider>().color['background'],
               icon: Icon(
                 const IconData(
                   CustomIconData.generate,
                   fontFamily: 'iconfont',
                 ),
-                size: 28,
+                size: 26,
               ),
               label: '',
             ),
             BottomNavigationBarItem(
+              backgroundColor:
+                  context.watch<SkinProvider>().color['background'],
               icon: Icon(
                 const IconData(
                   CustomIconData.search,
                   fontFamily: 'iconfont',
                 ),
-                size: 28,
+                size: 26,
               ),
               label: '',
             ),
             BottomNavigationBarItem(
+              backgroundColor:
+                  context.watch<SkinProvider>().color['background'],
+              icon: Icon(
+                const IconData(
+                  CustomIconData.inspiration,
+                  fontFamily: 'iconfont',
+                ),
+                size: 26,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              backgroundColor:
+                  context.watch<SkinProvider>().color['background'],
               icon: Icon(
                 const IconData(
                   CustomIconData.cat,
                   fontFamily: 'iconfont',
                 ),
-                size: 28,
+                size: 26,
               ),
               label: '',
             ),

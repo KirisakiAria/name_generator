@@ -395,11 +395,25 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
       children: <Widget>[
         Container(
           padding: EdgeInsets.only(
-            top: 25.h,
+            top: 5.h,
           ),
-          child: Image(
-            image: AssetImage('assets/images/pluto-payment-processed.png'),
-            width: 160.w,
+          child: Builder(
+            builder: (BuildContext context) {
+              final type = context.watch<WordOptionsProvider>().type;
+              if (type == '中国风') {
+                return Image(
+                  image: AssetImage(
+                      'assets/images/theme/chinese-default-theme.png'),
+                  width: 170.w,
+                );
+              } else {
+                return Image(
+                  image: AssetImage(
+                      'assets/images/theme/japanese-default-theme.png'),
+                  width: 170.w,
+                );
+              }
+            },
           ),
         ),
         GestureDetector(
@@ -429,7 +443,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           child: Stack(
             children: <Widget>[
               Positioned.fill(
-                top: 20.h,
+                top: 0.h,
                 child: Opacity(
                   opacity: _opacityAnimation.value,
                   child: Icon(
@@ -441,7 +455,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 50.h,
+                  top: 15.h,
                 ),
                 child: Column(
                   children: <Widget>[

@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   alignment: Alignment.topRight,
                   child: Image(
-                    image: AssetImage('assets/images/peach__blossom.png'),
+                    image: AssetImage('assets/images/login/login.png'),
                     width: 210.w,
                   ),
                 ),

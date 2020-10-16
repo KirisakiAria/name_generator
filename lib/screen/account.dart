@@ -30,7 +30,6 @@ class _AccountPageState extends State<AccountPage> {
           '账号资料',
         ),
       ),
-      //context必须是Scaffold的子context，Scaffold.of才能生效
       body: Builder(
         builder: (BuildContext context) => ListTileTheme(
           iconColor: context.watch<SkinProvider>().color['subtitle'],
@@ -331,7 +330,7 @@ class EditUserNameDialog extends Dialog {
         final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
         //修改用户名
-        Future<void> _changeUsername(BuildContext context) async {
+        Future<void> _changeUsername() async {
           final String path = API.changeUsername;
           final Response res = await Request(
             context: context,
@@ -352,7 +351,7 @@ class EditUserNameDialog extends Dialog {
         void _formValidate() async {
           if (_formKey.currentState.validate()) {
             _formKey.currentState.save();
-            await _changeUsername(context);
+            await _changeUsername();
           }
         }
 
