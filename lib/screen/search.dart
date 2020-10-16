@@ -236,9 +236,18 @@ class SearchList extends StatefulWidget {
   _SearchListState createState() => _SearchListState();
 }
 
-class _SearchListState extends State<SearchList> {
-  ScrollController _scrollController = ScrollController();
-  ScrollController _scrollControllerPlaceholder = ScrollController();
+class _SearchListState extends State<SearchList>
+    with SingleTickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollControllerPlaceholder = ScrollController();
+
+  final Duration _duration = Duration(milliseconds: 500);
+  AnimationController _animationController;
+  Animation<double> _opacityAnimation, _sizeAnimation;
+  final _opacityTween = Tween<double>(begin: 1.0, end: 0.0);
+  final _sizeTween = Tween<double>(begin: 0.0, end: 120.0);
+
+  int _lovedIndex;
 
   LinearGradient _randomColor(index) {
     if (index % 5 == 0) {
@@ -277,6 +286,46 @@ class _SearchListState extends State<SearchList> {
         ],
       );
     }
+  }
+
+  Future<void> _love(String word) async {
+    try {
+      final String path = API.favourite;
+      await Request(
+        context: context,
+      ).httpPost(
+        path,
+        <String, dynamic>{
+          'type': context.read<WordOptionsProvider>().type,
+          'length': context.read<WordOptionsProvider>().length,
+          'word': word,
+        },
+      );
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(vsync: this, duration: _duration)
+      ..addListener(() {
+        // 用于实时更新_animation.value
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          // 监听动画完成的状态
+          _animationController.reset();
+        }
+      });
+    CurvedAnimation curvedanimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.fastOutSlowIn,
+    );
+    _sizeAnimation = _sizeTween.animate(curvedanimation);
+    _opacityAnimation = _opacityTween.animate(curvedanimation);
   }
 
   @override
@@ -319,31 +368,62 @@ class _SearchListState extends State<SearchList> {
                 Scaffold.of(context).removeCurrentSnackBar();
                 Scaffold.of(context).showSnackBar(snackBar);
               },
-              child: Container(
-                decoration: ShapeDecoration(
-                  gradient: _randomColor(index),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+              onLongPress: () {
+                final bool loginState = context.read<UserProvider>().loginState;
+                if (loginState) {
+                  _lovedIndex = index;
+                  _animationController.forward();
+                  _love(list[index]['word']);
+                } else {
+                  final SnackBar snackBar = SnackBar(
+                    content: const Text('请先登录再加收藏'),
+                    duration: Duration(seconds: 2),
+                  );
+                  Scaffold.of(context).removeCurrentSnackBar();
+                  Scaffold.of(context).showSnackBar(snackBar);
+                }
+              },
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    decoration: ShapeDecoration(
+                      gradient: _randomColor(index),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      shadows: <BoxShadow>[
+                        BoxShadow(
+                          color: Color(0xffe2e2e2),
+                          blurRadius: 4,
+                          offset: Offset(1, 2),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        list[index]['word'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                  shadows: <BoxShadow>[
-                    BoxShadow(
-                      color: Color(0xffe2e2e2),
-                      blurRadius: 4,
-                      offset: Offset(1, 2),
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    list[index]['word'],
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                  Positioned.fill(
+                    top: -15.h,
+                    child: Opacity(
+                      opacity:
+                          _lovedIndex == index ? _opacityAnimation.value : 0,
+                      child: Icon(
+                        Icons.favorite,
+                        size: _sizeAnimation.value,
+                        color: Color(0xffff6b81),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
             staggeredTileBuilder: (int index) =>

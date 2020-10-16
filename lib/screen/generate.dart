@@ -343,11 +343,11 @@ class Display extends StatefulWidget {
 
 //图片/文字显示区域
 class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
-  Duration _duration = Duration(milliseconds: 500);
+  final Duration _duration = Duration(milliseconds: 500);
   AnimationController _controller;
   Animation<double> _opacityAnimation, _sizeAnimation;
-  static final _opacityTween = Tween<double>(begin: 1.0, end: 0.0);
-  static final _sizeTween = Tween<double>(begin: 0.0, end: 120.0);
+  final _opacityTween = Tween<double>(begin: 1.0, end: 0.0);
+  final _sizeTween = Tween<double>(begin: 0.0, end: 120.0);
 
   Future<void> _love() async {
     try {
@@ -391,55 +391,55 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: <Widget>[
-        Positioned.fill(
-          top: 10.h,
-          child: Opacity(
-            opacity: _opacityAnimation.value,
-            child: Icon(
-              Icons.favorite,
-              size: _sizeAnimation.value,
-              color: Color(0xffff6b81),
-            ),
+        Container(
+          padding: EdgeInsets.only(
+            top: 25.h,
+          ),
+          child: Image(
+            image: AssetImage('assets/images/pluto-payment-processed.png'),
+            width: 160.w,
           ),
         ),
-        Column(
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.only(
-                top: 25.h,
+        GestureDetector(
+          onTap: () {
+            Clipboard.setData(ClipboardData(text: widget.word));
+            final SnackBar snackBar = SnackBar(
+              content: const Text('复制成功'),
+              duration: Duration(seconds: 2),
+            );
+            Scaffold.of(context).removeCurrentSnackBar();
+            Scaffold.of(context).showSnackBar(snackBar);
+          },
+          onLongPress: () {
+            final bool loginState = context.read<UserProvider>().loginState;
+            if (loginState) {
+              _controller.forward();
+              _love();
+            } else {
+              final SnackBar snackBar = SnackBar(
+                content: const Text('请先登录再加收藏'),
+                duration: Duration(seconds: 2),
+              );
+              Scaffold.of(context).removeCurrentSnackBar();
+              Scaffold.of(context).showSnackBar(snackBar);
+            }
+          },
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                top: 20.h,
+                child: Opacity(
+                  opacity: _opacityAnimation.value,
+                  child: Icon(
+                    Icons.favorite,
+                    size: _sizeAnimation.value,
+                    color: Color(0xffff6b81),
+                  ),
+                ),
               ),
-              child: Image(
-                image: AssetImage('assets/images/pluto-payment-processed.png'),
-                width: 160.w,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Clipboard.setData(ClipboardData(text: widget.word));
-                final SnackBar snackBar = SnackBar(
-                  content: const Text('复制成功'),
-                  duration: Duration(seconds: 2),
-                );
-                Scaffold.of(context).removeCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(snackBar);
-              },
-              onLongPress: () {
-                final bool loginState = context.read<UserProvider>().loginState;
-                if (loginState) {
-                  _love();
-                  _controller.forward();
-                } else {
-                  final SnackBar snackBar = SnackBar(
-                    content: const Text('请先登录再加收藏'),
-                    duration: Duration(seconds: 2),
-                  );
-                  Scaffold.of(context).removeCurrentSnackBar();
-                  Scaffold.of(context).showSnackBar(snackBar);
-                }
-              },
-              child: Container(
+              Container(
                 padding: EdgeInsets.only(
                   top: 50.h,
                 ),
@@ -475,8 +475,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

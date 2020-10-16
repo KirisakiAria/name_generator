@@ -37,8 +37,8 @@ class FavouritesList extends StatefulWidget {
 }
 
 class _FavouritesListState extends State<FavouritesList> {
+  final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
-  ScrollController _scrollController = ScrollController();
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
   int _page = 0;
 

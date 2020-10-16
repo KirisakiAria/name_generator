@@ -37,8 +37,8 @@ class HistoryList extends StatefulWidget {
 }
 
 class _HistoryListState extends State<HistoryList> {
+  final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
-  ScrollController _scrollController = ScrollController();
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
   int _page = 0;
 
