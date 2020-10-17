@@ -17,6 +17,7 @@ import '../common/loading_status.dart';
 //model
 import '../model/word_options.dart';
 import '../model/user.dart';
+import '../model/skin.dart';
 
 final FocusNode blankNode = FocusNode();
 
@@ -165,7 +166,7 @@ class SearchInput extends StatelessWidget {
               Radius.circular(24),
             ),
           ),
-          color: Color(0xFFf5f5f5),
+          color: context.watch<SkinProvider>().color['searchInput'],
         ),
         child: Row(
           children: <Widget>[
@@ -386,16 +387,9 @@ class _SearchListState extends State<SearchList>
                       gradient: _randomColor(index),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                          Radius.circular(14),
                         ),
                       ),
-                      shadows: <BoxShadow>[
-                        BoxShadow(
-                          color: Color(0xffe2e2e2),
-                          blurRadius: 4,
-                          offset: Offset(1, 2),
-                        ),
-                      ],
                     ),
                     child: Center(
                       child: Text(
@@ -423,9 +417,9 @@ class _SearchListState extends State<SearchList>
               ),
             ),
             staggeredTileBuilder: (int index) =>
-                StaggeredTile.count(2, index == 1 ? 0.7 : 0.9),
-            mainAxisSpacing: 18.h,
-            crossAxisSpacing: 14.w,
+                StaggeredTile.count(2, index == 1 ? 0.8 : 0.95),
+            mainAxisSpacing: 15.h,
+            crossAxisSpacing: 12.w,
           ),
           Offstage(
             offstage: list.length == 0,

@@ -8,8 +8,8 @@ class Style {
   static const Map<String, Color> defaultColor = <String, Color>{
     'background': Colors.white,
     'text': Color(0xff2f2f2f),
-    'selectedItem': Color(0xff2e2e2e),
-    'unselectedItem': Colors.black38,
+    'selectedItem': Color(0xff212121),
+    'unselectedItem': Colors.black26,
     'border': Color(0xffa9a9a9),
     'widget': Color(0xfff5f5f5),
     'subtitle': Colors.black45,
@@ -20,14 +20,15 @@ class Style {
     'switchThumb': Colors.white,
     'inactiveSwitchTrack': Colors.black26,
     'activeSwitchTrack': Color(0xffff6348),
+    'searchInput': Color(0xfff3f3f3),
   };
 
   //夜间
   static const Map<String, Color> nightColor = <String, Color>{
     'background': Color(0xff121212),
     'text': Color(0xfff1f1f1),
-    'selectedItem': Color(0xfff1f1f1),
-    'unselectedItem': Color(0xffb2b2b2),
+    'selectedItem': Color(0xfff5f5f5),
+    'unselectedItem': Color(0xffaeaeae),
     'border': Color(0xfff1f1f1),
     'widget': grey20,
     'subtitle': Color(0xfff1f1f1),
@@ -38,6 +39,7 @@ class Style {
     'switchThumb': Colors.white,
     'inactiveSwitchTrack': Color(0xffbfbfbf),
     'activeSwitchTrack': Color(0xffff6348),
+    'searchInput': Color(0xff4f4f4f),
   };
 
   //主题分类

@@ -79,20 +79,22 @@ class _InspirationPageState extends State<InspirationPage>
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 200.w,
-                    padding: EdgeInsets.only(left: 20.w, top: 20.h),
+                    width: 205.w,
+                    padding: EdgeInsets.only(left: 15.w, top: 20.h),
                     child: Text(
-                        '歡迎來到靈感探求頁面。在這個頁面裏，我們會不断更新適合發掘出網名精選的精選詩詞。希望能夠盤活您的思緒之泉 ฅ･◡･ฅ',
+                        '歡迎來到靈感探求頁面。在這個頁面裏，我們會不断更新適合發掘出網名精選的精選詩詞和故事。希望能夠盤活您的思緒之泉 ฅ･◡･ฅ',
                         style: TextStyle(
                           fontFamily: 'NijimiMincho',
+                          letterSpacing: 0.8,
                           height: 1.5,
+                          fontSize: 12,
                         )),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    width: 160.w,
+                    width: 165.w,
                     child: Image(
                       image: AssetImage('assets/images/inspiration/top.png'),
                     ),
@@ -137,7 +139,10 @@ class _InspirationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.symmetric(
+        horizontal: 25.w,
+        vertical: 35.h,
+      ),
       child: Column(
         children: <Widget>[
           Container(
