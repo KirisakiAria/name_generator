@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
+import 'package:like_button/like_button.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -29,26 +30,40 @@ class InspirationPage extends StatefulWidget {
 
 class _InspirationPageState extends State<InspirationPage>
     with AutomaticKeepAliveClientMixin {
-  Map<String, dynamic> chinese = {
+  Map<String, dynamic> _chinese = {
     'title': '',
     'author': '',
     'content': '',
   };
-  Map<String, dynamic> japanese = {
+  Map<String, dynamic> _japanese = {
     'title': '',
     'author': '',
     'content': '',
   };
+  int _likeCount = 0;
+  bool _isLike = false;
 
-  Future<void> _getData() async {
+  Future<bool> _getData() async {
     final String path = API.inspiration;
     final Response res = await Request(context: context).httpGet(path);
     if (res.data['code'] == '1000') {
       setState(() {
-        chinese = res.data['data']['chinese'];
-        japanese = res.data['data']['japanese'];
+        _chinese = res.data['data']['chinese'];
+        _japanese = res.data['data']['japanese'];
       });
     }
+  }
+
+  Future<bool> _like(bool islike) async {
+    _isLike = !_isLike;
+    return _isLike;
+    // final String path = API.likeInspiration;
+    // final Response res = await Request(context: context).httpPost(path, islike);
+    // if (res.data['code'] == '1000') {
+    //   setState(() {
+    //     _isLike = islike;
+    //   });
+    // }
   }
 
   @override
@@ -103,9 +118,9 @@ class _InspirationPageState extends State<InspirationPage>
               ],
             ),
             _InspirationItem(
-              title: chinese['title'],
-              author: chinese['author'],
-              content: chinese['content'],
+              title: _chinese['title'],
+              author: _chinese['author'],
+              content: _chinese['content'],
             ),
             Align(
               child: Container(
@@ -117,9 +132,36 @@ class _InspirationPageState extends State<InspirationPage>
               ),
             ),
             _InspirationItem(
-              title: japanese['title'],
-              author: japanese['author'],
-              content: japanese['content'],
+              title: _japanese['title'],
+              author: _japanese['author'],
+              content: _japanese['content'],
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                bottom: 40.h,
+              ),
+              child: LikeButton(
+                onTap: (bool islike) => _like(islike),
+                bubblesColor: const BubblesColor(
+                  dotPrimaryColor: const Color(0xFFff7f50),
+                  dotSecondaryColor: const Color(0xFF70a1ff),
+                  dotThirdColor: const Color(0xFF7bed9f),
+                  dotLastColor: const Color(0xFFff6b81),
+                ),
+                likeCount: 0,
+                isLiked: _isLike,
+                countPostion: CountPostion.bottom,
+                countBuilder: (int count, bool isLiked, String text) {
+                  Color color = isLiked ? Color(0xffff4081) : Colors.grey;
+                  return Container(
+                    padding: EdgeInsets.only(top: 14.h),
+                    child: Text(
+                      text,
+                      style: TextStyle(color: color),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
