@@ -1,27 +1,18 @@
 //核心库
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/gestures.dart';
 //第三方库
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share/share.dart';
 import 'package:like_button/like_button.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
-//组件
-import '../widgets/custom_button.dart';
 //common
 import '../common/style.dart';
-import '../common/optionsData.dart';
 //model
-import '../model/word_options.dart';
 import '../model/user.dart';
 import '../model/skin.dart';
-import '../model/laboratory_options.dart';
 
 class InspirationPage extends StatefulWidget {
   @override
@@ -41,29 +32,42 @@ class _InspirationPageState extends State<InspirationPage>
     'content': '',
   };
   int _likeCount = 0;
-  bool _isLike = false;
+  bool _isLiked = false;
+  String _id;
 
-  Future<bool> _getData() async {
+  Future<void> _getData() async {
     final String path = API.inspiration;
     final Response res = await Request(context: context).httpGet(path);
     if (res.data['code'] == '1000') {
       setState(() {
+        _id = res.data['data']['id'];
         _chinese = res.data['data']['chinese'];
         _japanese = res.data['data']['japanese'];
+        _likeCount = res.data['data']['likeCount'];
+        _isLiked = res.data['data']['isLiked'];
       });
     }
   }
 
   Future<bool> _like(bool islike) async {
-    _isLike = !_isLike;
-    return _isLike;
-    // final String path = API.likeInspiration;
-    // final Response res = await Request(context: context).httpPost(path, islike);
-    // if (res.data['code'] == '1000') {
-    //   setState(() {
-    //     _isLike = islike;
-    //   });
-    // }
+    bool loginState = context.read<UserProvider>().loginState;
+    if (!loginState) {
+      final SnackBar snackBar = SnackBar(content: Text('请先登录'));
+      Scaffold.of(context).removeCurrentSnackBar();
+      Scaffold.of(context).showSnackBar(snackBar);
+      return false;
+    }
+    final String path = API.likeInspiration;
+    final Response res = await Request(context: context).httpPut(
+      path + '/$_id',
+      <String, bool>{
+        'islike': islike,
+      },
+    );
+    if (res.data['code'] == '1000') {
+      _isLiked = !_isLiked;
+    }
+    return _isLiked;
   }
 
   @override
@@ -137,27 +141,46 @@ class _InspirationPageState extends State<InspirationPage>
               content: _japanese['content'],
             ),
             Container(
+              child: Center(
+                child: Text(
+                  '如果喜欢就来点个赞吧 ฅ･◡･ฅ',
+                  style: TextStyle(
+                    letterSpacing: 0.8,
+                    color: context.watch<SkinProvider>().color['subtitle'],
+                  ),
+                ),
+              ),
+              margin: EdgeInsets.only(
+                top: 50.h,
+                bottom: 20.h,
+              ),
+            ),
+            Container(
               margin: EdgeInsets.only(
                 bottom: 40.h,
               ),
               child: LikeButton(
-                onTap: (bool islike) => _like(islike),
+                size: 42,
+                onTap: _like,
                 bubblesColor: const BubblesColor(
                   dotPrimaryColor: const Color(0xFFff7f50),
                   dotSecondaryColor: const Color(0xFF70a1ff),
                   dotThirdColor: const Color(0xFF7bed9f),
                   dotLastColor: const Color(0xFFff6b81),
                 ),
-                likeCount: 0,
-                isLiked: _isLike,
+                likeCount: _likeCount,
+                isLiked: _isLiked,
                 countPostion: CountPostion.bottom,
                 countBuilder: (int count, bool isLiked, String text) {
                   Color color = isLiked ? Color(0xffff4081) : Colors.grey;
                   return Container(
-                    padding: EdgeInsets.only(top: 14.h),
+                    padding: EdgeInsets.only(top: 10.h),
                     child: Text(
                       text,
-                      style: TextStyle(color: color),
+                      style: TextStyle(
+                        color: color,
+                        fontSize: 16,
+                      ),
                     ),
                   );
                 },

@@ -1,7 +1,6 @@
 //核心库
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/gestures.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
@@ -15,7 +14,6 @@ import '../widgets/loading_view.dart';
 //common
 import '../common/loading_status.dart';
 //model
-import '../model/word_options.dart';
 import '../model/user.dart';
 import '../model/skin.dart';
 
@@ -285,7 +283,11 @@ class _SearchListState extends State<SearchList>
     }
   }
 
-  Future<void> _love(String word) async {
+  Future<void> _love({
+    @required String type,
+    @required int length,
+    @required String word,
+  }) async {
     try {
       final String path = API.favourite;
       await Request(
@@ -293,8 +295,8 @@ class _SearchListState extends State<SearchList>
       ).httpPost(
         path,
         <String, dynamic>{
-          'type': context.read<WordOptionsProvider>().type,
-          'length': context.read<WordOptionsProvider>().length,
+          'type': type,
+          'length': length,
           'word': word,
         },
       );
@@ -370,7 +372,12 @@ class _SearchListState extends State<SearchList>
                 if (loginState) {
                   _lovedIndex = index;
                   _animationController.forward();
-                  _love(list[index]['word']);
+                  final Map<String, dynamic> item = list[index];
+                  _love(
+                    type: item['type'],
+                    length: item['length'],
+                    word: item['word'],
+                  );
                 } else {
                   final SnackBar snackBar = SnackBar(
                     content: const Text('请先登录再加收藏'),
