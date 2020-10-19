@@ -66,6 +66,14 @@ class _InspirationPageState extends State<InspirationPage>
     );
     if (res.data['code'] == '1000') {
       _isLiked = !_isLiked;
+      if (islike) {
+        _likeCount--;
+      } else {
+        _likeCount++;
+      }
+      Future.delayed(Duration(milliseconds: 1000), () {
+        setState(() {});
+      });
     }
     return _isLiked;
   }

@@ -424,7 +424,7 @@ class _SearchListState extends State<SearchList>
               ),
             ),
             staggeredTileBuilder: (int index) =>
-                StaggeredTile.count(2, index == 1 ? 0.8 : 0.95),
+                StaggeredTile.count(2, index == 1 ? 0.75 : 0.9),
             mainAxisSpacing: 15.h,
             crossAxisSpacing: 12.w,
           ),
