@@ -41,7 +41,6 @@ class _SearchPageState extends State<SearchPage>
         path,
         <String, dynamic>{
           'searchContent': searchText,
-          'pageSize': 20,
           'currentPage': _page,
         },
       );
@@ -50,6 +49,10 @@ class _SearchPageState extends State<SearchPage>
           final int length = res.data['data']['list'].length;
           if (length == 0) {
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+          } else if (length < 15) {
+            _list.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+            _page++;
           } else {
             _list.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_IDEL;
@@ -149,8 +152,8 @@ class SearchInput extends StatelessWidget {
     final InheritedContext inheritedContext = InheritedContext.of(context);
     return Container(
       padding: EdgeInsets.only(
-        top: 70.h,
-        bottom: 20.h,
+        top: 80.h,
+        bottom: 25.h,
         left: 20.w,
         right: 20.w,
       ),
@@ -341,6 +344,7 @@ class _SearchListState extends State<SearchList>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
+            print(loadingStatus);
         if (loadingStatus == LoadingStatus.STATUS_IDEL) {
           inheritedContext.search();
         }
@@ -402,7 +406,7 @@ class _SearchListState extends State<SearchList>
                       child: Text(
                         list[index]['word'],
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 22,
                           color: Colors.white,
                         ),
                       ),
@@ -424,9 +428,9 @@ class _SearchListState extends State<SearchList>
               ),
             ),
             staggeredTileBuilder: (int index) =>
-                StaggeredTile.count(2, index == 1 ? 0.75 : 0.9),
-            mainAxisSpacing: 15.h,
-            crossAxisSpacing: 12.w,
+                StaggeredTile.count(2, index == 1 ? 0.9 : 1.1),
+            mainAxisSpacing: 18.h,
+            crossAxisSpacing: 14.w,
           ),
           Offstage(
             offstage: list.length == 0,

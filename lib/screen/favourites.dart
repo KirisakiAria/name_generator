@@ -58,6 +58,9 @@ class _FavouritesListState extends State<FavouritesList> {
           final int length = res.data['data']['list'].length;
           if (length == 0) {
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+          } else if (length < 15) {
+            _list.addAll(res.data['data']['list']);
+            _loadingStatus = LoadingStatus.STATUS_COMPLETED;
           } else {
             _list.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_IDEL;

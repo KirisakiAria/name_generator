@@ -2,7 +2,7 @@ name: bianzizai
 description: 彼岸自在
 
 publish_to: "none"
-version: 1.0.8+9
+version: 1.0.9+10
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
