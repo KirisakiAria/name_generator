@@ -247,42 +247,15 @@ class _SearchListState extends State<SearchList>
 
   int _lovedIndex;
 
-  LinearGradient _randomColor(index) {
-    if (index % 5 == 0) {
-      return LinearGradient(
-        colors: <Color>[
-          Color(0xffffecd2),
-          Color(0xfffcb69f),
-        ],
-      );
-    } else if (index % 4 == 0) {
-      return LinearGradient(
-        colors: <Color>[
-          Color(0xffff9a9e),
-          Color(0xffF7CE68),
-        ],
-      );
+  AssetImage _randomBackground(index) {
+    if (index % 4 == 0) {
+      return AssetImage('assets/images/search/bg4.png');
     } else if (index % 3 == 0) {
-      return LinearGradient(
-        colors: <Color>[
-          Color(0xffff9a9e),
-          Color(0xfffad0c4),
-        ],
-      );
+      return AssetImage('assets/images/search/bg3.png');
     } else if (index % 2 == 0) {
-      return LinearGradient(
-        colors: <Color>[
-          Color(0xfffad0c4),
-          Color(0xfffda085),
-        ],
-      );
+      return AssetImage('assets/images/search/bg2.png');
     } else {
-      return LinearGradient(
-        colors: <Color>[
-          Color(0xffFF99AC),
-          Color(0xfffda085),
-        ],
-      );
+      return AssetImage('assets/images/search/bg1.png');
     }
   }
 
@@ -344,7 +317,7 @@ class _SearchListState extends State<SearchList>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-            print(loadingStatus);
+        print(loadingStatus);
         if (loadingStatus == LoadingStatus.STATUS_IDEL) {
           inheritedContext.search();
         }
@@ -395,7 +368,10 @@ class _SearchListState extends State<SearchList>
                 children: <Widget>[
                   Container(
                     decoration: ShapeDecoration(
-                      gradient: _randomColor(index),
+                      image: DecorationImage(
+                        image: _randomBackground(index),
+                        fit: BoxFit.cover,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(14),
