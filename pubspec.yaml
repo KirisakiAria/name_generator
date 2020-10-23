@@ -43,6 +43,11 @@ flutter:
     - assets/images/search/bg2.png
     - assets/images/search/bg3.png
     - assets/images/search/bg4.png
+    - assets/images/search/card1.png
+    - assets/images/search/card2.png
+    - assets/images/search/card3.png
+    - assets/images/search/card4.png
+    - assets/images/search/card5.png
     - assets/images/login/login.png
     - assets/images/about/about.png
     - assets/images/inspiration/top.png

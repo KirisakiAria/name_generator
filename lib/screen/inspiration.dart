@@ -136,7 +136,9 @@ class _InspirationPageState extends State<InspirationPage>
             ),
             Align(
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 30.h),
+                margin: EdgeInsets.symmetric(
+                  vertical: 20.h,
+                ),
                 width: 200.w,
                 child: Image(
                   image: AssetImage('assets/images/inspiration/middle.png'),
@@ -159,7 +161,7 @@ class _InspirationPageState extends State<InspirationPage>
                 ),
               ),
               margin: EdgeInsets.only(
-                top: 50.h,
+                top: 35.h,
                 bottom: 20.h,
               ),
             ),
@@ -214,7 +216,7 @@ class _InspirationItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 25.w,
-        vertical: 35.h,
+        vertical: 40.h,
       ),
       child: Column(
         children: <Widget>[
@@ -229,7 +231,9 @@ class _InspirationItem extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 8.h),
+            margin: EdgeInsets.symmetric(
+              vertical: 15.h,
+            ),
             child: Text(
               author,
               style: TextStyle(
@@ -241,7 +245,7 @@ class _InspirationItem extends StatelessWidget {
             child: Text(
               content,
               style: TextStyle(
-                letterSpacing: 2,
+                letterSpacing: 1.8,
                 height: 1.5,
               ),
             ),

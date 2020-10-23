@@ -1,4 +1,5 @@
 //核心库
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 //第三方库
@@ -159,6 +160,8 @@ class SearchInput extends StatelessWidget {
       ),
       child: Container(
         padding: EdgeInsets.only(
+          top: 2.h,
+          bottom: 2.h,
           right: 10.w,
         ),
         decoration: ShapeDecoration(
@@ -185,14 +188,14 @@ class SearchInput extends StatelessWidget {
                   border: InputBorder.none,
                   hintText: '根据关键字搜索网名',
                   hintStyle: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                   ),
                 ),
               ),
             ),
             Container(
-              width: 32.w,
-              height: 32.w,
+              width: 36.w,
+              height: 36.w,
               decoration: ShapeDecoration(
                 shape: CircleBorder(),
                 gradient: LinearGradient(
@@ -247,15 +250,27 @@ class _SearchListState extends State<SearchList>
 
   int _lovedIndex;
 
+  int _getRandomNumber(int min, int max) {
+    final _random = new Random();
+    return min + _random.nextInt(max - min);
+  }
+
   AssetImage _randomBackground(index) {
+    if (index % 6 == 0) {
+      return AssetImage('assets/images/search/card5.png');
+    }
+    if (index % 5 == 0) {
+      return AssetImage('assets/images/search/card4.png');
+    }
     if (index % 4 == 0) {
-      return AssetImage('assets/images/search/bg4.png');
+      return AssetImage('assets/images/search/card3.png');
     } else if (index % 3 == 0) {
-      return AssetImage('assets/images/search/bg3.png');
+      return AssetImage('assets/images/search/card2.png');
     } else if (index % 2 == 0) {
-      return AssetImage('assets/images/search/bg2.png');
+      int random = _getRandomNumber(1, 4);
+      return AssetImage('assets/images/search/card$random.png');
     } else {
-      return AssetImage('assets/images/search/bg1.png');
+      return AssetImage('assets/images/search/card1.png');
     }
   }
 
