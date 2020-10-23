@@ -177,6 +177,7 @@ class _CustomFormState extends State<CustomForm> {
                   //长度限制11
                   LengthLimitingTextInputFormatter(11),
                 ],
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(
                     bottom: 1,
@@ -233,6 +234,7 @@ class _CustomFormState extends State<CustomForm> {
                         //长度限制6
                         LengthLimitingTextInputFormatter(6),
                       ],
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(
                           bottom: 1,

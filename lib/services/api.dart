@@ -7,8 +7,9 @@ class API {
   static const String api_prefix = '$origin/api/$version';
   static const String word = '/word/random';
   static const String search = '/word/search';
-  static const String inspiration = '/inspiration/today';
+  static const String todayInspiration = '/inspiration/today';
   static const String likeInspiration = '/inspiration/like';
+  static const String inspiration = '/inspiration/history';
   static const String history = '/user/history';
   static const String favourite = '/user/favourite';
   static const String login = '/user/login';

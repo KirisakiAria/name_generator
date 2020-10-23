@@ -13,6 +13,8 @@ import '../common/style.dart';
 //model
 import '../model/user.dart';
 import '../model/skin.dart';
+//组件
+import '../widgets/custom_button.dart';
 
 class InspirationPage extends StatefulWidget {
   @override
@@ -36,7 +38,7 @@ class _InspirationPageState extends State<InspirationPage>
   String _id;
 
   Future<void> _getData() async {
-    final String path = API.inspiration;
+    final String path = API.todayInspiration;
     final Response res = await Request(context: context).httpGet(path);
     if (res.data['code'] == '1000') {
       setState(() {
@@ -102,7 +104,7 @@ class _InspirationPageState extends State<InspirationPage>
           shrinkWrap: true,
           children: <Widget>[
             Stack(
-              children: [
+              children: <Widget>[
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
@@ -194,6 +196,21 @@ class _InspirationPageState extends State<InspirationPage>
                     ),
                   );
                 },
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                bottom: 40.h,
+              ),
+              child: Center(
+                child: CustomButton(
+                  text: '靈感歴史記録',
+                  bgColor: context.watch<SkinProvider>().color['button'],
+                  textColor: context.watch<SkinProvider>().color['background'],
+                  borderColor: Style.defaultColor['button'],
+                  callback: () =>
+                      Navigator.pushNamed(context, '/inspiration_history'),
+                ),
               ),
             ),
           ],

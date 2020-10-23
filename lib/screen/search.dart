@@ -164,7 +164,7 @@ class InheritedContext extends InheritedWidget {
 }
 
 class SearchInput extends StatelessWidget {
-  //设置成静态是为了不让textfiled的值被清空
+  //设置成静态是为了不让textfield的值被清空
   static final TextEditingController controller = TextEditingController();
 
   @override
@@ -367,7 +367,6 @@ class _SearchListState extends State<SearchList>
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        print(loadingStatus);
         if (loadingStatus == LoadingStatus.STATUS_IDEL) {
           inheritedContext.search();
         }

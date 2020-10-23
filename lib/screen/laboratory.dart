@@ -65,7 +65,6 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
                       laboratoryOptionsProvider.toggleRomaji();
-                      print(laboratoryOptionsProvider.romaji);
                       final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       prefs.setBool('romaji', laboratoryOptionsProvider.romaji);

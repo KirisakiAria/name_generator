@@ -188,7 +188,7 @@ class ListItem extends StatelessWidget {
                 left: 15.w,
               ),
               child: Text(
-                this.word,
+                word,
                 style: TextStyle(fontSize: 16),
               ),
             ),

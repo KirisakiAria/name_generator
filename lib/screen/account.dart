@@ -124,8 +124,8 @@ class _AvatarState extends State<Avatar> {
         content: const Text('修改头像成功'),
         duration: Duration(seconds: 2),
       );
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      Scaffold.of(context).removeCurrentSnackBar();
+      Scaffold.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -214,8 +214,8 @@ class _UsernameState extends State<Username> {
             content: const Text('修改用户名成功'),
             duration: Duration(seconds: 2),
           );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Scaffold.of(context).removeCurrentSnackBar();
+          Scaffold.of(context).showSnackBar(snackBar);
         }
       },
       child: Container(

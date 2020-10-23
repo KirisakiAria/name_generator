@@ -23,7 +23,7 @@ class InspirationHistoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '灵感历史',
+          '灵感记录',
         ),
       ),
       body: InspirationHistoryList(),
@@ -49,7 +49,7 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
         _list.clear();
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
-      final String path = API.favourite;
+      final String path = API.inspiration;
       final Response res = await Request(
         context: context,
       ).httpGet(path + '?page=$_page');
@@ -114,9 +114,11 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
             return LoadingView(_loadingStatus);
           } else {
             return ListItem(
-              type: _list[index]['type'],
-              word: _list[index]['word'],
-              callback: _getData,
+              chineseTitle: _list[index]['chinese']['title'],
+              chineseContent: _list[index]['chinese']['content'],
+              japaneseTitle: _list[index]['japanese']['title'],
+              japaneseContent: _list[index]['japanese']['content'],
+              //likes: _list[index]['likedUsers']['length'],
             );
           }
         },
@@ -126,93 +128,99 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
 }
 
 class ListItem extends StatelessWidget {
-  final String type, word;
-  final VoidCallback callback;
+  final String chineseTitle, chineseContent, japaneseTitle, japaneseContent;
+  //final int likes;
   ListItem({
-    @required this.type,
-    @required this.word,
-    @required this.callback,
+    @required this.chineseTitle,
+    @required this.chineseContent,
+    @required this.japaneseTitle,
+    @required this.japaneseContent,
+    //@required this.likes,
   });
-
-  Future<void> _cancel({
-    @required String word,
-    @required BuildContext context,
-  }) async {
-    try {
-      final String path = API.favourite;
-      final Response res = await Request(
-        context: context,
-      ).httpDelete('$path/$word');
-      if (res.data['code'] == '1000') {
-        callback();
-      }
-    } catch (err) {
-      print(err);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 15.w,
-        vertical: 6.h,
+      margin: EdgeInsets.only(
+        left: 30.w,
       ),
       padding: EdgeInsets.symmetric(
-        horizontal: 15.w,
-        vertical: 5.h,
+        vertical: 20.h,
       ),
-      decoration: ShapeDecoration(
-        color: context.watch<SkinProvider>().color['widget'],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: Colors.black12,
           ),
         ),
       ),
-      child: Row(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              Clipboard.setData(ClipboardData(text: word));
-              final SnackBar snackBar = SnackBar(
-                content: const Text('复制成功'),
-                duration: Duration(seconds: 2),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 15.w,
-              ),
-              child: Text(
-                this.word,
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                child: FlatButton(
+      child: GestureDetector(
+        onTap: () {},
+        child: Row(
+          children: <Widget>[
+            // Container(
+            //   margin: EdgeInsets.only(
+            //     right: 15.w,
+            //   ),
+            //   child: Text(
+            //     chineseTitle,
+            //     style: TextStyle(fontSize: 16),
+            //   ),
+            // ),
+            Column(
+              children: <Widget>[
+                Container(
+                  width: 250.w,
                   child: Text(
-                    '取消收藏',
+                    chineseTitle,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Container(
+                  width: 250.w,
+                  margin: EdgeInsets.only(
+                    top: 10.h,
+                  ),
+                  child: Text(
+                    chineseContent,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: context.watch<SkinProvider>().color['subtitle'],
                     ),
                   ),
-                  onPressed: () => _cancel(
-                    word: word,
-                    context: context,
+                ),
+                Container(
+                  width: 250.w,
+                  margin: EdgeInsets.only(
+                    top: 20.h,
+                  ),
+                  child: Text(
+                    japaneseTitle,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16),
                   ),
                 ),
-              ),
+                Container(
+                  width: 250.w,
+                  margin: EdgeInsets.only(
+                    top: 10.h,
+                  ),
+                  child: Text(
+                    japaneseContent,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.watch<SkinProvider>().color['subtitle'],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -165,7 +165,7 @@ class ListItem extends StatelessWidget {
                 left: 15.w,
               ),
               child: Text(
-                this.word,
+                word,
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -179,6 +179,7 @@ class ListItem extends StatelessWidget {
 class WordIcon extends StatelessWidget {
   final String type;
   WordIcon(this.type);
+
   @override
   Widget build(BuildContext context) {
     if (type == '中国风') {
