@@ -208,8 +208,10 @@ class _AboutPageState extends State<AboutPage> {
                                   content: Text(res.data['message']),
                                   duration: Duration(seconds: 2),
                                 );
-                                Scaffold.of(context).removeCurrentSnackBar();
-                                Scaffold.of(context).showSnackBar(snackBar);
+                                ScaffoldMessenger.of(context)
+                                    .removeCurrentSnackBar();
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               }
                             } catch (err) {
                               print(err);

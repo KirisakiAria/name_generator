@@ -86,8 +86,8 @@ class Request {
             if (response.data['code'] != '1000') {
               final SnackBar snackBar =
                   SnackBar(content: Text(response.data['message']));
-              Scaffold.of(context).removeCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
             Navigator.pop(context);
           }
@@ -99,8 +99,8 @@ class Request {
               content: const Text('服务器开小差了，请稍后再试~'),
               duration: Duration(seconds: 2),
             );
-            Scaffold.of(context).removeCurrentSnackBar();
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
             Navigator.pop(context);
           }
         },

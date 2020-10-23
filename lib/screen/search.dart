@@ -31,7 +31,21 @@ class _SearchPageState extends State<SearchPage>
 
   String _searchText = '';
   List<dynamic> _list = <dynamic>[];
+  List<int> _randomList = <int>[1, 2, 3, 4, 5];
   int _page = 0;
+
+  List<int> _getRandomList() {
+    int t;
+    List<int> arr = <int>[1, 2, 3, 4, 5];
+    for (int i = 0; i < arr.length; i++) {
+      Random random = Random();
+      int rand = random.nextInt(arr.length);
+      t = arr[rand];
+      arr[rand] = arr[i];
+      arr[i] = t;
+    }
+    return arr;
+  }
 
   Future<void> _getData(String searchText) async {
     try {
@@ -68,14 +82,15 @@ class _SearchPageState extends State<SearchPage>
 
   void _search({String searchText, bool refresh = false}) {
     if (_loadingStatus != LoadingStatus.STATUS_LOADING) {
-      Scaffold.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
       setState(() {
         if (searchText != null) {
+          _randomList = _getRandomList();
           _searchText = searchText;
         }
         if (_searchText == '') {
           final SnackBar snackBar = SnackBar(content: Text('请输入关键字'));
-          Scaffold.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else {
           if (refresh) {
             _page = 0;
@@ -102,6 +117,7 @@ class _SearchPageState extends State<SearchPage>
           search: _search,
           list: _list,
           loadingStatus: _loadingStatus,
+          randomList: _randomList,
           child: Column(
             children: <Widget>[
               SearchInput(),
@@ -123,6 +139,8 @@ class InheritedContext extends InheritedWidget {
   final List<dynamic> list;
   //列表加载状态
   final LoadingStatus loadingStatus;
+  //随机数列表
+  final List<int> randomList;
 
   InheritedContext({
     Key key,
@@ -130,6 +148,7 @@ class InheritedContext extends InheritedWidget {
     @required this.search,
     @required this.list,
     @required this.loadingStatus,
+    @required this.randomList,
     @required Widget child,
   }) : super(key: key, child: child);
 
@@ -250,27 +269,43 @@ class _SearchListState extends State<SearchList>
 
   int _lovedIndex;
 
-  int _getRandomNumber(int min, int max) {
-    final _random = new Random();
-    return min + _random.nextInt(max - min);
-  }
-
   AssetImage _randomBackground(index) {
-    if (index % 6 == 0) {
-      return AssetImage('assets/images/search/card5.png');
-    }
-    if (index % 5 == 0) {
-      return AssetImage('assets/images/search/card4.png');
-    }
-    if (index % 4 == 0) {
-      return AssetImage('assets/images/search/card3.png');
-    } else if (index % 3 == 0) {
-      return AssetImage('assets/images/search/card2.png');
-    } else if (index % 2 == 0) {
-      int random = _getRandomNumber(1, 4);
-      return AssetImage('assets/images/search/card$random.png');
-    } else {
-      return AssetImage('assets/images/search/card1.png');
+    final InheritedContext inheritedContext = InheritedContext.of(context);
+    final List<int> randomList = inheritedContext.randomList;
+    switch (index % 10) {
+      case 0:
+        return AssetImage('assets/images/search/bg${randomList[0]}.png');
+        break;
+      case 1:
+        return AssetImage('assets/images/search/card1.png');
+        break;
+      case 2:
+        return AssetImage('assets/images/search/bg${randomList[1]}.png');
+        break;
+      case 3:
+        return AssetImage('assets/images/search/card2.png');
+        break;
+      case 4:
+        return AssetImage('assets/images/search/bg${randomList[2]}.png');
+        break;
+      case 5:
+        return AssetImage('assets/images/search/card3.png');
+        break;
+      case 6:
+        return AssetImage('assets/images/search/bg${randomList[3]}.png');
+        break;
+      case 7:
+        return AssetImage('assets/images/search/card4.png');
+        break;
+      case 8:
+        return AssetImage('assets/images/search/bg${randomList[4]}.png');
+        break;
+      case 9:
+        return AssetImage('assets/images/search/card5.png');
+        break;
+      default:
+        return AssetImage('assets/images/search/bg${randomList[5]}.png');
+        break;
     }
   }
 
@@ -356,8 +391,8 @@ class _SearchListState extends State<SearchList>
                   content: const Text('复制成功'),
                   duration: Duration(seconds: 2),
                 );
-                Scaffold.of(context).removeCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
               onLongPress: () {
                 final bool loginState = context.read<UserProvider>().loginState;
@@ -375,8 +410,8 @@ class _SearchListState extends State<SearchList>
                     content: const Text('请先登录再加收藏'),
                     duration: Duration(seconds: 2),
                   );
-                  Scaffold.of(context).removeCurrentSnackBar();
-                  Scaffold.of(context).showSnackBar(snackBar);
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 }
               },
               child: Stack(
@@ -399,6 +434,13 @@ class _SearchListState extends State<SearchList>
                         style: TextStyle(
                           fontSize: 22,
                           color: Colors.white,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(0.0, 0.0),
+                              blurRadius: 12.0,
+                              color: Color.fromARGB(235, 255, 255, 255),
+                            ),
+                          ],
                         ),
                       ),
                     ),

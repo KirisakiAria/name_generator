@@ -81,8 +81,8 @@ class _SettingPageState extends State<SettingPage> {
       content: const Text('清除缓存成功'),
       duration: Duration(seconds: 2),
     );
-    Scaffold.of(context).removeCurrentSnackBar();
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   ///递归方式删除目录（直至找到文件才删除）
@@ -110,7 +110,7 @@ class _SettingPageState extends State<SettingPage> {
           '设置',
         ),
       ),
-      //context对象必须是Scaffold的子context，Scaffold.of才能生效。所以这里使用了Builder包装了一层，向下传递了context对象。
+      //context对象必须是Scaffold的子context，ScaffoldMessenger.of才能生效。所以这里使用了Builder包装了一层，向下传递了context对象。
       body: Builder(
         builder: (BuildContext context) => ListTileTheme(
           iconColor: context.watch<SkinProvider>().color['subtitle'],

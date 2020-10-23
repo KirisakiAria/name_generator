@@ -166,8 +166,8 @@ class Menu extends StatelessWidget {
                   content: const Text('请先登录'),
                   duration: Duration(seconds: 2),
                 );
-                Scaffold.of(context).removeCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
                 Navigator.pushNamed(context, '/favourites');
               }
@@ -209,8 +209,8 @@ class Menu extends StatelessWidget {
                   content: const Text('请先登录'),
                   duration: Duration(seconds: 2),
                 );
-                Scaffold.of(context).removeCurrentSnackBar();
-                Scaffold.of(context).showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
                 Navigator.pushNamed(context, '/history');
               }

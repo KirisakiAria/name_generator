@@ -157,8 +157,8 @@ class ListItem extends StatelessWidget {
                 content: const Text('复制成功'),
                 duration: Duration(seconds: 2),
               );
-              Scaffold.of(context).removeCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             child: Container(
               margin: EdgeInsets.only(

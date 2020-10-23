@@ -22,7 +22,7 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
           '实验室',
         ),
       ),
-      //context必须是Scaffold的子context，Scaffold.of才能生效
+      //context必须是Scaffold的子context，ScaffoldMessenger.of才能生效
       body: Builder(
         builder: (BuildContext context) => ListTileTheme(
           iconColor: context.watch<SkinProvider>().color['subtitle'],
@@ -61,8 +61,8 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                         content: const Text('请先登录'),
                         duration: Duration(seconds: 2),
                       );
-                      Scaffold.of(context).removeCurrentSnackBar();
-                      Scaffold.of(context).showSnackBar(snackBar);
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
                       laboratoryOptionsProvider.toggleRomaji();
                       print(laboratoryOptionsProvider.romaji);

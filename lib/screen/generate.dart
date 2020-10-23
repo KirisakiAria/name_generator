@@ -242,8 +242,8 @@ class _GeneratePageState extends State<GeneratePage>
             content: Text('类型切换：${wordOptionsProviderprovider.type}'),
             duration: Duration(seconds: 2),
           );
-          Scaffold.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         child: Column(
           children: <Widget>[
@@ -423,8 +423,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               content: const Text('复制成功'),
               duration: Duration(seconds: 2),
             );
-            Scaffold.of(context).removeCurrentSnackBar();
-            Scaffold.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           onLongPress: () {
             final bool loginState = context.read<UserProvider>().loginState;
@@ -436,8 +436,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 content: const Text('请先登录再加收藏'),
                 duration: Duration(seconds: 2),
               );
-              Scaffold.of(context).removeCurrentSnackBar();
-              Scaffold.of(context).showSnackBar(snackBar);
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
           },
           child: Stack(

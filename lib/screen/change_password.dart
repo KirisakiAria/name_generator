@@ -82,16 +82,16 @@ class _CustomFormState extends State<CustomForm> {
             content: const Text('验证码发送成功'),
             duration: Duration(seconds: 2),
           );
-          Scaffold.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       } else {
         final SnackBar snackBar = SnackBar(
           content: const Text('请输入正确的手机号'),
           duration: Duration(seconds: 2),
         );
-        Scaffold.of(context).removeCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (err) {
       print(err);
@@ -117,8 +117,8 @@ class _CustomFormState extends State<CustomForm> {
           content: const Text('修改密码成功'),
           duration: Duration(seconds: 2),
         );
-        Scaffold.of(context).removeCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(snackBar);
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (err) {
       print(err);

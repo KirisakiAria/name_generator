@@ -53,8 +53,8 @@ class _InspirationPageState extends State<InspirationPage>
     bool loginState = context.read<UserProvider>().loginState;
     if (!loginState) {
       final SnackBar snackBar = SnackBar(content: Text('请先登录'));
-      Scaffold.of(context).removeCurrentSnackBar();
-      Scaffold.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return false;
     }
     final String path = API.likeInspiration;
