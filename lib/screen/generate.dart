@@ -105,11 +105,14 @@ class _GeneratePageState extends State<GeneratePage>
                     style: TextStyle(color: Colors.lightBlue),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Navigator.pushNamed(context, '/webview',
-                            arguments: <String, String>{
-                              'title': '服务条款',
-                              'url': '$host/#/terms'
-                            });
+                        Navigator.pushNamed(
+                          context,
+                          '/webview',
+                          arguments: <String, String>{
+                            'title': '服务条款',
+                            'url': '$host/#/terms'
+                          },
+                        );
                       },
                   ),
                   TextSpan(

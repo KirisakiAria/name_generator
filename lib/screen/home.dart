@@ -11,8 +11,8 @@ import '../services/request.dart';
 //page
 import '../screen/generate.dart';
 import '../screen/search.dart';
-import '../screen/inspiration.dart';
-import '../screen/my.dart';
+import '../screen/inspiration/inspiration.dart';
+import '../screen/my/my.dart';
 //common
 import '../common/style.dart';
 import '../common/custom_icon_data.dart';

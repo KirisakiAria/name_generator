@@ -8,15 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //common
-import '../common/custom_icon_data.dart';
-import '../common/style.dart';
+import '../../common/custom_icon_data.dart';
+import '../../common/style.dart';
 //model
-import '../model/user.dart';
-import '../model/skin.dart';
-import '../model/laboratory_options.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
+import '../../model/laboratory_options.dart';
 
 class MyPage extends StatefulWidget {
   @override

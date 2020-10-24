@@ -6,15 +6,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:like_button/like_button.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //common
-import '../common/style.dart';
+import '../../common/style.dart';
 //model
-import '../model/user.dart';
-import '../model/skin.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
 //组件
-import '../widgets/custom_button.dart';
+import '../../widgets/custom_button.dart';
 
 class InspirationPage extends StatefulWidget {
   @override
@@ -73,9 +73,12 @@ class _InspirationPageState extends State<InspirationPage>
       } else {
         _likeCount++;
       }
-      Future.delayed(Duration(milliseconds: 1000), () {
-        setState(() {});
-      });
+      Future.delayed(
+        Duration(milliseconds: 1000),
+        () {
+          setState(() {});
+        },
+      );
     }
     return _isLiked;
   }

@@ -7,19 +7,19 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //页面
 import './user.dart';
 //组件
-import '../widgets/custom_button.dart';
+import '../../widgets/custom_button.dart';
 //common
-import '../common/style.dart';
+import '../../common/style.dart';
 //utils
-import '../utils/Utils.dart';
+import '../../utils/Utils.dart';
 //model
-import '../model/user.dart';
-import '../model/skin.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
 
 class LoginPage extends StatelessWidget {
   final FocusNode blankNode = FocusNode();

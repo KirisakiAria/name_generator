@@ -8,13 +8,13 @@ import 'package:transparent_image/transparent_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //common
-import '../common/style.dart';
+import '../../common/style.dart';
 //model
-import '../model/user.dart';
-import '../model/skin.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -124,8 +124,8 @@ class _AvatarState extends State<Avatar> {
         content: const Text('修改头像成功'),
         duration: Duration(seconds: 2),
       );
-      Scaffold.of(context).removeCurrentSnackBar();
-      Scaffold.of(context).showSnackBar(snackBar);
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -214,8 +214,8 @@ class _UsernameState extends State<Username> {
             content: const Text('修改用户名成功'),
             duration: Duration(seconds: 2),
           );
-          Scaffold.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).showSnackBar(snackBar);
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
       child: Container(

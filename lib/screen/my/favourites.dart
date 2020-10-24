@@ -6,16 +6,16 @@ import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求相关
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //组件
-import '../widgets/loading_view.dart';
+import '../../widgets/loading_view.dart';
 //model
-import '../model/skin.dart';
+import '../../model/skin.dart';
 //common
-import '../common/loading_status.dart';
-import '../common/custom_icon_data.dart';
-import '../common/style.dart';
+import '../../common/loading_status.dart';
+import '../../common/custom_icon_data.dart';
+import '../../common/style.dart';
 
 class FavouritesPage extends StatelessWidget {
   @override

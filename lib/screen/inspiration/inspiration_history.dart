@@ -1,21 +1,20 @@
 //核心库
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 //第三方库
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求相关
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //组件
-import '../widgets/loading_view.dart';
+import '../../widgets/loading_view.dart';
 //model
-import '../model/skin.dart';
+import '../../model/skin.dart';
 //common
-import '../common/loading_status.dart';
-import '../common/custom_icon_data.dart';
-import '../common/style.dart';
+import '../../common/loading_status.dart';
+import '../../common/custom_icon_data.dart';
+import '../../common/style.dart';
 
 class InspirationHistoryPage extends StatelessWidget {
   @override
@@ -114,11 +113,12 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
             return LoadingView(_loadingStatus);
           } else {
             return ListItem(
+              id: _list[index]['_id'],
               chineseTitle: _list[index]['chinese']['title'],
               chineseContent: _list[index]['chinese']['content'],
               japaneseTitle: _list[index]['japanese']['title'],
               japaneseContent: _list[index]['japanese']['content'],
-              //likes: _list[index]['likedUsers']['length'],
+              likedUsersCount: _list[index]['likedUsers'].length,
             );
           }
         },
@@ -128,14 +128,15 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
 }
 
 class ListItem extends StatelessWidget {
-  final String chineseTitle, chineseContent, japaneseTitle, japaneseContent;
-  //final int likes;
+  final String id, chineseTitle, chineseContent, japaneseTitle, japaneseContent;
+  final int likedUsersCount;
   ListItem({
+    @required this.id,
     @required this.chineseTitle,
     @required this.chineseContent,
     @required this.japaneseTitle,
     @required this.japaneseContent,
-    //@required this.likes,
+    @required this.likedUsersCount,
   });
 
   @override
@@ -156,18 +157,44 @@ class ListItem extends StatelessWidget {
         ),
       ),
       child: GestureDetector(
-        onTap: () {},
+        behavior: HitTestBehavior.translucent,
+        onTap: () => Navigator.pushNamed(
+          context,
+          '/inspiration_history_details',
+          arguments: <String, String>{
+            'id': id,
+          },
+        ),
         child: Row(
           children: <Widget>[
-            // Container(
-            //   margin: EdgeInsets.only(
-            //     right: 15.w,
-            //   ),
-            //   child: Text(
-            //     chineseTitle,
-            //     style: TextStyle(fontSize: 16),
-            //   ),
-            // ),
+            Container(
+                margin: EdgeInsets.only(
+                  right: 35.w,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      const IconData(
+                        CustomIconData.love,
+                        fontFamily: 'iconfont',
+                      ),
+                      size: 30,
+                      color: context.watch<SkinProvider>().color['text'],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 15.h,
+                      ),
+                      child: Text(
+                        likedUsersCount.toString(),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
             Column(
               children: <Widget>[
                 Container(
@@ -175,7 +202,9 @@ class ListItem extends StatelessWidget {
                   child: Text(
                     chineseTitle,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
                 ),
                 Container(

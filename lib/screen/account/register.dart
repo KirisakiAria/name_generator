@@ -7,18 +7,18 @@ import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //页面
 import './user.dart';
 //组件
-import '../widgets/custom_button.dart';
+import '../../widgets/custom_button.dart';
 //common
-import '../common/style.dart';
+import '../../common/style.dart';
 //model
-import '../model/skin.dart';
+import '../../model/skin.dart';
 //utils
-import '../utils/Utils.dart';
+import '../../utils/Utils.dart';
 
 class RegisterPage extends StatelessWidget {
   final FocusNode blankNode = FocusNode();

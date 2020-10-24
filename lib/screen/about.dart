@@ -155,12 +155,15 @@ class _AboutPageState extends State<AboutPage> {
                             final String username =
                                 context.read<UserProvider>().username;
                             final String tel = context.read<UserProvider>().tel;
-                            Navigator.pushNamed(context, '/webview',
-                                arguments: <String, String>{
-                                  'title': '意见反馈',
-                                  'url':
-                                      '$host/#/feedback?tel=$tel&username=$username'
-                                });
+                            Navigator.pushNamed(
+                              context,
+                              '/webview',
+                              arguments: <String, String>{
+                                'title': '意见反馈',
+                                'url':
+                                    '$host/#/feedback?tel=$tel&username=$username'
+                              },
+                            );
                           },
                           title: Text(
                             '意见反馈',

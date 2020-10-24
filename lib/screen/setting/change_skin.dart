@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //model
-import '../model/skin.dart';
+import '../../model/skin.dart';
 //common
-import '../common/style.dart';
+import '../../common/style.dart';
 
 class SkinPage extends StatefulWidget {
   @override
