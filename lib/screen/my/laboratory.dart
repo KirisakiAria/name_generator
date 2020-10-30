@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 //model
-import '../model/skin.dart';
-import '../model/user.dart';
-import '../model/laboratory_options.dart';
+import '../../model/skin.dart';
+import '../../model/user.dart';
+import '../../model/laboratory_options.dart';
 
 class LaboratoryPage extends StatefulWidget {
   @override

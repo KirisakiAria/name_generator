@@ -9,18 +9,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //组件
-import '../widgets/custom_button.dart';
+import '../../widgets/custom_button.dart';
 //common
-import '../common/style.dart';
-import '../common/optionsData.dart';
+import '../../common/style.dart';
+import '../../common/optionsData.dart';
 //model
-import '../model/word_options.dart';
-import '../model/user.dart';
-import '../model/skin.dart';
-import '../model/laboratory_options.dart';
+import '../../model/word_options.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
+import '../../model/laboratory_options.dart';
 
 class GeneratePage extends StatefulWidget {
   @override

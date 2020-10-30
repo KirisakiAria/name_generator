@@ -6,13 +6,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //common
-import '../common/global.dart';
+import '../../common/global.dart';
 //model
-import '../model/user.dart';
-import '../model/skin.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
 
 class AboutPage extends StatefulWidget {
   @override

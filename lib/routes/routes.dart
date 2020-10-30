@@ -8,8 +8,8 @@ import '../screen/setting/account.dart';
 import '../screen/setting/change_skin.dart';
 import '../screen/my/history.dart';
 import '../screen/my/favourites.dart';
-import '../screen/laboratory.dart';
-import '../screen/about.dart';
+import '../screen/my/laboratory.dart';
+import '../screen/my/about.dart';
 import '../screen/webview.dart';
 
 class Routes {

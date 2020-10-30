@@ -9,8 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../services/api.dart';
 import '../services/request.dart';
 //page
-import '../screen/generate.dart';
-import '../screen/search.dart';
+import '../screen/generate/generate.dart';
+import '../screen/search/search.dart';
 import '../screen/inspiration/inspiration.dart';
 import '../screen/my/my.dart';
 //common

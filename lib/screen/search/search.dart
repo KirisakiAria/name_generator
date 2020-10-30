@@ -8,15 +8,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 //请求
-import '../services/api.dart';
-import '../services/request.dart';
+import '../../services/api.dart';
+import '../../services/request.dart';
 //组件
-import '../widgets/loading_view.dart';
+import '../../widgets/loading_view.dart';
 //common
-import '../common/loading_status.dart';
+import '../../common/loading_status.dart';
 //model
-import '../model/user.dart';
-import '../model/skin.dart';
+import '../../model/user.dart';
+import '../../model/skin.dart';
 
 final FocusNode blankNode = FocusNode();
 
@@ -436,8 +436,8 @@ class _SearchListState extends State<SearchList>
                           shadows: <Shadow>[
                             Shadow(
                               offset: Offset(0.0, 0.0),
-                              blurRadius: 12.0,
-                              color: Color.fromARGB(235, 255, 255, 255),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(245, 255, 255, 255),
                             ),
                           ],
                         ),
