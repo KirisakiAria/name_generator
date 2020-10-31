@@ -54,7 +54,10 @@ class _InspirationPageState extends State<InspirationPage>
   Future<bool> _like(bool islike) async {
     bool loginState = context.read<UserProvider>().loginState;
     if (!loginState) {
-      final SnackBar snackBar = SnackBar(content: Text('请先登录'));
+      final SnackBar snackBar = SnackBar(
+        content: const Text('请先登录'),
+        duration: Duration(seconds: 2),
+      );
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return false;

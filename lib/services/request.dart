@@ -62,7 +62,6 @@ class Request {
               ) {
                 return LoadingDialog();
               },
-              barrierDismissible: false,
               barrierLabel: '',
               barrierColor: Colors.transparent,
               transitionDuration: Duration(milliseconds: 300),
@@ -84,8 +83,10 @@ class Request {
         onResponse: (Response response) async {
           if (showLoadingDialog) {
             if (response.data['code'] != '1000') {
-              final SnackBar snackBar =
-                  SnackBar(content: Text(response.data['message']));
+              final SnackBar snackBar = SnackBar(
+                content: Text(response.data['message']),
+                duration: Duration(seconds: 2),
+              );
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }

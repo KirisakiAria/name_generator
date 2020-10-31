@@ -50,6 +50,15 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.notifications_none),
+            onPressed: () => Navigator.pushNamed(context, '/notifications'),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         color: Style.grey20,
         backgroundColor: Colors.white,
@@ -74,7 +83,7 @@ class BaseInformationBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 110.h,
+        top: 10.h,
         bottom: 30.h,
       ),
       decoration: ShapeDecoration(
@@ -388,7 +397,6 @@ class Menu extends StatelessWidget {
                     );
                   },
                   barrierColor: Color.fromRGBO(0, 0, 0, .4),
-                  barrierDismissible: false,
                   transitionDuration: Duration(milliseconds: 200),
                   transitionBuilder: (
                     BuildContext context,

@@ -61,7 +61,7 @@ class _GeneratePageState extends State<GeneratePage>
   }
 
   //服务条款和隐私协议弹窗
-  _showPopup() {
+  void _showPopup() {
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -70,6 +70,7 @@ class _GeneratePageState extends State<GeneratePage>
         Animation<double> anim2,
       ) {
         return WillPopScope(
+          //阻止返回键返回
           onWillPop: () async => Future.value(false),
           child: AlertDialog(
             shape: RoundedRectangleBorder(
@@ -154,7 +155,6 @@ class _GeneratePageState extends State<GeneratePage>
         );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
-      barrierDismissible: false,
       transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (
         BuildContext context,
@@ -192,6 +192,10 @@ class _GeneratePageState extends State<GeneratePage>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.notifications_none),
+            onPressed: () => Navigator.pushNamed(context, '/notifications'),
+          ),
           PopupMenuButton<String>(
             color: context.watch<SkinProvider>().color['background'],
             itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
@@ -288,7 +292,6 @@ class _GeneratePageState extends State<GeneratePage>
                         return OptionsDialog();
                       },
                       barrierColor: Colors.grey.withOpacity(.4),
-                      barrierDismissible: false,
                       transitionDuration: Duration(milliseconds: 400),
                       transitionBuilder: (
                         BuildContext context,

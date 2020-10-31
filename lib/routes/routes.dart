@@ -11,6 +11,7 @@ import '../screen/my/favourites.dart';
 import '../screen/my/laboratory.dart';
 import '../screen/my/about.dart';
 import '../screen/webview.dart';
+import '../screen/notification/notifications.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> mappingList = <String, WidgetBuilder>{
@@ -27,5 +28,6 @@ class Routes {
     '/history': (BuildContext context) => HistoryPage(),
     '/favourites': (BuildContext context) => FavouritesPage(),
     '/webview': (BuildContext context) => WebviewPage(),
+    '/notifications': (BuildContext context) => NotificationPage(),
   };
 }

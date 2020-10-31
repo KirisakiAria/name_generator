@@ -9,33 +9,33 @@ import '../../services/api.dart';
 import '../../services/request.dart';
 //组件
 import '../../widgets/loading_view.dart';
+import '../../widgets/custom_button.dart';
 //model
 import '../../model/skin.dart';
 //common
 import '../../common/loading_status.dart';
-import '../../common/custom_icon_data.dart';
 import '../../common/style.dart';
 
-class InspirationHistoryPage extends StatelessWidget {
+class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '灵感记录',
+          '消息中心',
         ),
       ),
-      body: InspirationHistoryList(),
+      body: NotificationList(),
     );
   }
 }
 
-class InspirationHistoryList extends StatefulWidget {
+class NotificationList extends StatefulWidget {
   @override
-  _InspirationHistoryListState createState() => _InspirationHistoryListState();
+  _NotificationListState createState() => _NotificationListState();
 }
 
-class _InspirationHistoryListState extends State<InspirationHistoryList> {
+class _NotificationListState extends State<NotificationList> {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
@@ -48,7 +48,7 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
         _list.clear();
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
-      final String path = API.inspiration;
+      final String path = API.notification;
       final Response res = await Request(
         context: context,
       ).httpGet(path + '?page=$_page');
@@ -114,11 +114,9 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
           } else {
             return ListItem(
               id: _list[index]['_id'],
-              chineseTitle: _list[index]['chinese']['title'],
-              chineseContent: _list[index]['chinese']['content'],
-              japaneseTitle: _list[index]['japanese']['title'],
-              japaneseContent: _list[index]['japanese']['content'],
-              likedUsersCount: _list[index]['likedUsers'].length,
+              title: _list[index]['title'],
+              content: _list[index]['content'],
+              date: _list[index]['date'],
             );
           }
         },
@@ -128,22 +126,90 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
 }
 
 class ListItem extends StatelessWidget {
-  final String id, chineseTitle, chineseContent, japaneseTitle, japaneseContent;
-  final int likedUsersCount;
+  final String id, title, content, date;
+
   ListItem({
     @required this.id,
-    @required this.chineseTitle,
-    @required this.chineseContent,
-    @required this.japaneseTitle,
-    @required this.japaneseContent,
-    @required this.likedUsersCount,
+    @required this.title,
+    @required this.content,
+    @required this.date,
   });
+
+  //服务条款和隐私协议弹窗
+  void _showPopup(BuildContext context) async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text(title),
+          scrollable: true,
+          content: SizedBox(
+            height: 300.h,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 15.h,
+                    ),
+                    child: Text(
+                      date.substring(0, 10),
+                      style: TextStyle(
+                        color: context.watch<SkinProvider>().color['subtitle'],
+                      ),
+                    ),
+                  ),
+                  Text(content),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: CustomButton(
+                text: '確認',
+                bgColor: context.watch<SkinProvider>().color['button'],
+                textColor: context.watch<SkinProvider>().color['background'],
+                borderColor: Style.defaultColor['button'],
+                paddingVertical: 14.h,
+                callback: () => Navigator.pop(context),
+              ),
+            ),
+          ],
+          actionsPadding: EdgeInsets.only(
+            right: 12.h,
+            bottom: 12.h,
+          ),
+        );
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(
-        left: 30.w,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20.w,
       ),
       padding: EdgeInsets.symmetric(
         vertical: 20.h,
@@ -158,50 +224,16 @@ class ListItem extends StatelessWidget {
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => Navigator.pushNamed(
-          context,
-          '/inspiration_history_details',
-          arguments: <String, String>{
-            'id': id,
-          },
-        ),
+        onTap: () => _showPopup(context),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                right: 35.w,
-              ),
-              child: Column(
-                children: <Widget>[
-                  Icon(
-                    const IconData(
-                      CustomIconData.love,
-                      fontFamily: 'iconfont',
-                    ),
-                    size: 30,
-                    color: context.watch<SkinProvider>().color['text'],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 15.h,
-                    ),
-                    child: Text(
-                      likedUsersCount.toString(),
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Column(
               children: <Widget>[
                 Container(
                   width: 250.w,
                   child: Text(
-                    chineseTitle,
+                    title,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16,
@@ -214,32 +246,7 @@ class ListItem extends StatelessWidget {
                     top: 10.h,
                   ),
                   child: Text(
-                    chineseContent,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: context.watch<SkinProvider>().color['subtitle'],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 250.w,
-                  margin: EdgeInsets.only(
-                    top: 20.h,
-                  ),
-                  child: Text(
-                    japaneseTitle,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Container(
-                  width: 250.w,
-                  margin: EdgeInsets.only(
-                    top: 10.h,
-                  ),
-                  child: Text(
-                    japaneseContent,
+                    content,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
@@ -248,6 +255,16 @@ class ListItem extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            Container(
+              child: Text(
+                date.substring(0, 10),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: context.watch<SkinProvider>().color['subtitle'],
+                ),
+              ),
             ),
           ],
         ),

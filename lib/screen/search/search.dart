@@ -89,7 +89,10 @@ class _SearchPageState extends State<SearchPage>
           _searchText = searchText;
         }
         if (_searchText == '') {
-          final SnackBar snackBar = SnackBar(content: Text('请输入关键字'));
+          final SnackBar snackBar = SnackBar(
+            content: const Text('请输入关键字'),
+            duration: Duration(seconds: 2),
+          );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else {
           if (refresh) {

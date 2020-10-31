@@ -195,7 +195,6 @@ class _UsernameState extends State<Username> {
           ) {
             return EditUserNameDialog();
           },
-          barrierDismissible: false,
           transitionDuration: Duration(milliseconds: 300),
           transitionBuilder: (
             BuildContext context,
