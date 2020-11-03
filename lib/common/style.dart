@@ -75,9 +75,6 @@ class Style {
     primaryIconTheme: IconThemeData(
       color: Color(0xff999999),
     ),
-    accentIconTheme: IconThemeData(
-      color: Color(0xff999999),
-    ),
     hintColor: defaultColor['hint'],
     textTheme: TextTheme(
       button: TextStyle(
@@ -146,9 +143,6 @@ class Style {
       color: nightColor['text'],
     ),
     primaryIconTheme: IconThemeData(
-      color: nightColor['text'],
-    ),
-    accentIconTheme: IconThemeData(
       color: nightColor['text'],
     ),
     hintColor: nightColor['hint'],

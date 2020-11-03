@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
+import 'package:html/parser.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
@@ -16,6 +17,7 @@ import '../../widgets/custom_button.dart';
 //common
 import '../../common/style.dart';
 import '../../common/optionsData.dart';
+import '../../common/custom_icon_data.dart';
 //model
 import '../../model/word_options.dart';
 import '../../model/user.dart';
@@ -55,6 +57,25 @@ class _GeneratePageState extends State<GeneratePage>
           _romaji = res.data['data']['romaji'];
         });
       }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> _explain() async {
+    try {
+      final String prefix = 'https://www.zdic.net';
+      final String path = API.lexicon;
+      final Response res = await Request(
+        context: context,
+        baseUrl: prefix,
+      ).httpGet('$path/$_word');
+      // if (res.data['code'] == '1000') {
+      //   print();
+      // }
+      var document = parse(res.toString());
+      String parsedString = document.querySelector('title').innerHtml;
+      print(parsedString);
     } catch (err) {
       print(err);
     }
@@ -240,6 +261,37 @@ class _GeneratePageState extends State<GeneratePage>
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Container(
+          width: 60,
+          height: 60,
+          child: Icon(
+            IconData(
+              CustomIconData.lexicon,
+              fontFamily: 'iconfont',
+            ),
+            color: Colors.white,
+          ),
+          decoration: ShapeDecoration(
+            shape: CircleBorder(),
+            gradient: LinearGradient(
+              colors: <Color>[
+                Color(0xff0093E9),
+                Color(0xff80D0C7),
+              ],
+            ),
+          ),
+        ),
+        tooltip: '当前词语解释',
+        elevation: 4,
+        highlightElevation: 0,
+        onPressed: () => _explain(),
+      ),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+        FloatingActionButtonLocation.endFloat,
+        0,
+        -160.h,
+      ),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
@@ -337,6 +389,20 @@ class _GeneratePageState extends State<GeneratePage>
         ),
       ),
     );
+  }
+}
+
+//自定义FloatingActionButton位置
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  FloatingActionButtonLocation location;
+  double offsetX; // X方向的偏移量
+  double offsetY; // Y方向的偏移量
+  CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    Offset offset = location.getOffset(scaffoldGeometry);
+    return Offset(offset.dx + offsetX, offset.dy + offsetY);
   }
 }
 

@@ -6,6 +6,7 @@ class API {
   static const String version = 'v1';
   static const String api_prefix = '$origin/api/$version';
   static const String word = '/word/random';
+  static const String lexicon = '/hans/';
   static const String search = '/word/search';
   static const String todayInspiration = '/inspiration/today';
   static const String likeInspiration = '/inspiration/like';

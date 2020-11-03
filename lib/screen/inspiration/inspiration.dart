@@ -39,7 +39,9 @@ class _InspirationPageState extends State<InspirationPage>
 
   Future<void> _getData() async {
     final String path = API.todayInspiration;
-    final Response res = await Request(context: context).httpGet(path);
+    final Response res = await Request(
+      context: context,
+    ).httpGet(path);
     if (res.data['code'] == '1000') {
       setState(() {
         _id = res.data['data']['id'];
@@ -63,7 +65,9 @@ class _InspirationPageState extends State<InspirationPage>
       return false;
     }
     final String path = API.likeInspiration;
-    final Response res = await Request(context: context).httpPut(
+    final Response res = await Request(
+      context: context,
+    ).httpPut(
       path + '/$_id',
       <String, bool>{
         'islike': islike,

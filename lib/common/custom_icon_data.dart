@@ -1,5 +1,6 @@
 class CustomIconData {
   static const int generate = 0xe6ac;
+  static const int lexicon = 0xe648;
   static const int search = 0xe600;
   static const int inspiration = 0xe65d;
   static const int my = 0xe65e;
