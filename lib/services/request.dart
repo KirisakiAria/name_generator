@@ -25,9 +25,8 @@ class Request {
   final Dio _dio = Dio();
 
   Request({
-    @required BuildContext context,
+    BuildContext context,
     bool showLoadingDialog = true,
-    String baseUrl = API.api_prefix,
   }) {
     _dio.options.headers = {
       'appname': 'bianzizai',
@@ -37,7 +36,7 @@ class Request {
       'authorization': context.read<UserProvider>().token,
       'secret': API.secret,
     };
-    _dio.options.baseUrl = baseUrl;
+    _dio.options.baseUrl = API.api_prefix;
     _dio.options.connectTimeout = CONNECT_TIMEOUT;
     _dio.options.receiveTimeout = RECEIVE_TIMEOUT;
     //解决https证书不通过的问题（实际上是允许所有https证书，不安全，找到更好的办法后会更新）
@@ -83,15 +82,13 @@ class Request {
         },
         onResponse: (Response response) async {
           if (showLoadingDialog) {
-            if (baseUrl == API.api_prefix) {
-              if (response.data['code'] != '1000') {
-                final SnackBar snackBar = SnackBar(
-                  content: Text(response.data['message']),
-                  duration: Duration(seconds: 2),
-                );
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
+            if (response.data['code'] != '1000') {
+              final SnackBar snackBar = SnackBar(
+                content: Text(response.data['message']),
+                duration: Duration(seconds: 2),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
             Navigator.pop(context);
           }

@@ -1,12 +1,12 @@
 class API {
   //所有请求头都带此密钥
   static const String secret = '0Q3prsna4TLry26Zmu2bPnpl6hM2fw';
-  //static const String origin = 'http://localhost:2077';
-  static const String origin = 'https://api.bianzizai.com';
+  static const String origin = 'http://localhost:2077';
+  //static const String origin = 'https://api.bianzizai.com';
   static const String version = 'v1';
   static const String api_prefix = '$origin/api/$version';
   static const String word = '/word/random';
-  static const String lexicon = '/hans/';
+  static const String dictionary = '/word/dictionary';
   static const String search = '/word/search';
   static const String todayInspiration = '/inspiration/today';
   static const String likeInspiration = '/inspiration/like';

@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
-import 'package:html/parser.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
@@ -64,18 +63,18 @@ class _GeneratePageState extends State<GeneratePage>
 
   Future<void> _explain() async {
     try {
-      final String prefix = 'https://www.zdic.net';
-      final String path = API.lexicon;
+      final String path = API.dictionary;
       final Response res = await Request(
         context: context,
-        baseUrl: prefix,
-      ).httpGet('$path/$_word');
-      // if (res.data['code'] == '1000') {
-      //   print();
-      // }
-      var document = parse(res.toString());
-      String parsedString = document.querySelector('title').innerHtml;
-      print(parsedString);
+      ).httpPost(
+        path,
+        <String, String>{
+          'word': _word,
+        },
+      );
+      if (res.data['code'] == '1000') {
+        print(res.data);
+      }
     } catch (err) {
       print(err);
     }
@@ -267,7 +266,7 @@ class _GeneratePageState extends State<GeneratePage>
           height: 60,
           child: Icon(
             IconData(
-              CustomIconData.lexicon,
+              CustomIconData.dictionary,
               fontFamily: 'iconfont',
             ),
             color: Colors.white,

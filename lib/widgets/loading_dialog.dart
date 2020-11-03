@@ -47,7 +47,10 @@ class LoadingDialog extends Dialog {
                   ),
                   child: const Text(
                     '加载中',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
               ],
