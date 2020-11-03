@@ -135,8 +135,8 @@ class ListItem extends StatelessWidget {
     @required this.date,
   });
 
-  //服务条款和隐私协议弹窗
-  void _showPopup(BuildContext context) async {
+  //查看通知详情弹窗
+  void _checkDetails(BuildContext context) async {
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -154,7 +154,7 @@ class ListItem extends StatelessWidget {
             height: 300.h,
             child: SingleChildScrollView(
               child: Column(
-                children: <Widget>[
+                children: <Widget>[ 
                   Container(
                     margin: EdgeInsets.only(
                       bottom: 15.h,
@@ -224,7 +224,7 @@ class ListItem extends StatelessWidget {
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => _showPopup(context),
+        onTap: () => _checkDetails(context),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

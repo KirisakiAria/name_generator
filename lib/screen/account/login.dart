@@ -108,7 +108,10 @@ class _CustomFormState extends State<CustomForm> {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', data['token']);
         prefs.setString('tel', data['tel']);
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(
+          context,
+          '/home',
+        );
       }
     } catch (err) {
       print(err);
@@ -274,7 +277,10 @@ class _CustomFormState extends State<CustomForm> {
                 bottom: 15.h,
               ),
               child: GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/home'),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  '/home',
+                ),
                 child: Container(
                   padding: EdgeInsets.only(
                     bottom: 3,

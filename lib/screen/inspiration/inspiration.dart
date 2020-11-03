@@ -214,8 +214,10 @@ class _InspirationPageState extends State<InspirationPage>
                   bgColor: context.watch<SkinProvider>().color['button'],
                   textColor: context.watch<SkinProvider>().color['background'],
                   borderColor: Style.defaultColor['button'],
-                  callback: () =>
-                      Navigator.pushNamed(context, '/inspiration_history'),
+                  callback: () => Navigator.pushNamed(
+                    context,
+                    '/inspiration_history',
+                  ),
                 ),
               ),
             ),

@@ -121,9 +121,15 @@ class _SettingPageState extends State<SettingPage> {
                   final bool loginState =
                       context.read<UserProvider>().loginState;
                   if (loginState) {
-                    Navigator.pushNamed(context, '/account');
+                    Navigator.pushNamed(
+                      context,
+                      '/account',
+                    );
                   } else {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushNamed(
+                      context,
+                      '/login',
+                    );
                   }
                 },
                 leading: Icon(
@@ -140,7 +146,10 @@ class _SettingPageState extends State<SettingPage> {
                 trailing: Icon(Icons.keyboard_arrow_right),
               ),
               ListTile(
-                onTap: () => Navigator.pushNamed(context, '/change_skin'),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  '/change_skin',
+                ),
                 leading: Icon(
                   const IconData(
                     CustomIconData.theme,

@@ -55,7 +55,10 @@ class _MyPageState extends State<MyPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.notifications_none),
-            onPressed: () => Navigator.pushNamed(context, '/notifications'),
+            onPressed: () => Navigator.pushNamed(
+              context,
+              '/notifications',
+            ),
           ),
         ],
       ),
@@ -106,7 +109,10 @@ class BaseInformationBox extends StatelessWidget {
           //未登录状态下点击会跳到登录页
           final bool loginState = context.read<UserProvider>().loginState;
           if (!loginState) {
-            Navigator.pushNamed(context, '/login');
+            Navigator.pushNamed(
+              context,
+              '/login',
+            );
           }
         },
         child: Center(
@@ -178,7 +184,10 @@ class Menu extends StatelessWidget {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
-                Navigator.pushNamed(context, '/favourites');
+                Navigator.pushNamed(
+                  context,
+                  '/favourites',
+                );
               }
             },
             child: Container(
@@ -221,7 +230,10 @@ class Menu extends StatelessWidget {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
-                Navigator.pushNamed(context, '/history');
+                Navigator.pushNamed(
+                  context,
+                  '/history',
+                );
               }
             },
             child: Container(
@@ -254,7 +266,10 @@ class Menu extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/setting'),
+            onTap: () => Navigator.pushNamed(
+              context,
+              '/setting',
+            ),
             child: Container(
               child: SizedBox(
                 width: 90.w,
@@ -285,7 +300,10 @@ class Menu extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/about'),
+            onTap: () => Navigator.pushNamed(
+              context,
+              '/about',
+            ),
             child: Container(
               child: SizedBox(
                 width: 90.w,
@@ -316,7 +334,10 @@ class Menu extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/laboratory'),
+            onTap: () => Navigator.pushNamed(
+              context,
+              '/laboratory',
+            ),
             child: Container(
               child: SizedBox(
                 width: 90.w,
@@ -390,7 +411,10 @@ class Menu extends StatelessWidget {
                             context
                                 .read<LaboratoryOptionsProvider>()
                                 .clearAllSetting();
-                            Navigator.pushNamed(context, '/login');
+                            Navigator.pushNamed(
+                              context,
+                              '/login',
+                            );
                           },
                         ),
                       ],
@@ -411,7 +435,10 @@ class Menu extends StatelessWidget {
                   },
                 );
               } else {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(
+                  context,
+                  '/login',
+                );
               }
             },
             child: Container(

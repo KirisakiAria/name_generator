@@ -194,7 +194,10 @@ class _GeneratePageState extends State<GeneratePage>
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.notifications_none),
-            onPressed: () => Navigator.pushNamed(context, '/notifications'),
+            onPressed: () => Navigator.pushNamed(
+              context,
+              '/notifications',
+            ),
           ),
           PopupMenuButton<String>(
             color: context.watch<SkinProvider>().color['background'],
@@ -227,7 +230,10 @@ class _GeneratePageState extends State<GeneratePage>
                   Share.share('$shareContent 官网：$host');
                   break;
                 case 'about':
-                  Navigator.pushNamed(context, '/about');
+                  Navigator.pushNamed(
+                    context,
+                    '/about',
+                  );
                   break;
               }
             },
