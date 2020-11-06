@@ -168,7 +168,7 @@ class InheritedContext extends InheritedWidget {
 
 class SearchInput extends StatelessWidget {
   //设置成静态是为了不让textfield的值被清空
-  static final TextEditingController controller = TextEditingController();
+  static final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +198,7 @@ class SearchInput extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: TextField(
-                controller: controller,
+                controller: _controller,
                 inputFormatters: [
                   //长度限制10
                   LengthLimitingTextInputFormatter(10),
@@ -240,7 +240,7 @@ class SearchInput extends StatelessWidget {
                 ),
                 onPressed: () {
                   inheritedContext.search(
-                    searchText: controller.text,
+                    searchText: _controller.text,
                     refresh: true,
                   );
                   FocusScope.of(context).requestFocus(blankNode);
@@ -359,6 +359,7 @@ class _SearchListState extends State<SearchList>
   @override
   void dispose() {
     _scrollController.dispose();
+    _scrollControllerPlaceholder.dispose();
     super.dispose();
   }
 

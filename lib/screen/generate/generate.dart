@@ -61,7 +61,7 @@ class _GeneratePageState extends State<GeneratePage>
     }
   }
 
-  Future<void> _explain() async {
+  Future<void> _getExplanationData() async {
     try {
       final String path = API.dictionary;
       final Response res = await Request(
@@ -74,14 +74,17 @@ class _GeneratePageState extends State<GeneratePage>
       );
       if (res.data['code'] == '1000') {
         print(res.data);
+        _showExplanationPopup();
       }
     } catch (err) {
       print(err);
     }
   }
 
+  void _showExplanationPopup() {}
+
   //服务条款和隐私协议弹窗
-  void _showPopup() {
+  void _showAgreementPopup() {
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -198,7 +201,7 @@ class _GeneratePageState extends State<GeneratePage>
     widgetsBinding.addPostFrameCallback((callback) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final dynamic accepted = prefs.getBool('accepted');
-      accepted ?? _showPopup();
+      accepted ?? _showAgreementPopup();
     });
   }
 
@@ -284,13 +287,14 @@ class _GeneratePageState extends State<GeneratePage>
         tooltip: '当前词语解释',
         elevation: 4,
         highlightElevation: 0,
-        onPressed: () => _explain(),
+        onPressed: () => _getExplanationData(),
       ),
       floatingActionButtonLocation: CustomFloatingActionButtonLocation(
         FloatingActionButtonLocation.endFloat,
         0,
         -160.h,
       ),
+      floatingActionButtonAnimator: NoScalingAnimation(),
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
@@ -405,6 +409,24 @@ class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   }
 }
 
+//取消FloatingActionButton缩放动画
+class NoScalingAnimation extends FloatingActionButtonAnimator {
+  @override
+  Offset getOffset({Offset begin, Offset end, double progress}) {
+    return end;
+  }
+
+  @override
+  Animation<double> getRotationAnimation({Animation<double> parent}) {
+    return Tween<double>(begin: 1.0, end: 1.0).animate(parent);
+  }
+
+  @override
+  Animation<double> getScaleAnimation({Animation<double> parent}) {
+    return Tween<double>(begin: 1.0, end: 1.0).animate(parent);
+  }
+}
+
 class Display extends StatefulWidget {
   final String word, type, romaji;
 
@@ -464,6 +486,12 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
     );
     _sizeAnimation = _sizeTween.animate(curvedanimation);
     _opacityAnimation = _opacityTween.animate(curvedanimation);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override

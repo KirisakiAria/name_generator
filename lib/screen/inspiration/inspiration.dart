@@ -32,6 +32,8 @@ class _InspirationPageState extends State<InspirationPage>
     'title': '',
     'author': '',
     'content': '',
+    'titleTranslation': '',
+    'contentTranslation': '',
   };
   int _likeCount = 0;
   bool _isLiked = false;
@@ -163,6 +165,47 @@ class _InspirationPageState extends State<InspirationPage>
               content: _japanese['content'],
             ),
             Container(
+              child: Text(
+                '译文：',
+                style: TextStyle(
+                  letterSpacing: 0.8,
+                  color: context.watch<SkinProvider>().color['subtitle'],
+                ),
+              ),
+              margin: EdgeInsets.only(
+                left: 25.w,
+                bottom: 20.h,
+              ),
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  _japanese['titleTranslation'],
+                  style: TextStyle(
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ),
+              margin: EdgeInsets.symmetric(
+                horizontal: 25.w,
+                vertical: 5.h,
+              ),
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  _japanese['contentTranslation'],
+                  style: TextStyle(
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ),
+              margin: EdgeInsets.symmetric(
+                horizontal: 25.w,
+                vertical: 5.h,
+              ),
+            ),
+            Container(
               child: Center(
                 child: Text(
                   '如果喜欢就来点个赞吧 ฅ･◡･ฅ',
@@ -173,13 +216,13 @@ class _InspirationPageState extends State<InspirationPage>
                 ),
               ),
               margin: EdgeInsets.only(
-                top: 35.h,
-                bottom: 20.h,
+                top: 80.h,
+                bottom: 25.h,
               ),
             ),
             Container(
               margin: EdgeInsets.only(
-                bottom: 40.h,
+                bottom: 30.h,
               ),
               child: LikeButton(
                 size: 42,
@@ -245,7 +288,7 @@ class _InspirationItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 25.w,
-        vertical: 40.h,
+        vertical: 45.h,
       ),
       child: Column(
         children: <Widget>[

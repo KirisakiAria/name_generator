@@ -30,6 +30,8 @@ class _InspirationHistoryDetailsPageState
     'title': '',
     'author': '',
     'content': '',
+    'titleTranslation': '',
+    'contentTranslation': '',
   };
 
   Future<void> _getData() async {
@@ -85,6 +87,47 @@ class _InspirationHistoryDetailsPageState
               title: _japanese['title'],
               author: _japanese['author'],
               content: _japanese['content'],
+            ),
+            Container(
+              child: Text(
+                '译文：',
+                style: TextStyle(
+                  letterSpacing: 0.8,
+                  color: context.watch<SkinProvider>().color['subtitle'],
+                ),
+              ),
+              margin: EdgeInsets.only(
+                left: 25.w,
+                bottom: 20.h,
+              ),
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  _japanese['titleTranslation'],
+                  style: TextStyle(
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ),
+              margin: EdgeInsets.symmetric(
+                horizontal: 25.w,
+                vertical: 5.h,
+              ),
+            ),
+            Container(
+              child: Center(
+                child: Text(
+                  _japanese['contentTranslation'],
+                  style: TextStyle(
+                    letterSpacing: 0.8,
+                  ),
+                ),
+              ),
+              margin: EdgeInsets.symmetric(
+                horizontal: 25.w,
+                vertical: 5.h,
+              ),
             ),
           ],
         ),
