@@ -32,40 +32,43 @@ Future<Null> main() async {
   };
   HttpOverrides.global = MyHttpOverrides();
   //runZoned类似于沙箱，沙箱可以捕获、拦截或修改一些代码行为
-  runZoned<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    Global.init();
-    runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<WordOptionsProvider>(
-            create: (BuildContext _) => WordOptionsProvider(),
-          ),
-          ChangeNotifierProvider<UserProvider>(
-            create: (BuildContext _) => UserProvider(),
-          ),
-          ChangeNotifierProvider<SkinProvider>(
-            create: (BuildContext _) => SkinProvider(),
-          ),
-          ChangeNotifierProvider<LaboratoryOptionsProvider>(
-            create: (BuildContext _) => LaboratoryOptionsProvider(),
-          ),
-        ],
-        child: MyApp(),
-      ),
-    );
-    if (Platform.isAndroid) {
-      //沉浸式
-      SystemUiOverlayStyle systemUiOverlayStyle =
-          SystemUiOverlayStyle(statusBarColor: Colors.transparent);
-      SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    }
-  }, onError: (dynamic error, dynamic stackTrace) async {
-    print(error);
-  });
+  runZoned<Future<void>>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      Global.init();
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<WordOptionsProvider>(
+              create: (BuildContext _) => WordOptionsProvider(),
+            ),
+            ChangeNotifierProvider<UserProvider>(
+              create: (BuildContext _) => UserProvider(),
+            ),
+            ChangeNotifierProvider<SkinProvider>(
+              create: (BuildContext _) => SkinProvider(),
+            ),
+            ChangeNotifierProvider<LaboratoryOptionsProvider>(
+              create: (BuildContext _) => LaboratoryOptionsProvider(),
+            ),
+          ],
+          child: MyApp(),
+        ),
+      );
+      if (Platform.isAndroid) {
+        //沉浸式
+        SystemUiOverlayStyle systemUiOverlayStyle =
+            SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+        SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+      }
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -73,6 +76,25 @@ class MyApp extends StatelessWidget {
       home: HomePage(),
       theme: context.watch<SkinProvider>().theme,
       routes: Routes.mappingList,
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
+      navigatorObservers: [
+        GlobalNavigatorObserver(rootScaffoldMessengerKey),
+      ],
     );
+  }
+}
+
+class GlobalNavigatorObserver extends NavigatorObserver {
+  final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey;
+  GlobalNavigatorObserver(this.rootScaffoldMessengerKey);
+
+  @override
+  void didPush(Route route, Route previousRoute) {
+    rootScaffoldMessengerKey.currentState.removeCurrentSnackBar();
+  }
+
+  @override
+  void didPop(Route route, Route previousRoute) {
+    rootScaffoldMessengerKey.currentState.removeCurrentSnackBar();
   }
 }

@@ -59,7 +59,7 @@ class _InspirationPageState extends State<InspirationPage>
     bool loginState = context.read<UserProvider>().loginState;
     if (!loginState) {
       final SnackBar snackBar = SnackBar(
-        content: const Text('请先登录'),
+        content: const Text('请先登录再点赞'),
         duration: Duration(seconds: 2),
       );
       ScaffoldMessenger.of(context).removeCurrentSnackBar();

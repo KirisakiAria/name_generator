@@ -58,7 +58,7 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                         context.read<LaboratoryOptionsProvider>();
                     if (!loginState) {
                       final SnackBar snackBar = SnackBar(
-                        content: const Text('请先登录'),
+                        content: const Text('请先登录再使用实验室功能'),
                         duration: Duration(seconds: 2),
                       );
                       ScaffoldMessenger.of(context).removeCurrentSnackBar();

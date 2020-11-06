@@ -410,7 +410,7 @@ class _SearchListState extends State<SearchList>
                   );
                 } else {
                   final SnackBar snackBar = SnackBar(
-                    content: const Text('请先登录再加收藏'),
+                    content: const Text('请先登录再添加收藏'),
                     duration: Duration(seconds: 2),
                   );
                   ScaffoldMessenger.of(context).removeCurrentSnackBar();

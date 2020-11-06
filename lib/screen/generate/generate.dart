@@ -73,15 +73,83 @@ class _GeneratePageState extends State<GeneratePage>
         },
       );
       if (res.data['code'] == '1000') {
-        print(res.data);
-        _showExplanationPopup();
+        _showExplanationPopup(res.data);
       }
     } catch (err) {
       print(err);
     }
   }
 
-  void _showExplanationPopup() {}
+  void _showExplanationPopup(Map<String, dynamic> data) {
+    print(data);
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text('$_word 释义'),
+          scrollable: true,
+          content: SizedBox(
+            width: 330.w,
+            height: 500.h,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 15.h,
+                    ),
+                    child: Text(
+                      'date.substring(0, 10)',
+                      style: TextStyle(
+                        color: context.watch<SkinProvider>().color['subtitle'],
+                      ),
+                    ),
+                  ),
+                  Text('content'),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: CustomButton(
+                text: '確認',
+                bgColor: context.watch<SkinProvider>().color['button'],
+                textColor: context.watch<SkinProvider>().color['background'],
+                borderColor: Style.defaultColor['button'],
+                paddingVertical: 14.h,
+                callback: () => Navigator.pop(context),
+              ),
+            ),
+          ],
+          actionsPadding: EdgeInsets.only(
+            right: 12.h,
+            bottom: 12.h,
+          ),
+        );
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
 
   //服务条款和隐私协议弹窗
   void _showAgreementPopup() {
@@ -284,10 +352,23 @@ class _GeneratePageState extends State<GeneratePage>
             ),
           ),
         ),
+        heroTag: null,
         tooltip: '当前词语解释',
         elevation: 4,
         highlightElevation: 0,
-        onPressed: () => _getExplanationData(),
+        onPressed: () {
+          final bool loginState = context.read<UserProvider>().loginState;
+          if (loginState) {
+            _getExplanationData();
+          } else {
+            final SnackBar snackBar = SnackBar(
+              content: const Text('请先登录再使用词典功能'),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        },
       ),
       floatingActionButtonLocation: CustomFloatingActionButtonLocation(
         FloatingActionButtonLocation.endFloat,
@@ -538,7 +619,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               _love();
             } else {
               final SnackBar snackBar = SnackBar(
-                content: const Text('请先登录再加收藏'),
+                content: const Text('请先登录再添加收藏'),
                 duration: Duration(seconds: 2),
               );
               ScaffoldMessenger.of(context).removeCurrentSnackBar();

@@ -178,7 +178,7 @@ class Menu extends StatelessWidget {
               final bool loginState = context.read<UserProvider>().loginState;
               if (!loginState) {
                 final SnackBar snackBar = SnackBar(
-                  content: const Text('请先登录'),
+                  content: const Text('请先登录再使用此菜单'),
                   duration: Duration(seconds: 2),
                 );
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -224,7 +224,7 @@ class Menu extends StatelessWidget {
               final bool loginState = context.read<UserProvider>().loginState;
               if (!loginState) {
                 final SnackBar snackBar = SnackBar(
-                  content: const Text('请先登录'),
+                  content: const Text('请先登录再使用此菜单'),
                   duration: Duration(seconds: 2),
                 );
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();

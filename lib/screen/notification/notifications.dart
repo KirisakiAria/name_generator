@@ -151,13 +151,14 @@ class ListItem extends StatelessWidget {
           title: Text(title),
           scrollable: true,
           content: SizedBox(
-            height: 300.h,
+            width: 330.w,
+            height: 500.h,
             child: SingleChildScrollView(
               child: Column(
-                children: <Widget>[ 
+                children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(
-                      bottom: 15.h,
+                      bottom: 25.h,
                     ),
                     child: Text(
                       date.substring(0, 10),
