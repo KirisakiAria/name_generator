@@ -73,7 +73,7 @@ class _GeneratePageState extends State<GeneratePage>
         },
       );
       if (res.data['code'] == '1000') {
-        _showExplanationPopup(res.data);
+        _showExplanationPopup(res.data['data']);
       }
     } catch (err) {
       print(err);
@@ -81,7 +81,6 @@ class _GeneratePageState extends State<GeneratePage>
   }
 
   void _showExplanationPopup(Map<String, dynamic> data) {
-    print(data);
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -93,26 +92,55 @@ class _GeneratePageState extends State<GeneratePage>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          title: Text('$_word 释义'),
+          title: Text('词典'),
           scrollable: true,
           content: SizedBox(
             width: 330.w,
             height: 500.h,
             child: SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  //注音
                   Container(
-                    margin: EdgeInsets.only(
-                      bottom: 15.h,
-                    ),
-                    child: Text(
-                      'date.substring(0, 10)',
-                      style: TextStyle(
-                        color: context.watch<SkinProvider>().color['subtitle'],
-                      ),
+                    height: 80.h,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemExtent: 46.w,
+                      itemCount: data['characters'].length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: <Widget>[
+                            Text(
+                              data['characters'][index]['pinyin'] ?? '',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              data['characters'][index]['word'] ?? '',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        );
+                      },
                     ),
                   ),
-                  Text('content'),
+                  //词义
+                  Container(
+                    child: Builder(
+                      builder: (BuildContext context) {
+                        if (data['allWord'] != null) {
+                          return Text('释义：${data['allWord']['explanation']}');
+                        }
+                        return Text('释义：暂无释义');
+                      },
+                    ),
+                  )
                 ],
               ),
             ),
