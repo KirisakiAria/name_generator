@@ -81,6 +81,7 @@ class _GeneratePageState extends State<GeneratePage>
   }
 
   void _showExplanationPopup(Map<String, dynamic> data) {
+    print(data);
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -97,52 +98,184 @@ class _GeneratePageState extends State<GeneratePage>
           content: SizedBox(
             width: 330.w,
             height: 500.h,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  //注音
-                  Container(
-                    height: 80.h,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemExtent: 46.w,
-                      itemCount: data['characters'].length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: <Widget>[
-                            Text(
-                              data['characters'][index]['pinyin'] ?? '',
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 80.h,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemExtent: 46.w,
+                    itemCount: data['characters'].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: <Widget>[
+                          Text(
+                            data['characters'][index] != null
+                                ? data['characters'][index]['pinyin']
+                                : 'wu',
+                            style: TextStyle(
+                              fontSize: 14,
                             ),
-                            Text(
-                              data['characters'][index]['word'] ?? '',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    ),
+                          ),
+                          Text(
+                            data['characters'][index] != null
+                                ? data['characters'][index]['word']
+                                : '无',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ],
+                      );
+                    },
                   ),
-                  //词义
-                  Container(
-                    child: Builder(
-                      builder: (BuildContext context) {
-                        if (data['allWord'] != null) {
-                          return Text('释义：${data['allWord']['explanation']}');
-                        }
-                        return Text('释义：暂无释义');
-                      },
+                ),
+                //词义
+                Container(
+                  margin: EdgeInsets.only(
+                    bottom: 30.h,
+                  ),
+                  child: Builder(
+                    builder: (BuildContext context) {
+                      if (data['allWord'] != null) {
+                        return Text('整词释义：${data['allWord']['explanation']}');
+                      }
+                      return Text('整词释义：暂无释义');
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(
+                      top: 0,
                     ),
-                  )
-                ],
-              ),
+                    itemCount: data['characters'].length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(
+                              bottom: 15.h,
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  '${(index + 1).toString()}.',
+                                  style: TextStyle(
+                                    height: 1,
+                                  ),
+                                ),
+                                Text(
+                                  data['characters'][index] != null
+                                      ? data['characters'][index]['word']
+                                      : '无',
+                                  style: TextStyle(
+                                    height: 1,
+                                    color: context
+                                        .watch<SkinProvider>()
+                                        .color['subTitle'],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              bottom: 15.h,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: 14.w,
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  '笔画：',
+                                  style: TextStyle(
+                                    height: 1,
+                                    fontSize: 12,
+                                    color: context
+                                        .watch<SkinProvider>()
+                                        .color['subTitle'],
+                                  ),
+                                ),
+                                Text(
+                                  data['characters'][index] != null
+                                      ? data['characters'][index]['strokes']
+                                      : '无',
+                                  style: TextStyle(
+                                    height: 1,
+                                    fontSize: 12,
+                                    color: context
+                                        .watch<SkinProvider>()
+                                        .color['subTitle'],
+                                  ),
+                                ),
+                                Text(
+                                  '    部首：',
+                                  style: TextStyle(
+                                    height: 1,
+                                    fontSize: 12,
+                                    color: context
+                                        .watch<SkinProvider>()
+                                        .color['subTitle'],
+                                  ),
+                                ),
+                                Text(
+                                  data['characters'][index] != null
+                                      ? data['characters'][index]['radicals']
+                                      : '无',
+                                  style: TextStyle(
+                                    height: 1,
+                                    fontSize: 12,
+                                    color: context
+                                        .watch<SkinProvider>()
+                                        .color['subTitle'],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                              bottom: 15.h,
+                            ),
+                            padding: EdgeInsets.only(
+                              left: 14.w,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  '释义：',
+                                  style: TextStyle(
+                                    height: 1.4,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    data['characters'][index] != null
+                                        ? data['characters'][index]
+                                            ['explanation']
+                                        : '无',
+                                    style: TextStyle(
+                                      height: 1.4,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           actions: <Widget>[
@@ -386,11 +519,18 @@ class _GeneratePageState extends State<GeneratePage>
         highlightElevation: 0,
         onPressed: () {
           final bool loginState = context.read<UserProvider>().loginState;
-          if (loginState) {
+          final String type = context.read<WordOptionsProvider>().type;
+          if (loginState && type == '中国风') {
             _getExplanationData();
           } else {
+            String tips;
+            if (!loginState) {
+              tips = '请先登录再使用词典功能';
+            } else if (type != '中国风') {
+              tips = '只有在中国风状态下可以使用词典';
+            }
             final SnackBar snackBar = SnackBar(
-              content: const Text('请先登录再使用词典功能'),
+              content: Text(tips),
               duration: Duration(seconds: 2),
             );
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
