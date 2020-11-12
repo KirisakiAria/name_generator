@@ -81,7 +81,6 @@ class _GeneratePageState extends State<GeneratePage>
   }
 
   void _showExplanationPopup(Map<String, dynamic> data) {
-    print(data);
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -105,7 +104,7 @@ class _GeneratePageState extends State<GeneratePage>
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemExtent: 46.w,
+                    itemExtent: 52.w,
                     itemCount: data['characters'].length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
@@ -140,6 +139,9 @@ class _GeneratePageState extends State<GeneratePage>
                   child: Builder(
                     builder: (BuildContext context) {
                       if (data['allWord'] != null) {
+                        if (data['allWord']['word'].length == 1) {
+                          return Text('见下方释义');
+                        }
                         return Text('整词释义：${data['allWord']['explanation']}');
                       }
                       return Text('整词释义：暂无释义');
@@ -204,6 +206,7 @@ class _GeneratePageState extends State<GeneratePage>
                                 Text(
                                   data['characters'][index] != null
                                       ? data['characters'][index]['strokes']
+                                          .toString()
                                       : '无',
                                   style: TextStyle(
                                     height: 1,

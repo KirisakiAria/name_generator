@@ -82,6 +82,7 @@ class Request {
         },
         onResponse: (Response response) async {
           if (showLoadingDialog) {
+            Navigator.pop(context);
             if (response.data['code'] != '1000') {
               final SnackBar snackBar = SnackBar(
                 content: Text(response.data['message']),
@@ -90,19 +91,18 @@ class Request {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
-            Navigator.pop(context);
           }
           return response;
         },
         onError: (DioError e) {
           if (showLoadingDialog) {
+            Navigator.pop(context);
             final SnackBar snackBar = SnackBar(
               content: const Text('服务器开小差了，请稍后再试~'),
               duration: Duration(seconds: 2),
             );
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            Navigator.pop(context);
           }
         },
       ),

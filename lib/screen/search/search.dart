@@ -18,8 +18,6 @@ import '../../common/loading_status.dart';
 import '../../model/user.dart';
 import '../../model/skin.dart';
 
-final FocusNode blankNode = FocusNode();
-
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -27,8 +25,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin {
+  final FocusNode blankNode = FocusNode();
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
-
   String _searchText = '';
   List<dynamic> _list = <dynamic>[];
   List<int> _randomList = <int>[1, 2, 3, 4, 5];
@@ -83,37 +81,37 @@ class _SearchPageState extends State<SearchPage>
   void _search({String searchText, bool refresh = false}) {
     final bool loginState = context.read<UserProvider>().loginState;
     if (!loginState) {
-          final SnackBar snackBar = SnackBar(
-                    content: const Text('请先登录再使用搜索功能'),
-                    duration: Duration(seconds: 2),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-    else 
-    {if (_loadingStatus != LoadingStatus.STATUS_LOADING) {
+      final SnackBar snackBar = SnackBar(
+        content: const Text('请先登录再使用搜索功能'),
+        duration: Duration(seconds: 2),
+      );
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      setState(() {
-        if (searchText != null) {
-          _randomList = _getRandomList();
-          _searchText = searchText;
-        }
-        if (_searchText == '') {
-          final SnackBar snackBar = SnackBar(
-            content: const Text('请输入关键字'),
-            duration: Duration(seconds: 2),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else {
-          if (refresh) {
-            _page = 0;
-            _list = [];
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      if (_loadingStatus != LoadingStatus.STATUS_LOADING) {
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        setState(() {
+          if (searchText != null) {
+            _randomList = _getRandomList();
+            _searchText = searchText;
           }
-          _loadingStatus = LoadingStatus.STATUS_LOADING;
-          _getData(_searchText);
-        }
-      });
-    }}
+          if (_searchText == '') {
+            final SnackBar snackBar = SnackBar(
+              content: const Text('请输入关键字'),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          } else {
+            if (refresh) {
+              _page = 0;
+              _list = [];
+            }
+            _loadingStatus = LoadingStatus.STATUS_LOADING;
+            _getData(_searchText);
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -133,7 +131,7 @@ class _SearchPageState extends State<SearchPage>
           randomList: _randomList,
           child: Column(
             children: <Widget>[
-              SearchInput(),
+              SearchInput(blankNode),
               SearchList(),
             ],
           ),
@@ -179,6 +177,8 @@ class InheritedContext extends InheritedWidget {
 class SearchInput extends StatelessWidget {
   //设置成静态是为了不让textfield的值被清空
   static final TextEditingController _controller = TextEditingController();
+  final FocusNode blankNode;
+  SearchInput(this.blankNode);
 
   @override
   Widget build(BuildContext context) {
