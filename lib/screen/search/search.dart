@@ -81,7 +81,17 @@ class _SearchPageState extends State<SearchPage>
   }
 
   void _search({String searchText, bool refresh = false}) {
-    if (_loadingStatus != LoadingStatus.STATUS_LOADING) {
+    final bool loginState = context.read<UserProvider>().loginState;
+    if (!loginState) {
+          final SnackBar snackBar = SnackBar(
+                    content: const Text('请先登录再使用搜索功能'),
+                    duration: Duration(seconds: 2),
+                  );
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    else 
+    {if (_loadingStatus != LoadingStatus.STATUS_LOADING) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
       setState(() {
         if (searchText != null) {
@@ -103,7 +113,7 @@ class _SearchPageState extends State<SearchPage>
           _getData(_searchText);
         }
       });
-    }
+    }}
   }
 
   @override
