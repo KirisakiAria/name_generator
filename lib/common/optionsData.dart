@@ -3,5 +3,13 @@ class OptionsData {
     '中国风',
     '日式',
   ];
-  static const List<String> lengthList = <String>['1', '2', '3', '4', '5'];
+  static const List<String> lengthList = <String>[
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+  ];
 }

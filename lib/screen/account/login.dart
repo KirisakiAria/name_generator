@@ -100,6 +100,7 @@ class _CustomFormState extends State<CustomForm> {
               username: data['username'],
               tel: data['tel'],
               uid: data['uid'],
+              vip: data['vip'],
               avatar: data['avatar'],
               date: data['date'],
               token: data['token'],

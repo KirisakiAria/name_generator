@@ -11,7 +11,7 @@ class Style {
     'selectedItem': Color(0xff212121),
     'unselectedItem': Colors.black26,
     'border': Color(0xffa9a9a9),
-    'widget': Color(0xfff5f5f5),
+    'widget': Color(0xfffafafa),
     'subtitle': Colors.black45,
     'infoShadow': Color.fromRGBO(0, 80, 180, 0.1),
     'button': Colors.black,

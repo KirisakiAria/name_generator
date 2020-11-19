@@ -40,6 +40,7 @@ class _MyPageState extends State<MyPage> {
             username: data['username'],
             tel: data['tel'],
             uid: data['uid'],
+            vip: data['vip'],
             avatar: data['avatar'],
             date: data['date'],
             loginState: true,

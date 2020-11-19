@@ -22,6 +22,8 @@ import '../../model/word_options.dart';
 import '../../model/user.dart';
 import '../../model/skin.dart';
 import '../../model/laboratory_options.dart';
+//utils
+import '../../utils/Utils.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -100,7 +102,7 @@ class _GeneratePageState extends State<GeneratePage>
             child: Column(
               children: <Widget>[
                 Container(
-                  height: 80.h,
+                  height: 90.h,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
@@ -110,19 +112,21 @@ class _GeneratePageState extends State<GeneratePage>
                       return Column(
                         children: <Widget>[
                           Text(
-                            data['characters'][index] != null
-                                ? data['characters'][index]['pinyin']
-                                : 'wu',
+                            // data['characters'][index] != null
+                            //     ? data['characters'][index]['pinyin']
+                            //     : 'wu',
+                            'zhuang',
                             style: TextStyle(
                               fontSize: 14,
                             ),
                           ),
                           Text(
-                            data['characters'][index] != null
-                                ? data['characters'][index]['word']
-                                : '无',
+                            // data['characters'][index] != null
+                            //     ? data['characters'][index]['word']
+                            //     : '无',
+                            '测',
                             style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 22,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -255,7 +259,7 @@ class _GeneratePageState extends State<GeneratePage>
                                   '释义：',
                                   style: TextStyle(
                                     height: 1.4,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                   ),
                                 ),
                                 Expanded(
@@ -266,7 +270,7 @@ class _GeneratePageState extends State<GeneratePage>
                                         : '无',
                                     style: TextStyle(
                                       height: 1.4,
-                                      fontSize: 12,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
@@ -820,7 +824,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                       widget.word,
                       style: TextStyle(
                         fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                        fontSize: 52,
+                        fontSize: widget.word.length > 5 ? 44 : 54,
                         letterSpacing: 8,
                         height: 1,
                       ),
@@ -917,6 +921,67 @@ class _SelectState extends State<Select> {
 
   _SelectState(this.dropdownValue);
 
+  //查看通知详情弹窗
+  void _promptVip() async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text('提示'),
+          scrollable: true,
+          content: SizedBox(
+              width: 330.w,
+              height: 120.h,
+              child: Container(
+                child: Text('此功能为VIP用户专享，请升级VIP再使用~'),
+              )),
+          actions: <Widget>[
+            CustomButton(
+              text: '取消',
+              bgColor: Style.defaultColor['background'],
+              textColor: Style.defaultColor['button'],
+              borderColor: Style.defaultColor['button'],
+              paddingVertical: 14.h,
+              callback: () => Navigator.pop(context),
+            ),
+            CustomButton(
+              text: '升級',
+              bgColor: context.watch<SkinProvider>().color['button'],
+              textColor: context.watch<SkinProvider>().color['background'],
+              borderColor: Style.defaultColor['button'],
+              paddingVertical: 14.h,
+              callback: () => Navigator.pop(context),
+            ),
+          ],
+          actionsPadding: EdgeInsets.only(
+            right: 12.h,
+            bottom: 12.h,
+          ),
+        );
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final InheritedSelect inheritedSelect = InheritedSelect.of(context);
@@ -937,17 +1002,44 @@ class _SelectState extends State<Select> {
           height: 1.1,
         ),
         onChanged: (dynamic newValue) {
-          setState(() {
-            dropdownValue = newValue;
-            inheritedSelect.callback(newValue);
-          });
+          bool vip = context.read<UserProvider>().vip;
+          if (Utils.isNumber(newValue) && int.parse(newValue) > 5 && !vip) {
+            _promptVip();
+          } else {
+            setState(() {
+              dropdownValue = newValue;
+              inheritedSelect.callback(newValue);
+            });
+          }
         },
         dropdownColor: context.watch<SkinProvider>().color['background'],
         items:
             inheritedSelect.list.map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Text(value),
+            child: Builder(
+              builder: (BuildContext content) {
+                if (Utils.isNumber(value) && int.parse(value) > 5) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        value,
+                        style: TextStyle(
+                          height: 1.25,
+                        ),
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/vip/vip_tip.png'),
+                        width: 42.w,
+                      ),
+                    ],
+                  );
+                } else {
+                  return Text(value);
+                }
+              },
+            ),
           );
         }).toList(),
       ),
@@ -971,8 +1063,8 @@ class OptionsDialog extends Dialog {
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(24),
                 ),
               ),
               color: context.watch<SkinProvider>().color['widget'],

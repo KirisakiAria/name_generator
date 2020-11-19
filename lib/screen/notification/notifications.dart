@@ -173,15 +173,13 @@ class ListItem extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            Center(
-              child: CustomButton(
-                text: '確認',
-                bgColor: context.watch<SkinProvider>().color['button'],
-                textColor: context.watch<SkinProvider>().color['background'],
-                borderColor: Style.defaultColor['button'],
-                paddingVertical: 14.h,
-                callback: () => Navigator.pop(context),
-              ),
+            CustomButton(
+              text: '確認',
+              bgColor: context.watch<SkinProvider>().color['button'],
+              textColor: context.watch<SkinProvider>().color['background'],
+              borderColor: Style.defaultColor['button'],
+              paddingVertical: 14.h,
+              callback: () => Navigator.pop(context),
             ),
           ],
           actionsPadding: EdgeInsets.only(

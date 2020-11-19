@@ -53,6 +53,7 @@ flutter:
     - assets/images/about/about.png
     - assets/images/inspiration/top.png
     - assets/images/inspiration/middle.png
+    - assets/images/vip/vip_tip.png
   fonts:
     - family: iconfont
       fonts:

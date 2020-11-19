@@ -10,4 +10,10 @@ class Utils {
     RegExp mobile = RegExp(r'\d{6}$');
     return mobile.hasMatch(input);
   }
+
+  //验证数字
+  static bool isNumber(String input) {
+    RegExp mobile = RegExp(r'\d$');
+    return mobile.hasMatch(input);
+  }
 }
