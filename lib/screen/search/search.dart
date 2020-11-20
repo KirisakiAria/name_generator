@@ -12,11 +12,15 @@ import '../../services/api.dart';
 import '../../services/request.dart';
 //组件
 import '../../widgets/loading_view.dart';
+import '../../widgets/vip_tips_dialog.dart';
 //common
 import '../../common/loading_status.dart';
+import '../../common/custom_icon_data.dart';
 //model
 import '../../model/user.dart';
 import '../../model/skin.dart';
+//utils
+import '../../utils/floating_action_button.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -114,6 +118,33 @@ class _SearchPageState extends State<SearchPage>
     }
   }
 
+  //提示VIP弹窗
+  void _promptVip() async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return VipTipsDialog();
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -121,6 +152,46 @@ class _SearchPageState extends State<SearchPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Container(
+          width: 60,
+          height: 60,
+          child: Icon(
+            IconData(
+              CustomIconData.dictionary,
+              fontFamily: 'iconfont',
+            ),
+            color: Colors.white,
+          ),
+          decoration: ShapeDecoration(
+            shape: CircleBorder(),
+            gradient: LinearGradient(
+              colors: <Color>[
+                Color(0xff0093E9),
+                Color(0xff80D0C7),
+              ],
+            ),
+          ),
+        ),
+        heroTag: null,
+        tooltip: '切换搜索模式',
+        elevation: 4,
+        highlightElevation: 0,
+        onPressed: () {
+          final bool vip = context.read<UserProvider>().vip;
+          if (!vip) {
+            _promptVip();
+          } else {
+            print('你是VIP!');
+          }
+        },
+      ),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+        FloatingActionButtonLocation.endFloat,
+        0,
+        -160.h,
+      ),
+      floatingActionButtonAnimator: NoScalingAnimation(),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(blankNode),
         child: InheritedContext(

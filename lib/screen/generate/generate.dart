@@ -13,6 +13,7 @@ import '../../services/api.dart';
 import '../../services/request.dart';
 //组件
 import '../../widgets/custom_button.dart';
+import '../../widgets/vip_tips_dialog.dart';
 //common
 import '../../common/style.dart';
 import '../../common/optionsData.dart';
@@ -24,6 +25,7 @@ import '../../model/skin.dart';
 import '../../model/laboratory_options.dart';
 //utils
 import '../../utils/Utils.dart';
+import '../../utils/floating_action_button.dart';
 
 class GeneratePage extends StatefulWidget {
   @override
@@ -97,7 +99,7 @@ class _GeneratePageState extends State<GeneratePage>
           title: Text('词典'),
           scrollable: true,
           content: SizedBox(
-            width: 330.w,
+            width: 350.w,
             height: 500.h,
             child: Column(
               children: <Widget>[
@@ -106,30 +108,28 @@ class _GeneratePageState extends State<GeneratePage>
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemExtent: 52.w,
+                    itemExtent: 54.w,
                     itemCount: data['characters'].length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
                           Text(
-                            // data['characters'][index] != null
-                            //     ? data['characters'][index]['pinyin']
-                            //     : 'wu',
-                            'zhuang',
+                            data['characters'][index] != null
+                                ? data['characters'][index]['pinyin']
+                                : 'wu',
                             style: TextStyle(
                               fontSize: 14,
                             ),
                           ),
                           Text(
-                            // data['characters'][index] != null
-                            //     ? data['characters'][index]['word']
-                            //     : '无',
-                            '测',
+                            data['characters'][index] != null
+                                ? data['characters'][index]['word']
+                                : '无',
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                             ),
-                          )
+                          ),
                         ],
                       );
                     },
@@ -651,38 +651,6 @@ class _GeneratePageState extends State<GeneratePage>
   }
 }
 
-//自定义FloatingActionButton位置
-class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
-  FloatingActionButtonLocation location;
-  double offsetX; // X方向的偏移量
-  double offsetY; // Y方向的偏移量
-  CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
-
-  @override
-  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
-    Offset offset = location.getOffset(scaffoldGeometry);
-    return Offset(offset.dx + offsetX, offset.dy + offsetY);
-  }
-}
-
-//取消FloatingActionButton缩放动画
-class NoScalingAnimation extends FloatingActionButtonAnimator {
-  @override
-  Offset getOffset({Offset begin, Offset end, double progress}) {
-    return end;
-  }
-
-  @override
-  Animation<double> getRotationAnimation({Animation<double> parent}) {
-    return Tween<double>(begin: 1.0, end: 1.0).animate(parent);
-  }
-
-  @override
-  Animation<double> getScaleAnimation({Animation<double> parent}) {
-    return Tween<double>(begin: 1.0, end: 1.0).animate(parent);
-  }
-}
-
 class Display extends StatefulWidget {
   final String word, type, romaji;
 
@@ -816,7 +784,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 15.h,
+                  top: 20.h,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -824,7 +792,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                       widget.word,
                       style: TextStyle(
                         fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
-                        fontSize: widget.word.length > 5 ? 44 : 54,
+                        fontSize: widget.word.length > 5 ? 42 : 52,
                         letterSpacing: 8,
                         height: 1,
                       ),
@@ -921,7 +889,7 @@ class _SelectState extends State<Select> {
 
   _SelectState(this.dropdownValue);
 
-  //查看通知详情弹窗
+  //提示VIP弹窗
   void _promptVip() async {
     showGeneralDialog(
       context: context,
@@ -930,41 +898,7 @@ class _SelectState extends State<Select> {
         Animation<double> anim1,
         Animation<double> anim2,
       ) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: Text('提示'),
-          scrollable: true,
-          content: SizedBox(
-              width: 330.w,
-              height: 120.h,
-              child: Container(
-                child: Text('此功能为VIP用户专享，请升级VIP再使用~'),
-              )),
-          actions: <Widget>[
-            CustomButton(
-              text: '取消',
-              bgColor: Style.defaultColor['background'],
-              textColor: Style.defaultColor['button'],
-              borderColor: Style.defaultColor['button'],
-              paddingVertical: 14.h,
-              callback: () => Navigator.pop(context),
-            ),
-            CustomButton(
-              text: '升級',
-              bgColor: context.watch<SkinProvider>().color['button'],
-              textColor: context.watch<SkinProvider>().color['background'],
-              borderColor: Style.defaultColor['button'],
-              paddingVertical: 14.h,
-              callback: () => Navigator.pop(context),
-            ),
-          ],
-          actionsPadding: EdgeInsets.only(
-            right: 12.h,
-            bottom: 12.h,
-          ),
-        );
+        return VipTipsDialog();
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
       transitionDuration: Duration(milliseconds: 200),
