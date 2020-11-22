@@ -66,15 +66,4 @@ class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
     _loginState = false;
     notifyListeners();
   }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('username', username));
-    properties.add(StringProperty('tel', tel));
-    properties.add(IntProperty('uid', uid));
-    properties.add(StringProperty('avatar', avatar));
-    properties.add(StringProperty('date', date));
-    properties.add(StringProperty('token', token));
-  }
 }

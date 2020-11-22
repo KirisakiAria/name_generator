@@ -84,6 +84,7 @@ class _GeneratePageState extends State<GeneratePage>
     }
   }
 
+  //词典弹窗
   void _showExplanationPopup(Map<String, dynamic> data) {
     showGeneralDialog(
       context: context,
@@ -558,9 +559,9 @@ class _GeneratePageState extends State<GeneratePage>
           final WordOptionsProvider wordOptionsProviderprovider =
               context.read<WordOptionsProvider>();
           if (wordOptionsProviderprovider.type == '中国风') {
-            wordOptionsProviderprovider.changeType(type: '日式');
+            wordOptionsProviderprovider.changeType('日式');
           } else {
-            wordOptionsProviderprovider.changeType(type: '中国风');
+            wordOptionsProviderprovider.changeType('中国风');
           }
           final SnackBar snackBar = SnackBar(
             content: Text('类型切换：${wordOptionsProviderprovider.type}'),
@@ -981,6 +982,7 @@ class _SelectState extends State<Select> {
   }
 }
 
+//选项弹窗
 class OptionsDialog extends Dialog {
   OptionsDialog({Key key}) : super(key: key);
 
@@ -1018,9 +1020,7 @@ class OptionsDialog extends Dialog {
                 InheritedSelect(
                   list: OptionsData.typeList,
                   callback: (String newValue) {
-                    context
-                        .read<WordOptionsProvider>()
-                        .changeType(type: newValue);
+                    context.read<WordOptionsProvider>().changeType(newValue);
                   },
                   currentValue: context.watch<WordOptionsProvider>().type,
                   child: SelectBox(),
@@ -1028,12 +1028,24 @@ class OptionsDialog extends Dialog {
                 InheritedSelect(
                   list: OptionsData.lengthList,
                   callback: (String newValue) {
-                    context
-                        .read<WordOptionsProvider>()
-                        .changeNumber(length: newValue);
+                    context.read<WordOptionsProvider>().changeNumber(newValue);
                   },
                   currentValue: context.watch<WordOptionsProvider>().length,
                   child: SelectBox(),
+                ),
+                Offstage(
+                  offstage: !context.watch<UserProvider>().vip,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 80.w),
+                    child: CheckboxListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      title: const Text('情侣模式'),
+                      value: context.watch<WordOptionsProvider>().couples,
+                      onChanged: (bool value) => context
+                          .read<WordOptionsProvider>()
+                          .changeCouples(value),
+                    ),
+                  ),
                 ),
                 Container(
                   width: double.infinity,

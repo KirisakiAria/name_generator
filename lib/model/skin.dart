@@ -21,11 +21,4 @@ class SkinProvider with ChangeNotifier, DiagnosticableTreeMixin {
     _color = color;
     notifyListeners();
   }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('theme', theme.toString()));
-    properties.add(StringProperty('color', color.toString()));
-  }
 }

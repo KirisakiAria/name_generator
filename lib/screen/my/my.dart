@@ -1,5 +1,6 @@
 //核心库
 import 'dart:async';
+import 'package:bianzizai/model/word_options.dart';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
@@ -406,6 +407,9 @@ class Menu extends StatelessWidget {
                           ),
                           onPressed: () async {
                             context.read<UserProvider>().logOut();
+                            context
+                                .read<WordOptionsProvider>()
+                                .changeNumber('2');
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             prefs.clear();

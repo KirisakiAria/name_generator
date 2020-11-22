@@ -13,10 +13,4 @@ class LaboratoryOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
     _romaji = romaji ?? !_romaji;
     notifyListeners();
   }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('romaji', romaji.toString()));
-  }
 }

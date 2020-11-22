@@ -4,28 +4,24 @@ import '../common/optionsData.dart';
 class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   String _type = OptionsData.typeList[0];
   String _length = OptionsData.lengthList[1];
+  bool _couples = false;
 
   String get type => _type;
   String get length => _length;
+  bool get couples => _couples;
 
-  void changeType({
-    @required String type,
-  }) {
+  void changeType(String type) {
     _type = type;
     notifyListeners();
   }
 
-  void changeNumber({
-    @required String length,
-  }) {
+  void changeNumber(String length) {
     _length = length;
     notifyListeners();
   }
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('type', type));
-    properties.add(StringProperty('length', length));
+  void changeCouples(bool couples) {
+    _couples = couples;
+    notifyListeners();
   }
 }
