@@ -61,6 +61,3 @@ flutter:
     - family: SoukouMincho
       fonts:
         - asset: assets/fonts/SoukouMincho.ttf
-    - family: NijimiMincho
-      fonts:
-        - asset: assets/fonts/NijimiMincho.ttf

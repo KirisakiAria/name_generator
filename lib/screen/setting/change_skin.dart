@@ -121,7 +121,6 @@ class _Item extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     letterSpacing: 5,
-                    fontFamily: 'NijimiMincho',
                     color: themeIndex == activedIndex
                         ? Colors.white
                         : Colors.black54,

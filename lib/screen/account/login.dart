@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.only(
-                    bottom: 35.h,
+                    bottom: 30.h,
                   ),
                   alignment: Alignment.topRight,
                   child: Image(
@@ -46,11 +46,10 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '歳歳年年',
+                  '红笺几许',
                   style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 38,
                     letterSpacing: 15,
-                    fontFamily: 'NijimiMincho',
                   ),
                 ),
                 CustomForm(),
@@ -125,7 +124,7 @@ class _CustomFormState extends State<CustomForm> {
       padding: EdgeInsets.only(
         left: 50.w,
         right: 50.w,
-        top: 80.h,
+        top: 65.h,
       ),
       child: Form(
         key: _formKey,
@@ -157,7 +156,6 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
-                    fontFamily: 'NijimiMincho',
                     fontSize: 18,
                   ),
                 ),
@@ -203,7 +201,6 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的密码(6-20位)',
                   labelText: '密碼',
                   labelStyle: TextStyle(
-                    fontFamily: 'NijimiMincho',
                     fontSize: 18,
                   ),
                 ),

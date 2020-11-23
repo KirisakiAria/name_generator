@@ -196,7 +196,6 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的手机号',
                   labelText: '手机号',
                   labelStyle: TextStyle(
-                    fontFamily: 'NijimiMincho',
                     fontSize: 18,
                   ),
                 ),
@@ -249,7 +248,6 @@ class _CustomFormState extends State<CustomForm> {
                         hintText: '请输入您的验证码',
                         labelText: '驗證碼',
                         labelStyle: TextStyle(
-                          fontFamily: 'NijimiMincho',
                           fontSize: 18,
                         ),
                       ),
@@ -313,7 +311,6 @@ class _CustomFormState extends State<CustomForm> {
                   hintText: '请输入您的密码(6-20位)',
                   labelText: '密碼',
                   labelStyle: TextStyle(
-                    fontFamily: 'NijimiMincho',
                     fontSize: 18,
                   ),
                 ),

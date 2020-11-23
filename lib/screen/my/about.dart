@@ -51,7 +51,6 @@ class _AboutPageState extends State<AboutPage> {
                 child: const Text(
                   '彼岸自在',
                   style: TextStyle(
-                    fontFamily: 'NijimiMincho',
                     fontSize: 34,
                     letterSpacing: 5,
                   ),

@@ -792,7 +792,6 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                     Text(
                       widget.word,
                       style: TextStyle(
-                        fontFamily: widget.type == '中国风' ? '' : 'NijimiMincho',
                         fontSize: widget.word.length > 5 ? 42 : 52,
                         letterSpacing: 8,
                         height: 1,
@@ -808,7 +807,6 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                         child: Text(
                           widget.romaji,
                           style: TextStyle(
-                            fontFamily: 'NijimiMincho',
                             fontSize: 14,
                             letterSpacing: 8,
                             height: 1,
