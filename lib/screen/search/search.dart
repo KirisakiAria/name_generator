@@ -21,6 +21,7 @@ import '../../model/user.dart';
 import '../../model/skin.dart';
 //utils
 import '../../utils/floating_action_button.dart';
+import '../../utils/explanation.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -477,6 +478,22 @@ class _SearchListState extends State<SearchList>
                 );
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+              onDoubleTap: () {
+                final Map<String, dynamic> item = list[index];
+                if (item['type'] == '中国风') {
+                  Explanation.instance.getExplanationData(
+                    word: item['word'],
+                    context: context,
+                  );
+                } else {
+                  final SnackBar snackBar = SnackBar(
+                    content: const Text('只有在中国风词语才可以使用词典'),
+                    duration: Duration(seconds: 2),
+                  );
+                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
               },
               onLongPress: () {
                 final bool loginState = context.read<UserProvider>().loginState;

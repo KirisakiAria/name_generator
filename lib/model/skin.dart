@@ -1,5 +1,7 @@
+//核心库
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+//common
 import '../common/style.dart';
 
 class SkinProvider with ChangeNotifier, DiagnosticableTreeMixin {
