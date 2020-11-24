@@ -38,11 +38,13 @@ class _GeneratePageState extends State<GeneratePage>
   static const String host = 'https://www.bianzizai.com';
   static const String shareContent = '【彼岸自在，最懂你的网名生成器】';
   String _word = '彼岸自在';
+  String _word2 = '吾溪不归';
   String _type = '中国风';
   String _romaji = 'Higanjizai';
 
   Future<void> _getData() async {
     try {
+      final bool couples = context.read<WordOptionsProvider>().couples;
       final String path = API.word;
       final Response res = await Request(
         context: context,
@@ -52,11 +54,13 @@ class _GeneratePageState extends State<GeneratePage>
           'type': context.read<WordOptionsProvider>().type,
           'length': context.read<WordOptionsProvider>().length,
           'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
+          'couples': couples,
         },
       );
       if (res.data['code'] == '1000') {
         setState(() {
           _word = res.data['data']['word'];
+          _word2 = res.data['data']['word2'];
           _type = context.read<WordOptionsProvider>().type;
           _romaji = res.data['data']['romaji'];
         });
@@ -274,7 +278,15 @@ class _GeneratePageState extends State<GeneratePage>
         onPressed: () {
           final bool loginState = context.read<UserProvider>().loginState;
           final String type = context.read<WordOptionsProvider>().type;
-          if (loginState && type == '中国风') {
+          final bool couples = context.read<WordOptionsProvider>().couples;
+          if (couples) {
+            final SnackBar snackBar = SnackBar(
+              content: Text('情侣模式下无法使用词典功能'),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          } else if (loginState && type == '中国风') {
             Explanation.instance.getExplanationData(
               word: _word,
               context: context,
@@ -324,6 +336,7 @@ class _GeneratePageState extends State<GeneratePage>
             Expanded(
               child: Display(
                 word: _word,
+                word2: _word2,
                 type: _type,
                 romaji: _romaji,
               ),
@@ -402,10 +415,11 @@ class _GeneratePageState extends State<GeneratePage>
 }
 
 class Display extends StatefulWidget {
-  final String word, type, romaji;
+  final String word, word2, type, romaji;
 
   Display({
     @required this.word,
+    this.word2,
     @required this.type,
     this.romaji,
   });
@@ -470,15 +484,20 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final bool couples = context.watch<WordOptionsProvider>().couples;
     return Column(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(
-            top: 5.h,
-          ),
           child: Builder(
             builder: (BuildContext context) {
               final type = context.watch<WordOptionsProvider>().type;
+              final couples = context.watch<WordOptionsProvider>().couples;
+              if (couples) {
+                return Image(
+                  image: AssetImage('assets/images/theme/couples.png'),
+                  width: 200.w,
+                );
+              }
               if (type == '中国风') {
                 return Image(
                   image: AssetImage(
@@ -506,17 +525,19 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           onLongPress: () {
-            final bool loginState = context.read<UserProvider>().loginState;
-            if (loginState) {
-              _controller.forward();
-              _love();
-            } else {
-              final SnackBar snackBar = SnackBar(
-                content: const Text('请先登录再添加收藏'),
-                duration: Duration(seconds: 2),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            if (!couples) {
+              final bool loginState = context.read<UserProvider>().loginState;
+              if (loginState) {
+                _controller.forward();
+                _love();
+              } else {
+                final SnackBar snackBar = SnackBar(
+                  content: const Text('请先登录再添加收藏'),
+                  duration: Duration(seconds: 2),
+                );
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             }
           },
           child: Stack(
@@ -538,12 +559,38 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 ),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      widget.word,
-                      style: TextStyle(
-                        fontSize: widget.word.length > 5 ? 42 : 52,
-                        letterSpacing: 8,
-                        height: 1,
+                    Offstage(
+                      offstage: couples,
+                      child: Text(
+                        widget.word,
+                        style: TextStyle(
+                          fontSize: widget.word.length > 5 ? 42 : 52,
+                          letterSpacing: 8,
+                          height: 1,
+                        ),
+                      ),
+                    ),
+                    Offstage(
+                      offstage: !couples,
+                      child: Column(
+                        children: [
+                          Text(
+                            widget.word,
+                            style: TextStyle(
+                              fontSize: widget.word.length > 5 ? 38 : 46,
+                              letterSpacing: 8,
+                              height: 1.4,
+                            ),
+                          ),
+                          Text(
+                            widget.word2,
+                            style: TextStyle(
+                              fontSize: widget.word.length > 5 ? 38 : 46,
+                              letterSpacing: 8,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Offstage(

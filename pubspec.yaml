@@ -39,6 +39,7 @@ flutter:
   assets:
     - assets/images/theme/japanese-default-theme.png
     - assets/images/theme/chinese-default-theme.png
+    - assets/images/theme/couples.png
     - assets/images/search/bg1.png
     - assets/images/search/bg2.png
     - assets/images/search/bg3.png
