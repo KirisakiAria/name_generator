@@ -516,7 +516,12 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
         ),
         GestureDetector(
           onTap: () {
-            Clipboard.setData(ClipboardData(text: widget.word));
+            if (!couples) {
+              Clipboard.setData(ClipboardData(text: widget.word));
+            } else {
+              Clipboard.setData(
+                  ClipboardData(text: '${widget.word} ${widget.word2}'));
+            }
             final SnackBar snackBar = SnackBar(
               content: const Text('复制成功'),
               duration: Duration(seconds: 2),
@@ -573,7 +578,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                     Offstage(
                       offstage: !couples,
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           Text(
                             widget.word,
                             style: TextStyle(

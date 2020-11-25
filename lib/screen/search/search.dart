@@ -24,11 +24,6 @@ import '../../model/skin.dart';
 import '../../utils/floating_action_button.dart';
 import '../../utils/explanation.dart';
 
-class SearchPage extends StatefulWidget {
-  @override
-  _SearchPageState createState() => _SearchPageState();
-}
-
 enum SearchType {
   //一般模式
   NORMAL,
@@ -36,6 +31,11 @@ enum SearchType {
   COUPLES,
   //生成情侣名
   GENERATE
+}
+
+class SearchPage extends StatefulWidget {
+  @override
+  _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage>
@@ -72,6 +72,7 @@ class _SearchPageState extends State<SearchPage>
         <String, dynamic>{
           'searchContent': searchText,
           'currentPage': _page,
+          'searchType': _searchType.toString(),
         },
       );
       if (res.data['code'] == '1000') {
@@ -121,7 +122,7 @@ class _SearchPageState extends State<SearchPage>
           } else {
             if (refresh) {
               _page = 0;
-              _list = [];
+              _list = <dynamic>[];
             }
             _loadingStatus = LoadingStatus.STATUS_LOADING;
             _getData(_searchText);
@@ -158,11 +159,6 @@ class _SearchPageState extends State<SearchPage>
     );
   }
 
-  void _setSearchType(SearchType searchType) {
-    _searchType = searchType;
-    print(_searchType == SearchType.NORMAL);
-  }
-
   //设置弹窗
   void _showSetting() async {
     showGeneralDialog(
@@ -172,55 +168,82 @@ class _SearchPageState extends State<SearchPage>
         Animation<double> anim1,
         Animation<double> anim2,
       ) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          title: const Text('搜索选项'),
-          scrollable: true,
-          content: SizedBox(
-            width: 350.w,
-            height: 300.h,
-            child: Column(
-              children: <Widget>[
-                CheckboxListTile(
-                  activeColor: Style.defaultColor['activeSwitchTrack'],
-                  title: const Text('一般模式'),
-                  value: _searchType == SearchType.NORMAL,
-                  onChanged: (bool value) => _setSearchType(SearchType.NORMAL),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: const Text('搜索选项'),
+              scrollable: true,
+              content: SizedBox(
+                width: 350.w,
+                height: 360.h,
+                child: Column(
+                  children: <Widget>[
+                    RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: SearchType.NORMAL,
+                      onChanged: (value) {
+                        setState(() {
+                          _list = <dynamic>[];
+                          _searchType = value;
+                        });
+                      },
+                      groupValue: _searchType,
+                      title: Text('一般模式'),
+                      subtitle: Text('查询一般网名'),
+                      selected: _searchType == SearchType.NORMAL,
+                    ),
+                    RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: SearchType.COUPLES,
+                      onChanged: (value) {
+                        setState(() {
+                          _list = <dynamic>[];
+                          _searchType = value;
+                        });
+                      },
+                      groupValue: _searchType,
+                      title: Text('情侣模式'),
+                      subtitle: Text('查询情侣网名'),
+                      selected: _searchType == SearchType.COUPLES,
+                    ),
+                    RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: SearchType.GENERATE,
+                      onChanged: (value) {
+                        setState(() {
+                          _list = <dynamic>[];
+                          _searchType = value;
+                        });
+                      },
+                      groupValue: _searchType,
+                      title: Text('生成情侣名'),
+                      subtitle: Text('根据提供的网名自动查询或生成对应的情侣名'),
+                      selected: _searchType == SearchType.GENERATE,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 40.h),
+                      child: CustomButton(
+                        text: '確認',
+                        bgColor: context.watch<SkinProvider>().color['button'],
+                        textColor:
+                            context.watch<SkinProvider>().color['background'],
+                        borderColor: Style.defaultColor['button'],
+                        paddingVertical: 14.h,
+                        callback: () => Navigator.pop(context),
+                      ),
+                    ),
+                  ],
                 ),
-                CheckboxListTile(
-                  activeColor: Style.defaultColor['activeSwitchTrack'],
-                  title: const Text('情侣模式'),
-                  value: _searchType == SearchType.COUPLES,
-                  onChanged: (bool value) => _setSearchType(SearchType.COUPLES),
-                ),
-                CheckboxListTile(
-                  activeColor: Style.defaultColor['activeSwitchTrack'],
-                  title: const Text('生成情侣名'),
-                  value: _searchType == SearchType.GENERATE,
-                  onChanged: (bool value) =>
-                      _setSearchType(SearchType.GENERATE),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 40.h),
-                  child: CustomButton(
-                    text: '確認',
-                    bgColor: context.watch<SkinProvider>().color['button'],
-                    textColor:
-                        context.watch<SkinProvider>().color['background'],
-                    borderColor: Style.defaultColor['button'],
-                    paddingVertical: 14.h,
-                    callback: () => Navigator.pop(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actionsPadding: EdgeInsets.only(
-            right: 12.h,
-            bottom: 12.h,
-          ),
+              ),
+              actionsPadding: EdgeInsets.only(
+                right: 12.h,
+                bottom: 12.h,
+              ),
+            );
+          },
         );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
@@ -289,6 +312,7 @@ class _SearchPageState extends State<SearchPage>
         child: InheritedContext(
           searchText: _searchText,
           search: _search,
+          searchType: _searchType,
           list: _list,
           loadingStatus: _loadingStatus,
           randomList: _randomList,
@@ -309,6 +333,8 @@ class InheritedContext extends InheritedWidget {
   final void Function({@required String searchText, bool refresh}) search;
   //搜索文本
   final String searchText;
+  //搜索模式
+  final SearchType searchType;
   //列表
   final List<dynamic> list;
   //列表加载状态
@@ -320,6 +346,7 @@ class InheritedContext extends InheritedWidget {
     Key key,
     @required this.searchText,
     @required this.search,
+    @required this.searchType,
     @required this.list,
     @required this.loadingStatus,
     @required this.randomList,
@@ -541,6 +568,7 @@ class _SearchListState extends State<SearchList>
     final InheritedContext inheritedContext = InheritedContext.of(context);
     final LoadingStatus loadingStatus = inheritedContext.loadingStatus;
     final List<dynamic> list = inheritedContext.list;
+    final searchType = inheritedContext.searchType;
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -562,7 +590,13 @@ class _SearchListState extends State<SearchList>
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) => GestureDetector(
               onTap: () {
-                Clipboard.setData(ClipboardData(text: list[index]['word']));
+                if (searchType == SearchType.COUPLES) {
+                  Clipboard.setData(ClipboardData(
+                      text:
+                          '${list[index]['words'][0]} ${list[index]['words'][1]}'));
+                } else {
+                  Clipboard.setData(ClipboardData(text: list[index]['word']));
+                }
                 final SnackBar snackBar = SnackBar(
                   content: const Text('复制成功'),
                   duration: Duration(seconds: 2),
@@ -571,44 +605,51 @@ class _SearchListState extends State<SearchList>
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
               onDoubleTap: () {
-                final Map<String, dynamic> item = list[index];
-                if (item['type'] == '中国风') {
-                  Explanation.instance.getExplanationData(
-                    word: item['word'],
-                    context: context,
-                  );
-                } else {
-                  final SnackBar snackBar = SnackBar(
-                    content: const Text('只有在中国风词语才可以使用词典'),
-                    duration: Duration(seconds: 2),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                if (searchType == SearchType.NORMAL) {
+                  final Map<String, dynamic> item = list[index];
+                  if (item['type'] == '中国风') {
+                    Explanation.instance.getExplanationData(
+                      word: item['word'],
+                      context: context,
+                    );
+                  } else {
+                    final SnackBar snackBar = SnackBar(
+                      content: const Text('只有在中国风词语才可以使用词典'),
+                      duration: Duration(seconds: 2),
+                    );
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
                 }
               },
               onLongPress: () {
-                final bool loginState = context.read<UserProvider>().loginState;
-                if (loginState) {
-                  _lovedIndex = index;
-                  _animationController.forward();
-                  final Map<String, dynamic> item = list[index];
-                  _love(
-                    type: item['type'],
-                    length: item['length'],
-                    word: item['word'],
-                  );
-                } else {
-                  final SnackBar snackBar = SnackBar(
-                    content: const Text('请先登录再添加收藏'),
-                    duration: Duration(seconds: 2),
-                  );
-                  ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                if (searchType == SearchType.NORMAL) {
+                  final bool loginState =
+                      context.read<UserProvider>().loginState;
+                  if (loginState) {
+                    _lovedIndex = index;
+                    _animationController.forward();
+                    final Map<String, dynamic> item = list[index];
+                    _love(
+                      type: item['type'],
+                      length: item['length'],
+                      word: item['word'],
+                    );
+                  } else {
+                    final SnackBar snackBar = SnackBar(
+                      content: const Text('请先登录再添加收藏'),
+                      duration: Duration(seconds: 2),
+                    );
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  }
                 }
               },
               child: Stack(
                 children: <Widget>[
                   Container(
+                    width: double.infinity,
+                    height: double.infinity,
                     decoration: ShapeDecoration(
                       image: DecorationImage(
                         image: _randomBackground(index),
@@ -620,21 +661,61 @@ class _SearchListState extends State<SearchList>
                         ),
                       ),
                     ),
-                    child: Center(
-                      child: Text(
-                        list[index]['word'],
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Colors.white,
-                          shadows: <Shadow>[
-                            Shadow(
-                              offset: Offset(0.0, 0.0),
-                              blurRadius: 10.0,
-                              color: Color.fromARGB(245, 255, 255, 255),
+                    child: Builder(
+                      builder: (BuildContext context) {
+                        if (searchType == SearchType.COUPLES) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                list[index]['words'][0],
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(245, 255, 255, 255),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                list[index]['words'][1],
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 8.0,
+                                      color: Color.fromARGB(245, 255, 255, 255),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              list[index]['word'],
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 8.0,
+                                    color: Color.fromARGB(245, 255, 255, 255),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
+                          );
+                        }
+                      },
                     ),
                   ),
                   Positioned.fill(
