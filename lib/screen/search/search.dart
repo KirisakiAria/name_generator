@@ -13,9 +13,10 @@ import '../../services/request.dart';
 //组件
 import '../../widgets/loading_view.dart';
 import '../../widgets/vip_tips_dialog.dart';
+import '../../widgets/custom_button.dart';
 //common
 import '../../common/loading_status.dart';
-import '../../common/custom_icon_data.dart';
+import '../../common/style.dart';
 //model
 import '../../model/user.dart';
 import '../../model/skin.dart';
@@ -28,6 +29,15 @@ class SearchPage extends StatefulWidget {
   _SearchPageState createState() => _SearchPageState();
 }
 
+enum SearchType {
+  //一般模式
+  NORMAL,
+  //情侣模式
+  COUPLES,
+  //生成情侣名
+  GENERATE
+}
+
 class _SearchPageState extends State<SearchPage>
     with AutomaticKeepAliveClientMixin {
   final FocusNode blankNode = FocusNode();
@@ -36,6 +46,8 @@ class _SearchPageState extends State<SearchPage>
   List<dynamic> _list = <dynamic>[];
   List<int> _randomList = <int>[1, 2, 3, 4, 5];
   int _page = 0;
+
+  SearchType _searchType = SearchType.NORMAL;
 
   List<int> _getRandomList() {
     int t;
@@ -128,7 +140,88 @@ class _SearchPageState extends State<SearchPage>
         Animation<double> anim1,
         Animation<double> anim2,
       ) {
-        return VipTipsDialog();
+        return VipTipsDialog('使用高级搜索选项需要开通VIP');
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
+
+  void _setSearchType(SearchType searchType) {
+    _searchType = searchType;
+    print(_searchType == SearchType.NORMAL);
+  }
+
+  //设置弹窗
+  void _showSetting() async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: const Text('搜索选项'),
+          scrollable: true,
+          content: SizedBox(
+            width: 350.w,
+            height: 300.h,
+            child: Column(
+              children: <Widget>[
+                CheckboxListTile(
+                  activeColor: Style.defaultColor['activeSwitchTrack'],
+                  title: const Text('一般模式'),
+                  value: _searchType == SearchType.NORMAL,
+                  onChanged: (bool value) => _setSearchType(SearchType.NORMAL),
+                ),
+                CheckboxListTile(
+                  activeColor: Style.defaultColor['activeSwitchTrack'],
+                  title: const Text('情侣模式'),
+                  value: _searchType == SearchType.COUPLES,
+                  onChanged: (bool value) => _setSearchType(SearchType.COUPLES),
+                ),
+                CheckboxListTile(
+                  activeColor: Style.defaultColor['activeSwitchTrack'],
+                  title: const Text('生成情侣名'),
+                  value: _searchType == SearchType.GENERATE,
+                  onChanged: (bool value) =>
+                      _setSearchType(SearchType.GENERATE),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 40.h),
+                  child: CustomButton(
+                    text: '確認',
+                    bgColor: context.watch<SkinProvider>().color['button'],
+                    textColor:
+                        context.watch<SkinProvider>().color['background'],
+                    borderColor: Style.defaultColor['button'],
+                    paddingVertical: 14.h,
+                    callback: () => Navigator.pop(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actionsPadding: EdgeInsets.only(
+            right: 12.h,
+            bottom: 12.h,
+          ),
+        );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
       transitionDuration: Duration(milliseconds: 200),
@@ -158,18 +251,16 @@ class _SearchPageState extends State<SearchPage>
           width: 60,
           height: 60,
           child: Icon(
-            IconData(
-              CustomIconData.dictionary,
-              fontFamily: 'iconfont',
-            ),
+            Icons.settings,
             color: Colors.white,
+            size: 34,
           ),
           decoration: ShapeDecoration(
             shape: CircleBorder(),
             gradient: LinearGradient(
               colors: <Color>[
-                Color(0xff0093E9),
-                Color(0xff80D0C7),
+                Color(0xffFF3CAC),
+                Color(0xff9861C7),
               ],
             ),
           ),
@@ -183,7 +274,7 @@ class _SearchPageState extends State<SearchPage>
           if (!vip) {
             _promptVip();
           } else {
-            print('你是VIP!');
+            _showSetting();
           }
         },
       ),

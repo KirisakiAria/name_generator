@@ -218,7 +218,7 @@ class _GeneratePageState extends State<GeneratePage>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Icon(Icons.share),
-                    Text('分享'),
+                    const Text('分享'),
                   ],
                 ),
               ),
@@ -228,7 +228,7 @@ class _GeneratePageState extends State<GeneratePage>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Icon(Icons.info),
-                    Text('关于'),
+                    const Text('关于'),
                   ],
                 ),
               ),
@@ -255,7 +255,7 @@ class _GeneratePageState extends State<GeneratePage>
           width: 60,
           height: 60,
           child: Icon(
-            IconData(
+            const IconData(
               CustomIconData.dictionary,
               fontFamily: 'iconfont',
             ),
@@ -281,7 +281,7 @@ class _GeneratePageState extends State<GeneratePage>
           final bool couples = context.read<WordOptionsProvider>().couples;
           if (couples) {
             final SnackBar snackBar = SnackBar(
-              content: Text('情侣模式下无法使用词典功能'),
+              content: const Text('情侣模式下无法使用词典功能'),
               duration: Duration(seconds: 2),
             );
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -693,7 +693,7 @@ class _SelectState extends State<Select> {
         Animation<double> anim1,
         Animation<double> anim2,
       ) {
-        return VipTipsDialog();
+        return VipTipsDialog('查询此字数的ID需要开通VIP');
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
       transitionDuration: Duration(milliseconds: 200),

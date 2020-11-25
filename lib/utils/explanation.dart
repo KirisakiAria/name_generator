@@ -62,7 +62,7 @@ class Explanation {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          title: Text('词典'),
+          title: const Text('词典'),
           scrollable: true,
           content: SizedBox(
             width: 350.w,
@@ -110,11 +110,11 @@ class Explanation {
                     builder: (BuildContext context) {
                       if (data['allWord'] != null) {
                         if (data['allWord']['word'].length == 1) {
-                          return Text('见下方释义');
+                          return const Text('见下方释义');
                         }
                         return Text('整词释义：${data['allWord']['explanation']}');
                       }
-                      return Text('整词释义：暂无释义');
+                      return const Text('整词释义：暂无释义');
                     },
                   ),
                 ),
@@ -252,15 +252,13 @@ class Explanation {
             ),
           ),
           actions: <Widget>[
-            Center(
-              child: CustomButton(
-                text: '確認',
-                bgColor: context.watch<SkinProvider>().color['button'],
-                textColor: context.watch<SkinProvider>().color['background'],
-                borderColor: Style.defaultColor['button'],
-                paddingVertical: 14.h,
-                callback: () => Navigator.pop(context),
-              ),
+            CustomButton(
+              text: '確認',
+              bgColor: context.watch<SkinProvider>().color['button'],
+              textColor: context.watch<SkinProvider>().color['background'],
+              borderColor: Style.defaultColor['button'],
+              paddingVertical: 14.h,
+              callback: () => Navigator.pop(context),
             ),
           ],
           actionsPadding: EdgeInsets.only(

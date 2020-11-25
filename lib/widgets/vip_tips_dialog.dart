@@ -11,13 +11,16 @@ import '../widgets/custom_button.dart';
 import '../common/style.dart';
 
 class VipTipsDialog extends StatelessWidget {
+  final String tips;
+  VipTipsDialog(this.tips);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      title: Text('提示'),
+      title: const Text('提示'),
       scrollable: true,
       content: SizedBox(
         width: 330.w,
@@ -25,7 +28,7 @@ class VipTipsDialog extends StatelessWidget {
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(bottom: 50.h),
-              child: Text('此功能为VIP用户专享，请升级VIP再使用~'),
+              child: Text(tips),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
