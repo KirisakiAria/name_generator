@@ -39,6 +39,7 @@ class _AccountPageState extends State<AccountPage> {
             ),
             children: <Widget>[
               Avatar(),
+              VIP(),
               Username(),
               Password(),
               InfoContainer(
@@ -132,6 +133,7 @@ class _AvatarState extends State<Avatar> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => _getImage(),
       child: Container(
         padding: EdgeInsets.symmetric(
@@ -184,6 +186,7 @@ class _UsernameState extends State<Username> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () async {
         Map result = await showGeneralDialog(
           context: context,
@@ -257,6 +260,72 @@ class _UsernameState extends State<Username> {
   }
 }
 
+//我的VIP
+class VIP extends StatefulWidget {
+  @override
+  _VIPState createState() => _VIPState();
+}
+
+class _VIPState extends State<VIP> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/vip',
+      ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Text(
+                    'VIP会员',
+                    style: TextStyle(
+                      height: 1.6,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Image(
+                  image: AssetImage('assets/images/vip/discount.png'),
+                  width: 48.w,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 15.w,
+                  ),
+                  child: const Text(
+                    '立刻开通',
+                    style: TextStyle(
+                      height: 1,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.keyboard_arrow_right,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 //修改密码
 class Password extends StatefulWidget {
   @override
@@ -267,6 +336,7 @@ class _PasswordState extends State<Password> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.pushNamed(
         context,
         '/login',

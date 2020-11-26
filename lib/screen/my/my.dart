@@ -88,8 +88,7 @@ class BaseInformationBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        top: 10.h,
-        bottom: 30.h,
+        bottom: 32.h,
       ),
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
@@ -115,14 +114,19 @@ class BaseInformationBox extends StatelessWidget {
               context,
               '/login',
             );
+          } else {
+            Navigator.pushNamed(
+              context,
+              '/account',
+            );
           }
         },
         child: Center(
           child: Column(
             children: <Widget>[
               SizedBox(
-                width: 80.w,
-                height: 80.w,
+                width: 70.w,
+                height: 70.w,
                 child: ClipOval(
                   //透明图像占位符
                   child: FadeInImage.memoryNetwork(
@@ -134,25 +138,78 @@ class BaseInformationBox extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(
+                margin: EdgeInsets.only(
                   top: 16.h,
-                  bottom: 15.h,
                 ),
                 child: Text(
                   context.watch<UserProvider>().username,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Container(
+                margin: EdgeInsets.only(
+                  top: 12.h,
+                ),
                 child: Text(
                   'UID: ${context.watch<UserProvider>().uid}',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 12,
                     color: context.watch<SkinProvider>().color['subtitle'],
                   ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  top: 12.h,
+                ),
+                child: Builder(
+                  builder: (BuildContext context) {
+                    final vip = context.watch<UserProvider>().vip;
+                    if (vip) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image(
+                            image:
+                                AssetImage('assets/images/vip/vip_budge.png'),
+                            width: 20.w,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 5,
+                            ),
+                            child: Text(
+                              'VIP会员',
+                              style: TextStyle(height: 1.2),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage(
+                                'assets/images/vip/vip_budge_grey.png'),
+                            width: 20.w,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 5,
+                            ),
+                            child: Text(
+                              '未开通',
+                              style: TextStyle(height: 1.2),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
                 ),
               ),
             ],
@@ -169,11 +226,11 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: 40.h,
+        vertical: 52.h,
       ),
       child: Wrap(
         spacing: 25,
-        runSpacing: 32,
+        runSpacing: 30,
         children: <Widget>[
           GestureDetector(
             onTap: () {
