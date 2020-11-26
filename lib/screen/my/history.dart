@@ -16,6 +16,8 @@ import '../../model/skin.dart';
 import '../../common/loading_status.dart';
 import '../../common/custom_icon_data.dart';
 import '../../common/style.dart';
+//utils
+import '../../utils/explanation.dart';
 
 class HistoryPage extends StatelessWidget {
   @override
@@ -133,34 +135,49 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 15.w,
-        vertical: 6.h,
-      ),
-      padding: EdgeInsets.all(15.w),
-      decoration: ShapeDecoration(
-        color: context.watch<SkinProvider>().color['widget'],
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(30),
+    return GestureDetector(
+      onTap: () {
+        Clipboard.setData(ClipboardData(text: word));
+        final SnackBar snackBar = SnackBar(
+          content: const Text('复制成功'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      onLongPress: () {
+        if (type == '中国风') {
+          Explanation.instance.getExplanationData(
+            word: word,
+            context: context,
+          );
+        } else {
+          final SnackBar snackBar = SnackBar(
+            content: const Text('只有在中国风词语才可以使用词典'),
+            duration: Duration(seconds: 2),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 15.w,
+          vertical: 6.h,
+        ),
+        padding: EdgeInsets.all(15.w),
+        decoration: ShapeDecoration(
+          color: context.watch<SkinProvider>().color['widget'],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
           ),
         ),
-      ),
-      child: Row(
-        children: <Widget>[
-          WordIcon(type),
-          GestureDetector(
-            onTap: () {
-              Clipboard.setData(ClipboardData(text: word));
-              final SnackBar snackBar = SnackBar(
-                content: const Text('复制成功'),
-                duration: Duration(seconds: 2),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            },
-            child: Container(
+        child: Row(
+          children: <Widget>[
+            WordIcon(type),
+            Container(
               margin: EdgeInsets.only(
                 left: 15.w,
               ),
@@ -169,8 +186,8 @@ class ListItem extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

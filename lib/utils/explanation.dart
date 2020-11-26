@@ -167,7 +167,7 @@ class Explanation {
                                   '笔画：',
                                   style: TextStyle(
                                     height: 1,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: context
                                         .watch<SkinProvider>()
                                         .color['subTitle'],
@@ -180,7 +180,7 @@ class Explanation {
                                       : '无',
                                   style: TextStyle(
                                     height: 1,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: context
                                         .watch<SkinProvider>()
                                         .color['subTitle'],
@@ -190,7 +190,7 @@ class Explanation {
                                   '    部首：',
                                   style: TextStyle(
                                     height: 1,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: context
                                         .watch<SkinProvider>()
                                         .color['subTitle'],
@@ -202,7 +202,7 @@ class Explanation {
                                       : '无',
                                   style: TextStyle(
                                     height: 1,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: context
                                         .watch<SkinProvider>()
                                         .color['subTitle'],
