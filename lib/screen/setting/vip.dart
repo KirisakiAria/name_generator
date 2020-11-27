@@ -25,21 +25,24 @@ class _VipPageState extends State<VipPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'VIP',
-        ),
-      ),
-      body: Builder(
-        builder: (BuildContext context) => ListTileTheme(
-          iconColor: context.watch<SkinProvider>().color['subtitle'],
-          child: ListView(
-            padding: EdgeInsets.symmetric(
-              horizontal: 30.w,
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text(''),
+              background: Image.network(
+                'https://cn.bing.com/th?id=OIP.xq1C2fmnSw5DEoRMC86vJwD6D6&pid=Api&rs=1',
+                fit: BoxFit.fill,
+              ),
+              //标题是否居中
+              centerTitle: true,
+              //标题间距
+              titlePadding: EdgeInsetsDirectional.only(start: 0, bottom: 16),
+              collapseMode: CollapseMode.none,
             ),
-            children: <Widget>[],
           ),
-        ),
+        ],
+        semanticChildCount: 6, //可见子元素的总数
       ),
     );
   }
