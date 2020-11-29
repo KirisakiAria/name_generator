@@ -15,6 +15,8 @@ import '../../common/style.dart';
 //model
 import '../../model/user.dart';
 import '../../model/skin.dart';
+//组件
+import '../../widgets/custom_button.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -430,8 +432,8 @@ class EditUserNameDialog extends Dialog {
           color: Style.grey20,
           child: Center(
             child: SizedBox(
-              width: 300.w,
-              height: 170.h,
+              width: 310.w,
+              height: 200.h,
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 30.w,
@@ -492,30 +494,29 @@ class EditUserNameDialog extends Dialog {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
-                            FlatButton(
-                              child: Text(
-                                '取消',
-                                style: TextStyle(
-                                  color: context
-                                      .watch<SkinProvider>()
-                                      .color['text'],
-                                ),
-                              ),
-                              onPressed: () => Navigator.pop(
+                            CustomButton(
+                              text: '取消',
+                              bgColor: Style.defaultColor['background'],
+                              textColor: Style.defaultColor['button'],
+                              borderColor: Style.defaultColor['button'],
+                              paddingHorizontal: 45.h,
+                              paddingVertical: 14.h,
+                              callback: () => Navigator.pop(
                                 context,
                                 <String, bool>{'success': false},
                               ),
                             ),
-                            FlatButton(
-                              child: Text(
-                                '确认',
-                                style: TextStyle(
-                                  color: context
-                                      .watch<SkinProvider>()
-                                      .color['text'],
-                                ),
-                              ),
-                              onPressed: () async => _formValidate(),
+                            CustomButton(
+                              text: '確定',
+                              bgColor:
+                                  context.watch<SkinProvider>().color['button'],
+                              textColor: context
+                                  .watch<SkinProvider>()
+                                  .color['background'],
+                              borderColor: Style.defaultColor['button'],
+                              paddingHorizontal: 45.h,
+                              paddingVertical: 14.h,
+                              callback: () async => _formValidate(),
                             ),
                           ],
                         ),

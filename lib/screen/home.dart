@@ -28,10 +28,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final PageController _pageController = PageController(initialPage: 0);
+  final FocusNode blankNode = FocusNode();
   int _tabIndex = 0;
 
   //PageView页面滚动事件回调
   _onPageChange(int index) {
+    FocusScope.of(context).requestFocus(blankNode);
     setState(() {
       _tabIndex = index;
     });

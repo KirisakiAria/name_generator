@@ -54,10 +54,12 @@ flutter:
     - assets/images/about/about.png
     - assets/images/inspiration/top.png
     - assets/images/inspiration/middle.png
+    - assets/images/vip/vip.png
     - assets/images/vip/vip_tip.png
     - assets/images/vip/vip_budge.png
     - assets/images/vip/vip_budge_grey.png
     - assets/images/vip/discount.png
+    - assets/images/vip/vip_bg.png
   fonts:
     - family: iconfont
       fonts:
