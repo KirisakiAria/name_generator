@@ -35,7 +35,6 @@ class GeneratePage extends StatefulWidget {
 
 class _GeneratePageState extends State<GeneratePage>
     with AutomaticKeepAliveClientMixin {
-  static const String host = 'https://www.bianzizai.com';
   static const String shareContent = '【彼岸自在，最懂你的网名生成器】';
   String _word = '彼岸自在';
   String _word2 = '吾溪不归';
@@ -105,7 +104,7 @@ class _GeneratePageState extends State<GeneratePage>
                           '/webview',
                           arguments: <String, String>{
                             'title': '隐私协议',
-                            'url': '$host/#/privacypolicy'
+                            'url': '${API.host}/#/privacypolicy'
                           },
                         );
                       },
@@ -121,7 +120,7 @@ class _GeneratePageState extends State<GeneratePage>
                           '/webview',
                           arguments: <String, String>{
                             'title': '服务条款',
-                            'url': '$host/#/terms'
+                            'url': '${API.host}/#/terms'
                           },
                         );
                       },
@@ -237,7 +236,7 @@ class _GeneratePageState extends State<GeneratePage>
               // 点击选项的时候
               switch (action) {
                 case 'share':
-                  Share.share('$shareContent 官网：$host');
+                  Share.share('$shareContent 官网：${API.host}');
                   break;
                 case 'about':
                   Navigator.pushNamed(

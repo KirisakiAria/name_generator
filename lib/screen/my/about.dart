@@ -20,8 +20,6 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  static const String host = 'https://www.bianzizai.com';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +69,7 @@ class _AboutPageState extends State<AboutPage> {
                             '/webview',
                             arguments: <String, String>{
                               'title': '隐私协议',
-                              'url': '$host/#/privacypolicy',
+                              'url': '${API.host}/#/privacypolicy',
                             },
                           ),
                           title: Text(
@@ -92,7 +90,7 @@ class _AboutPageState extends State<AboutPage> {
                             '/webview',
                             arguments: <String, String>{
                               'title': '服务条款',
-                              'url': '$host/#/terms',
+                              'url': '${API.host}/#/terms',
                             },
                           ),
                           title: Text(
@@ -113,7 +111,7 @@ class _AboutPageState extends State<AboutPage> {
                             '/webview',
                             arguments: <String, String>{
                               'title': '使用方法',
-                              'url': '$host/#/usage',
+                              'url': '${API.host}/#/usage',
                             },
                           ),
                           title: Text(
@@ -134,11 +132,32 @@ class _AboutPageState extends State<AboutPage> {
                             '/webview',
                             arguments: <String, String>{
                               'title': '更新日志',
-                              'url': '$host/#/update',
+                              'url': '${API.host}/#/update',
                             },
                           ),
                           title: Text(
                             '更新日志',
+                            style: TextStyle(
+                              height: 1,
+                              color:
+                                  context.watch<SkinProvider>().color['text'],
+                            ),
+                          ),
+                          trailing: Icon(
+                            Icons.keyboard_arrow_right,
+                          ),
+                        ),
+                        ListTile(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            '/webview',
+                            arguments: <String, String>{
+                              'title': '会员须知',
+                              'url': '${API.host}/#/vip',
+                            },
+                          ),
+                          title: Text(
+                            '会员须知',
                             style: TextStyle(
                               height: 1,
                               color:
@@ -160,7 +179,7 @@ class _AboutPageState extends State<AboutPage> {
                               arguments: <String, String>{
                                 'title': '意见反馈',
                                 'url':
-                                    '$host/#/feedback?tel=$tel&username=$username'
+                                    '${API.host}/#/feedback?tel=$tel&username=$username'
                               },
                             );
                           },

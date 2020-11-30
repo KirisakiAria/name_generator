@@ -1,6 +1,7 @@
 //核心库
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
@@ -140,37 +141,63 @@ class _VipPageState extends State<VipPage> {
                       ],
                     ),
                   ),
+                  ItemTitle('会员政策'),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: 60.h,
+                      top: 20.h,
+                      left: 20.w,
+                      right: 20.w,
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                right: 12.h,
-                              ),
-                              child: Image(
-                                image: AssetImage('assets/images/vip/vip.png'),
-                                width: 36.w,
-                              ),
-                            ),
-                            Text(
-                              '会员权益',
+                        Text(
+                          '首先，由衷的感谢所有使用《彼岸自在》的用户。《彼岸自在》作为一款主打网名生成的工具类APP，始终遵守着 《Android绿色应用公约》，无广告、无后台，而我们将秉持这一原则，继续带给广大用户良好的用户体验。独立开发和维护一款APP除了需要极大的时间和经历成本外，还需要非常高昂价格的服务器开销。为了保证一个App能够长久持续地运营下去，我们决定开启VIP会员的功能，如果您能支持我们，对我们来说都是莫大的帮助！真的是非常感谢！',
+                          style: TextStyle(
+                            color: Color(0xfffadfbe),
+                            fontSize: 14,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 10.h,
+                          ),
+                          child: RichText(
+                            text: TextSpan(
                               style: TextStyle(
                                 color: Color(0xfffadfbe),
-                                fontSize: 20,
-                                letterSpacing: 2.5,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
+                              children: [
+                                TextSpan(
+                                  text: '购买VIP会员之前请先阅读  ',
+                                ),
+                                TextSpan(
+                                  text: '《会员政策》',
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/webview',
+                                        arguments: <String, String>{
+                                          'title': '服务条款',
+                                          'url': '${API.host}/#/vip'
+                                        },
+                                      );
+                                    },
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
                   ),
+                  ItemTitle('会员权益'),
                   ListView.builder(
                     padding: EdgeInsets.symmetric(
                       vertical: 25.h,
@@ -221,6 +248,46 @@ class _VipPageState extends State<VipPage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ItemTitle extends StatelessWidget {
+  final String title;
+  ItemTitle(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        top: 40.h,
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  right: 12.h,
+                ),
+                child: Image(
+                  image: AssetImage('assets/images/vip/vip.png'),
+                  width: 36.w,
+                ),
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                  color: Color(0xfffadfbe),
+                  fontSize: 20,
+                  letterSpacing: 2.5,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ class API {
   //static const String origin = 'https://api.bianzizai.com';
   static const String version = 'v1';
   static const String api_prefix = '$origin/api/$version';
+  static const String host = 'https://www.bianzizai.com';
   static const String word = '/word/random';
   static const String dictionary = '/word/dictionary';
   static const String search = '/word/search';
