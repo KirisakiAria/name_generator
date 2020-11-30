@@ -17,4 +17,9 @@ class CustomIconData {
   static const int about = 0xe617;
   static const int laboratory = 0xe692;
   static const int logout = 0xe60d;
+  static const int vipDictionary = 0xe601;
+  static const int vipSearch = 0xe602;
+  static const int vipCouples = 0xe6e1;
+  static const int vipRecord = 0xe700;
+  static const int vip = 0xe8e9;
 }
