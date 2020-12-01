@@ -78,7 +78,9 @@ class _VipPageState extends State<VipPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(30.w),
+                    padding: EdgeInsets.all(
+                      30.w,
+                    ),
                     width: 320.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
