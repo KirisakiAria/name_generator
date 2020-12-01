@@ -834,7 +834,9 @@ class OptionsDialog extends Dialog {
                 Offstage(
                   offstage: !context.watch<UserProvider>().vip,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 80.w),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 80.w,
+                    ),
                     child: CheckboxListTile(
                       activeColor: Style.defaultColor['activeSwitchTrack'],
                       title: const Text('情侣模式'),

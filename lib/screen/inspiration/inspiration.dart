@@ -121,7 +121,10 @@ class _InspirationPageState extends State<InspirationPage>
                   alignment: Alignment.centerLeft,
                   child: Container(
                     width: 205.w,
-                    padding: EdgeInsets.only(left: 15.w, top: 20.h),
+                    padding: EdgeInsets.only(
+                      left: 15.w,
+                      top: 20.h,
+                    ),
                     child: Text(
                         '歡迎來到靈感探求頁面。在這個頁面裏，我們會不断更新適合發掘出網名精選的精選詩詞和故事。希望能夠盤活您的思緒之泉 ฅ･◡･ฅ',
                         style: TextStyle(
@@ -238,7 +241,9 @@ class _InspirationPageState extends State<InspirationPage>
                 countBuilder: (int count, bool isLiked, String text) {
                   Color color = isLiked ? Color(0xffff4081) : Colors.grey;
                   return Container(
-                    padding: EdgeInsets.only(top: 10.h),
+                    padding: EdgeInsets.only(
+                      top: 10.h,
+                    ),
                     child: Text(
                       text,
                       style: TextStyle(

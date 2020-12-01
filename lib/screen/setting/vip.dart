@@ -51,6 +51,33 @@ class _VipPageState extends State<VipPage> {
     },
   ];
 
+  final List<Map<String, dynamic>> _planList = <Map<String, dynamic>>[
+    <String, dynamic>{
+      'id': 0,
+      'title': '一个月',
+      'currentPrice': '6.9元',
+      'originalPrice': '14.9元',
+    },
+    <String, dynamic>{
+      'id': 1,
+      'title': '一个月',
+      'currentPrice': '6.9元',
+      'originalPrice': '14.9元',
+    },
+    <String, dynamic>{
+      'id': 2,
+      'title': '一个月',
+      'currentPrice': '6.9元',
+      'originalPrice': '14.9元',
+    },
+    <String, dynamic>{
+      'id': 3,
+      'title': '一个月',
+      'currentPrice': '6.9元',
+      'originalPrice': '14.9元',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,6 +168,37 @@ class _VipPageState extends State<VipPage> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  ItemTitle('会员套餐'),
+                  Container(
+                    padding: EdgeInsets.only(
+                      top: 20.h,
+                      left: 20.w,
+                      right: 20.w,
+                    ),
+                    height: 100.h,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => OutlineButton(
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                        ),
+                        onPressed: () => print(1),
+                        child: Text(
+                          _planList[index]['title'],
+                          style: TextStyle(
+                            color: Color(0xfffadfbe),
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          VerticalDivider(
+                        width: 16.0,
+                      ),
+                      itemCount: _planList.length,
                     ),
                   ),
                   ItemTitle('会员政策'),

@@ -224,7 +224,9 @@ class _SearchPageState extends State<SearchPage>
                       selected: _searchType == SearchType.GENERATE,
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 40.h),
+                      margin: EdgeInsets.only(
+                        top: 40.h,
+                      ),
                       child: CustomButton(
                         text: '確認',
                         bgColor: context.watch<SkinProvider>().color['button'],
@@ -585,7 +587,9 @@ class _SearchListState extends State<SearchList>
           StaggeredGridView.countBuilder(
             controller: _scrollControllerPlaceholder,
             shrinkWrap: true,
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            padding: EdgeInsets.symmetric(
+              horizontal: 15.w,
+            ),
             crossAxisCount: 4,
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) => GestureDetector(

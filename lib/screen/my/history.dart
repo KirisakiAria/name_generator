@@ -165,7 +165,9 @@ class ListItem extends StatelessWidget {
           horizontal: 15.w,
           vertical: 6.h,
         ),
-        padding: EdgeInsets.all(15.w),
+        padding: EdgeInsets.all(
+          15.w,
+        ),
         decoration: ShapeDecoration(
           color: context.watch<SkinProvider>().color['widget'],
           shape: RoundedRectangleBorder(

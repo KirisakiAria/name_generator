@@ -257,7 +257,9 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15.w),
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
                         color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
@@ -303,7 +305,9 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15.w),
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
                         color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
@@ -337,7 +341,9 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15.w),
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
                         color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
@@ -371,7 +377,9 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15.w),
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
                         color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
@@ -405,7 +413,9 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15.w),
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
                         color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
@@ -511,7 +521,9 @@ class Menu extends StatelessWidget {
                   children: <Widget>[
                     ClipOval(
                       child: Container(
-                        padding: EdgeInsets.all(15.w),
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
                         color: context.watch<SkinProvider>().color['widget'],
                         child: Icon(
                           const IconData(
