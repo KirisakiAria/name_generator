@@ -271,6 +271,7 @@ class VIP extends StatefulWidget {
 class _VIPState extends State<VIP> {
   @override
   Widget build(BuildContext context) {
+    final bool _vip = context.watch<UserProvider>().vip;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.pushNamed(
@@ -308,10 +309,10 @@ class _VIPState extends State<VIP> {
                   padding: EdgeInsets.only(
                     right: 15.w,
                   ),
-                  child: const Text(
-                    '立刻开通',
+                  child: Text(
+                    _vip ? '查看详情' : '立刻开通',
                     style: TextStyle(
-                      height: 1,
+                      height: 1.2,
                       fontSize: 16,
                     ),
                   ),
@@ -369,7 +370,7 @@ class _PasswordState extends State<Password> {
                   child: const Text(
                     '点此修改',
                     style: TextStyle(
-                      height: 1,
+                      height: 1.2,
                       fontSize: 16,
                     ),
                   ),

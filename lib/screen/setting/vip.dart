@@ -60,21 +60,27 @@ class _VipPageState extends State<VipPage> {
     },
     <String, dynamic>{
       'id': 1,
-      'title': '一个月',
-      'currentPrice': '6.9元',
-      'originalPrice': '14.9元',
+      'title': '三个月',
+      'currentPrice': '14.9元',
+      'originalPrice': '39.9元',
     },
     <String, dynamic>{
       'id': 2,
-      'title': '一个月',
-      'currentPrice': '6.9元',
-      'originalPrice': '14.9元',
+      'title': '半年',
+      'currentPrice': '26.9元',
+      'originalPrice': '69.9元',
     },
     <String, dynamic>{
       'id': 3,
-      'title': '一个月',
-      'currentPrice': '6.9元',
-      'originalPrice': '14.9元',
+      'title': '一年',
+      'currentPrice': '39.9元',
+      'originalPrice': '99.9元',
+    },
+    <String, dynamic>{
+      'id': 4,
+      'title': '永久',
+      'currentPrice': '109.9元',
+      'originalPrice': '299.9元',
     },
   ];
 
@@ -177,21 +183,43 @@ class _VipPageState extends State<VipPage> {
                       left: 20.w,
                       right: 20.w,
                     ),
-                    height: 100.h,
+                    height: 140.h,
                     child: ListView.separated(
+                      padding: EdgeInsets.only(
+                        top: 10.h,
+                      ),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (context, index) => OutlineButton(
                         borderSide: BorderSide(
+                          width: 1,
                           color: Colors.white,
                         ),
-                        onPressed: () => print(1),
-                        child: Text(
-                          _planList[index]['title'],
-                          style: TextStyle(
-                            color: Color(0xfffadfbe),
-                            fontSize: 14,
-                          ),
+                        onPressed: () => print(_planList[index]['id']),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              _planList[index]['title'],
+                              style: TextStyle(
+                                color: Color(0xfffadfbe),
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              _planList[index]['currentPrice'],
+                              style: TextStyle(
+                                color: Color(0xfffadfbe),
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              _planList[index]['originalPrice'],
+                              style: TextStyle(
+                                color: Color(0xfffadfbe),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       separatorBuilder: (BuildContext context, int index) =>
