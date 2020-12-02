@@ -26,4 +26,5 @@ class API {
   static const String error = '/information/error';
   static const String update = '/app/update';
   static const String downloadlink = '/service/downloadlink';
+  static const String plan = '/plan';
 }

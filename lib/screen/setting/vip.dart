@@ -17,6 +17,8 @@ import '../../common/custom_icon_data.dart';
 import '../../model/user.dart';
 import '../../model/skin.dart';
 
+const Color defaultColor = Color(0xfffadfbe);
+
 class VipPage extends StatefulWidget {
   @override
   _VipPageState createState() => _VipPageState();
@@ -51,38 +53,27 @@ class _VipPageState extends State<VipPage> {
     },
   ];
 
-  final List<Map<String, dynamic>> _planList = <Map<String, dynamic>>[
-    <String, dynamic>{
-      'id': 0,
-      'title': '一个月',
-      'currentPrice': '6.9元',
-      'originalPrice': '14.9元',
-    },
-    <String, dynamic>{
-      'id': 1,
-      'title': '三个月',
-      'currentPrice': '14.9元',
-      'originalPrice': '39.9元',
-    },
-    <String, dynamic>{
-      'id': 2,
-      'title': '半年',
-      'currentPrice': '26.9元',
-      'originalPrice': '69.9元',
-    },
-    <String, dynamic>{
-      'id': 3,
-      'title': '一年',
-      'currentPrice': '39.9元',
-      'originalPrice': '99.9元',
-    },
-    <String, dynamic>{
-      'id': 4,
-      'title': '永久',
-      'currentPrice': '109.9元',
-      'originalPrice': '299.9元',
-    },
-  ];
+  List<dynamic> _planList = <dynamic>[];
+
+  int _planId = 1;
+
+  Future<void> _getPlanData() async {
+    final String path = API.plan;
+    final Response res = await Request(
+      context: context,
+    ).httpGet('$path');
+    if (res.data['code'] == '1000') {
+      setState(() {
+        _planList = res.data['data']['list'];
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getPlanData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +159,7 @@ class _VipPageState extends State<VipPage> {
                           child: Text(
                             '会员状态：未开通',
                             style: TextStyle(
-                              color: Color(0xfffadfbe),
+                              color: defaultColor,
                               fontSize: 14,
                             ),
                           ),
@@ -183,43 +174,65 @@ class _VipPageState extends State<VipPage> {
                       left: 20.w,
                       right: 20.w,
                     ),
-                    height: 140.h,
+                    height: 160.h,
                     child: ListView.separated(
                       padding: EdgeInsets.only(
                         top: 10.h,
                       ),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemBuilder: (context, index) => OutlineButton(
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => print(_planList[index]['id']),
-                        child: Column(
-                          children: <Widget>[
-                            Text(
-                              _planList[index]['title'],
-                              style: TextStyle(
-                                color: Color(0xfffadfbe),
-                                fontSize: 14,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _planId = _planList[index]['planId'];
+                          });
+                        },
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          width: 105.w,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10.h,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: _planId == _planList[index]['planId']
+                                ? Color.fromRGBO(255, 238, 196, .15)
+                                : Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: defaultColor,
+                                width: 2,
                               ),
                             ),
-                            Text(
-                              _planList[index]['currentPrice'],
-                              style: TextStyle(
-                                color: Color(0xfffadfbe),
-                                fontSize: 14,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Text(
+                                _planList[index]['title'],
+                                style: TextStyle(
+                                  color: defaultColor,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                            Text(
-                              _planList[index]['originalPrice'],
-                              style: TextStyle(
-                                color: Color(0xfffadfbe),
-                                fontSize: 14,
+                              Text(
+                                _planList[index]['currentPrice'],
+                                style: TextStyle(
+                                  color: Color(0xfffff0b6),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                              Text(
+                                _planList[index]['originalPrice'],
+                                style: TextStyle(
+                                  color: Color(0xffc1c1c1),
+                                  fontSize: 14,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       separatorBuilder: (BuildContext context, int index) =>
@@ -242,7 +255,7 @@ class _VipPageState extends State<VipPage> {
                         Text(
                           '首先，由衷的感谢所有使用《彼岸自在》的用户。《彼岸自在》作为一款主打网名生成的工具类APP，始终遵守着 《Android绿色应用公约》，无广告、无后台，而我们将秉持这一原则，继续带给广大用户良好的用户体验。独立开发和维护一款APP除了需要极大的时间和经历成本外，还需要非常高昂价格的服务器开销。为了保证一个App能够长久持续地运营下去，我们决定开启VIP会员的功能，如果您能支持我们，对我们来说都是莫大的帮助！真的是非常感谢！',
                           style: TextStyle(
-                            color: Color(0xfffadfbe),
+                            color: defaultColor,
                             fontSize: 14,
                           ),
                         ),
@@ -253,7 +266,7 @@ class _VipPageState extends State<VipPage> {
                           child: RichText(
                             text: TextSpan(
                               style: TextStyle(
-                                color: Color(0xfffadfbe),
+                                color: defaultColor,
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -301,7 +314,7 @@ class _VipPageState extends State<VipPage> {
                         ),
                         decoration: ShapeDecoration(
                           shape: CircleBorder(),
-                          color: Color(0xfffadfbe),
+                          color: Color(0xfffff9e7),
                         ),
                         child: Center(
                           child: Icon(
@@ -310,22 +323,27 @@ class _VipPageState extends State<VipPage> {
                               fontFamily: 'iconfont',
                             ),
                             size: 24,
-                            color: Colors.white,
+                            color: Color(0xffe6ad12),
                           ),
                         ),
                       ),
                       title: Text(
                         _vipBenefitsList[index]['title'],
                         style: TextStyle(
-                          color: Color(0xfffadfbe),
+                          color: defaultColor,
                           fontSize: 18,
                         ),
                       ),
-                      subtitle: Text(
-                        _vipBenefitsList[index]['desc'],
-                        style: TextStyle(
-                          color: Color(0xfffadfbe),
-                          fontSize: 14,
+                      subtitle: Padding(
+                        padding: EdgeInsets.only(
+                          top: 6.h,
+                        ),
+                        child: Text(
+                          _vipBenefitsList[index]['desc'],
+                          style: TextStyle(
+                            color: Color(0xfffff7e0),
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -368,7 +386,7 @@ class ItemTitle extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  color: Color(0xfffadfbe),
+                  color: defaultColor,
                   fontSize: 20,
                   letterSpacing: 2.5,
                 ),

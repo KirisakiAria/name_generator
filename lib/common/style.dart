@@ -13,7 +13,7 @@ class Style {
     'border': Color(0xffa9a9a9),
     'widget': Color(0xfff8f8f8),
     'subtitle': Colors.black45,
-    'infoShadow': Color.fromRGBO(0, 80, 180, 0.1),
+    'infoShadow': Color.fromRGBO(0, 80, 180, .1),
     'button': Colors.black,
     'hint': Color(0xffa9a9a9),
     'line': Colors.black12,

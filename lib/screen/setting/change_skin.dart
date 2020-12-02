@@ -105,7 +105,7 @@ class _Item extends StatelessWidget {
                 ),
                 shadows: <BoxShadow>[
                   BoxShadow(
-                    color: Color.fromRGBO(120, 120, 120, 0.1),
+                    color: Color.fromRGBO(120, 120, 120, .1),
                     blurRadius: themeIndex == activedIndex ? 24 : 6,
                     offset: Offset(0, 6),
                   ),
