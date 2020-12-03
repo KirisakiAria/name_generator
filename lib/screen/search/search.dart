@@ -90,6 +90,8 @@ class _SearchPageState extends State<SearchPage>
             _page++;
           }
         });
+      } else {
+        _loadingStatus = LoadingStatus.STATUS_COMPLETED;
       }
     } catch (err) {
       print(err);
@@ -113,6 +115,7 @@ class _SearchPageState extends State<SearchPage>
             _randomList = _getRandomList();
             _searchText = searchText;
           }
+          print(_searchText);
           if (_searchText == '') {
             final SnackBar snackBar = SnackBar(
               content: const Text('请输入关键字'),

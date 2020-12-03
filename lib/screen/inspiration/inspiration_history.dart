@@ -66,6 +66,8 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
             _page++;
           }
         });
+      } else {
+        _loadingStatus = LoadingStatus.STATUS_COMPLETED;
       }
     } catch (err) {
       print(err);

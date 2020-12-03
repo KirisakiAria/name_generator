@@ -69,6 +69,8 @@ class _FavouritesListState extends State<FavouritesList> {
             _page++;
           }
         });
+      } else {
+        _loadingStatus = LoadingStatus.STATUS_COMPLETED;
       }
     } catch (err) {
       print(err);

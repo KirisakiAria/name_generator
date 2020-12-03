@@ -66,6 +66,8 @@ class _NotificationListState extends State<NotificationList> {
             _page++;
           }
         });
+      } else {
+        _loadingStatus = LoadingStatus.STATUS_COMPLETED;
       }
     } catch (err) {
       print(err);
