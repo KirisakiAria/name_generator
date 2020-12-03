@@ -43,14 +43,20 @@ class VipTipsDialog extends StatelessWidget {
                   callback: () => Navigator.pop(context),
                 ),
                 CustomButton(
-                  text: '升級',
-                  bgColor: context.watch<SkinProvider>().color['button'],
-                  textColor: context.watch<SkinProvider>().color['background'],
-                  borderColor: Style.defaultColor['button'],
-                  paddingVertical: 14.h,
-                  paddingHorizontal: 40.w,
-                  callback: () => Navigator.pop(context),
-                ),
+                    text: '升級',
+                    bgColor: context.watch<SkinProvider>().color['button'],
+                    textColor:
+                        context.watch<SkinProvider>().color['background'],
+                    borderColor: Style.defaultColor['button'],
+                    paddingVertical: 14.h,
+                    paddingHorizontal: 40.w,
+                    callback: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                        context,
+                        '/vip',
+                      );
+                    }),
               ],
             ),
           ],
