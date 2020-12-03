@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               backgroundColor:
                   context.watch<SkinProvider>().color['background'],
-              icon: Icon(
+              icon: const Icon(
                 const IconData(
                   CustomIconData.generate,
                   fontFamily: 'iconfont',
@@ -162,7 +162,7 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               backgroundColor:
                   context.watch<SkinProvider>().color['background'],
-              icon: Icon(
+              icon: const Icon(
                 const IconData(
                   CustomIconData.search,
                   fontFamily: 'iconfont',
@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               backgroundColor:
                   context.watch<SkinProvider>().color['background'],
-              icon: Icon(
+              icon: const Icon(
                 const IconData(
                   CustomIconData.inspiration,
                   fontFamily: 'iconfont',
@@ -186,7 +186,7 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               backgroundColor:
                   context.watch<SkinProvider>().color['background'],
-              icon: Icon(
+              icon: const Icon(
                 const IconData(
                   CustomIconData.cat,
                   fontFamily: 'iconfont',

@@ -43,7 +43,6 @@ class _GeneratePageState extends State<GeneratePage>
 
   Future<void> _getData() async {
     try {
-      final bool couples = context.read<WordOptionsProvider>().couples;
       final String path = API.word;
       final Response res = await Request(
         context: context,
@@ -53,7 +52,7 @@ class _GeneratePageState extends State<GeneratePage>
           'type': context.read<WordOptionsProvider>().type,
           'length': context.read<WordOptionsProvider>().length,
           'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
-          'couples': couples,
+          'couples': context.read<WordOptionsProvider>().couples,
         },
       );
       if (res.data['code'] == '1000') {
@@ -63,6 +62,10 @@ class _GeneratePageState extends State<GeneratePage>
           _type = context.read<WordOptionsProvider>().type;
           _romaji = res.data['data']['romaji'];
         });
+      } else if (res.data['code'] == '3010') {
+        context.read<WordOptionsProvider>().changeCouples(false);
+        context.read<WordOptionsProvider>().changeNumber('2');
+        context.read<UserProvider>().changeVip(false);
       }
     } catch (err) {
       print(err);
@@ -202,7 +205,7 @@ class _GeneratePageState extends State<GeneratePage>
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications_none),
+            icon: const Icon(Icons.notifications_none),
             onPressed: () => Navigator.pushNamed(
               context,
               '/notifications',
@@ -216,7 +219,7 @@ class _GeneratePageState extends State<GeneratePage>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Icon(Icons.share),
+                    const Icon(Icons.share),
                     const Text('分享'),
                   ],
                 ),
@@ -226,7 +229,7 @@ class _GeneratePageState extends State<GeneratePage>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Icon(Icons.info),
+                    const Icon(Icons.info),
                     const Text('关于'),
                   ],
                 ),
@@ -253,7 +256,7 @@ class _GeneratePageState extends State<GeneratePage>
         child: Container(
           width: 60,
           height: 60,
-          child: Icon(
+          child: const Icon(
             const IconData(
               CustomIconData.dictionary,
               fontFamily: 'iconfont',

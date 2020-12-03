@@ -202,7 +202,7 @@ class WordIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (type == '中国风') {
-      return Icon(
+      return const Icon(
         const IconData(
           CustomIconData.chinese,
           fontFamily: 'iconfont',
@@ -210,7 +210,7 @@ class WordIcon extends StatelessWidget {
         color: Colors.pinkAccent,
       );
     }
-    return Icon(
+    return const Icon(
       const IconData(
         CustomIconData.japanese,
         fontFamily: 'iconfont',

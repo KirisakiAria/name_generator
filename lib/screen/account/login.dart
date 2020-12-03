@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
                     width: 210.w,
                   ),
                 ),
-                Text(
+                const Text(
                   '红笺几许',
                   style: TextStyle(
                     fontSize: 38,

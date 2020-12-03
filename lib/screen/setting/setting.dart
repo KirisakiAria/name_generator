@@ -132,7 +132,7 @@ class _SettingPageState extends State<SettingPage> {
                     );
                   }
                 },
-                leading: Icon(
+                leading: const Icon(
                   const IconData(
                     CustomIconData.account,
                     fontFamily: 'iconfont',
@@ -143,14 +143,14 @@ class _SettingPageState extends State<SettingPage> {
                   '账号资料',
                   style: TextStyle(height: 1),
                 ),
-                trailing: Icon(Icons.keyboard_arrow_right),
+                trailing: const Icon(Icons.keyboard_arrow_right),
               ),
               ListTile(
                 onTap: () => Navigator.pushNamed(
                   context,
                   '/change_skin',
                 ),
-                leading: Icon(
+                leading: const Icon(
                   const IconData(
                     CustomIconData.theme,
                     fontFamily: 'iconfont',
@@ -161,11 +161,11 @@ class _SettingPageState extends State<SettingPage> {
                   '主题风格',
                   style: TextStyle(height: 1),
                 ),
-                trailing: Icon(Icons.keyboard_arrow_right),
+                trailing: const Icon(Icons.keyboard_arrow_right),
               ),
               ListTile(
                 onTap: () => _clearCache(context),
-                leading: Icon(
+                leading: const Icon(
                   const IconData(
                     CustomIconData.clearCache,
                     fontFamily: 'iconfont',

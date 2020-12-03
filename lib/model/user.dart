@@ -55,6 +55,11 @@ class UserProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
+  void changeVip(bool vip) {
+    _vip = vip;
+    notifyListeners();
+  }
+
   void logOut() {
     _username = '未登录';
     _tel = tel;

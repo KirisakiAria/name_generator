@@ -144,7 +144,7 @@ class _AvatarState extends State<Avatar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
+            const Text(
               '头像',
               style: TextStyle(
                 height: 1,
@@ -166,7 +166,7 @@ class _AvatarState extends State<Avatar> {
                     ),
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.keyboard_arrow_right,
                 ),
               ],
@@ -229,7 +229,7 @@ class _UsernameState extends State<Username> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
+            const Text(
               '用户名',
               style: TextStyle(
                 height: 1,
@@ -250,7 +250,7 @@ class _UsernameState extends State<Username> {
                     ),
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.keyboard_arrow_right,
                 ),
               ],
@@ -317,7 +317,7 @@ class _VIPState extends State<VIP> {
                     ),
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.keyboard_arrow_right,
                 ),
               ],
@@ -354,7 +354,7 @@ class _PasswordState extends State<Password> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
+            const Text(
               '修改密码',
               style: TextStyle(
                 height: 1,
@@ -375,7 +375,7 @@ class _PasswordState extends State<Password> {
                     ),
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.keyboard_arrow_right,
                 ),
               ],

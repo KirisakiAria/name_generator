@@ -191,8 +191,8 @@ class _SearchPageState extends State<SearchPage>
                         });
                       },
                       groupValue: _searchType,
-                      title: Text('一般模式'),
-                      subtitle: Text('查询一般网名'),
+                      title: const Text('一般模式'),
+                      subtitle: const Text('查询一般网名'),
                       selected: _searchType == SearchType.NORMAL,
                     ),
                     RadioListTile(
@@ -205,8 +205,8 @@ class _SearchPageState extends State<SearchPage>
                         });
                       },
                       groupValue: _searchType,
-                      title: Text('情侣模式'),
-                      subtitle: Text('查询情侣网名'),
+                      title: const Text('情侣模式'),
+                      subtitle: const Text('查询情侣网名'),
                       selected: _searchType == SearchType.COUPLES,
                     ),
                     RadioListTile(
@@ -219,8 +219,8 @@ class _SearchPageState extends State<SearchPage>
                         });
                       },
                       groupValue: _searchType,
-                      title: Text('生成情侣名'),
-                      subtitle: Text('根据提供的网名自动查询或生成对应的情侣名'),
+                      title: const Text('生成情侣名'),
+                      subtitle: const Text('根据提供的网名自动查询或生成对应的情侣名'),
                       selected: _searchType == SearchType.GENERATE,
                     ),
                     Container(
@@ -275,7 +275,7 @@ class _SearchPageState extends State<SearchPage>
         child: Container(
           width: 60,
           height: 60,
-          child: Icon(
+          child: const Icon(
             Icons.settings,
             color: Colors.white,
             size: 34,
@@ -435,7 +435,7 @@ class SearchInput extends StatelessWidget {
                 disabledElevation: 0,
                 highlightElevation: 0,
                 splashColor: Colors.white,
-                child: Icon(
+                child: const Icon(
                   Icons.search,
                   color: Colors.white,
                   size: 18,

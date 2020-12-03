@@ -221,7 +221,7 @@ class Explanation {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
+                                const Text(
                                   '释义：',
                                   style: TextStyle(
                                     height: 1.4,

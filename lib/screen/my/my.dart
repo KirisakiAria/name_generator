@@ -181,9 +181,11 @@ class BaseInformationBox extends StatelessWidget {
                             padding: EdgeInsets.only(
                               left: 5,
                             ),
-                            child: Text(
+                            child: const Text(
                               'VIP会员',
-                              style: TextStyle(height: 1.2),
+                              style: TextStyle(
+                                height: 1.2,
+                              ),
                             ),
                           ),
                         ],
@@ -201,9 +203,11 @@ class BaseInformationBox extends StatelessWidget {
                             padding: EdgeInsets.only(
                               left: 5,
                             ),
-                            child: Text(
+                            child: const Text(
                               '未开通',
-                              style: TextStyle(height: 1.2),
+                              style: TextStyle(
+                                height: 1.2,
+                              ),
                             ),
                           ),
                         ],
@@ -271,9 +275,11 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       '我的收藏',
-                      style: TextStyle(height: 2.5),
+                      style: TextStyle(
+                        height: 2.5,
+                      ),
                     ),
                   ],
                 ),
@@ -319,9 +325,11 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       '查询记录',
-                      style: TextStyle(height: 2.5),
+                      style: TextStyle(
+                        height: 2.5,
+                      ),
                     ),
                   ],
                 ),
@@ -355,9 +363,11 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       '设置',
-                      style: TextStyle(height: 2.5),
+                      style: TextStyle(
+                        height: 2.5,
+                      ),
                     ),
                   ],
                 ),
@@ -391,9 +401,11 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       '关于',
-                      style: TextStyle(height: 2.5),
+                      style: TextStyle(
+                        height: 2.5,
+                      ),
                     ),
                   ],
                 ),
@@ -427,9 +439,11 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       '实验室',
-                      style: TextStyle(height: 2.5),
+                      style: TextStyle(
+                        height: 2.5,
+                      ),
                     ),
                   ],
                 ),
@@ -535,7 +549,7 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
+                    const Text(
                       '退出登录',
                       style: TextStyle(height: 2.5),
                     ),

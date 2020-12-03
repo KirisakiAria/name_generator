@@ -80,7 +80,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -101,7 +101,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -122,7 +122,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -143,7 +143,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -164,7 +164,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -191,7 +191,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -213,7 +213,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
@@ -246,7 +246,7 @@ class _AboutPageState extends State<AboutPage> {
                                   context.watch<SkinProvider>().color['text'],
                             ),
                           ),
-                          trailing: Icon(
+                          trailing: const Icon(
                             Icons.keyboard_arrow_right,
                           ),
                         ),
