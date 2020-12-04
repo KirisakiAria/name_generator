@@ -16,26 +16,26 @@ import '../../model/skin.dart';
 import '../../common/loading_status.dart';
 import '../../common/style.dart';
 
-class NotificationPage extends StatelessWidget {
+class OrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '消息中心',
+          '订单查询',
         ),
       ),
-      body: NotificationList(),
+      body: OrderList(),
     );
   }
 }
 
-class NotificationList extends StatefulWidget {
+class OrderList extends StatefulWidget {
   @override
-  _NotificationListState createState() => _NotificationListState();
+  _OrderListState createState() => _OrderListState();
 }
 
-class _NotificationListState extends State<NotificationList> {
+class _OrderListState extends State<OrderList> {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
@@ -48,10 +48,10 @@ class _NotificationListState extends State<NotificationList> {
         _list.clear();
       }
       _loadingStatus = LoadingStatus.STATUS_LOADING;
-      final String path = API.notification;
+      final String path = API.order;
       final Response res = await Request(
         context: context,
-      ).httpGet('$path?currentPage=$_page&pageSize=15');
+      ).httpGet('$path?page=$_page');
       if (res.data['code'] == '1000') {
         setState(() {
           final int length = res.data['data']['list'].length;

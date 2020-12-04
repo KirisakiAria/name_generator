@@ -29,7 +29,7 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '账号资料',
+          '个人中心',
         ),
       ),
       body: Builder(
@@ -42,6 +42,7 @@ class _AccountPageState extends State<AccountPage> {
             children: <Widget>[
               Avatar(),
               VIP(),
+              Order(),
               Username(),
               Password(),
               InfoContainer(
@@ -311,6 +312,64 @@ class _VIPState extends State<VIP> {
                   ),
                   child: Text(
                     _vip ? '查看详情' : '立刻开通',
+                    style: TextStyle(
+                      height: 1.2,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_right,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//我的VIP
+class Order extends StatefulWidget {
+  @override
+  _OrderState createState() => _OrderState();
+}
+
+class _OrderState extends State<Order> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/order',
+      ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Text(
+                '我的订单',
+                style: TextStyle(
+                  height: 1.6,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 15.w,
+                  ),
+                  child: Text(
+                    '查看详情',
                     style: TextStyle(
                       height: 1.2,
                       fontSize: 16,

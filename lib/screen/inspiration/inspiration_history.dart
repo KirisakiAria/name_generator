@@ -51,7 +51,7 @@ class _InspirationHistoryListState extends State<InspirationHistoryList> {
       final String path = API.inspiration;
       final Response res = await Request(
         context: context,
-      ).httpGet(path + '?page=$_page');
+      ).httpGet('$path?page=$_page');
       if (res.data['code'] == '1000') {
         setState(() {
           final int length = res.data['data']['list'].length;
