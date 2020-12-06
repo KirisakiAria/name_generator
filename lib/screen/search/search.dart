@@ -115,7 +115,6 @@ class _SearchPageState extends State<SearchPage>
             _randomList = _getRandomList();
             _searchText = searchText;
           }
-          print(_searchText);
           if (_searchText == '') {
             final SnackBar snackBar = SnackBar(
               content: const Text('请输入关键字'),
@@ -181,7 +180,6 @@ class _SearchPageState extends State<SearchPage>
               scrollable: true,
               content: SizedBox(
                 width: 350.w,
-                height: 360.h,
                 child: Column(
                   children: <Widget>[
                     RadioListTile(

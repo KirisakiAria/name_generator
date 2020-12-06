@@ -91,6 +91,10 @@ class Request {
               ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
+            if (response.data['code'] == '3007' ||
+                response.data['code'] == '3008') {
+              context.read<UserProvider>().logOut();
+            }
           }
           return response;
         },

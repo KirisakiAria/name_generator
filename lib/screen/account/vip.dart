@@ -8,9 +8,12 @@ import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tobias/tobias.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
+//组件
+import '../../widgets/custom_button.dart';
 //common
 import '../../common/custom_icon_data.dart';
 import '../../common/style.dart';
@@ -55,11 +58,12 @@ class _VipPageState extends State<VipPage> {
   ];
 
   List<dynamic> _planList = <dynamic>[];
-
-  int _planId = 1;
-
+  //套餐
+  String _planId = '1';
   bool _vip = false;
   String _vipEndTime = '';
+  //支付方式 1 支付宝 2微信
+  String _paymentMethod = '1';
 
   Future<void> _getUserData() async {
     final String path = API.getUserData;
@@ -105,19 +109,116 @@ class _VipPageState extends State<VipPage> {
   }
 
   Future<void> _purchase() async {
-    final String path = API.purchase;
-    final Response res = await Request(
+    bool result = await isAliPayInstalled();
+    print(result);
+    if (_vipEndTime == '永久') {
+      final SnackBar snackBar = SnackBar(
+        content: Text('您已经是永久会员'),
+        duration: Duration(seconds: 2),
+      );
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      final String path = API.purchase;
+      final Response res = await Request(
+        context: context,
+      ).httpPost(
+        path,
+        <String, dynamic>{
+          'tel': context.read<UserProvider>().tel,
+          'planId': _planId,
+          'paymentMethod': _paymentMethod,
+        },
+      );
+      if (res.data['code'] == '1000') {
+        _getUserData();
+      }
+    }
+  }
+
+  //设置弹窗
+  void _showPaymentMethod() async {
+    showGeneralDialog(
       context: context,
-    ).httpPost(
-      path,
-      <String, dynamic>{
-        'tel': context.read<UserProvider>().tel,
-        'planId': _planId,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: const Text('请选择支付方式'),
+              scrollable: true,
+              content: SizedBox(
+                width: 350.w,
+                child: Column(
+                  children: <Widget>[
+                    RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: '1',
+                      onChanged: (value) {
+                        setState(() {
+                          _paymentMethod = value;
+                        });
+                      },
+                      groupValue: _paymentMethod,
+                      title: const Text('支付宝'),
+                      selected: _paymentMethod == '1',
+                    ),
+                    RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: '2',
+                      onChanged: null,
+                      groupValue: _paymentMethod,
+                      title: const Text('微信(暂不可用)'),
+                      selected: _paymentMethod == '2',
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: 30.h,
+                      ),
+                      child: CustomButton(
+                        text: '確認',
+                        bgColor: context.watch<SkinProvider>().color['button'],
+                        textColor:
+                            context.watch<SkinProvider>().color['background'],
+                        borderColor: Style.defaultColor['button'],
+                        paddingVertical: 14.h,
+                        callback: () {
+                          Navigator.pop(context);
+                          _purchase();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actionsPadding: EdgeInsets.only(
+                right: 12.h,
+                bottom: 12.h,
+              ),
+            );
+          },
+        );
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
       },
     );
-    if (res.data['code'] == '1000') {
-      _getUserData();
-    }
   }
 
   @override
@@ -286,7 +387,7 @@ class _VipPageState extends State<VipPage> {
                                       ),
                                     ),
                                     Text(
-                                      _planList[index]['currentPrice'],
+                                      '${_planList[index]['currentPrice']}元',
                                       style: TextStyle(
                                         color: Color(0xfffff0b6),
                                         fontSize: 24,
@@ -294,7 +395,7 @@ class _VipPageState extends State<VipPage> {
                                       ),
                                     ),
                                     Text(
-                                      _planList[index]['originalPrice'],
+                                      '${_planList[index]['originalPrice']}元',
                                       style: TextStyle(
                                         color: Color(0xffc1c1c1),
                                         fontSize: 14,
@@ -440,7 +541,7 @@ class _VipPageState extends State<VipPage> {
                   vertical: 15.h,
                 ),
                 color: Color(0xffc78f4f),
-                onPressed: () => _purchase(),
+                onPressed: () => _showPaymentMethod(),
                 child: Text(
                   '立即购买',
                   style: TextStyle(
