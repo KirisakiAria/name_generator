@@ -73,27 +73,35 @@ class _SettingPageState extends State<SettingPage> {
 
   //清除缓存 这里传入context是为了让context找到Scaffold
   void _clearCache(BuildContext context) async {
-    final Directory tempDir = await getTemporaryDirectory();
-    //删除缓存目录
-    await _delDir(tempDir);
-    await _loadCache();
-    final SnackBar snackBar = SnackBar(
-      content: const Text('清除缓存成功'),
-      duration: Duration(seconds: 2),
-    );
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    try {
+      final Directory tempDir = await getTemporaryDirectory();
+      //删除缓存目录
+      await _delDir(tempDir);
+      await _loadCache();
+      final SnackBar snackBar = SnackBar(
+        content: const Text('清除缓存成功'),
+        duration: Duration(seconds: 2),
+      );
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (err) {
+      print(err);
+    }
   }
 
   ///递归方式删除目录（直至找到文件才删除）
   Future<void> _delDir(FileSystemEntity file) async {
-    if (file is Directory) {
-      final List<FileSystemEntity> children = file.listSync();
-      for (final FileSystemEntity child in children) {
-        await _delDir(child);
+    try {
+      if (file is Directory) {
+        final List<FileSystemEntity> children = file.listSync();
+        for (final FileSystemEntity child in children) {
+          await _delDir(child);
+        }
       }
+      await file.delete();
+    } catch (err) {
+      print(err);
     }
-    await file.delete();
   }
 
   @override

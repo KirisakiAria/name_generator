@@ -41,57 +41,69 @@ class _HomePageState extends State<HomePage> {
 
   //设置主题
   Future<void> _getTheme() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int themeIndex = prefs.getInt('themeIndex');
-    if (themeIndex != null) {
-      context.read<SkinProvider>().changeTheme(
-            themeIndex: themeIndex,
-            theme: Style.themeList[themeIndex],
-            color: Style.colorList[themeIndex],
-          );
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final int themeIndex = prefs.getInt('themeIndex');
+      if (themeIndex != null) {
+        context.read<SkinProvider>().changeTheme(
+              themeIndex: themeIndex,
+              theme: Style.themeList[themeIndex],
+              color: Style.colorList[themeIndex],
+            );
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
   //获取登陆状态
   Future<void> _getUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final dynamic token = prefs.getString('token');
-    final dynamic tel = prefs.getString('tel');
-    if (token != null) {
-      context.read<UserProvider>().changeToken(token);
-      final String path = API.getUserData;
-      final Response res = await Request(
-        context: context,
-        showLoadingDialog: false,
-      ).httpPost(
-        path,
-        <String, String>{
-          'tel': tel,
-        },
-      );
-      if (res.data['code'] == '1000') {
-        final Map data = res.data['data'];
-        context.read<UserProvider>().changeUserData(
-              username: data['username'],
-              tel: data['tel'],
-              uid: data['uid'],
-              vip: data['vip'],
-              vipStartTime: data['vipStartTime'],
-              vipEndTime: data['vipEndTime'],
-              avatar: data['avatar'],
-              date: data['date'],
-              loginState: true,
-            );
-        _initSetting();
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final dynamic token = prefs.getString('token');
+      final dynamic tel = prefs.getString('tel');
+      if (token != null) {
+        context.read<UserProvider>().changeToken(token);
+        final String path = API.getUserData;
+        final Response res = await Request(
+          context: context,
+          showLoadingDialog: false,
+        ).httpPost(
+          path,
+          <String, String>{
+            'tel': tel,
+          },
+        );
+        if (res.data['code'] == '1000') {
+          final Map data = res.data['data'];
+          context.read<UserProvider>().changeUserData(
+                username: data['username'],
+                tel: data['tel'],
+                uid: data['uid'],
+                vip: data['vip'],
+                vipStartTime: data['vipStartTime'],
+                vipEndTime: data['vipEndTime'],
+                avatar: data['avatar'],
+                date: data['date'],
+                loginState: true,
+              );
+          _initSetting();
+        }
       }
+    } catch (err) {
+      print(err);
     }
   }
 
   //读取并初始化本地配置
   Future<void> _initSetting() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool romaji = prefs.getBool('romaji') ?? false;
-    context.read<LaboratoryOptionsProvider>().toggleRomaji(romaji: romaji);
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final bool romaji = prefs.getBool('romaji') ?? false;
+      context.read<LaboratoryOptionsProvider>().toggleRomaji(romaji: romaji);
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override

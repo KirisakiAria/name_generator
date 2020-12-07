@@ -80,13 +80,17 @@ class _Item extends StatelessWidget {
     final int activedIndex = context.watch<SkinProvider>().themeIndex;
     return GestureDetector(
       onTap: () async {
-        context.read<SkinProvider>().changeTheme(
-              themeIndex: themeIndex,
-              theme: Style.themeList[themeIndex],
-              color: Style.colorList[themeIndex],
-            );
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setInt('themeIndex', themeIndex);
+        try {
+          context.read<SkinProvider>().changeTheme(
+                themeIndex: themeIndex,
+                theme: Style.themeList[themeIndex],
+                color: Style.colorList[themeIndex],
+              );
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setInt('themeIndex', themeIndex);
+        } catch (err) {
+          print(err);
+        }
       },
       child: Container(
         margin: EdgeInsets.only(

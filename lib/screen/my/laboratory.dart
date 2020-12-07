@@ -52,22 +52,28 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                       .color['inactiveSwitchTrack'],
                   value: context.watch<LaboratoryOptionsProvider>().romaji,
                   onChanged: (bool value) async {
-                    final bool loginState =
-                        context.read<UserProvider>().loginState;
-                    final LaboratoryOptionsProvider laboratoryOptionsProvider =
-                        context.read<LaboratoryOptionsProvider>();
-                    if (!loginState) {
-                      final SnackBar snackBar = SnackBar(
-                        content: const Text('请先登录再使用实验室功能'),
-                        duration: Duration(seconds: 2),
-                      );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else {
-                      laboratoryOptionsProvider.toggleRomaji();
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.setBool('romaji', laboratoryOptionsProvider.romaji);
+                    try {
+                      final bool loginState =
+                          context.read<UserProvider>().loginState;
+                      final LaboratoryOptionsProvider
+                          laboratoryOptionsProvider =
+                          context.read<LaboratoryOptionsProvider>();
+                      if (!loginState) {
+                        final SnackBar snackBar = SnackBar(
+                          content: const Text('请先登录再使用实验室功能'),
+                          duration: Duration(seconds: 2),
+                        );
+                        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        laboratoryOptionsProvider.toggleRomaji();
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setBool(
+                            'romaji', laboratoryOptionsProvider.romaji);
+                      }
+                    } catch (err) {
+                      print(err);
                     }
                   },
                 ),

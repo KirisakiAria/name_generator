@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '网名生成器',
+      title: '彼岸自在',
       home: HomePage(),
       theme: context.watch<SkinProvider>().theme,
       routes: Routes.mappingList,

@@ -72,13 +72,17 @@ class _AvatarState extends State<Avatar> {
 
   //从相册获取图片
   Future<void> _getImage() async {
-    final dynamic image = await _picker.getImage(
-      source: ImageSource.gallery,
-    );
-    if (image != null) {
-      _upLoadImage(
-        image: image,
+    try {
+      final dynamic image = await _picker.getImage(
+        source: ImageSource.gallery,
       );
+      if (image != null) {
+        _upLoadImage(
+          image: image,
+        );
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -86,50 +90,58 @@ class _AvatarState extends State<Avatar> {
   Future<void> _upLoadImage({
     @required PickedFile image,
   }) async {
-    final filePath = image.path;
-    final String path = API.upload;
-    final String name =
-        filePath.substring(path.lastIndexOf('/') + 1, filePath.length);
-    final FormData formdata = FormData.fromMap({
-      'file': await MultipartFile.fromFile(
-        filePath,
-        filename: name,
-      ),
-    });
-    final Response res = await Request(
-      context: context,
-    ).httpPost(
-      path,
-      formdata,
-    );
-    if (res.data['code'] == '1000') {
-      _changeAvatar(
-        avatar: res.data['data']['path'],
+    try {
+      final filePath = image.path;
+      final String path = API.upload;
+      final String name =
+          filePath.substring(path.lastIndexOf('/') + 1, filePath.length);
+      final FormData formdata = FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          filePath,
+          filename: name,
+        ),
+      });
+      final Response res = await Request(
+        context: context,
+      ).httpPost(
+        path,
+        formdata,
       );
+      if (res.data['code'] == '1000') {
+        _changeAvatar(
+          avatar: res.data['data']['path'],
+        );
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
   Future<void> _changeAvatar({
     @required String avatar,
   }) async {
-    final String path = API.changeAvatar;
-    final Response res = await Request(
-      context: context,
-    ).httpPut(
-      path,
-      <String, dynamic>{
-        'tel': context.read<UserProvider>().tel,
-        'avatar': avatar,
-      },
-    );
-    if (res.data['code'] == '1000') {
-      context.read<UserProvider>().changeAvatar(avatar);
-      final SnackBar snackBar = SnackBar(
-        content: const Text('修改头像成功'),
-        duration: Duration(seconds: 2),
+    try {
+      final String path = API.changeAvatar;
+      final Response res = await Request(
+        context: context,
+      ).httpPut(
+        path,
+        <String, dynamic>{
+          'tel': context.read<UserProvider>().tel,
+          'avatar': avatar,
+        },
       );
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      if (res.data['code'] == '1000') {
+        context.read<UserProvider>().changeAvatar(avatar);
+        final SnackBar snackBar = SnackBar(
+          content: const Text('修改头像成功'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -462,19 +474,23 @@ class EditUserNameDialog extends Dialog {
 
         //修改用户名
         Future<void> _changeUsername() async {
-          final String path = API.changeUsername;
-          final Response res = await Request(
-            context: context,
-          ).httpPut(
-            path,
-            <String, dynamic>{
-              'tel': context.read<UserProvider>().tel,
-              'username': _username,
-            },
-          );
-          if (res.data['code'] == '1000') {
-            context.read<UserProvider>().changeUsername(_username);
-            Navigator.of(context).pop(<String, bool>{'success': true});
+          try {
+            final String path = API.changeUsername;
+            final Response res = await Request(
+              context: context,
+            ).httpPut(
+              path,
+              <String, dynamic>{
+                'tel': context.read<UserProvider>().tel,
+                'username': _username,
+              },
+            );
+            if (res.data['code'] == '1000') {
+              context.read<UserProvider>().changeUsername(_username);
+              Navigator.of(context).pop(<String, bool>{'success': true});
+            }
+          } catch (err) {
+            print(err);
           }
         }
 

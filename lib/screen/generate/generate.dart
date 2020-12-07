@@ -156,10 +156,14 @@ class _GeneratePageState extends State<GeneratePage>
                   ),
                 ),
                 onPressed: () async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setBool('accepted', true);
-                  Navigator.pop(context);
+                  try {
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool('accepted', true);
+                    Navigator.pop(context);
+                  } catch (err) {
+                    print(err);
+                  }
                 },
               ),
             ],

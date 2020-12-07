@@ -35,16 +35,20 @@ class _InspirationHistoryDetailsPageState
   };
 
   Future<void> _getData() async {
-    Map<String, String> arguments = ModalRoute.of(context).settings.arguments;
-    final String path = API.inspiration;
-    final Response res = await Request(
-      context: context,
-    ).httpGet('$path/${arguments['id']}');
-    if (res.data['code'] == '1000') {
-      setState(() {
-        _chinese = res.data['data']['chinese'];
-        _japanese = res.data['data']['japanese'];
-      });
+    try {
+      Map<String, String> arguments = ModalRoute.of(context).settings.arguments;
+      final String path = API.inspiration;
+      final Response res = await Request(
+        context: context,
+      ).httpGet('$path/${arguments['id']}');
+      if (res.data['code'] == '1000') {
+        setState(() {
+          _chinese = res.data['data']['chinese'];
+          _japanese = res.data['data']['japanese'];
+        });
+      }
+    } catch (err) {
+      print(err);
     }
   }
 

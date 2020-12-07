@@ -26,28 +26,32 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   Future<void> _getUserData() async {
-    final String path = API.getUserData;
-    final Response res = await Request(
-      context: context,
-    ).httpPost(
-      path,
-      <String, String>{
-        'tel': context.read<UserProvider>().tel,
-      },
-    );
-    if (res.data['code'] == '1000') {
-      final Map data = res.data['data'];
-      context.read<UserProvider>().changeUserData(
-            username: data['username'],
-            tel: data['tel'],
-            uid: data['uid'],
-            vip: data['vip'],
-            vipStartTime: data['vipStartTime'],
-            vipEndTime: data['vipEndTime'],
-            avatar: data['avatar'],
-            date: data['date'],
-            loginState: true,
-          );
+    try {
+      final String path = API.getUserData;
+      final Response res = await Request(
+        context: context,
+      ).httpPost(
+        path,
+        <String, String>{
+          'tel': context.read<UserProvider>().tel,
+        },
+      );
+      if (res.data['code'] == '1000') {
+        final Map data = res.data['data'];
+        context.read<UserProvider>().changeUserData(
+              username: data['username'],
+              tel: data['tel'],
+              uid: data['uid'],
+              vip: data['vip'],
+              vipStartTime: data['vipStartTime'],
+              vipEndTime: data['vipEndTime'],
+              avatar: data['avatar'],
+              date: data['date'],
+              loginState: true,
+            );
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -489,20 +493,24 @@ class Menu extends StatelessWidget {
                             ),
                           ),
                           onPressed: () async {
-                            context.read<UserProvider>().logOut();
-                            context
-                                .read<WordOptionsProvider>()
-                                .changeNumber('2');
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.clear();
-                            context
-                                .read<LaboratoryOptionsProvider>()
-                                .clearAllSetting();
-                            Navigator.pushNamed(
-                              context,
-                              '/login',
-                            );
+                            try {
+                              context.read<UserProvider>().logOut();
+                              context
+                                  .read<WordOptionsProvider>()
+                                  .changeNumber('2');
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.clear();
+                              context
+                                  .read<LaboratoryOptionsProvider>()
+                                  .clearAllSetting();
+                              Navigator.pushNamed(
+                                context,
+                                '/login',
+                              );
+                            } catch (err) {
+                              print(err);
+                            }
                           },
                         ),
                       ],

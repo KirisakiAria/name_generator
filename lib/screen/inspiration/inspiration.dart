@@ -40,56 +40,64 @@ class _InspirationPageState extends State<InspirationPage>
   String _id;
 
   Future<void> _getData() async {
-    final String path = API.todayInspiration;
-    final Response res = await Request(
-      context: context,
-    ).httpGet(path);
-    if (res.data['code'] == '1000') {
-      setState(() {
-        _id = res.data['data']['id'];
-        _chinese = res.data['data']['chinese'];
-        _japanese = res.data['data']['japanese'];
-        _likeCount = res.data['data']['likeCount'];
-        _isLiked = res.data['data']['isLiked'];
-      });
+    try {
+      final String path = API.todayInspiration;
+      final Response res = await Request(
+        context: context,
+      ).httpGet(path);
+      if (res.data['code'] == '1000') {
+        setState(() {
+          _id = res.data['data']['id'];
+          _chinese = res.data['data']['chinese'];
+          _japanese = res.data['data']['japanese'];
+          _likeCount = res.data['data']['likeCount'];
+          _isLiked = res.data['data']['isLiked'];
+        });
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
   Future<bool> _like(bool islike) async {
-    bool loginState = context.read<UserProvider>().loginState;
-    if (!loginState) {
-      final SnackBar snackBar = SnackBar(
-        content: const Text('请先登录再点赞'),
-        duration: Duration(seconds: 2),
-      );
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      return false;
-    }
-    final String path = API.likeInspiration;
-    final Response res = await Request(
-      context: context,
-    ).httpPut(
-      path + '/$_id',
-      <String, bool>{
-        'islike': islike,
-      },
-    );
-    if (res.data['code'] == '1000') {
-      _isLiked = !_isLiked;
-      if (islike) {
-        _likeCount--;
-      } else {
-        _likeCount++;
+    try {
+      bool loginState = context.read<UserProvider>().loginState;
+      if (!loginState) {
+        final SnackBar snackBar = SnackBar(
+          content: const Text('请先登录再点赞'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        return false;
       }
-      Future.delayed(
-        Duration(milliseconds: 1000),
-        () {
-          setState(() {});
+      final String path = API.likeInspiration;
+      final Response res = await Request(
+        context: context,
+      ).httpPut(
+        path + '/$_id',
+        <String, bool>{
+          'islike': islike,
         },
       );
+      if (res.data['code'] == '1000') {
+        _isLiked = !_isLiked;
+        if (islike) {
+          _likeCount--;
+        } else {
+          _likeCount++;
+        }
+        Future.delayed(
+          Duration(milliseconds: 1000),
+          () {
+            setState(() {});
+          },
+        );
+      }
+      return _isLiked;
+    } catch (err) {
+      print(err);
     }
-    return _isLiked;
   }
 
   @override

@@ -66,73 +66,94 @@ class _VipPageState extends State<VipPage> {
   String _paymentMethod = '1';
 
   Future<void> _getUserData() async {
-    final String path = API.getUserData;
-    final Response res = await Request(
-      context: context,
-    ).httpPost(
-      path,
-      <String, String>{
-        'tel': context.read<UserProvider>().tel,
-      },
-    );
-    if (res.data['code'] == '1000') {
-      final Map data = res.data['data'];
-      print(data);
-      context.read<UserProvider>().changeUserData(
-            username: data['username'],
-            tel: data['tel'],
-            uid: data['uid'],
-            vip: data['vip'],
-            vipStartTime: data['vipStartTime'],
-            vipEndTime: data['vipEndTime'],
-            avatar: data['avatar'],
-            date: data['date'],
-            loginState: true,
-          );
-      setState(() {
-        _vip = data['vip'];
-        _vipEndTime = data['vipEndTime'];
-      });
-    }
-  }
-
-  Future<void> _getPlanData() async {
-    final String path = API.plan;
-    final Response res = await Request(
-      context: context,
-    ).httpGet('$path');
-    if (res.data['code'] == '1000') {
-      setState(() {
-        _planList = res.data['data']['list'];
-      });
-    }
-  }
-
-  Future<void> _purchase() async {
-    bool result = await isAliPayInstalled();
-    print(result);
-    if (_vipEndTime == '永久') {
-      final SnackBar snackBar = SnackBar(
-        content: Text('您已经是永久会员'),
-        duration: Duration(seconds: 2),
-      );
-      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
-      final String path = API.purchase;
+    try {
+      final String path = API.getUserData;
       final Response res = await Request(
         context: context,
       ).httpPost(
         path,
-        <String, dynamic>{
+        <String, String>{
           'tel': context.read<UserProvider>().tel,
-          'planId': _planId,
-          'paymentMethod': _paymentMethod,
         },
       );
       if (res.data['code'] == '1000') {
-        _getUserData();
+        final Map data = res.data['data'];
+        context.read<UserProvider>().changeUserData(
+              username: data['username'],
+              tel: data['tel'],
+              uid: data['uid'],
+              vip: data['vip'],
+              vipStartTime: data['vipStartTime'],
+              vipEndTime: data['vipEndTime'],
+              avatar: data['avatar'],
+              date: data['date'],
+              loginState: true,
+            );
+        setState(() {
+          _vip = data['vip'];
+          _vipEndTime = data['vipEndTime'];
+        });
       }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> _getPlanData() async {
+    try {
+      final String path = API.plan;
+      final Response res = await Request(
+        context: context,
+      ).httpGet('$path');
+      if (res.data['code'] == '1000') {
+        setState(() {
+          _planList = res.data['data']['list'];
+        });
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> _purchase() async {
+    try {
+      // if (_paymentMethod == '1') {
+      //   bool result = await isAliPayInstalled();
+      //   if (!result) {
+      //     final SnackBar snackBar = SnackBar(
+      //       content: Text('请先安装支付宝'),
+      //       duration: Duration(seconds: 2),
+      //     );
+      //     ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      //     return Future;
+      //   }
+      // }
+      if (_vipEndTime == '永久') {
+        final SnackBar snackBar = SnackBar(
+          content: Text('您已经是永久会员'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        final String path = API.purchase;
+        final Response res = await Request(
+          context: context,
+        ).httpPost(
+          path,
+          <String, dynamic>{
+            'tel': context.read<UserProvider>().tel,
+            'planId': _planId,
+            'paymentMethod': _paymentMethod,
+          },
+        );
+        if (res.data['code'] == '1000') {
+          aliPay(res.data['data'], evn: AliPayEvn.SANDBOX);
+        }
+      }
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -344,7 +365,7 @@ class _VipPageState extends State<VipPage> {
                             left: 20.w,
                             right: 20.w,
                           ),
-                          height: 160.h,
+                          height: 190.h,
                           child: ListView.separated(
                             padding: EdgeInsets.only(
                               top: 10.h,
