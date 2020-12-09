@@ -258,8 +258,8 @@ class _GeneratePageState extends State<GeneratePage>
       ),
       floatingActionButton: FloatingActionButton(
         child: Container(
-          width: 60,
-          height: 60,
+          width: 65.w,
+          height: 65.w,
           child: const Icon(
             const IconData(
               CustomIconData.dictionary,
@@ -554,7 +554,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           child: Stack(
             children: <Widget>[
               Positioned.fill(
-                top: 0.h,
+                top: 0,
                 child: Opacity(
                   opacity: _opacityAnimation.value,
                   child: Icon(

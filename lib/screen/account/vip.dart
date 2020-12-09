@@ -117,18 +117,18 @@ class _VipPageState extends State<VipPage> {
 
   Future<void> _purchase() async {
     try {
-      // if (_paymentMethod == '1') {
-      //   bool result = await isAliPayInstalled();
-      //   if (!result) {
-      //     final SnackBar snackBar = SnackBar(
-      //       content: Text('请先安装支付宝'),
-      //       duration: Duration(seconds: 2),
-      //     );
-      //     ScaffoldMessenger.of(context).removeCurrentSnackBar();
-      //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      //     return Future;
-      //   }
-      // }
+      if (_paymentMethod == '1') {
+        bool result = await isAliPayInstalled();
+        if (!result) {
+          final SnackBar snackBar = SnackBar(
+            content: Text('请先安装支付宝'),
+            duration: Duration(seconds: 2),
+          );
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return Future;
+        }
+      }
       if (_vipEndTime == '永久') {
         final SnackBar snackBar = SnackBar(
           content: Text('您已经是永久会员'),
@@ -149,7 +149,7 @@ class _VipPageState extends State<VipPage> {
           },
         );
         if (res.data['code'] == '1000') {
-          aliPay(res.data['data'], evn: AliPayEvn.SANDBOX);
+          aliPay(res.data['data']);
         }
       }
     } catch (err) {
@@ -386,7 +386,7 @@ class _VipPageState extends State<VipPage> {
                                 ),
                                 decoration: ShapeDecoration(
                                   color: _planId == _planList[index]['planId']
-                                      ? Color.fromRGBO(255, 238, 196, .15)
+                                      ? Color.fromRGBO(255, 238, 196, .25)
                                       : Colors.transparent,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -430,7 +430,7 @@ class _VipPageState extends State<VipPage> {
                             separatorBuilder:
                                 (BuildContext context, int index) =>
                                     VerticalDivider(
-                              width: 16.0,
+                              width: 20.w,
                             ),
                             itemCount: _planList.length,
                           ),
@@ -504,7 +504,7 @@ class _VipPageState extends State<VipPage> {
                               width: 54.h,
                               height: 54.h,
                               margin: EdgeInsets.only(
-                                right: 5.w,
+                                right: 4,
                               ),
                               decoration: ShapeDecoration(
                                 shape: CircleBorder(),
@@ -564,7 +564,7 @@ class _VipPageState extends State<VipPage> {
                 color: Color(0xffc78f4f),
                 onPressed: () => _showPaymentMethod(),
                 child: Text(
-                  '立即购买',
+                  '立即升级',
                   style: TextStyle(
                     height: 1.2,
                     color: Colors.white,

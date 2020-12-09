@@ -274,8 +274,8 @@ class _SearchPageState extends State<SearchPage>
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Container(
-          width: 60,
-          height: 60,
+          width: 65.w,
+          height: 65.w,
           child: const Icon(
             Icons.settings,
             color: Colors.white,
@@ -385,8 +385,8 @@ class SearchInput extends StatelessWidget {
       ),
       child: Container(
         padding: EdgeInsets.only(
-          top: 2.h,
-          bottom: 2.h,
+          top: 2,
+          bottom: 2,
           right: 10.w,
         ),
         decoration: ShapeDecoration(
