@@ -274,8 +274,8 @@ class _SearchPageState extends State<SearchPage>
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Container(
-          width: 65.w,
-          height: 65.w,
+          width: double.infinity,
+          height: double.infinity,
           child: const Icon(
             Icons.settings,
             color: Colors.white,

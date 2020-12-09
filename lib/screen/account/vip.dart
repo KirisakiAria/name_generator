@@ -284,7 +284,7 @@ class _VipPageState extends State<VipPage> {
                       children: <Widget>[
                         Container(
                           padding: EdgeInsets.all(
-                            30.h,
+                            32.h,
                           ),
                           width: 320.w,
                           decoration: BoxDecoration(
@@ -297,8 +297,8 @@ class _VipPageState extends State<VipPage> {
                           child: Column(
                             children: [
                               SizedBox(
-                                width: 65.w,
-                                height: 65.w,
+                                width: 70.w,
+                                height: 70.w,
                                 child: Container(
                                   decoration: ShapeDecoration(
                                     shape: CircleBorder(
@@ -361,11 +361,11 @@ class _VipPageState extends State<VipPage> {
                         ItemTitle('会员套餐'),
                         Container(
                           padding: EdgeInsets.only(
-                            top: 20.h,
+                            top: 30.h,
                             left: 20.w,
                             right: 20.w,
                           ),
-                          height: 190.h,
+                          height: 200.h,
                           child: ListView.separated(
                             padding: EdgeInsets.only(
                               top: 10.h,
@@ -438,7 +438,7 @@ class _VipPageState extends State<VipPage> {
                         ItemTitle('会员政策'),
                         Padding(
                           padding: EdgeInsets.only(
-                            top: 20.h,
+                            top: 30.h,
                             left: 20.w,
                             right: 20.w,
                           ),
@@ -494,15 +494,15 @@ class _VipPageState extends State<VipPage> {
                         ItemTitle('会员权益'),
                         ListView.builder(
                           padding: EdgeInsets.only(
-                            top: 25.h,
+                            top: 30.h,
                             bottom: 100.h,
                           ),
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) => ListTile(
                             leading: Container(
-                              width: 54.h,
-                              height: 54.h,
+                              width: 50.w,
+                              height: 50.w,
                               margin: EdgeInsets.only(
                                 right: 4,
                               ),
@@ -556,13 +556,14 @@ class _VipPageState extends State<VipPage> {
               padding: EdgeInsets.only(
                 bottom: 20.h,
               ),
-              child: FlatButton(
+              child: RaisedButton(
                 padding: EdgeInsets.symmetric(
                   horizontal: 110.w,
                   vertical: 15.h,
                 ),
                 color: Color(0xffc78f4f),
                 onPressed: () => _showPaymentMethod(),
+                elevation: 6,
                 child: Text(
                   '立即升级',
                   style: TextStyle(

@@ -258,8 +258,8 @@ class _GeneratePageState extends State<GeneratePage>
       ),
       floatingActionButton: FloatingActionButton(
         child: Container(
-          width: 65.w,
-          height: 65.w,
+          width: double.infinity,
+          height: double.infinity,
           child: const Icon(
             const IconData(
               CustomIconData.dictionary,
