@@ -15,7 +15,8 @@ class API {
   static const String notification = '/notification';
   static const String history = '/user/history';
   static const String favourite = '/user/favourite';
-  static const String purchase = '/user/purchase';
+  static const String pay = '/user/pay';
+  static const String paySuccess = '/user/pay/success';
   static const String login = '/user/login';
   static const String register = '/user/register';
   static const String changePassword = '/user/changepassword';

@@ -137,7 +137,7 @@ class _VipPageState extends State<VipPage> {
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
-        final String path = API.purchase;
+        final String path = API.pay;
         final Response res = await Request(
           context: context,
         ).httpPost(
@@ -149,7 +149,31 @@ class _VipPageState extends State<VipPage> {
           },
         );
         if (res.data['code'] == '1000') {
-          aliPay(res.data['data']);
+          Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
+          print(payResult);
+          if (payResult['result']['alipay_trade_app_pay_response']['code'] ==
+              '10000') {
+            final String paySuccessPath = API.paySuccess;
+            final Response res = await Request(
+              context: context,
+            ).httpPost(
+              paySuccessPath,
+              <String, dynamic>{
+                'tel': context.read<UserProvider>().tel,
+                'planId': _planId,
+                'paymentMethod': _paymentMethod,
+              },
+            );
+            if (res.data['code'] == '1000') {
+              _getUserData();
+              final SnackBar snackBar = SnackBar(
+                content: Text('VIP会员购买成功，感谢您的支持！'),
+                duration: Duration(seconds: 2),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            }
+          }
         }
       }
     } catch (err) {
