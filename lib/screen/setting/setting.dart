@@ -60,8 +60,9 @@ class _SettingPageState extends State<SettingPage> {
     if (null == value) {
       return '0.00MB';
     }
+    List list = [];
     //级联运算符 (..) 可以实现对同一个对像进行一系列的操作
-    final List<String> unitArr = List()..add('B')..add('K')..add('M')..add('G');
+    final List<String> unitArr = list..add('B')..add('K')..add('M')..add('G');
     int index = 0;
     while (value > 1024) {
       index++;

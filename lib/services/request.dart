@@ -71,9 +71,12 @@ class Request {
                 Animation<double> anim2,
                 Widget child,
               ) {
-                return Transform.scale(
-                  scale: anim1.value,
-                  child: child,
+                return Opacity(
+                  opacity: anim1.value,
+                  child: Transform.scale(
+                    scale: anim1.value,
+                    child: child,
+                  ),
                 );
               },
             );

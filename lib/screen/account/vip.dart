@@ -1,12 +1,11 @@
 //核心库
-import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tobias/tobias.dart';
 //请求
@@ -150,8 +149,8 @@ class _VipPageState extends State<VipPage> {
         );
         if (res.data['code'] == '1000') {
           Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
-          print(payResult);
-          if (payResult['result']['alipay_trade_app_pay_response']['code'] ==
+          Map<dynamic, dynamic> payResultObj = json.decode(payResult['result']);
+          if (payResultObj['alipay_trade_app_pay_response']['code'] ==
               '10000') {
             final String paySuccessPath = API.paySuccess;
             final Response res = await Request(
@@ -161,13 +160,21 @@ class _VipPageState extends State<VipPage> {
               <String, dynamic>{
                 'tel': context.read<UserProvider>().tel,
                 'planId': _planId,
-                'paymentMethod': _paymentMethod,
+                'orderNo': payResultObj['alipay_trade_app_pay_response']
+                    ['out_trade_no'],
               },
             );
             if (res.data['code'] == '1000') {
               _getUserData();
               final SnackBar snackBar = SnackBar(
                 content: Text('VIP会员购买成功，感谢您的支持！'),
+                duration: Duration(seconds: 2),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            } else {
+              final SnackBar snackBar = SnackBar(
+                content: Text('购买失败，请联系客服人员'),
                 duration: Duration(seconds: 2),
               );
               ScaffoldMessenger.of(context).removeCurrentSnackBar();

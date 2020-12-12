@@ -115,10 +115,12 @@ class _OrderListState extends State<OrderList> {
             return LoadingView(_loadingStatus);
           } else {
             return ListItem(
-              id: _list[index]['_id'],
-              title: _list[index]['title'],
-              content: _list[index]['content'],
-              date: _list[index]['date'],
+              orderNo: _list[index]['orderNo'],
+              desc: _list[index]['desc'],
+              price: _list[index]['price'],
+              time: _list[index]['time'],
+              paymentMethod: _list[index]['paymentMethod'],
+              status: _list[index]['status'],
             );
           }
         },
@@ -128,16 +130,18 @@ class _OrderListState extends State<OrderList> {
 }
 
 class ListItem extends StatelessWidget {
-  final String id, title, content, date;
+  final String orderNo, desc, price, time, paymentMethod, status;
 
   ListItem({
-    @required this.id,
-    @required this.title,
-    @required this.content,
-    @required this.date,
+    @required this.orderNo,
+    @required this.desc,
+    @required this.price,
+    @required this.time,
+    @required this.paymentMethod,
+    @required this.status,
   });
 
-  //查看通知详情弹窗
+  //查看订单详情弹窗
   void _checkDetails(BuildContext context) async {
     showGeneralDialog(
       context: context,
@@ -150,7 +154,7 @@ class ListItem extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          title: Text(title),
+          title: Text('订单详情'),
           scrollable: true,
           content: SizedBox(
             width: 340.w,
@@ -158,18 +162,18 @@ class ListItem extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(
-                      bottom: 25.h,
-                    ),
-                    child: Text(
-                      date.substring(0, 10),
-                      style: TextStyle(
-                        color: context.watch<SkinProvider>().color['subtitle'],
-                      ),
-                    ),
-                  ),
-                  Text(content),
+                  // Container(
+                  //   margin: EdgeInsets.only(
+                  //     bottom: 25.h,
+                  //   ),
+                  //   child: Text(
+                  //     date.substring(0, 10),
+                  //     style: TextStyle(
+                  //       color: context.watch<SkinProvider>().color['subtitle'],
+                  //     ),
+                  //   ),
+                  // ),
+                  // Text(content),
                 ],
               ),
             ),
@@ -226,40 +230,22 @@ class ListItem extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => _checkDetails(context),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  width: 250.w,
-                  child: Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
+            Container(
+              child: Text(
+                desc,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: context.watch<SkinProvider>().color['subtitle'],
                 ),
-                Container(
-                  width: 250.w,
-                  margin: EdgeInsets.only(
-                    top: 10.h,
-                  ),
-                  child: Text(
-                    content,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: context.watch<SkinProvider>().color['subtitle'],
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
             Container(
               child: Text(
-                date.substring(0, 10),
+                time,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 12,

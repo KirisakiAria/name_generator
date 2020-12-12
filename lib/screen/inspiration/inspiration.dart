@@ -59,7 +59,7 @@ class _InspirationPageState extends State<InspirationPage>
     }
   }
 
-  Future<bool> _like(bool islike) async {
+  Future<void> _like(bool islike) async {
     try {
       bool loginState = context.read<UserProvider>().loginState;
       if (!loginState) {
