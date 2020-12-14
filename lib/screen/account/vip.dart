@@ -57,6 +57,7 @@ class _VipPageState extends State<VipPage> {
   ];
 
   List<dynamic> _planList = <dynamic>[];
+  List<dynamic> _paymentMethodList = <dynamic>[];
   //套餐
   String _planId = '1';
   bool _vip = false;
@@ -91,6 +92,23 @@ class _VipPageState extends State<VipPage> {
         setState(() {
           _vip = data['vip'];
           _vipEndTime = data['vipEndTime'];
+        });
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> _getPaymentMethodData() async {
+    try {
+      final String path = API.paymentMethod;
+      final Response res = await Request(
+        context: context,
+      ).httpGet('$path');
+      if (res.data['code'] == '1000') {
+        print(_paymentMethodList);
+        setState(() {
+          _paymentMethodList = res.data['data']['list'];
         });
       }
     } catch (err) {
@@ -229,6 +247,14 @@ class _VipPageState extends State<VipPage> {
                       title: const Text('微信(暂不可用)'),
                       selected: _paymentMethod == '2',
                     ),
+                    RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: '3',
+                      onChanged: null,
+                      groupValue: _paymentMethod,
+                      title: const Text('华为支付'),
+                      selected: _paymentMethod == '3',
+                    ),
                     Container(
                       margin: EdgeInsets.only(
                         top: 30.h,
@@ -277,6 +303,7 @@ class _VipPageState extends State<VipPage> {
   void initState() {
     super.initState();
     _getPlanData();
+    _getPaymentMethodData();
     _getUserData();
   }
 
@@ -509,7 +536,7 @@ class _VipPageState extends State<VipPage> {
                                               context,
                                               '/webview',
                                               arguments: <String, String>{
-                                                'title': '服务条款',
+                                                'title': '会员政策',
                                                 'url': '${API.host}/#/vip'
                                               },
                                             );

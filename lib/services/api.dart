@@ -29,5 +29,6 @@ class API {
   static const String update = '/app/update';
   static const String downloadlink = '/service/downloadlink';
   static const String plan = '/plan';
+  static const String paymentMethod = '/data_dictionary/paymentmethod';
   static const String order = '/order/my';
 }

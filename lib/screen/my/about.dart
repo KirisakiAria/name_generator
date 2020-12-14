@@ -152,12 +152,12 @@ class _AboutPageState extends State<AboutPage> {
                             context,
                             '/webview',
                             arguments: <String, String>{
-                              'title': '会员须知',
+                              'title': '会员政策',
                               'url': '${API.host}/#/vip',
                             },
                           ),
                           title: Text(
-                            '会员须知',
+                            '会员政策',
                             style: TextStyle(
                               height: 1,
                               color:
