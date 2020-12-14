@@ -62,7 +62,6 @@ class _VipPageState extends State<VipPage> {
   String _planId = '1';
   bool _vip = false;
   String _vipEndTime = '';
-  //支付方式 1 支付宝 2微信
   String _paymentMethod = '1';
 
   Future<void> _getUserData() async {
@@ -106,7 +105,6 @@ class _VipPageState extends State<VipPage> {
         context: context,
       ).httpGet('$path');
       if (res.data['code'] == '1000') {
-        print(_paymentMethodList);
         setState(() {
           _paymentMethodList = res.data['data']['list'];
         });
@@ -132,7 +130,7 @@ class _VipPageState extends State<VipPage> {
     }
   }
 
-  Future<void> _purchase() async {
+  Future<void> _pay() async {
     try {
       if (_paymentMethod == '1') {
         bool result = await isAliPayInstalled();
@@ -227,33 +225,37 @@ class _VipPageState extends State<VipPage> {
                 width: 350.w,
                 child: Column(
                   children: <Widget>[
-                    RadioListTile(
-                      activeColor: Style.defaultColor['activeSwitchTrack'],
-                      value: '1',
-                      onChanged: (value) {
-                        setState(() {
-                          _paymentMethod = value;
-                        });
-                      },
-                      groupValue: _paymentMethod,
-                      title: const Text('支付宝'),
-                      selected: _paymentMethod == '1',
-                    ),
-                    RadioListTile(
-                      activeColor: Style.defaultColor['activeSwitchTrack'],
-                      value: '2',
-                      onChanged: null,
-                      groupValue: _paymentMethod,
-                      title: const Text('微信(暂不可用)'),
-                      selected: _paymentMethod == '2',
-                    ),
-                    RadioListTile(
-                      activeColor: Style.defaultColor['activeSwitchTrack'],
-                      value: '3',
-                      onChanged: null,
-                      groupValue: _paymentMethod,
-                      title: const Text('华为支付'),
-                      selected: _paymentMethod == '3',
+                    Container(
+                      height: 250.h,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => RadioListTile(
+                          activeColor: Style.defaultColor['activeSwitchTrack'],
+                          value: _paymentMethodList[index]['paymentId'],
+                          onChanged: (value) {
+                            if (_paymentMethodList[index]['available']) {
+                              setState(() {
+                                _paymentMethod = value;
+                              });
+                            } else {
+                              final SnackBar snackBar = SnackBar(
+                                content: Text('此支付方式暂不可用'),
+                                duration: Duration(seconds: 2),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
+                          groupValue: _paymentMethod,
+                          title: Text(_paymentMethodList[index]['name']),
+                          selected: _paymentMethod ==
+                              _paymentMethodList[index]['paymentId'],
+                        ),
+                        itemCount: _paymentMethodList.length,
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -268,7 +270,7 @@ class _VipPageState extends State<VipPage> {
                         paddingVertical: 14.h,
                         callback: () {
                           Navigator.pop(context);
-                          _purchase();
+                          _pay();
                         },
                       ),
                     ),
