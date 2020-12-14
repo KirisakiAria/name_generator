@@ -120,6 +120,9 @@ class _InspirationHistoryDetailsPageState
               ),
             ),
             Container(
+              padding: EdgeInsets.only(
+                bottom: 30.h,
+              ),
               child: Center(
                 child: Text(
                   _japanese['contentTranslation'],

@@ -326,7 +326,7 @@ class _VipPageState extends State<VipPage> {
                             ),
                           ),
                           child: Column(
-                            children: [
+                            children: <Widget>[
                               SizedBox(
                                 width: 70.w,
                                 height: 70.w,
@@ -494,7 +494,7 @@ class _VipPageState extends State<VipPage> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
-                                    children: [
+                                    children: <InlineSpan>[
                                       TextSpan(
                                         text: '购买VIP会员之前请先阅读  ',
                                       ),
@@ -627,7 +627,7 @@ class ItemTitle extends StatelessWidget {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(
                   right: 12.h,

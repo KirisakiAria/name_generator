@@ -95,7 +95,7 @@ class _GeneratePageState extends State<GeneratePage>
                   fontSize: 16,
                   color: context.watch<SkinProvider>().color['text'],
                 ),
-                children: <TextSpan>[
+                children: <InlineSpan>[
                   TextSpan(text: '我们根据相关法律法规制定了'),
                   TextSpan(
                     text: '隐私协议',
@@ -800,7 +800,7 @@ class OptionsDialog extends Dialog {
         alignment: Alignment.bottomCenter,
         child: SizedBox(
           width: double.infinity,
-          height: 320.h,
+          height: 400.h,
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(

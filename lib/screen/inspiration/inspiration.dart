@@ -59,7 +59,7 @@ class _InspirationPageState extends State<InspirationPage>
     }
   }
 
-  Future<void> _like(bool islike) async {
+  Future<bool> _like(bool islike) async {
     try {
       bool loginState = context.read<UserProvider>().loginState;
       if (!loginState) {
@@ -69,7 +69,7 @@ class _InspirationPageState extends State<InspirationPage>
         );
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        return false;
+        return Future<bool>.value(false);
       }
       final String path = API.likeInspiration;
       final Response res = await Request(
@@ -94,9 +94,10 @@ class _InspirationPageState extends State<InspirationPage>
           },
         );
       }
-      return _isLiked;
+      return Future<bool>.value(_isLiked);
     } catch (err) {
       print(err);
+      return Future<bool>.value(false);
     }
   }
 

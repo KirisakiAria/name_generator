@@ -299,7 +299,7 @@ class _VIPState extends State<VIP> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: 10),
                   child: Text(

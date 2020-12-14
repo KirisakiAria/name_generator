@@ -116,9 +116,9 @@ class _OrderListState extends State<OrderList> {
           } else {
             return ListItem(
               orderNo: _list[index]['orderNo'],
-              desc: _list[index]['desc'],
-              price: _list[index]['price'],
-              time: _list[index]['time'],
+              body: _list[index]['body'],
+              price: _list[index]['price'].toString(),
+              time: _list[index]['convertedTime'],
               paymentMethod: _list[index]['paymentMethod'],
               status: _list[index]['status'],
             );
@@ -130,11 +130,12 @@ class _OrderListState extends State<OrderList> {
 }
 
 class ListItem extends StatelessWidget {
-  final String orderNo, desc, price, time, paymentMethod, status;
+  final String orderNo, body, price, time, paymentMethod;
+  final bool status;
 
   ListItem({
     @required this.orderNo,
-    @required this.desc,
+    @required this.body,
     @required this.price,
     @required this.time,
     @required this.paymentMethod,
@@ -161,19 +162,80 @@ class ListItem extends StatelessWidget {
             height: 470.h,
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Container(
-                  //   margin: EdgeInsets.only(
-                  //     bottom: 25.h,
-                  //   ),
-                  //   child: Text(
-                  //     date.substring(0, 10),
-                  //     style: TextStyle(
-                  //       color: context.watch<SkinProvider>().color['subtitle'],
-                  //     ),
-                  //   ),
-                  // ),
-                  // Text(content),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: Text(
+                      '订单号：$orderNo',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.watch<SkinProvider>().color['order'],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: Text(
+                      '订单描述：$body',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.watch<SkinProvider>().color['order'],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: Text(
+                      '订单金额：$price',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.watch<SkinProvider>().color['order'],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: Text(
+                      '订单时间：$time',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.watch<SkinProvider>().color['order'],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: Text(
+                      '支付方式：${paymentMethod == '1' ? '支付宝' : '微信'}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.watch<SkinProvider>().color['order'],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: Text(
+                      '订单状态：${status ? '已完成' : '失败'}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: context.watch<SkinProvider>().color['order'],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -231,27 +293,63 @@ class ListItem extends StatelessWidget {
         behavior: HitTestBehavior.translucent,
         onTap: () => _checkDetails(context),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
-              child: Text(
-                desc,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: context.watch<SkinProvider>().color['subtitle'],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(
+                    bottom: 15.h,
+                  ),
+                  child: Text(
+                    body,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      height: 1,
+                      fontSize: 14,
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  child: Text(
+                    '金额：${price.toString()}',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      height: 1.1,
+                      fontSize: 12,
+                      color: context.watch<SkinProvider>().color['subtitle'],
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Container(
-              child: Text(
-                time,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: context.watch<SkinProvider>().color['subtitle'],
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(
+                    right: 20.w,
+                  ),
+                  child: Text(
+                    '支付类型：${paymentMethod == '1' ? '支付宝' : '微信'}',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.watch<SkinProvider>().color['subtitle'],
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  child: Text(
+                    '创建时间：$time',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: context.watch<SkinProvider>().color['subtitle'],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
