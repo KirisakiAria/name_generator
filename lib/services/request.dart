@@ -19,8 +19,8 @@ import '../model/user.dart';
 
 class Request {
   //超时时间
-  static const int CONNECT_TIMEOUT = 10000;
-  static const int RECEIVE_TIMEOUT = 10000;
+  static const int connect_timeout = 10000;
+  static const int receive_timeout = 10000;
 
   final Dio _dio = Dio();
 
@@ -37,8 +37,8 @@ class Request {
       'secret': API.secret,
     };
     _dio.options.baseUrl = API.api_prefix;
-    _dio.options.connectTimeout = CONNECT_TIMEOUT;
-    _dio.options.receiveTimeout = RECEIVE_TIMEOUT;
+    _dio.options.connectTimeout = connect_timeout;
+    _dio.options.receiveTimeout = receive_timeout;
     //解决https证书不通过的问题（实际上是允许所有https证书，不安全，找到更好的办法后会更新）
     (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
