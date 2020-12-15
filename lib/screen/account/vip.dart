@@ -132,18 +132,6 @@ class _VipPageState extends State<VipPage> {
 
   Future<void> _pay() async {
     try {
-      if (_paymentMethod == '1') {
-        bool result = await isAliPayInstalled();
-        if (!result) {
-          final SnackBar snackBar = SnackBar(
-            content: Text('请先安装支付宝'),
-            duration: Duration(seconds: 2),
-          );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          return Future;
-        }
-      }
       if (_vipEndTime == '永久') {
         final SnackBar snackBar = SnackBar(
           content: Text('您已经是永久会员'),
@@ -152,49 +140,62 @@ class _VipPageState extends State<VipPage> {
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
-        final String path = API.pay;
-        final Response res = await Request(
-          context: context,
-        ).httpPost(
-          path,
-          <String, dynamic>{
-            'tel': context.read<UserProvider>().tel,
-            'planId': _planId,
-            'paymentMethod': _paymentMethod,
-          },
-        );
-        if (res.data['code'] == '1000') {
-          Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
-          Map<dynamic, dynamic> payResultObj = json.decode(payResult['result']);
-          if (payResultObj['alipay_trade_app_pay_response']['code'] ==
-              '10000') {
-            final String paySuccessPath = API.paySuccess;
-            final Response res = await Request(
-              context: context,
-            ).httpPost(
-              paySuccessPath,
-              <String, dynamic>{
-                'tel': context.read<UserProvider>().tel,
-                'planId': _planId,
-                'orderNo': payResultObj['alipay_trade_app_pay_response']
-                    ['out_trade_no'],
-              },
+        if (_paymentMethod == '1') {
+          bool result = await isAliPayInstalled();
+          if (!result) {
+            final SnackBar snackBar = SnackBar(
+              content: Text('请先安装支付宝'),
+              duration: Duration(seconds: 2),
             );
-            if (res.data['code'] == '1000') {
-              _getUserData();
-              final SnackBar snackBar = SnackBar(
-                content: Text('VIP会员购买成功，感谢您的支持！'),
-                duration: Duration(seconds: 2),
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            return Future;
+          }
+          final String path = API.pay;
+          final Response res = await Request(
+            context: context,
+          ).httpPost(
+            path,
+            <String, dynamic>{
+              'tel': context.read<UserProvider>().tel,
+              'planId': _planId,
+              'paymentMethod': _paymentMethod,
+            },
+          );
+          if (res.data['code'] == '1000') {
+            Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
+            Map<dynamic, dynamic> payResultObj =
+                json.decode(payResult['result']);
+            if (payResultObj['alipay_trade_app_pay_response']['code'] ==
+                '10000') {
+              final String paySuccessPath = API.paySuccess;
+              final Response res = await Request(
+                context: context,
+              ).httpPost(
+                paySuccessPath,
+                <String, dynamic>{
+                  'tel': context.read<UserProvider>().tel,
+                  'planId': _planId,
+                  'orderNo': payResultObj['alipay_trade_app_pay_response']
+                      ['out_trade_no'],
+                },
               );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            } else {
-              final SnackBar snackBar = SnackBar(
-                content: Text('购买失败，请联系客服人员'),
-                duration: Duration(seconds: 2),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              if (res.data['code'] == '1000') {
+                _getUserData();
+                final SnackBar snackBar = SnackBar(
+                  content: Text('VIP会员购买成功，感谢您的支持！'),
+                  duration: Duration(seconds: 2),
+                );
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              } else {
+                final SnackBar snackBar = SnackBar(
+                  content: Text('购买失败，请联系客服人员'),
+                  duration: Duration(seconds: 2),
+                );
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             }
           }
         }

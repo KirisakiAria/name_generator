@@ -143,7 +143,7 @@ class _SearchPageState extends State<SearchPage>
         Animation<double> anim1,
         Animation<double> anim2,
       ) {
-        return VipTipsDialog('使用高级搜索选项需要开通VIP');
+        return VipTipsDialog('使用高级搜索选项（情侣模式、生成情侣名模式）需要开通VIP');
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
       transitionDuration: Duration(milliseconds: 200),
