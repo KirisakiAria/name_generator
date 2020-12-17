@@ -49,8 +49,8 @@ class _SettingPageState extends State<SettingPage> {
         return total;
       }
       return 0;
-    } catch (e) {
-      print(e);
+    } catch (err) {
+      print(err);
       return 0;
     }
   }

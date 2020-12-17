@@ -192,9 +192,13 @@ class _GeneratePageState extends State<GeneratePage>
     WidgetsBinding widgetsBinding = WidgetsBinding.instance;
     //绘制完最后一帧时回调，并且只调用一次。类似于Vue里的mounted钩子
     widgetsBinding.addPostFrameCallback((callback) async {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final dynamic accepted = prefs.getBool('accepted');
-      accepted ?? _showAgreementPopup();
+      try {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final dynamic accepted = prefs.getBool('accepted');
+        accepted ?? _showAgreementPopup();
+      } catch (err) {
+        print(err);
+      }
     });
   }
 
@@ -791,6 +795,33 @@ class _SelectState extends State<Select> {
 class OptionsDialog extends Dialog {
   OptionsDialog({Key key}) : super(key: key);
 
+  //提示VIP弹窗
+  void _promptVip(BuildContext context) async {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+      ) {
+        return VipTipsDialog('使用情侣模式需要开通VIP');
+      },
+      barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      transitionDuration: Duration(milliseconds: 200),
+      transitionBuilder: (
+        BuildContext context,
+        Animation<double> anim1,
+        Animation<double> anim2,
+        Widget child,
+      ) {
+        return Transform.scale(
+          scale: anim1.value,
+          child: child,
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -838,21 +869,23 @@ class OptionsDialog extends Dialog {
                   currentValue: context.watch<WordOptionsProvider>().length,
                   child: SelectBox(),
                 ),
-                Offstage(
-                  offstage: !context.watch<UserProvider>().vip,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 80.w,
-                    ),
-                    child: CheckboxListTile(
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 80.w,
+                  ),
+                  child: CheckboxListTile(
                       activeColor: Style.defaultColor['activeSwitchTrack'],
                       title: const Text('情侣模式'),
                       value: context.watch<WordOptionsProvider>().couples,
-                      onChanged: (bool value) => context
-                          .read<WordOptionsProvider>()
-                          .changeCouples(value),
-                    ),
-                  ),
+                      onChanged: (bool value) {
+                        if (context.read<UserProvider>().vip) {
+                          context
+                              .read<WordOptionsProvider>()
+                              .changeCouples(value);
+                        } else {
+                          _promptVip(context);
+                        }
+                      }),
                 ),
                 Container(
                   width: double.infinity,

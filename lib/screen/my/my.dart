@@ -494,6 +494,7 @@ class Menu extends StatelessWidget {
                           ),
                           onPressed: () async {
                             try {
+                              Navigator.pop(context);
                               context.read<UserProvider>().logOut();
                               context
                                   .read<WordOptionsProvider>()

@@ -203,36 +203,40 @@ class _UsernameState extends State<Username> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () async {
-        Map result = await showGeneralDialog(
-          context: context,
-          barrierColor: Colors.grey.withOpacity(.4),
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> anim1,
-            Animation<double> anim2,
-          ) {
-            return EditUserNameDialog();
-          },
-          transitionDuration: Duration(milliseconds: 300),
-          transitionBuilder: (
-            BuildContext context,
-            Animation<double> anim1,
-            Animation<double> anim2,
-            Widget child,
-          ) {
-            return Transform.scale(
-              scale: anim1.value,
-              child: child,
-            );
-          },
-        );
-        if (result['success']) {
-          final SnackBar snackBar = SnackBar(
-            content: const Text('修改用户名成功'),
-            duration: Duration(seconds: 2),
+        try {
+          Map result = await showGeneralDialog(
+            context: context,
+            barrierColor: Colors.grey.withOpacity(.4),
+            pageBuilder: (
+              BuildContext context,
+              Animation<double> anim1,
+              Animation<double> anim2,
+            ) {
+              return EditUserNameDialog();
+            },
+            transitionDuration: Duration(milliseconds: 300),
+            transitionBuilder: (
+              BuildContext context,
+              Animation<double> anim1,
+              Animation<double> anim2,
+              Widget child,
+            ) {
+              return Transform.scale(
+                scale: anim1.value,
+                child: child,
+              );
+            },
           );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          if (result['success']) {
+            final SnackBar snackBar = SnackBar(
+              content: const Text('修改用户名成功'),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          }
+        } catch (err) {
+          print(err);
         }
       },
       child: Container(
@@ -496,9 +500,13 @@ class EditUserNameDialog extends Dialog {
 
         //表单验证
         void _formValidate() async {
-          if (_formKey.currentState.validate()) {
-            _formKey.currentState.save();
-            await _changeUsername();
+          try {
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              await _changeUsername();
+            }
+          } catch (err) {
+            print(err);
           }
         }
 

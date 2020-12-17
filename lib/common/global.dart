@@ -6,9 +6,13 @@ class Global {
   static String buildNumber; //小版本号
 
   static Future<void> init() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    packageName = packageInfo.packageName;
-    version = packageInfo.version;
-    buildNumber = packageInfo.buildNumber;
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      packageName = packageInfo.packageName;
+      version = packageInfo.version;
+      buildNumber = packageInfo.buildNumber;
+    } catch (err) {
+      print(err);
+    }
   }
 }

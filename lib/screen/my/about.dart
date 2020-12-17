@@ -205,7 +205,7 @@ class _AboutPageState extends State<AboutPage> {
                             try {
                               launch(
                                   'market://details?id=${Global.packageName}');
-                            } catch (e) {
+                            } catch (err) {
                               launch(
                                   'https://play.google.com/store/apps/details?id=${Global.packageName}');
                             }
