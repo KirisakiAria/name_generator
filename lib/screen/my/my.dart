@@ -255,6 +255,60 @@ class Menu extends StatelessWidget {
               } else {
                 Navigator.pushNamed(
                   context,
+                  '/webview',
+                  arguments: <String, String>{
+                    'title': '使用方法',
+                    'url': '${API.host}/#/usage',
+                  },
+                );
+              }
+            },
+            child: Container(
+              child: SizedBox(
+                width: 90.w,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClipOval(
+                      child: Container(
+                        padding: EdgeInsets.all(
+                          15.w,
+                        ),
+                        color: context.watch<SkinProvider>().color['widget'],
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.book,
+                            fontFamily: 'iconfont',
+                          ),
+                          color: context.watch<SkinProvider>().color['text'],
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      '使用教程',
+                      style: TextStyle(
+                        height: 2.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              final bool loginState = context.read<UserProvider>().loginState;
+              if (!loginState) {
+                final SnackBar snackBar = SnackBar(
+                  content: const Text('请先登录再使用此菜单'),
+                  duration: Duration(seconds: 2),
+                );
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              } else {
+                Navigator.pushNamed(
+                  context,
                   '/favourites',
                 );
               }

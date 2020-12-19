@@ -110,10 +110,8 @@ class _CustomFormState extends State<CustomForm> {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', data['token']);
         prefs.setString('tel', data['tel']);
-        Navigator.pushNamed(
-          context,
-          '/home',
-        );
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
       }
     } catch (err) {
       print(err);

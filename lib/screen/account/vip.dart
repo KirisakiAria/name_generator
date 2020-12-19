@@ -2,12 +2,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+//import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tobias/tobias.dart';
+//import 'package:huawei_iap/HmsIapLibrary.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
@@ -63,6 +65,26 @@ class _VipPageState extends State<VipPage> {
   bool _vip = false;
   String _vipEndTime = '';
   String _paymentMethod = '1';
+
+  //华为支付
+  // String _isEnvReadyStatus;
+
+  // dynamic _environmentCheck() async {
+  //   _isEnvReadyStatus = null;
+  //   try {
+  //     IsEnvReadyResult response = await IapClient.isEnvReady();
+  //     setState(() {
+  //       _isEnvReadyStatus = response.status.statusMessage;
+  //       print(_isEnvReadyStatus);
+  //     });
+  //   } catch (e) {
+  //     if (e.code == HmsIapResults.LOG_IN_ERROR.resultCode) {
+  //       print(HmsIapResults.LOG_IN_ERROR.resultMessage);
+  //     } else {
+  //       print(e.toString());
+  //     }
+  //   }
+  // }
 
   Future<void> _getUserData() async {
     try {
@@ -199,6 +221,9 @@ class _VipPageState extends State<VipPage> {
             }
           }
         }
+        // else if (_paymentMethod == '3') {
+        //   _environmentCheck();
+        // }
       }
     } catch (err) {
       print(err);
@@ -215,75 +240,73 @@ class _VipPageState extends State<VipPage> {
         Animation<double> anim2,
       ) {
         return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              title: const Text('请选择支付方式'),
-              scrollable: true,
-              content: SizedBox(
-                width: 350.w,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 250.h,
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) => RadioListTile(
-                          activeColor: Style.defaultColor['activeSwitchTrack'],
-                          value: _paymentMethodList[index]['paymentId'],
-                          onChanged: (value) {
-                            if (_paymentMethodList[index]['available']) {
-                              setState(() {
-                                _paymentMethod = value;
-                              });
-                            } else {
-                              final SnackBar snackBar = SnackBar(
-                                content: Text('此支付方式暂不可用'),
-                                duration: Duration(seconds: 2),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .removeCurrentSnackBar();
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
-                          },
-                          groupValue: _paymentMethod,
-                          title: Text(_paymentMethodList[index]['name']),
-                          selected: _paymentMethod ==
-                              _paymentMethodList[index]['paymentId'],
-                        ),
-                        itemCount: _paymentMethodList.length,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 30.h,
-                      ),
-                      child: CustomButton(
-                        text: '確認',
-                        bgColor: context.watch<SkinProvider>().color['button'],
-                        textColor:
-                            context.watch<SkinProvider>().color['background'],
-                        borderColor: Style.defaultColor['button'],
-                        paddingVertical: 14.h,
-                        callback: () {
-                          Navigator.pop(context);
-                          _pay();
+          builder: (context, setState) => AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: const Text('请选择支付方式'),
+            scrollable: true,
+            content: SizedBox(
+              width: 350.w,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 250.h,
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => RadioListTile(
+                        activeColor: Style.defaultColor['activeSwitchTrack'],
+                        value: _paymentMethodList[index]['paymentId'],
+                        onChanged: (value) {
+                          if (_paymentMethodList[index]['available']) {
+                            setState(() {
+                              _paymentMethod = value;
+                            });
+                          } else {
+                            final SnackBar snackBar = SnackBar(
+                              content: Text('此支付方式暂不可用'),
+                              duration: Duration(seconds: 2),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
                         },
+                        groupValue: _paymentMethod,
+                        title: Text(_paymentMethodList[index]['name']),
+                        selected: _paymentMethod ==
+                            _paymentMethodList[index]['paymentId'],
                       ),
+                      itemCount: _paymentMethodList.length,
                     ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 30.h,
+                    ),
+                    child: CustomButton(
+                      text: '確認',
+                      bgColor: context.watch<SkinProvider>().color['button'],
+                      textColor:
+                          context.watch<SkinProvider>().color['background'],
+                      borderColor: Style.defaultColor['button'],
+                      paddingVertical: 14.h,
+                      callback: () {
+                        Navigator.pop(context);
+                        _pay();
+                      },
+                    ),
+                  ),
+                ],
               ),
-              actionsPadding: EdgeInsets.only(
-                right: 12.h,
-                bottom: 12.h,
-              ),
-            );
-          },
+            ),
+            actionsPadding: EdgeInsets.only(
+              right: 12.h,
+              bottom: 12.h,
+            ),
+          ),
         );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),

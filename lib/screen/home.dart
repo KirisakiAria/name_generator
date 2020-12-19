@@ -1,10 +1,11 @@
 //核心库
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 //请求
 import '../services/api.dart';
 import '../services/request.dart';
@@ -123,11 +124,43 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  // 退出APP标记
+  bool isQuit = false;
+  // 清除标记定时器
+  Timer quitTimer;
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(375, 900));
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        // 可以返回
+        if (!Navigator.canPop(context)) {
+          // 检查退出标记
+          if (isQuit) {
+            // 退出APP
+            await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+          } else {
+            final SnackBar snackBar = SnackBar(
+              content: Text('再按一次退出APP'),
+              duration: Duration(seconds: 2),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            // 记录退出标记
+            isQuit = true;
+            // 开启定时器，两秒后清除标记
+            quitTimer = Timer(Duration(seconds: 2), () {
+              isQuit = false;
+              quitTimer.cancel();
+            });
+          }
+          // 阻止返回
+          return false;
+        }
+        isQuit = false;
+        // 默认正常运行
+        return true;
+      },
       child: Scaffold(
         body: PageView.builder(
           onPageChanged: _onPageChange,
@@ -152,7 +185,7 @@ class _HomePageState extends State<HomePage> {
           onTap: (index) {
             _pageController.animateToPage(
               index,
-              duration: Duration(milliseconds: 400),
+              duration: Duration(milliseconds: 300),
               curve: Curves.ease,
             );
           },

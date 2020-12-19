@@ -282,7 +282,6 @@ class _GeneratePageState extends State<GeneratePage>
           ),
         ),
         heroTag: null,
-        tooltip: '当前词语解释',
         elevation: 4,
         highlightElevation: 0,
         onPressed: () {
@@ -570,7 +569,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 20.h,
+                  top: 25.h,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -579,7 +578,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                       child: Text(
                         widget.word,
                         style: TextStyle(
-                          fontSize: widget.word.length > 5 ? 42 : 52,
+                          fontSize: widget.word.length > 5 ? 40.sp : 50.sp,
                           letterSpacing: 8,
                           height: 1,
                         ),
@@ -592,7 +591,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                           Text(
                             widget.word,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 38 : 46,
+                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
                               letterSpacing: 8,
                               height: 1.4,
                             ),
@@ -600,7 +599,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                           Text(
                             widget.word2,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 38 : 46,
+                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
                               letterSpacing: 8,
                               height: 1.4,
                             ),
@@ -871,11 +870,11 @@ class OptionsDialog extends Dialog {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 80.w,
+                    horizontal: 74.w,
                   ),
                   child: CheckboxListTile(
                       activeColor: Style.defaultColor['activeSwitchTrack'],
-                      title: const Text('情侣模式'),
+                      title: const Text('情侣模式（中国风）'),
                       value: context.watch<WordOptionsProvider>().couples,
                       onChanged: (bool value) {
                         if (context.read<UserProvider>().vip) {

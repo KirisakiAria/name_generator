@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 //model
 import './model/word_options.dart';
 import './model/user.dart';
@@ -71,15 +72,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '彼岸自在',
-      home: HomePage(),
-      theme: context.watch<SkinProvider>().theme,
-      routes: Routes.mappingList,
-      scaffoldMessengerKey: rootScaffoldMessengerKey,
-      navigatorObservers: [
-        GlobalNavigatorObserver(rootScaffoldMessengerKey),
-      ],
+    return ScreenUtilInit(
+      designSize: Size(375, 900),
+      allowFontScaling: false,
+      child: MaterialApp(
+        title: '彼岸自在',
+        home: HomePage(),
+        theme: context.watch<SkinProvider>().theme,
+        routes: Routes.mappingList,
+        scaffoldMessengerKey: rootScaffoldMessengerKey,
+        navigatorObservers: [
+          GlobalNavigatorObserver(rootScaffoldMessengerKey),
+        ],
+      ),
     );
   }
 }

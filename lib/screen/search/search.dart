@@ -675,7 +675,7 @@ class _SearchListState extends State<SearchList>
                               Text(
                                 list[index]['words'][0],
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18.sp,
                                   color: Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
@@ -689,7 +689,7 @@ class _SearchListState extends State<SearchList>
                               Text(
                                 list[index]['words'][1],
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18.sp,
                                   color: Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
@@ -707,7 +707,7 @@ class _SearchListState extends State<SearchList>
                             child: Text(
                               list[index]['word'],
                               style: TextStyle(
-                                fontSize: 22,
+                                fontSize: 20.sp,
                                 color: Colors.white,
                                 shadows: <Shadow>[
                                   Shadow(
