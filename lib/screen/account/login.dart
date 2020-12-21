@@ -68,12 +68,14 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
+  final FocusNode blankNode = FocusNode();
   String _tel, _password;
   //定义GlobalKey为了获取到form的状态
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   //表单验证
   void _formValidate() {
+    FocusScope.of(context).requestFocus(blankNode);
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       _login();

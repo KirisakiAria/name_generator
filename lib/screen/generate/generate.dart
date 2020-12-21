@@ -635,38 +635,32 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
   }
 }
 
-//自定义的select
-class InheritedSelect extends InheritedWidget {
-  //options列表
+class Select extends StatefulWidget {
   final List<String> list;
-  //选择之后回调
-  final void Function(String newValue) callback;
-  //当前值
-  final dynamic currentValue;
+  final String value;
+  final bool Function(String newValue) callback;
 
-  InheritedSelect({
-    Key key,
+  Select({
     @required this.list,
+    @required this.value,
     @required this.callback,
-    @required this.currentValue,
-    @required Widget child,
-  }) : super(key: key, child: child);
+  });
 
-  static InheritedSelect of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<InheritedSelect>();
-  }
-
-  //是否重建widget就取决于数据是否相同
   @override
-  bool updateShouldNotify(InheritedSelect oldWidget) {
-    return list != oldWidget.list;
-  }
+  _SelectState createState() => _SelectState();
 }
 
-class SelectBox extends StatelessWidget {
+class _SelectState extends State<Select> {
+  String value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final InheritedSelect inheritedSelect = InheritedSelect.of(context);
     return Container(
       width: 165.w,
       decoration: BoxDecoration(
@@ -679,112 +673,60 @@ class SelectBox extends StatelessWidget {
         horizontal: 20.w,
         vertical: 10.h,
       ),
-      child: Select(inheritedSelect.currentValue),
-    );
-  }
-}
-
-class Select extends StatefulWidget {
-  final String dropdownValue;
-
-  Select(this.dropdownValue);
-
-  @override
-  _SelectState createState() => _SelectState(dropdownValue);
-}
-
-class _SelectState extends State<Select> {
-  String dropdownValue;
-
-  _SelectState(this.dropdownValue);
-
-  //提示VIP弹窗
-  void _promptVip() async {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> anim1,
-        Animation<double> anim2,
-      ) {
-        return VipTipsDialog('查询此字数的ID需要开通VIP');
-      },
-      barrierColor: Color.fromRGBO(0, 0, 0, .4),
-      transitionDuration: Duration(milliseconds: 200),
-      transitionBuilder: (
-        BuildContext context,
-        Animation<double> anim1,
-        Animation<double> anim2,
-        Widget child,
-      ) {
-        return Transform.scale(
-          scale: anim1.value,
-          child: child,
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final InheritedSelect inheritedSelect = InheritedSelect.of(context);
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<String>(
-        isDense: true,
-        value: dropdownValue,
-        icon: Icon(
-          Icons.keyboard_arrow_down,
-          color: context.watch<SkinProvider>().color['text'],
-        ),
-        iconSize: 18,
-        elevation: 0,
-        isExpanded: true,
-        style: TextStyle(
-          color: context.watch<SkinProvider>().color['text'],
-          fontSize: 20,
-          height: 1.1,
-        ),
-        onChanged: (dynamic newValue) {
-          bool vip = context.read<UserProvider>().vip;
-          if (Utils.isNumber(newValue) && int.parse(newValue) > 5 && !vip) {
-            _promptVip();
-          } else {
-            setState(() {
-              dropdownValue = newValue;
-              inheritedSelect.callback(newValue);
-            });
-          }
-        },
-        dropdownColor: context.watch<SkinProvider>().color['background'],
-        items:
-            inheritedSelect.list.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Builder(
-              builder: (BuildContext content) {
-                if (Utils.isNumber(value) && int.parse(value) > 5) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        value,
-                        style: TextStyle(
-                          height: 1.25,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          isDense: true,
+          value: value,
+          icon: Icon(
+            Icons.keyboard_arrow_down,
+            color: context.watch<SkinProvider>().color['text'],
+          ),
+          iconSize: 18,
+          elevation: 0,
+          isExpanded: true,
+          style: TextStyle(
+            color: context.watch<SkinProvider>().color['text'],
+            fontSize: 20,
+            height: 1.1,
+          ),
+          onChanged: (dynamic newValue) {
+            bool result = widget.callback(newValue);
+            if (result) {
+              setState(() {
+                value = newValue;
+              });
+            }
+          },
+          dropdownColor: context.watch<SkinProvider>().color['background'],
+          items: widget.list.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Builder(
+                builder: (BuildContext content) {
+                  if (Utils.isNumber(value) && int.parse(value) > 5) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          value,
+                          style: TextStyle(
+                            height: 1.25,
+                          ),
                         ),
-                      ),
-                      Image(
-                        image: AssetImage('assets/images/vip/vip_tip.png'),
-                        width: 42.w,
-                      ),
-                    ],
-                  );
-                } else {
-                  return Text(value);
-                }
-              },
-            ),
-          );
-        }).toList(),
+                        Image(
+                          image: AssetImage('assets/images/vip/vip_tip.png'),
+                          width: 42.w,
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Text(value);
+                  }
+                },
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -852,21 +794,39 @@ class OptionsDialog extends Dialog {
                     ),
                   ),
                 ),
-                InheritedSelect(
+                Select(
                   list: OptionsData.typeList,
+                  value: context.watch<WordOptionsProvider>().type,
                   callback: (String newValue) {
-                    context.read<WordOptionsProvider>().changeType(newValue);
+                    bool vip = context.read<UserProvider>().vip;
+                    if (Utils.isNumber(newValue) &&
+                        int.parse(newValue) > 5 &&
+                        !vip) {
+                      _promptVip(context);
+                      return false;
+                    } else {
+                      context.read<WordOptionsProvider>().changeType(newValue);
+                      return true;
+                    }
                   },
-                  currentValue: context.watch<WordOptionsProvider>().type,
-                  child: SelectBox(),
                 ),
-                InheritedSelect(
+                Select(
                   list: OptionsData.lengthList,
+                  value: context.watch<WordOptionsProvider>().length,
                   callback: (String newValue) {
-                    context.read<WordOptionsProvider>().changeNumber(newValue);
+                    bool vip = context.read<UserProvider>().vip;
+                    if (Utils.isNumber(newValue) &&
+                        int.parse(newValue) > 5 &&
+                        !vip) {
+                      _promptVip(context);
+                      return false;
+                    } else {
+                      context
+                          .read<WordOptionsProvider>()
+                          .changeNumber(newValue);
+                      return true;
+                    }
                   },
-                  currentValue: context.watch<WordOptionsProvider>().length,
-                  child: SelectBox(),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
