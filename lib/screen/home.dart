@@ -101,7 +101,11 @@ class _HomePageState extends State<HomePage> {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final bool romaji = prefs.getBool('romaji') ?? false;
+      final bool likeWord = prefs.getBool('likeWord') ?? true;
       context.read<LaboratoryOptionsProvider>().toggleRomaji(romaji: romaji);
+      context
+          .read<LaboratoryOptionsProvider>()
+          .toggleLikeWord(likeWord: likeWord);
     } catch (err) {
       print(err);
     }

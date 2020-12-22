@@ -43,7 +43,7 @@ class _GeneratorPageState extends State<GeneratorPage>
   String _romaji = 'Higanjizai';
   bool _isLiked = false;
   int _likeCount = 0;
-  String _id;
+  String _id = '';
 
   GlobalKey<_GeneratorPageState> generatorKey = GlobalKey();
 
@@ -68,6 +68,7 @@ class _GeneratorPageState extends State<GeneratorPage>
           _word2 = res.data['data']['word2'];
           _type = context.read<WordOptionsProvider>().type;
           _romaji = res.data['data']['romaji'];
+          _likeCount = res.data['data']['likeCount'];
           _isLiked = res.data['data']['isLiked'];
         });
       } else if (res.data['code'] == '3010') {
@@ -97,8 +98,9 @@ class _GeneratorPageState extends State<GeneratorPage>
         context: context,
       ).httpPut(
         path + '/$_id',
-        <String, bool>{
+        <String, dynamic>{
           'islike': islike,
+          'type': _type,
         },
       );
       if (res.data['code'] == '1000') {
@@ -402,33 +404,37 @@ class _GeneratorPageState extends State<GeneratorPage>
               margin: EdgeInsets.only(
                 top: 30.h,
               ),
-              child: LikeButton(
-                size: 42,
-                onTap: _like,
-                bubblesColor: const BubblesColor(
-                  dotPrimaryColor: const Color(0xFFff7f50),
-                  dotSecondaryColor: const Color(0xFF70a1ff),
-                  dotThirdColor: const Color(0xFF7bed9f),
-                  dotLastColor: const Color(0xFFff6b81),
-                ),
-                likeCount: _likeCount,
-                isLiked: _isLiked,
-                countPostion: CountPostion.bottom,
-                countBuilder: (int count, bool isLiked, String text) {
-                  Color color = isLiked ? Color(0xffff4081) : Colors.grey;
-                  return Container(
-                    padding: EdgeInsets.only(
-                      top: 10.h,
-                    ),
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        color: color,
-                        fontSize: 16,
+              child: Offstage(
+                offstage: _id == '' ||
+                    !context.watch<LaboratoryOptionsProvider>().likeWord,
+                child: LikeButton(
+                  size: 42,
+                  onTap: _like,
+                  bubblesColor: const BubblesColor(
+                    dotPrimaryColor: const Color(0xFFff7f50),
+                    dotSecondaryColor: const Color(0xFF70a1ff),
+                    dotThirdColor: const Color(0xFF7bed9f),
+                    dotLastColor: const Color(0xFFff6b81),
+                  ),
+                  likeCount: _likeCount,
+                  isLiked: _isLiked,
+                  countPostion: CountPostion.bottom,
+                  countBuilder: (int count, bool isLiked, String text) {
+                    Color color = isLiked ? Color(0xffff4081) : Colors.grey;
+                    return Container(
+                      padding: EdgeInsets.only(
+                        top: 10.h,
                       ),
-                    ),
-                  );
-                },
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          color: color,
+                          fontSize: 16,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
             Expanded(

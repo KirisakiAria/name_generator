@@ -7,6 +7,7 @@ class API {
   static const String api_prefix = '$origin/api/$version';
   static const String host = 'https://www.bianzizai.com';
   static const String word = '/word/random';
+  static const String likeCount = '/word/likecount';
   static const String likeWord = '/word/like';
   static const String dictionary = '/word/dictionary';
   static const String search = '/word/search';

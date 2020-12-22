@@ -46,6 +46,7 @@ class CustomForm extends StatefulWidget {
 }
 
 class _CustomFormState extends State<CustomForm> {
+  final FocusNode blankNode = FocusNode();
   String tel, authCode, password;
   String _btnStr = '获取验证码';
   int _count = 59;
@@ -55,6 +56,7 @@ class _CustomFormState extends State<CustomForm> {
 
   //表单验证
   void _formValidate() {
+    FocusScope.of(context).requestFocus(blankNode);
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       _changePassword();
