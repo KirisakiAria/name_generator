@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/api.dart';
 import '../services/request.dart';
 //page
-import '../screen/generate/generate.dart';
+import '../screen/generator/generator.dart';
 import '../screen/search/search.dart';
 import '../screen/inspiration/inspiration.dart';
 import '../screen/my/my.dart';
@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
             int index,
           ) {
             if (index == 0) {
-              return GeneratePage();
+              return GeneratorPage();
             } else if (index == 1) {
               return SearchPage();
             } else if (index == 2) {
@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                   context.watch<SkinProvider>().color['background'],
               icon: const Icon(
                 const IconData(
-                  CustomIconData.generate,
+                  CustomIconData.generator,
                   fontFamily: 'iconfont',
                 ),
                 size: 26,

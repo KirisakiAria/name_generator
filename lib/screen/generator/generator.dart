@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
+import 'package:like_button/like_button.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
@@ -28,18 +29,23 @@ import '../../utils/Utils.dart';
 import '../../utils/floating_action_button.dart';
 import '../../utils/explanation.dart';
 
-class GeneratePage extends StatefulWidget {
+class GeneratorPage extends StatefulWidget {
   @override
-  _GeneratePageState createState() => _GeneratePageState();
+  _GeneratorPageState createState() => _GeneratorPageState();
 }
 
-class _GeneratePageState extends State<GeneratePage>
+class _GeneratorPageState extends State<GeneratorPage>
     with AutomaticKeepAliveClientMixin {
   static const String shareContent = '【彼岸自在，最懂你的网名生成器】';
   String _word = '彼岸自在';
   String _word2 = '吾溪不归';
   String _type = '中国风';
   String _romaji = 'Higanjizai';
+  bool _isLiked = false;
+  int _likeCount = 0;
+  String _id;
+
+  GlobalKey<_GeneratorPageState> generatorKey = GlobalKey();
 
   Future<void> _getData() async {
     try {
@@ -57,10 +63,12 @@ class _GeneratePageState extends State<GeneratePage>
       );
       if (res.data['code'] == '1000') {
         setState(() {
+          _id = res.data['data']['id'];
           _word = res.data['data']['word'];
           _word2 = res.data['data']['word2'];
           _type = context.read<WordOptionsProvider>().type;
           _romaji = res.data['data']['romaji'];
+          _isLiked = res.data['data']['isLiked'];
         });
       } else if (res.data['code'] == '3010') {
         context.read<WordOptionsProvider>().changeCouples(false);
@@ -69,6 +77,48 @@ class _GeneratePageState extends State<GeneratePage>
       }
     } catch (err) {
       print(err);
+    }
+  }
+
+  Future<bool> _like(bool islike) async {
+    try {
+      bool loginState = context.read<UserProvider>().loginState;
+      if (!loginState) {
+        final SnackBar snackBar = SnackBar(
+          content: const Text('请先登录再点赞'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        return Future<bool>.value(false);
+      }
+      final String path = API.likeWord;
+      final Response res = await Request(
+        context: context,
+      ).httpPut(
+        path + '/$_id',
+        <String, bool>{
+          'islike': islike,
+        },
+      );
+      if (res.data['code'] == '1000') {
+        _isLiked = !_isLiked;
+        if (islike) {
+          _likeCount--;
+        } else {
+          _likeCount++;
+        }
+        Future.delayed(
+          Duration(milliseconds: 1000),
+          () {
+            setState(() {});
+          },
+        );
+      }
+      return Future<bool>.value(_isLiked);
+    } catch (err) {
+      print(err);
+      return Future<bool>.value(false);
     }
   }
 
@@ -342,13 +392,47 @@ class _GeneratePageState extends State<GeneratePage>
         },
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Display(
-                word: _word,
-                word2: _word2,
-                type: _type,
-                romaji: _romaji,
+            Display(
+              word: _word,
+              word2: _word2,
+              type: _type,
+              romaji: _romaji,
+            ),
+            Container(
+              margin: EdgeInsets.only(
+                top: 30.h,
               ),
+              child: LikeButton(
+                size: 42,
+                onTap: _like,
+                bubblesColor: const BubblesColor(
+                  dotPrimaryColor: const Color(0xFFff7f50),
+                  dotSecondaryColor: const Color(0xFF70a1ff),
+                  dotThirdColor: const Color(0xFF7bed9f),
+                  dotLastColor: const Color(0xFFff6b81),
+                ),
+                likeCount: _likeCount,
+                isLiked: _isLiked,
+                countPostion: CountPostion.bottom,
+                countBuilder: (int count, bool isLiked, String text) {
+                  Color color = isLiked ? Color(0xffff4081) : Colors.grey;
+                  return Container(
+                    padding: EdgeInsets.only(
+                      top: 10.h,
+                    ),
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        color: color,
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Expanded(
+              child: Container(),
             ),
             Container(
               padding: EdgeInsets.symmetric(
@@ -841,6 +925,7 @@ class OptionsDialog extends Dialog {
                           context
                               .read<WordOptionsProvider>()
                               .changeCouples(value);
+                          print('执行通知');
                         } else {
                           _promptVip(context);
                         }

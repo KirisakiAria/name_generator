@@ -65,7 +65,7 @@ class Explanation {
           title: const Text('词典'),
           scrollable: true,
           content: SizedBox(
-            width: 350.w,
+            width: 355.w,
             height: 500.h,
             child: Column(
               children: <Widget>[

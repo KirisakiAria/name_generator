@@ -20,10 +20,10 @@ class VipTipsDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      title: const Text('提示'),
+      title: const Text('VIP会员提示'),
       scrollable: true,
       content: SizedBox(
-        width: 330.w,
+        width: 355.w,
         child: Column(
           children: <Widget>[
             Container(
@@ -39,7 +39,7 @@ class VipTipsDialog extends StatelessWidget {
                   textColor: Style.defaultColor['button'],
                   borderColor: Style.defaultColor['button'],
                   paddingVertical: 14.h,
-                  paddingHorizontal: 40.w,
+                  paddingHorizontal: 36.w,
                   callback: () => Navigator.pop(context),
                 ),
                 CustomButton(
@@ -49,7 +49,7 @@ class VipTipsDialog extends StatelessWidget {
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
                     paddingVertical: 14.h,
-                    paddingHorizontal: 40.w,
+                    paddingHorizontal: 36.w,
                     callback: () {
                       Navigator.pop(context);
                       Navigator.pushNamed(
