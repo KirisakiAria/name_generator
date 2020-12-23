@@ -10,7 +10,7 @@ class OptionsData {
     },
     {
       'value': '可爱',
-      'vip': false,
+      'vip': true,
     },
   ];
   static const List<Map<String, dynamic>> lengthList = <Map<String, dynamic>>[

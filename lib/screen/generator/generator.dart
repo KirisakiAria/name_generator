@@ -732,7 +732,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
 }
 
 class Select extends StatefulWidget {
-  final List<String> list;
+  final List<Map<String, dynamic>> list;
   final String value;
   final bool Function(String newValue) callback;
 
@@ -794,34 +794,37 @@ class _SelectState extends State<Select> {
             }
           },
           dropdownColor: context.watch<SkinProvider>().color['background'],
-          items: widget.list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Builder(
-                builder: (BuildContext content) {
-                  if (Utils.isNumber(value) && int.parse(value) > 5) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          value,
-                          style: TextStyle(
-                            height: 1.25,
-                          ),
-                        ),
-                        Image(
-                          image: AssetImage('assets/images/vip/vip_tip.png'),
-                          width: 42.w,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Text(value);
-                  }
-                },
-              ),
-            );
-          }).toList(),
+          items: widget.list
+              .map<DropdownMenuItem<String>>(
+                (Map<String, dynamic> item) => DropdownMenuItem<String>(
+                  value: item['value'],
+                  child: Builder(
+                    builder: (BuildContext content) {
+                      if (item['vip']) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              item['value'],
+                              style: TextStyle(
+                                height: 1.25,
+                              ),
+                            ),
+                            Image(
+                              image:
+                                  AssetImage('assets/images/vip/vip_tip.png'),
+                              width: 42.w,
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Text(item['value']);
+                      }
+                    },
+                  ),
+                ),
+              )
+              .toList(),
         ),
       ),
     );
