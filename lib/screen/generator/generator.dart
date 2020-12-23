@@ -101,6 +101,7 @@ class _GeneratorPageState extends State<GeneratorPage>
         <String, dynamic>{
           'islike': islike,
           'type': _type,
+          'couples': context.read<WordOptionsProvider>().couples,
         },
       );
       if (res.data['code'] == '1000') {
@@ -931,7 +932,6 @@ class OptionsDialog extends Dialog {
                           context
                               .read<WordOptionsProvider>()
                               .changeCouples(value);
-                          print('执行通知');
                         } else {
                           _promptVip(context);
                         }
