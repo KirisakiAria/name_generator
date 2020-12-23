@@ -49,7 +49,7 @@ class VipTipsDialog extends StatelessWidget {
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
                     paddingVertical: 14.h,
-                    paddingHorizontal: 36.w,
+                    paddingHorizontal: 38.w,
                     callback: () {
                       Navigator.pop(context);
                       Navigator.pushNamed(

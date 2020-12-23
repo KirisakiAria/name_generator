@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import '../common/optionsData.dart';
+import '../common/wordOptions.dart';
 
 class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  String _type = OptionsData.typeList[0];
-  String _length = OptionsData.lengthList[1];
+  String _type = OptionsData.typeList[0]['value'];
+  String _length = OptionsData.lengthList[1]['value'];
   bool _couples = false;
 
   String get type => _type;

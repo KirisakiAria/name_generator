@@ -17,7 +17,7 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/vip_tips_dialog.dart';
 //common
 import '../../common/style.dart';
-import '../../common/optionsData.dart';
+import '../../common/wordOptions.dart';
 import '../../common/custom_icon_data.dart';
 //model
 import '../../model/word_options.dart';
@@ -837,7 +837,10 @@ class OptionsDialog extends Dialog {
   }) : super(key: key);
 
   //提示VIP弹窗
-  void _promptVip(BuildContext context) async {
+  void _promptVip({
+    @required BuildContext context,
+    @required String tips,
+  }) async {
     showGeneralDialog(
       context: context,
       pageBuilder: (
@@ -845,7 +848,7 @@ class OptionsDialog extends Dialog {
         Animation<double> anim1,
         Animation<double> anim2,
       ) {
-        return VipTipsDialog('使用情侣模式需要开通VIP');
+        return VipTipsDialog(tips);
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
       transitionDuration: Duration(milliseconds: 200),
@@ -899,10 +902,11 @@ class OptionsDialog extends Dialog {
                   value: context.watch<WordOptionsProvider>().type,
                   callback: (String newValue) {
                     bool vip = context.read<UserProvider>().vip;
-                    if (Utils.isNumber(newValue) &&
-                        int.parse(newValue) > 5 &&
-                        !vip) {
-                      _promptVip(context);
+                    if (newValue != '中国风' && newValue != '日式' && !vip) {
+                      _promptVip(
+                        context: context,
+                        tips: '使用此类型需要开通VIP',
+                      );
                       return false;
                     } else {
                       context.read<WordOptionsProvider>().changeType(newValue);
@@ -916,10 +920,11 @@ class OptionsDialog extends Dialog {
                   value: context.watch<WordOptionsProvider>().length,
                   callback: (String newValue) {
                     bool vip = context.read<UserProvider>().vip;
-                    if (Utils.isNumber(newValue) &&
-                        int.parse(newValue) > 5 &&
-                        !vip) {
-                      _promptVip(context);
+                    if (int.parse(newValue) > 5 && !vip) {
+                      _promptVip(
+                        context: context,
+                        tips: '使用此字数需要开通VIP',
+                      );
                       return false;
                     } else {
                       context
@@ -945,7 +950,10 @@ class OptionsDialog extends Dialog {
                               .changeCouples(value);
                           getData();
                         } else {
-                          _promptVip(context);
+                          _promptVip(
+                            context: context,
+                            tips: '使用情侣模式需要开通VIP',
+                          );
                         }
                       }),
                 ),
