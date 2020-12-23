@@ -469,7 +469,9 @@ class _GeneratorPageState extends State<GeneratorPage>
                         Animation<double> anim1,
                         Animation<double> anim2,
                       ) {
-                        return OptionsDialog();
+                        return OptionsDialog(
+                          getData: _getData,
+                        );
                       },
                       barrierColor: Colors.grey.withOpacity(.4),
                       transitionDuration: Duration(milliseconds: 400),
@@ -487,7 +489,9 @@ class _GeneratorPageState extends State<GeneratorPage>
                             curvedValue * -320,
                             0,
                           ),
-                          child: OptionsDialog(),
+                          child: OptionsDialog(
+                            getData: _getData,
+                          ),
                         );
                       },
                     ),
@@ -825,7 +829,11 @@ class _SelectState extends State<Select> {
 
 //选项弹窗
 class OptionsDialog extends Dialog {
-  OptionsDialog({Key key}) : super(key: key);
+  final Future<void> Function() getData;
+  OptionsDialog({
+    Key key,
+    @required this.getData,
+  }) : super(key: key);
 
   //提示VIP弹窗
   void _promptVip(BuildContext context) async {
@@ -897,6 +905,7 @@ class OptionsDialog extends Dialog {
                       return false;
                     } else {
                       context.read<WordOptionsProvider>().changeType(newValue);
+                      getData();
                       return true;
                     }
                   },
@@ -915,6 +924,7 @@ class OptionsDialog extends Dialog {
                       context
                           .read<WordOptionsProvider>()
                           .changeNumber(newValue);
+                      getData();
                       return true;
                     }
                   },
@@ -932,6 +942,7 @@ class OptionsDialog extends Dialog {
                           context
                               .read<WordOptionsProvider>()
                               .changeCouples(value);
+                          getData();
                         } else {
                           _promptVip(context);
                         }
