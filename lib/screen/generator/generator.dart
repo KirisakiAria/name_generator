@@ -378,7 +378,7 @@ class _GeneratorPageState extends State<GeneratorPage>
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
-        onVerticalDragStart: (DragStartDetails details) {
+        onVerticalDragStart: (DragStartDetails details) async {
           final WordOptionsProvider wordOptionsProviderprovider =
               context.read<WordOptionsProvider>();
           if (wordOptionsProviderprovider.type == '中国风') {
@@ -386,6 +386,7 @@ class _GeneratorPageState extends State<GeneratorPage>
           } else {
             wordOptionsProviderprovider.changeType('中国风');
           }
+          await _getData();
           final SnackBar snackBar = SnackBar(
             content: Text('类型切换：${wordOptionsProviderprovider.type}'),
             duration: Duration(seconds: 2),
