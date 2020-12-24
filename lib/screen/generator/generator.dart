@@ -43,6 +43,7 @@ class _GeneratorPageState extends State<GeneratorPage>
   bool _isLiked = false;
   int _likeCount = 0;
   String _id = '';
+  int _currentIndex = 0;
 
   GlobalKey<_GeneratorPageState> generatorKey = GlobalKey();
 
@@ -381,16 +382,20 @@ class _GeneratorPageState extends State<GeneratorPage>
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
         onVerticalDragStart: (DragStartDetails details) async {
-          final WordOptionsProvider wordOptionsProviderprovider =
+          final bool vip = context.read<UserProvider>().vip;
+          final WordOptionsProvider wordOptionsProvider =
               context.read<WordOptionsProvider>();
-          // if (wordOptionsProviderprovider.type['value'] == '中国风') {
-          //   wordOptionsProviderprovider.changeType('日式');
-          // } else {
-          //   wordOptionsProviderprovider.changeType('中国风');
-          // }
+          if (!vip && _currentIndex == 1) {
+            _currentIndex = -1;
+          }
+          if (_currentIndex == WordOptions.typeList.length - 1) {
+            _currentIndex = -1;
+          }
+          _currentIndex++;
+          wordOptionsProvider.changeType(WordOptions.typeList[_currentIndex]);
           await _getData();
           final SnackBar snackBar = SnackBar(
-            content: Text('类型切换：${wordOptionsProviderprovider.type['value']}'),
+            content: Text('类型切换：${wordOptionsProvider.type['value']}'),
             duration: Duration(seconds: 2),
           );
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -899,7 +904,7 @@ class OptionsDialog extends Dialog {
                   list: WordOptions.typeList,
                   value: context.watch<WordOptionsProvider>().type,
                   callback: (Map<String, dynamic> newValue) {
-                    bool vip = context.read<UserProvider>().vip;
+                    final bool vip = context.read<UserProvider>().vip;
                     if (newValue['vip'] && !vip) {
                       _promptVip(
                         context: context,
@@ -917,7 +922,7 @@ class OptionsDialog extends Dialog {
                   list: WordOptions.lengthList,
                   value: context.watch<WordOptionsProvider>().length,
                   callback: (Map<String, dynamic> newValue) {
-                    bool vip = context.read<UserProvider>().vip;
+                    final bool vip = context.read<UserProvider>().vip;
                     if (newValue['vip'] && !vip) {
                       _promptVip(
                         context: context,
