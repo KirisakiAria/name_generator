@@ -1,21 +1,21 @@
 import 'package:flutter/foundation.dart';
-import '../common/wordOptions.dart';
+import '../common/word_options.dart';
 
 class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
-  String _type = OptionsData.typeList[0]['value'];
-  String _length = OptionsData.lengthList[1]['value'];
+  Map<String, dynamic> _type = WordOptions.typeList[0];
+  Map<String, dynamic> _length = WordOptions.lengthList[1];
   bool _couples = false;
 
-  String get type => _type;
-  String get length => _length;
+  Map<String, dynamic> get type => _type;
+  Map<String, dynamic> get length => _length;
   bool get couples => _couples;
 
-  void changeType(String type) {
+  void changeType(Map<String, dynamic> type) {
     _type = type;
     notifyListeners();
   }
 
-  void changeNumber(String length) {
+  void changeNumber(Map<String, dynamic> length) {
     _length = length;
     notifyListeners();
   }

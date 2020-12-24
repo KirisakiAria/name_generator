@@ -17,7 +17,7 @@ import '../../widgets/custom_button.dart';
 import '../../widgets/vip_tips_dialog.dart';
 //common
 import '../../common/style.dart';
-import '../../common/wordOptions.dart';
+import '../../common/word_options.dart';
 import '../../common/custom_icon_data.dart';
 //model
 import '../../model/word_options.dart';
@@ -25,7 +25,6 @@ import '../../model/user.dart';
 import '../../model/skin.dart';
 import '../../model/laboratory_options.dart';
 //utils
-import '../../utils/Utils.dart';
 import '../../utils/floating_action_button.dart';
 import '../../utils/explanation.dart';
 
@@ -55,8 +54,8 @@ class _GeneratorPageState extends State<GeneratorPage>
       ).httpPost(
         path,
         <String, dynamic>{
-          'type': context.read<WordOptionsProvider>().type,
-          'length': context.read<WordOptionsProvider>().length,
+          'type': context.read<WordOptionsProvider>().type['value'],
+          'length': context.read<WordOptionsProvider>().length['value'],
           'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
           'couples': context.read<WordOptionsProvider>().couples,
         },
@@ -66,14 +65,17 @@ class _GeneratorPageState extends State<GeneratorPage>
           _id = res.data['data']['id'];
           _word = res.data['data']['word'];
           _word2 = res.data['data']['word2'];
-          _type = context.read<WordOptionsProvider>().type;
+          _type = context.read<WordOptionsProvider>().type['value'];
           _romaji = res.data['data']['romaji'];
           _likeCount = res.data['data']['likeCount'];
           _isLiked = res.data['data']['isLiked'];
         });
       } else if (res.data['code'] == '3010') {
         context.read<WordOptionsProvider>().changeCouples(false);
-        context.read<WordOptionsProvider>().changeNumber('2');
+        context.read<WordOptionsProvider>().changeType(WordOptions.typeList[0]);
+        context
+            .read<WordOptionsProvider>()
+            .changeNumber(WordOptions.lengthList[1]);
         context.read<UserProvider>().changeVip(false);
       }
     } catch (err) {
@@ -339,7 +341,7 @@ class _GeneratorPageState extends State<GeneratorPage>
         highlightElevation: 0,
         onPressed: () {
           final bool loginState = context.read<UserProvider>().loginState;
-          final String type = context.read<WordOptionsProvider>().type;
+          final String type = context.read<WordOptionsProvider>().type['value'];
           final bool couples = context.read<WordOptionsProvider>().couples;
           if (couples) {
             final SnackBar snackBar = SnackBar(
@@ -381,14 +383,14 @@ class _GeneratorPageState extends State<GeneratorPage>
         onVerticalDragStart: (DragStartDetails details) async {
           final WordOptionsProvider wordOptionsProviderprovider =
               context.read<WordOptionsProvider>();
-          if (wordOptionsProviderprovider.type == '中国风') {
-            wordOptionsProviderprovider.changeType('日式');
-          } else {
-            wordOptionsProviderprovider.changeType('中国风');
-          }
+          // if (wordOptionsProviderprovider.type['value'] == '中国风') {
+          //   wordOptionsProviderprovider.changeType('日式');
+          // } else {
+          //   wordOptionsProviderprovider.changeType('中国风');
+          // }
           await _getData();
           final SnackBar snackBar = SnackBar(
-            content: Text('类型切换：${wordOptionsProviderprovider.type}'),
+            content: Text('类型切换：${wordOptionsProviderprovider.type['value']}'),
             duration: Duration(seconds: 2),
           );
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -404,13 +406,13 @@ class _GeneratorPageState extends State<GeneratorPage>
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 30.h,
+                top: 24.h,
               ),
               child: Offstage(
                 offstage: _id == '' ||
                     !context.watch<LaboratoryOptionsProvider>().likeWord,
                 child: LikeButton(
-                  size: 42,
+                  size: 34,
                   onTap: _like,
                   bubblesColor: const BubblesColor(
                     dotPrimaryColor: const Color(0xFFff7f50),
@@ -549,8 +551,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
       ).httpPost(
         path,
         <String, dynamic>{
-          'type': context.read<WordOptionsProvider>().type,
-          'length': context.read<WordOptionsProvider>().length,
+          'type': context.read<WordOptionsProvider>().type['value'],
+          'length': context.read<WordOptionsProvider>().length['value'],
           'word': widget.word,
         },
       );
@@ -596,23 +598,15 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           child: Builder(
             builder: (BuildContext context) {
               final type = context.watch<WordOptionsProvider>().type;
-              final couples = context.watch<WordOptionsProvider>().couples;
               if (couples) {
                 return Image(
                   image: AssetImage('assets/images/theme/couples.png'),
-                  width: 200.w,
-                );
-              }
-              if (type == '中国风') {
-                return Image(
-                  image: AssetImage(
-                      'assets/images/theme/chinese-default-theme.png'),
                   width: 170.w,
                 );
               } else {
                 return Image(
-                  image: AssetImage(
-                      'assets/images/theme/japanese-default-theme.png'),
+                  image: AssetImage(type['img'] ??
+                      'assets/images/theme/chinese-default-theme.png'),
                   width: 170.w,
                 );
               }
@@ -665,7 +659,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 25.h,
+                  top: 20.h,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -674,7 +668,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                       child: Text(
                         widget.word,
                         style: TextStyle(
-                          fontSize: widget.word.length > 5 ? 40.sp : 50.sp,
+                          fontSize: widget.word.length > 5 ? 40.sp : 48.sp,
                           letterSpacing: 8,
                           height: 1,
                         ),
@@ -687,7 +681,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                           Text(
                             widget.word,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
+                              fontSize: widget.word.length > 5 ? 40.sp : 44.sp,
                               letterSpacing: 8,
                               height: 1.4,
                             ),
@@ -695,7 +689,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                           Text(
                             widget.word2,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
+                              fontSize: widget.word.length > 5 ? 40.sp : 44.sp,
                               letterSpacing: 8,
                               height: 1.4,
                             ),
@@ -733,8 +727,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
 
 class Select extends StatefulWidget {
   final List<Map<String, dynamic>> list;
-  final String value;
-  final bool Function(String newValue) callback;
+  final Map value;
+  final bool Function(Map<String, dynamic> newValue) callback;
 
   Select({
     @required this.list,
@@ -747,7 +741,7 @@ class Select extends StatefulWidget {
 }
 
 class _SelectState extends State<Select> {
-  String value;
+  Map value;
 
   @override
   void initState() {
@@ -770,7 +764,7 @@ class _SelectState extends State<Select> {
         vertical: 10.h,
       ),
       child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
+        child: DropdownButton<Map<String, dynamic>>(
           isDense: true,
           value: value,
           icon: Icon(
@@ -785,7 +779,7 @@ class _SelectState extends State<Select> {
             fontSize: 20,
             height: 1.1,
           ),
-          onChanged: (dynamic newValue) {
+          onChanged: (Map<String, dynamic> newValue) {
             bool result = widget.callback(newValue);
             if (result) {
               setState(() {
@@ -795,9 +789,10 @@ class _SelectState extends State<Select> {
           },
           dropdownColor: context.watch<SkinProvider>().color['background'],
           items: widget.list
-              .map<DropdownMenuItem<String>>(
-                (Map<String, dynamic> item) => DropdownMenuItem<String>(
-                  value: item['value'],
+              .map<DropdownMenuItem<Map<String, dynamic>>>(
+                (Map<String, dynamic> item) =>
+                    DropdownMenuItem<Map<String, dynamic>>(
+                  value: item,
                   child: Builder(
                     builder: (BuildContext content) {
                       if (item['vip']) {
@@ -901,11 +896,11 @@ class OptionsDialog extends Dialog {
                   ),
                 ),
                 Select(
-                  list: OptionsData.typeList,
+                  list: WordOptions.typeList,
                   value: context.watch<WordOptionsProvider>().type,
-                  callback: (String newValue) {
+                  callback: (Map<String, dynamic> newValue) {
                     bool vip = context.read<UserProvider>().vip;
-                    if (newValue != '中国风' && newValue != '日式' && !vip) {
+                    if (newValue['vip'] && !vip) {
                       _promptVip(
                         context: context,
                         tips: '使用此类型需要开通VIP',
@@ -919,11 +914,11 @@ class OptionsDialog extends Dialog {
                   },
                 ),
                 Select(
-                  list: OptionsData.lengthList,
+                  list: WordOptions.lengthList,
                   value: context.watch<WordOptionsProvider>().length,
-                  callback: (String newValue) {
+                  callback: (Map<String, dynamic> newValue) {
                     bool vip = context.read<UserProvider>().vip;
-                    if (int.parse(newValue) > 5 && !vip) {
+                    if (newValue['vip'] && !vip) {
                       _promptVip(
                         context: context,
                         tips: '使用此字数需要开通VIP',

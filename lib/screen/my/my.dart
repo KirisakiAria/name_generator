@@ -14,6 +14,7 @@ import '../../services/request.dart';
 //common
 import '../../common/custom_icon_data.dart';
 import '../../common/style.dart';
+import '../../common/word_options.dart';
 //model
 import '../../model/user.dart';
 import '../../model/skin.dart';
@@ -552,7 +553,13 @@ class Menu extends StatelessWidget {
                               context.read<UserProvider>().logOut();
                               context
                                   .read<WordOptionsProvider>()
-                                  .changeNumber('2');
+                                  .changeType(WordOptions.typeList[0]);
+                              context
+                                  .read<WordOptionsProvider>()
+                                  .changeNumber(WordOptions.lengthList[1]);
+                              context
+                                  .read<WordOptionsProvider>()
+                                  .changeCouples(false);
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.clear();
