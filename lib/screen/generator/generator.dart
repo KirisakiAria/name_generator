@@ -417,7 +417,7 @@ class _GeneratorPageState extends State<GeneratorPage>
                 offstage: _id == '' ||
                     !context.watch<LaboratoryOptionsProvider>().likeWord,
                 child: LikeButton(
-                  size: 34,
+                  size: 33,
                   onTap: _like,
                   bubblesColor: const BubblesColor(
                     dotPrimaryColor: const Color(0xFFff7f50),
@@ -606,13 +606,13 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               if (couples) {
                 return Image(
                   image: AssetImage('assets/images/theme/couples.png'),
-                  width: 168.w,
+                  width: 165.w,
                 );
               } else {
                 return Image(
                   image: AssetImage(type['img'] ??
                       'assets/images/theme/chinese-default-theme.png'),
-                  width: 168.w,
+                  width: 165.w,
                 );
               }
             },
@@ -664,7 +664,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 12.h,
+                  top: 15.h,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -674,7 +674,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                         widget.word,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: widget.word.length > 5 ? 40.sp : 48.sp,
+                          fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
                           letterSpacing: 8,
                           height: 1.4,
                         ),

@@ -204,6 +204,7 @@ class ListItem extends StatelessWidget {
                   width: 250.w,
                   child: Text(
                     chineseTitle,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16,
@@ -217,6 +218,7 @@ class ListItem extends StatelessWidget {
                   ),
                   child: Text(
                     chineseContent,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
@@ -231,6 +233,7 @@ class ListItem extends StatelessWidget {
                   ),
                   child: Text(
                     japaneseTitle,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 16),
                   ),
@@ -242,6 +245,7 @@ class ListItem extends StatelessWidget {
                   ),
                   child: Text(
                     japaneseContent,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12,
