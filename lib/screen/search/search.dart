@@ -674,28 +674,30 @@ class _SearchListState extends State<SearchList>
                             children: <Widget>[
                               Text(
                                 list[index]['words'][0],
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 18.sp,
                                   color: Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(0.0, 0.0),
-                                      blurRadius: 8.0,
-                                      color: Color.fromARGB(245, 255, 255, 255),
+                                      blurRadius: 9.0,
+                                      color: Color.fromARGB(252, 255, 255, 255),
                                     ),
                                   ],
                                 ),
                               ),
                               Text(
                                 list[index]['words'][1],
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 18.sp,
+                                  fontSize: 16.sp,
                                   color: Colors.white,
                                   shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(0.0, 0.0),
-                                      blurRadius: 8.0,
-                                      color: Color.fromARGB(245, 255, 255, 255),
+                                      blurRadius: 10.0,
+                                      color: Color.fromARGB(252, 255, 255, 255),
                                     ),
                                   ],
                                 ),
@@ -706,14 +708,15 @@ class _SearchListState extends State<SearchList>
                           return Center(
                             child: Text(
                               list[index]['word'],
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 20.sp,
+                                fontSize: 18.sp,
                                 color: Colors.white,
                                 shadows: <Shadow>[
                                   Shadow(
                                     offset: Offset(0.0, 0.0),
-                                    blurRadius: 8.0,
-                                    color: Color.fromARGB(245, 255, 255, 255),
+                                    blurRadius: 9.0,
+                                    color: Color.fromARGB(252, 255, 255, 255),
                                   ),
                                 ],
                               ),

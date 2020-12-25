@@ -411,7 +411,7 @@ class _GeneratorPageState extends State<GeneratorPage>
             ),
             Container(
               margin: EdgeInsets.only(
-                top: 24.h,
+                top: 15.h,
               ),
               child: Offstage(
                 offstage: _id == '' ||
@@ -606,13 +606,13 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               if (couples) {
                 return Image(
                   image: AssetImage('assets/images/theme/couples.png'),
-                  width: 170.w,
+                  width: 168.w,
                 );
               } else {
                 return Image(
                   image: AssetImage(type['img'] ??
                       'assets/images/theme/chinese-default-theme.png'),
-                  width: 170.w,
+                  width: 168.w,
                 );
               }
             },
@@ -664,7 +664,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               ),
               Container(
                 padding: EdgeInsets.only(
-                  top: 20.h,
+                  top: 12.h,
                 ),
                 child: Column(
                   children: <Widget>[
@@ -672,10 +672,11 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                       offstage: couples,
                       child: Text(
                         widget.word,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: widget.word.length > 5 ? 40.sp : 48.sp,
                           letterSpacing: 8,
-                          height: 1,
+                          height: 1.4,
                         ),
                       ),
                     ),
@@ -685,6 +686,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                         children: <Widget>[
                           Text(
                             widget.word,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: widget.word.length > 5 ? 40.sp : 44.sp,
                               letterSpacing: 8,
@@ -693,6 +695,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                           ),
                           Text(
                             widget.word2,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: widget.word.length > 5 ? 40.sp : 44.sp,
                               letterSpacing: 8,
@@ -707,10 +710,11 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                           !context.watch<LaboratoryOptionsProvider>().romaji,
                       child: Container(
                         padding: EdgeInsets.only(
-                          top: 15.h,
+                          top: 12.h,
                         ),
                         child: Text(
                           widget.romaji,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
                             letterSpacing: 8,
@@ -913,7 +917,6 @@ class OptionsDialog extends Dialog {
                       return false;
                     } else {
                       context.read<WordOptionsProvider>().changeType(newValue);
-                      getData();
                       return true;
                     }
                   },
@@ -933,7 +936,6 @@ class OptionsDialog extends Dialog {
                       context
                           .read<WordOptionsProvider>()
                           .changeNumber(newValue);
-                      getData();
                       return true;
                     }
                   },
@@ -951,7 +953,6 @@ class OptionsDialog extends Dialog {
                           context
                               .read<WordOptionsProvider>()
                               .changeCouples(value);
-                          getData();
                         } else {
                           _promptVip(
                             context: context,
@@ -971,7 +972,10 @@ class OptionsDialog extends Dialog {
                     textColor:
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
-                    callback: () => Navigator.pop(context),
+                    callback: () {
+                      getData();
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
               ],
