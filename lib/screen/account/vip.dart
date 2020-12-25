@@ -374,7 +374,8 @@ class _VipPageState extends State<VipPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
                             image: DecorationImage(
-                              image: AssetImage('assets/images/vip/vip_bg.png'),
+                              image: const AssetImage(
+                                  'assets/images/vip/vip_bg.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -686,7 +687,7 @@ class ItemTitle extends StatelessWidget {
                   right: 12.h,
                 ),
                 child: Image(
-                  image: AssetImage('assets/images/vip/vip.png'),
+                  image: const AssetImage('assets/images/vip/vip.png'),
                   width: 36.w,
                 ),
               ),

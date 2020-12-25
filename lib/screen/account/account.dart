@@ -305,7 +305,9 @@ class _VIPState extends State<VIP> {
             Row(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.only(
+                    right: 12.w,
+                  ),
                   child: Text(
                     'VIP会员',
                     style: TextStyle(
@@ -315,7 +317,7 @@ class _VIPState extends State<VIP> {
                   ),
                 ),
                 Image(
-                  image: AssetImage('assets/images/vip/discount.png'),
+                  image: const AssetImage('assets/images/vip/discount.png'),
                   width: 48.w,
                 ),
               ],

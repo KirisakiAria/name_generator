@@ -429,7 +429,8 @@ class _GeneratorPageState extends State<GeneratorPage>
                   isLiked: _isLiked,
                   countPostion: CountPostion.bottom,
                   countBuilder: (int count, bool isLiked, String text) {
-                    Color color = isLiked ? Color(0xffff4081) : Colors.grey;
+                    final Color color =
+                        isLiked ? const Color(0xffff4081) : Colors.grey;
                     return Container(
                       padding: EdgeInsets.only(
                         top: 10.h,
@@ -605,7 +606,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               final type = context.watch<WordOptionsProvider>().type;
               if (couples) {
                 return Image(
-                  image: AssetImage('assets/images/theme/couples.png'),
+                  image: const AssetImage('assets/images/theme/couples.png'),
                   width: 165.w,
                 );
               } else {

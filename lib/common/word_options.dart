@@ -13,7 +13,7 @@ class WordOptions {
     {
       'value': '可爱',
       'vip': true,
-      'img': 'assets/images/theme/chinese-default-theme.png',
+      'img': 'assets/images/theme/cute-default-theme.png',
     },
   ];
   static const List<Map<String, dynamic>> lengthList = <Map<String, dynamic>>[

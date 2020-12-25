@@ -148,7 +148,8 @@ class _InspirationPageState extends State<InspirationPage>
                   child: Container(
                     width: 165.w,
                     child: Image(
-                      image: AssetImage('assets/images/inspiration/top.png'),
+                      image:
+                          const AssetImage('assets/images/inspiration/top.png'),
                     ),
                   ),
                 ),
@@ -166,7 +167,8 @@ class _InspirationPageState extends State<InspirationPage>
                 ),
                 width: 200.w,
                 child: Image(
-                  image: AssetImage('assets/images/inspiration/middle.png'),
+                  image:
+                      const AssetImage('assets/images/inspiration/middle.png'),
                 ),
               ),
             ),
@@ -248,7 +250,8 @@ class _InspirationPageState extends State<InspirationPage>
                 isLiked: _isLiked,
                 countPostion: CountPostion.bottom,
                 countBuilder: (int count, bool isLiked, String text) {
-                  Color color = isLiked ? Color(0xffff4081) : Colors.grey;
+                  final Color color =
+                      isLiked ? const Color(0xffff4081) : Colors.grey;
                   return Container(
                     padding: EdgeInsets.only(
                       top: 10.h,
