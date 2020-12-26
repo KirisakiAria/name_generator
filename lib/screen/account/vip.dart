@@ -32,9 +32,14 @@ class VipPage extends StatefulWidget {
 class _VipPageState extends State<VipPage> {
   final List<Map<String, dynamic>> _vipBenefitsList = <Map<String, dynamic>>[
     <String, dynamic>{
-      'icon': CustomIconData.vipDictionary,
-      'title': '高级词库',
-      'desc': '解锁六字以上的VIP专属词库，可查询到更多网名',
+      'icon': CustomIconData.vipType,
+      'title': '更多类型',
+      'desc': '解锁更多的VIP专属类型的，可查询到更多网名',
+    },
+    <String, dynamic>{
+      'icon': CustomIconData.vipLength,
+      'title': '字数解锁',
+      'desc': '解锁六字以上字数的VIP专属词库，可查询到更多网名',
     },
     <String, dynamic>{
       'icon': CustomIconData.vipSearch,

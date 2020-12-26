@@ -607,13 +607,13 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
               if (couples) {
                 return Image(
                   image: const AssetImage('assets/images/theme/couples.png'),
-                  width: 165.w,
+                  width: 160.w,
                 );
               } else {
                 return Image(
                   image: AssetImage(type['img'] ??
                       'assets/images/theme/chinese-default-theme.png'),
-                  width: 165.w,
+                  width: 160.w,
                 );
               }
             },
@@ -675,7 +675,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                         widget.word,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
+                          fontSize: widget.word.length > 5 ? 40.sp : 50.sp,
                           letterSpacing: 8,
                           height: 1.4,
                         ),
@@ -689,7 +689,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                             widget.word,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 40.sp : 44.sp,
+                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
                               letterSpacing: 8,
                               height: 1.4,
                             ),
@@ -698,7 +698,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                             widget.word2,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 40.sp : 44.sp,
+                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
                               letterSpacing: 8,
                               height: 1.4,
                             ),
