@@ -675,8 +675,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                         widget.word,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: widget.word.length > 5 ? 40.sp : 50.sp,
-                          letterSpacing: 8,
+                          fontSize: widget.word.length > 5 ? 40 : 50,
+                          letterSpacing: 7,
                           height: 1.4,
                         ),
                       ),
@@ -689,8 +689,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                             widget.word,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
-                              letterSpacing: 8,
+                              fontSize: widget.word.length > 5 ? 38 : 44,
+                              letterSpacing: 7,
                               height: 1.4,
                             ),
                           ),
@@ -698,8 +698,8 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                             widget.word2,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: widget.word.length > 5 ? 40.sp : 46.sp,
-                              letterSpacing: 8,
+                              fontSize: widget.word.length > 5 ? 38 : 44,
+                              letterSpacing: 7,
                               height: 1.4,
                             ),
                           ),
