@@ -135,12 +135,13 @@ class _InspirationPageState extends State<InspirationPage>
                       top: 20.h,
                     ),
                     child: const Text(
-                        '歡迎來到靈感探求頁面。在這個頁面裏，我們會不断更新適合發掘出網名精選的精選詩詞和故事。希望能夠盤活您的思緒之泉 ฅ･◡･ฅ',
-                        style: TextStyle(
-                          letterSpacing: 0.8,
-                          height: 1.5,
-                          fontSize: 12,
-                        )),
+                      '歡迎來到靈感探求頁面。在這個頁面裏，我們會不断更新適合發掘出網名精選的精選詩詞和故事。希望能夠盤活您的思緒之泉 ฅ･◡･ฅ',
+                      style: TextStyle(
+                        letterSpacing: 0.8,
+                        height: 1.5,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
                 ),
                 Align(

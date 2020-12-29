@@ -2,14 +2,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-//import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tobias/tobias.dart';
-//import 'package:huawei_iap/HmsIapLibrary.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
@@ -70,26 +68,6 @@ class _VipPageState extends State<VipPage> {
   bool _vip = false;
   String _vipEndTime = '';
   String _paymentMethod = '1';
-
-  //华为支付
-  // String _isEnvReadyStatus;
-
-  // dynamic _environmentCheck() async {
-  //   _isEnvReadyStatus = null;
-  //   try {
-  //     IsEnvReadyResult response = await IapClient.isEnvReady();
-  //     setState(() {
-  //       _isEnvReadyStatus = response.status.statusMessage;
-  //       print(_isEnvReadyStatus);
-  //     });
-  //   } catch (e) {
-  //     if (e.code == HmsIapResults.LOG_IN_ERROR.resultCode) {
-  //       print(HmsIapResults.LOG_IN_ERROR.resultMessage);
-  //     } else {
-  //       print(e.toString());
-  //     }
-  //   }
-  // }
 
   Future<void> _getUserData() async {
     try {

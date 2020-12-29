@@ -38,13 +38,14 @@ class _AboutPageState extends State<AboutPage> {
                 ),
                 alignment: Alignment.center,
                 child: Image(
-                  width: 130.w,
+                  width: 110.w,
                   image: const AssetImage('assets/images/about/about.png'),
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(
-                  vertical: 30.h,
+                margin: EdgeInsets.only(
+                  top: 30.h,
+                  bottom: 18.h,
                 ),
                 child: const Text(
                   '彼岸自在',
@@ -277,7 +278,7 @@ class _AboutPageState extends State<AboutPage> {
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                        top: 10.h,
+                        top: 16.h,
                       ),
                       child: const Text(
                         '© 2020 彼岸自在 All Rights Reserved',
