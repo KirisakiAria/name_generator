@@ -183,7 +183,7 @@ class ListItem extends StatelessWidget {
             WordIcon(type),
             Container(
               margin: EdgeInsets.only(
-                left: 15.w,
+                left: 20.w,
               ),
               child: Text(
                 word,

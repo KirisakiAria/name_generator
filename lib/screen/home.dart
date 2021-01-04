@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  // 退出APP标记
+  // 退出APP标记（标记是否已经点过一次返回）
   bool isQuit = false;
   // 清除标记定时器
   Timer quitTimer;
@@ -136,10 +136,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      //连续两次按返回键推出APP，两次点击间隔不超过2秒
       onWillPop: () async {
-        // 可以返回
+        // 路由栈里只有一个页面时才执行下列退出APP逻辑
         if (!Navigator.canPop(context)) {
-          // 检查退出标记
+          // 检查连续点击返回退出标记
           if (isQuit) {
             // 退出APP
             await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
             );
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            // 记录退出标记
+            // 记录连续点击返回退出标记
             isQuit = true;
             // 开启定时器，两秒后清除标记
             quitTimer = Timer(Duration(seconds: 2), () {
@@ -162,7 +163,7 @@ class _HomePageState extends State<HomePage> {
           return false;
         }
         isQuit = false;
-        // 默认正常运行
+        // 正常返回
         return true;
       },
       child: Scaffold(

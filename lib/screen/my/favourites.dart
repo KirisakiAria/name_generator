@@ -22,23 +22,46 @@ import '../../utils/explanation.dart';
 class FavouritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '收藏',
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            '收藏',
+          ),
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(Icons.directions_car),
+                text: "普通",
+              ),
+              Tab(
+                icon: Icon(Icons.directions_bike),
+                text: "情侣",
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            FavouritesList('normal'),
+            FavouritesList('couples'),
+          ],
         ),
       ),
-      body: FavouritesList(),
     );
   }
 }
 
 class FavouritesList extends StatefulWidget {
+  final String type;
+  FavouritesList(this.type);
   @override
   _FavouritesListState createState() => _FavouritesListState();
 }
 
-class _FavouritesListState extends State<FavouritesList> {
+class _FavouritesListState extends State<FavouritesList>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
@@ -54,7 +77,7 @@ class _FavouritesListState extends State<FavouritesList> {
       final String path = API.favourite;
       final Response res = await Request(
         context: context,
-      ).httpGet(path + '?page=$_page');
+      ).httpGet(path + '?page=$_page&type=${widget.type}');
       if (res.data['code'] == '1000') {
         setState(() {
           final int length = res.data['data']['list'].length;
@@ -75,6 +98,13 @@ class _FavouritesListState extends State<FavouritesList> {
     } catch (err) {
       print(err);
     }
+  }
+
+  void _cancel(int index) {
+    print(index);
+    setState(() {
+      _list.removeAt(index);
+    });
   }
 
   @override
@@ -98,7 +128,11 @@ class _FavouritesListState extends State<FavouritesList> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       color: Style.grey20,
       backgroundColor: Colors.white,
@@ -117,11 +151,21 @@ class _FavouritesListState extends State<FavouritesList> {
           if (index == _list.length) {
             return LoadingView(_loadingStatus);
           } else {
-            return ListItem(
-              type: _list[index]['type'],
-              word: _list[index]['word'],
-              callback: _getData,
-            );
+            if (widget.type == 'normal') {
+              return ListItemNormal(
+                type: _list[index]['type'],
+                word: _list[index]['word'],
+                index: index,
+                cancelCallBack: _cancel,
+              );
+            } else {
+              return ListItemCouples(
+                type: _list[index]['type'],
+                words: _list[index]['words'],
+                index: index,
+                cancelCallBack: _cancel,
+              );
+            }
           }
         },
       ),
@@ -129,17 +173,21 @@ class _FavouritesListState extends State<FavouritesList> {
   }
 }
 
-class ListItem extends StatelessWidget {
+class ListItemNormal extends StatelessWidget {
   final String type, word;
-  final VoidCallback callback;
-  ListItem({
+  final int index;
+  final Function(int index) cancelCallBack;
+
+  ListItemNormal({
     @required this.type,
     @required this.word,
-    @required this.callback,
+    @required this.index,
+    @required this.cancelCallBack,
   });
 
   Future<void> _cancel({
     @required String word,
+    @required int index,
     @required BuildContext context,
   }) async {
     try {
@@ -148,7 +196,7 @@ class ListItem extends StatelessWidget {
         context: context,
       ).httpDelete('$path/$word');
       if (res.data['code'] == '1000') {
-        callback();
+        cancelCallBack(index);
       }
     } catch (err) {
       print(err);
@@ -204,7 +252,7 @@ class ListItem extends StatelessWidget {
             WordIcon(type),
             Container(
               margin: EdgeInsets.only(
-                left: 15.w,
+                left: 20.w,
               ),
               child: Text(
                 word,
@@ -225,6 +273,120 @@ class ListItem extends StatelessWidget {
                     ),
                     onPressed: () => _cancel(
                       word: word,
+                      index: index,
+                      context: context,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ListItemCouples extends StatelessWidget {
+  final String type;
+  final List<dynamic> words;
+  final int index;
+  final Function(int index) cancelCallBack;
+
+  ListItemCouples({
+    @required this.type,
+    @required this.words,
+    @required this.index,
+    @required this.cancelCallBack,
+  });
+
+  Future<void> _cancel({
+    @required List<dynamic> words,
+    @required int index,
+    @required BuildContext context,
+  }) async {
+    try {
+      final String path = API.favourite;
+      final Response res = await Request(
+        context: context,
+      ).httpDelete('$path/${words[0]}?couples=1');
+      if (res.data['code'] == '1000') {
+        cancelCallBack(index);
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Clipboard.setData(ClipboardData(text: '${words[0]} ${words[1]}'));
+        final SnackBar snackBar = SnackBar(
+          content: const Text('复制成功'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 15.w,
+          vertical: 6.h,
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 15.w,
+          vertical: 8.h,
+        ),
+        decoration: ShapeDecoration(
+          color: context.watch<SkinProvider>().color['widget'],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
+          ),
+        ),
+        child: Row(
+          children: <Widget>[
+            WordIcon(type),
+            Container(
+              margin: EdgeInsets.only(
+                left: 20.w,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    words[0],
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    words[1],
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.8,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  child: FlatButton(
+                    child: Text(
+                      '取消收藏',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.watch<SkinProvider>().color['subtitle'],
+                      ),
+                    ),
+                    onPressed: () => _cancel(
+                      words: words,
+                      index: index,
                       context: context,
                     ),
                   ),

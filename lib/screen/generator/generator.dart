@@ -560,6 +560,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
           'type': context.read<WordOptionsProvider>().type['value'],
           'length': context.read<WordOptionsProvider>().length['value'],
           'word': widget.word,
+          'word2': widget.word2,
         },
       );
     } catch (err) {
@@ -635,7 +636,6 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
           onLongPress: () {
-            if (!couples) {
               final bool loginState = context.read<UserProvider>().loginState;
               if (loginState) {
                 _controller.forward();
@@ -648,7 +648,6 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
-            }
           },
           child: Stack(
             children: <Widget>[
