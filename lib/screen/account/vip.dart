@@ -139,7 +139,7 @@ class _VipPageState extends State<VipPage> {
     try {
       if (_vipEndTime == '永久') {
         final SnackBar snackBar = SnackBar(
-          content: Text('您已经是永久会员'),
+          content: const Text('您已经是永久会员'),
           duration: Duration(seconds: 2),
         );
         ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -149,7 +149,7 @@ class _VipPageState extends State<VipPage> {
           bool result = await isAliPayInstalled();
           if (!result) {
             final SnackBar snackBar = SnackBar(
-              content: Text('请先安装支付宝'),
+              content: const Text('请先安装支付宝'),
               duration: Duration(seconds: 2),
             );
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -188,14 +188,14 @@ class _VipPageState extends State<VipPage> {
               if (res.data['code'] == '1000') {
                 _getUserData();
                 final SnackBar snackBar = SnackBar(
-                  content: Text('VIP会员购买成功，感谢您的支持！'),
+                  content: const Text('VIP会员购买成功，感谢您的支持！'),
                   duration: Duration(seconds: 2),
                 );
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else {
                 final SnackBar snackBar = SnackBar(
-                  content: Text('购买失败，请联系客服人员'),
+                  content: const Text('购买失败，请联系客服人员'),
                   duration: Duration(seconds: 2),
                 );
                 ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -248,7 +248,7 @@ class _VipPageState extends State<VipPage> {
                             });
                           } else {
                             final SnackBar snackBar = SnackBar(
-                              content: Text('此支付方式暂不可用'),
+                              content:const Text('此支付方式暂不可用'),
                               duration: Duration(seconds: 2),
                             );
                             ScaffoldMessenger.of(context)

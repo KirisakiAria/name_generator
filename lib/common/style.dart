@@ -22,6 +22,7 @@ class Style {
     'inactiveSwitchTrack': Colors.black26,
     'activeSwitchTrack': Color(0xffff6348),
     'searchInput': Color(0xfff3f3f3),
+    'indicatorColor': Color(0xffdfdfdf),
   };
 
   //夜间
@@ -42,6 +43,7 @@ class Style {
     'inactiveSwitchTrack': Color(0xffbfbfbf),
     'activeSwitchTrack': Color(0xffff6348),
     'searchInput': Color(0xff4f4f4f),
+    'indicatorColor': Color(0xfff5f5f5),
   };
 
   //主题分类
@@ -71,6 +73,7 @@ class Style {
     dialogTheme: DialogTheme(
       backgroundColor: defaultColor['widget'],
     ),
+    indicatorColor: defaultColor['background'],
     iconTheme: IconThemeData(
       color: Color(0xff999999),
     ),
@@ -141,6 +144,7 @@ class Style {
     dialogTheme: DialogTheme(
       backgroundColor: nightColor['widget'],
     ),
+    indicatorColor: nightColor['background'],
     iconTheme: IconThemeData(
       color: nightColor['text'],
     ),

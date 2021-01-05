@@ -80,6 +80,12 @@ class _SearchPageState extends State<SearchPage>
           final int length = res.data['data']['list'].length;
           if (length == 0) {
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;
+            final SnackBar snackBar = SnackBar(
+              content: const Text('暂未查询到此关键词的网名噢~'),
+              duration: Duration(seconds: 3),
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else if (length < 15) {
             _list.addAll(res.data['data']['list']);
             _loadingStatus = LoadingStatus.STATUS_COMPLETED;

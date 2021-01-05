@@ -27,17 +27,22 @@ class FavouritesPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            '收藏',
+            '我的收藏',
           ),
           bottom: TabBar(
+            indicatorColor:
+                context.watch<SkinProvider>().color['indicatorColor'],
+            unselectedLabelColor:
+                context.watch<SkinProvider>().color['subtitle'],
+            labelStyle: TextStyle(
+              fontSize: 16,
+            ),
             tabs: <Widget>[
               Tab(
-                icon: Icon(Icons.directions_car),
-                text: "普通",
+                text: '普通',
               ),
               Tab(
-                icon: Icon(Icons.directions_bike),
-                text: "情侣",
+                text: '情侣',
               ),
             ],
           ),
@@ -56,6 +61,7 @@ class FavouritesPage extends StatelessWidget {
 class FavouritesList extends StatefulWidget {
   final String type;
   FavouritesList(this.type);
+
   @override
   _FavouritesListState createState() => _FavouritesListState();
 }

@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
             await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
           } else {
             final SnackBar snackBar = SnackBar(
-              content: Text('再按一次退出APP'),
+              content: const Text('再按一次退出APP'),
               duration: Duration(seconds: 2),
             );
             ScaffoldMessenger.of(context).removeCurrentSnackBar();

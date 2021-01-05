@@ -22,18 +22,46 @@ import '../../utils/explanation.dart';
 class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          '查询记录',
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            '查询记录',
+          ),
+          bottom: TabBar(
+            indicatorColor:
+                context.watch<SkinProvider>().color['indicatorColor'],
+            unselectedLabelColor:
+                context.watch<SkinProvider>().color['subtitle'],
+            labelStyle: TextStyle(
+              fontSize: 16,
+            ),
+            tabs: <Widget>[
+              Tab(
+                text: '普通',
+              ),
+              Tab(
+                text: '情侣',
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            HistoryList('normal'),
+            HistoryList('couples'),
+          ],
         ),
       ),
-      body: HistoryList(),
     );
   }
 }
 
 class HistoryList extends StatefulWidget {
+  final String type;
+  HistoryList(this.type);
+
   @override
   _HistoryListState createState() => _HistoryListState();
 }
@@ -54,7 +82,7 @@ class _HistoryListState extends State<HistoryList> {
       final String path = API.history;
       final Response res = await Request(
         context: context,
-      ).httpGet(path + '?page=$_page');
+      ).httpGet(path + '?page=$_page&type=${widget.type}');
       if (res.data['code'] == '1000') {
         setState(() {
           final int length = res.data['data']['list'].length;
@@ -117,10 +145,17 @@ class _HistoryListState extends State<HistoryList> {
           if (index == _list.length) {
             return LoadingView(_loadingStatus);
           } else {
-            return ListItem(
-              type: _list[index]['type'],
-              word: _list[index]['word'],
-            );
+            if (widget.type == 'normal') {
+              return ListItemNormal(
+                type: _list[index]['type'],
+                word: _list[index]['word'],
+              );
+            } else {
+              return ListItemCouples(
+                type: _list[index]['type'],
+                words: _list[index]['words'],
+              );
+            }
           }
         },
       ),
@@ -128,9 +163,10 @@ class _HistoryListState extends State<HistoryList> {
   }
 }
 
-class ListItem extends StatelessWidget {
+class ListItemNormal extends StatelessWidget {
   final String type, word;
-  ListItem({
+
+  ListItemNormal({
     @required this.type,
     @required this.word,
   });
@@ -188,6 +224,76 @@ class ListItem extends StatelessWidget {
               child: Text(
                 word,
                 style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ListItemCouples extends StatelessWidget {
+  final String type;
+  final List words;
+
+  ListItemCouples({
+    @required this.type,
+    @required this.words,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Clipboard.setData(ClipboardData(text: '${words[0]} ${words[1]}'));
+        final SnackBar snackBar = SnackBar(
+          content: const Text('复制成功'),
+          duration: Duration(seconds: 2),
+        );
+        ScaffoldMessenger.of(context).removeCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: 15.w,
+          vertical: 6.h,
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 15.w,
+          vertical: 8.h,
+        ),
+        decoration: ShapeDecoration(
+          color: context.watch<SkinProvider>().color['widget'],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
+          ),
+        ),
+        child: Row(
+          children: <Widget>[
+            WordIcon(type),
+            Container(
+              margin: EdgeInsets.only(
+                left: 20.w,
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    words[0],
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    words[1],
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.8,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

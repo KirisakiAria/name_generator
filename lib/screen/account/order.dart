@@ -155,7 +155,7 @@ class ListItem extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
-          title: Text('订单详情'),
+          title: const Text('订单详情'),
           scrollable: true,
           content: SizedBox(
             width: 340.w,
