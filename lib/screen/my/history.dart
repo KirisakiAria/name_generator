@@ -66,7 +66,7 @@ class HistoryList extends StatefulWidget {
   _HistoryListState createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> {
+class _HistoryListState extends State<HistoryList> with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
@@ -126,7 +126,11 @@ class _HistoryListState extends State<HistoryList> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       color: Style.grey20,
       backgroundColor: Colors.white,

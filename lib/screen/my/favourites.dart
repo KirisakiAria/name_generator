@@ -107,7 +107,6 @@ class _FavouritesListState extends State<FavouritesList>
   }
 
   void _cancel(int index) {
-    print(index);
     setState(() {
       _list.removeAt(index);
     });

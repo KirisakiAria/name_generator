@@ -908,20 +908,6 @@ class OptionsDialog extends Dialog {
                   list: WordOptions.typeList,
                   value: context.watch<WordOptionsProvider>().type,
                   callback: (Map<String, dynamic> newValue) {
-                    final bool couples =
-                        context.read<WordOptionsProvider>().couples;
-                    if (couples) {
-                      final SnackBar snackBar = SnackBar(
-                        content: const Text('情侣模式暂时只支持中国风'),
-                        duration: Duration(seconds: 2),
-                        margin: EdgeInsets.only(bottom: 100.h),
-                        behavior: SnackBarBehavior.floating,
-                      );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      print(snackBar);
-                      return false;
-                    }
                     final bool vip = context.read<UserProvider>().vip;
                     if (newValue['vip'] && !vip) {
                       _promptVip(
@@ -967,11 +953,6 @@ class OptionsDialog extends Dialog {
                           context
                               .read<WordOptionsProvider>()
                               .changeCouples(value);
-                          if (value) {
-                            context
-                                .read<WordOptionsProvider>()
-                                .changeType(WordOptions.typeList[0]);
-                          }
                         } else {
                           _promptVip(
                             context: context,

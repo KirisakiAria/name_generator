@@ -35,7 +35,7 @@ class WordOptions {
     },
     {
       'value': '5',
-      'vip': false,
+      'vip': true,
     },
     {
       'value': '6',
