@@ -268,7 +268,7 @@ class ListItemNormal extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text(
                       '取消收藏',
                       style: TextStyle(
@@ -381,7 +381,7 @@ class ListItemCouples extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Container(
-                  child: FlatButton(
+                  child: TextButton(
                     child: Text(
                       '取消收藏',
                       style: TextStyle(

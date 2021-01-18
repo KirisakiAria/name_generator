@@ -529,7 +529,7 @@ class Menu extends StatelessWidget {
                       title: const Text('提示'),
                       content: const Text('是否退出登录？'),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             '取消',
                             style: TextStyle(
@@ -539,7 +539,7 @@ class Menu extends StatelessWidget {
                           ),
                           onPressed: () => Navigator.pop(context),
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text(
                             '确认',
                             style: TextStyle(

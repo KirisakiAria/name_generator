@@ -192,7 +192,7 @@ class _GeneratorPageState extends State<GeneratorPage>
               ),
             ),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(
                   '拒绝',
                   style: TextStyle(
@@ -203,7 +203,7 @@ class _GeneratorPageState extends State<GeneratorPage>
                 onPressed: () =>
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   '同意',
                   style: TextStyle(
@@ -463,14 +463,14 @@ class _GeneratorPageState extends State<GeneratorPage>
                     bgColor: context.watch<SkinProvider>().color['button'],
                     textColor:
                         context.watch<SkinProvider>().color['background'],
-                    borderColor: Style.defaultColor['button'],
+                    borderColor: context.watch<SkinProvider>().color['button'],
                     callback: () => _getData(),
                   ),
                   CustomButton(
                     text: '選項',
                     bgColor: Style.defaultColor['background'],
                     textColor: Style.defaultColor['button'],
-                    borderColor: Style.defaultColor['button'],
+                    borderColor: context.watch<SkinProvider>().color['button'],
                     callback: () => showGeneralDialog(
                       context: context,
                       pageBuilder: (
@@ -971,7 +971,7 @@ class OptionsDialog extends Dialog {
                     bgColor: context.watch<SkinProvider>().color['button'],
                     textColor:
                         context.watch<SkinProvider>().color['background'],
-                    borderColor: Style.defaultColor['button'],
+                    borderColor: context.watch<SkinProvider>().color['button'],
                     callback: () {
                       getData();
                       Navigator.pop(context);

@@ -204,9 +204,6 @@ class _VipPageState extends State<VipPage> {
             }
           }
         }
-        // else if (_paymentMethod == '3') {
-        //   _environmentCheck();
-        // }
       }
     } catch (err) {
       print(err);
@@ -248,7 +245,7 @@ class _VipPageState extends State<VipPage> {
                             });
                           } else {
                             final SnackBar snackBar = SnackBar(
-                              content:const Text('此支付方式暂不可用'),
+                              content: const Text('此支付方式暂不可用'),
                               duration: Duration(seconds: 2),
                             );
                             ScaffoldMessenger.of(context)
@@ -624,14 +621,20 @@ class _VipPageState extends State<VipPage> {
               padding: EdgeInsets.only(
                 bottom: 20.h,
               ),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 110.w,
-                  vertical: 15.h,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(
+                      horizontal: 110.w,
+                      vertical: 15.h,
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    Color(0xffc78f4f),
+                  ),
+                  elevation: MaterialStateProperty.all(6),
                 ),
-                color: Color(0xffc78f4f),
                 onPressed: () => _showPaymentMethod(),
-                elevation: 6,
                 child: Text(
                   '立即升级',
                   style: TextStyle(

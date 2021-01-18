@@ -240,7 +240,7 @@ class _CustomFormState extends State<CustomForm> {
                 text: '注册',
                 bgColor: Style.defaultColor['background'],
                 textColor: Style.defaultColor['button'],
-                borderColor: Style.defaultColor['button'],
+                borderColor: context.watch<SkinProvider>().color['button'],
                 callback: () => InheritedUserPage.of(context).changeScreen(2),
               ),
             ),

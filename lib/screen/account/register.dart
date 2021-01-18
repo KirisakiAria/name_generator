@@ -336,7 +336,7 @@ class _CustomFormState extends State<CustomForm> {
                 text: '注册',
                 bgColor: context.watch<SkinProvider>().color['button'],
                 textColor: context.watch<SkinProvider>().color['background'],
-                borderColor: Style.defaultColor['button'],
+                borderColor: context.watch<SkinProvider>().color['button'],
                 callback: () => _formValidate(),
               ),
             ),
