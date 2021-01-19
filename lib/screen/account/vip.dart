@@ -28,7 +28,7 @@ class EditCodeDialog extends Dialog {
 
   EditCodeDialog({
     Key key,
-    this.getUserData,
+    @required this.getUserData,
   }) : super(key: key);
 
   @override
@@ -40,17 +40,15 @@ class EditCodeDialog extends Dialog {
         StateSetter setState,
       ) {
         String _code;
-        //定义GlobalKey为了获取到form的状态
         final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-        //修改用户名
         Future<void> _activateKey() async {
           try {
-            Navigator.of(context).pop(<String, bool>{'success': true});
+            Navigator.pop(context);
             final String path = API.activateKey;
             final Response res = await Request(
               context: context,
-            ).httpPut(
+            ).httpPost(
               path,
               <String, dynamic>{
                 'tel': context.read<UserProvider>().tel,
@@ -59,6 +57,55 @@ class EditCodeDialog extends Dialog {
             );
             if (res.data['code'] == '1000') {
               getUserData();
+              showGeneralDialog(
+                context: context,
+                pageBuilder: (
+                  BuildContext context,
+                  Animation<double> anim1,
+                  Animation<double> anim2,
+                ) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    title: Text('激活成功'),
+                    scrollable: true,
+                    content: SizedBox(
+                      width: 340.w,
+                      height: 120.h,
+                      child: Text('激活成功！'),
+                    ),
+                    actions: <Widget>[
+                      CustomButton(
+                        text: '確認',
+                        bgColor: context.watch<SkinProvider>().color['button'],
+                        textColor:
+                            context.watch<SkinProvider>().color['background'],
+                        borderColor: Style.defaultColor['button'],
+                        paddingVertical: 14.h,
+                        callback: () => Navigator.pop(context),
+                      ),
+                    ],
+                    actionsPadding: EdgeInsets.only(
+                      right: 12.h,
+                      bottom: 12.h,
+                    ),
+                  );
+                },
+                barrierColor: Color.fromRGBO(0, 0, 0, .4),
+                transitionDuration: Duration(milliseconds: 200),
+                transitionBuilder: (
+                  BuildContext context,
+                  Animation<double> anim1,
+                  Animation<double> anim2,
+                  Widget child,
+                ) {
+                  return Transform.scale(
+                    scale: anim1.value,
+                    child: child,
+                  );
+                },
+              );
             }
           } catch (err) {
             print(err);
@@ -139,7 +186,7 @@ class EditCodeDialog extends Dialog {
                           top: 22.h,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             CustomButton(
                               text: '取消',
@@ -147,7 +194,7 @@ class EditCodeDialog extends Dialog {
                               textColor: Style.defaultColor['button'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 38.h,
+                              paddingHorizontal: 37.w,
                               paddingVertical: 8.h,
                               callback: () => Navigator.pop(
                                 context,
@@ -163,7 +210,7 @@ class EditCodeDialog extends Dialog {
                                   .color['background'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 38.h,
+                              paddingHorizontal: 37.w,
                               paddingVertical: 8.h,
                               callback: () async => _formValidate(),
                             ),
@@ -297,97 +344,89 @@ class _VipPageState extends State<VipPage> {
 
   Future<void> _pay() async {
     try {
-      if (_vipEndTime == '永久') {
-        final SnackBar snackBar = SnackBar(
-          content: const Text('您已经是永久会员'),
-          duration: Duration(seconds: 2),
-        );
-        ScaffoldMessenger.of(context).removeCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        if (_paymentMethod == '1') {
-          bool result = await isAliPayInstalled();
-          if (!result) {
-            final SnackBar snackBar = SnackBar(
-              content: const Text('请先安装支付宝'),
-              duration: Duration(seconds: 2),
-            );
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            return Future;
-          }
-          final String path = API.pay;
-          final Response res = await Request(
-            context: context,
-          ).httpPost(
-            path,
-            <String, dynamic>{
-              'tel': context.read<UserProvider>().tel,
-              'planId': _planId,
-              'paymentMethod': _paymentMethod,
-            },
+      if (_paymentMethod == '1') {
+        bool result = await isAliPayInstalled();
+        if (!result) {
+          final SnackBar snackBar = SnackBar(
+            content: const Text('请先安装支付宝'),
+            duration: Duration(seconds: 2),
           );
-          if (res.data['code'] == '1000') {
-            Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
-            Map<dynamic, dynamic> payResultObj =
-                json.decode(payResult['result']);
-            if (payResultObj['alipay_trade_app_pay_response']['code'] ==
-                '10000') {
-              final String paySuccessPath = API.paySuccess;
-              final Response res = await Request(
-                context: context,
-              ).httpPost(
-                paySuccessPath,
-                <String, dynamic>{
-                  'tel': context.read<UserProvider>().tel,
-                  'planId': _planId,
-                  'orderNo': payResultObj['alipay_trade_app_pay_response']
-                      ['out_trade_no'],
-                },
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          return Future;
+        }
+        final String path = API.pay;
+        final Response res = await Request(
+          context: context,
+        ).httpPost(
+          path,
+          <String, dynamic>{
+            'tel': context.read<UserProvider>().tel,
+            'planId': _planId,
+            'paymentMethod': _paymentMethod,
+          },
+        );
+        if (res.data['code'] == '1000') {
+          Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
+          Map<dynamic, dynamic> payResultObj = json.decode(payResult['result']);
+          if (payResultObj['alipay_trade_app_pay_response']['code'] ==
+              '10000') {
+            final String paySuccessPath = API.paySuccess;
+            final Response res = await Request(
+              context: context,
+            ).httpPost(
+              paySuccessPath,
+              <String, dynamic>{
+                'tel': context.read<UserProvider>().tel,
+                'planId': _planId,
+                'orderNo': payResultObj['alipay_trade_app_pay_response']
+                    ['out_trade_no'],
+              },
+            );
+            if (res.data['code'] == '1000') {
+              _getUserData();
+              final SnackBar snackBar = SnackBar(
+                content: const Text('VIP会员购买成功，感谢您的支持！'),
+                duration: Duration(seconds: 2),
               );
-              if (res.data['code'] == '1000') {
-                _getUserData();
-                final SnackBar snackBar = SnackBar(
-                  content: const Text('VIP会员购买成功，感谢您的支持！'),
-                  duration: Duration(seconds: 2),
-                );
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              } else {
-                final SnackBar snackBar = SnackBar(
-                  content: const Text('购买失败，请联系客服人员'),
-                  duration: Duration(seconds: 2),
-                );
-                ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            } else {
+              final SnackBar snackBar = SnackBar(
+                content: const Text('购买失败，请联系客服人员'),
+                duration: Duration(seconds: 2),
+              );
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
           }
-        } else if (_paymentMethod == '3') {
-          await showGeneralDialog(
-            context: context,
-            barrierColor: Colors.grey.withOpacity(.4),
-            pageBuilder: (
-              BuildContext context,
-              Animation<double> anim1,
-              Animation<double> anim2,
-            ) {
-              return EditCodeDialog(getUserData: _getUserData);
-            },
-            transitionDuration: Duration(milliseconds: 300),
-            transitionBuilder: (
-              BuildContext context,
-              Animation<double> anim1,
-              Animation<double> anim2,
-              Widget child,
-            ) {
-              return Opacity(
-                opacity: anim1.value,
-                child: child,
-              );
-            },
-          );
         }
+      } else if (_paymentMethod == '3') {
+        await showGeneralDialog(
+          context: context,
+          barrierColor: Colors.grey.withOpacity(.4),
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> anim1,
+            Animation<double> anim2,
+          ) {
+            return EditCodeDialog(
+              getUserData: _getUserData,
+            );
+          },
+          transitionDuration: Duration(milliseconds: 300),
+          transitionBuilder: (
+            BuildContext context,
+            Animation<double> anim1,
+            Animation<double> anim2,
+            Widget child,
+          ) {
+            return Opacity(
+              opacity: anim1.value,
+              child: child,
+            );
+          },
+        );
       }
     } catch (err) {
       print(err);
@@ -415,7 +454,7 @@ class _VipPageState extends State<VipPage> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 250.h,
+                    height: 220.h,
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
@@ -818,7 +857,18 @@ class _VipPageState extends State<VipPage> {
                   ),
                   elevation: MaterialStateProperty.all(6),
                 ),
-                onPressed: () => _showPaymentMethod(),
+                onPressed: () {
+                  if (_vipEndTime == '永久') {
+                    final SnackBar snackBar = SnackBar(
+                      content: const Text('您已经是永久会员'),
+                      duration: Duration(seconds: 2),
+                    );
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    _showPaymentMethod();
+                  }
+                },
                 child: Text(
                   '立即升级',
                   style: TextStyle(

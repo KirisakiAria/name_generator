@@ -587,7 +587,7 @@ class EditUserNameDialog extends Dialog {
                               textColor: Style.defaultColor['button'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 38.h,
+                              paddingHorizontal: 37.w,
                               paddingVertical: 8.h,
                               callback: () => Navigator.pop(
                                 context,
@@ -603,7 +603,7 @@ class EditUserNameDialog extends Dialog {
                                   .color['background'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 38.h,
+                              paddingHorizontal: 37.w,
                               paddingVertical: 8.h,
                               callback: () async => _formValidate(),
                             ),

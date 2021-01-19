@@ -2,12 +2,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        //maven { url 'https://developer.huawei.com/repo/' }  
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.4'
-        //classpath 'com.huawei.agconnect:agcp:1.4.1.300'
     }
 }
 
@@ -15,7 +13,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //maven { url 'https://developer.huawei.com/repo/' }
     }
 }
 
