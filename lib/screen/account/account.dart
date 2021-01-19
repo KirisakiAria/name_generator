@@ -521,8 +521,10 @@ class EditUserNameDialog extends Dialog {
               width: 310.w,
               height: 200.h,
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 30.w,
+                padding: EdgeInsets.only(
+                  left: 30.w,
+                  right: 30.w,
+                  top: 42.h,
                 ),
                 decoration: ShapeDecoration(
                   color: context.watch<SkinProvider>().color['background'],
@@ -541,7 +543,6 @@ class EditUserNameDialog extends Dialog {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       TextFormField(
                         inputFormatters: [
@@ -575,7 +576,7 @@ class EditUserNameDialog extends Dialog {
                       ),
                       Container(
                         padding: EdgeInsets.only(
-                          top: 20.h,
+                          top: 22.h,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -585,8 +586,9 @@ class EditUserNameDialog extends Dialog {
                               bgColor: Style.defaultColor['background'],
                               textColor: Style.defaultColor['button'],
                               borderColor: Style.defaultColor['button'],
-                              paddingHorizontal: 45.h,
-                              paddingVertical: 14.h,
+                              fontSize: 16,
+                              paddingHorizontal: 38.h,
+                              paddingVertical: 8.h,
                               callback: () => Navigator.pop(
                                 context,
                                 <String, bool>{'success': false},
@@ -600,8 +602,9 @@ class EditUserNameDialog extends Dialog {
                                   .watch<SkinProvider>()
                                   .color['background'],
                               borderColor: Style.defaultColor['button'],
-                              paddingHorizontal: 45.h,
-                              paddingVertical: 14.h,
+                              fontSize: 16,
+                              paddingHorizontal: 38.h,
+                              paddingVertical: 8.h,
                               callback: () async => _formValidate(),
                             ),
                           ],

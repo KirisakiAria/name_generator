@@ -33,4 +33,5 @@ class API {
   static const String plan = '/plan';
   static const String paymentMethod = '/data_dictionary/paymentmethod';
   static const String order = '/order/my';
+  static const String activateKey = '/key/activate';
 }

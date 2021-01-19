@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
@@ -22,6 +23,165 @@ import '../../model/skin.dart';
 
 const Color defaultColor = Color(0xfffadfbe);
 
+class EditCodeDialog extends Dialog {
+  final VoidCallback getUserData;
+
+  EditCodeDialog({
+    Key key,
+    this.getUserData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
+    return StatefulBuilder(
+      builder: (
+        BuildContext context,
+        StateSetter setState,
+      ) {
+        String _code;
+        //定义GlobalKey为了获取到form的状态
+        final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+        //修改用户名
+        Future<void> _activateKey() async {
+          try {
+            Navigator.of(context).pop(<String, bool>{'success': true});
+            final String path = API.activateKey;
+            final Response res = await Request(
+              context: context,
+            ).httpPut(
+              path,
+              <String, dynamic>{
+                'tel': context.read<UserProvider>().tel,
+                'code': _code,
+              },
+            );
+            if (res.data['code'] == '1000') {
+              getUserData();
+            }
+          } catch (err) {
+            print(err);
+          }
+        }
+
+        //表单验证
+        void _formValidate() async {
+          try {
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              await _activateKey();
+            }
+          } catch (err) {
+            print(err);
+          }
+        }
+
+        return Material(
+          //创建透明层
+          color: Color.fromRGBO(0, 0, 0, .55),
+          child: Center(
+            child: SizedBox(
+              width: 310.w,
+              height: 200.h,
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: 30.w,
+                  right: 30.w,
+                  top: 42.h,
+                ),
+                decoration: ShapeDecoration(
+                  color: context.watch<SkinProvider>().color['background'],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  shadows: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black12, //阴影颜色
+                      blurRadius: 14, //阴影大小
+                    ),
+                  ],
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  context.watch<SkinProvider>().color['border'],
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color:
+                                  context.watch<SkinProvider>().color['border'],
+                            ),
+                          ),
+                          hintText: '请输入激活码',
+                        ),
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return '请输入激活码';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          _code = value;
+                        },
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: 22.h,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            CustomButton(
+                              text: '取消',
+                              bgColor: Style.defaultColor['background'],
+                              textColor: Style.defaultColor['button'],
+                              borderColor: Style.defaultColor['button'],
+                              fontSize: 16,
+                              paddingHorizontal: 38.h,
+                              paddingVertical: 8.h,
+                              callback: () => Navigator.pop(
+                                context,
+                                <String, bool>{'success': false},
+                              ),
+                            ),
+                            CustomButton(
+                              text: '確定',
+                              bgColor:
+                                  context.watch<SkinProvider>().color['button'],
+                              textColor: context
+                                  .watch<SkinProvider>()
+                                  .color['background'],
+                              borderColor: Style.defaultColor['button'],
+                              fontSize: 16,
+                              paddingHorizontal: 38.h,
+                              paddingVertical: 8.h,
+                              callback: () async => _formValidate(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 class VipPage extends StatefulWidget {
   @override
   _VipPageState createState() => _VipPageState();
@@ -37,7 +197,7 @@ class _VipPageState extends State<VipPage> {
     <String, dynamic>{
       'icon': CustomIconData.vipLength,
       'title': '字数解锁',
-      'desc': '解锁六字以上字数的VIP专属词库，可查询到更多网名',
+      'desc': '解锁五字以上字数的VIP专属词库，可查询到更多网名',
     },
     <String, dynamic>{
       'icon': CustomIconData.vipSearch,
@@ -52,7 +212,7 @@ class _VipPageState extends State<VipPage> {
     <String, dynamic>{
       'icon': CustomIconData.vipRecord,
       'title': '扩充记录',
-      'desc': '收藏记录和搜索记录扩大至500条',
+      'desc': '收藏记录和搜索记录扩大至500条，并且可以查看情侣词相关记录',
     },
     <String, dynamic>{
       'icon': CustomIconData.vip,
@@ -203,6 +363,30 @@ class _VipPageState extends State<VipPage> {
               }
             }
           }
+        } else if (_paymentMethod == '3') {
+          await showGeneralDialog(
+            context: context,
+            barrierColor: Colors.grey.withOpacity(.4),
+            pageBuilder: (
+              BuildContext context,
+              Animation<double> anim1,
+              Animation<double> anim2,
+            ) {
+              return EditCodeDialog(getUserData: _getUserData);
+            },
+            transitionDuration: Duration(milliseconds: 300),
+            transitionBuilder: (
+              BuildContext context,
+              Animation<double> anim1,
+              Animation<double> anim2,
+              Widget child,
+            ) {
+              return Opacity(
+                opacity: anim1.value,
+                child: child,
+              );
+            },
+          );
         }
       }
     } catch (err) {

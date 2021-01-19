@@ -5,6 +5,7 @@ class CustomButton extends StatelessWidget {
   final Color textColor;
   final Color bgColor;
   final Color borderColor;
+  final double fontSize;
   final double paddingVertical;
   final double paddingHorizontal;
   final VoidCallback callback;
@@ -15,6 +16,7 @@ class CustomButton extends StatelessWidget {
     @required this.borderColor,
     this.paddingVertical = 16,
     this.paddingHorizontal = 50,
+    this.fontSize = 18,
     this.callback,
   });
 
@@ -47,7 +49,7 @@ class CustomButton extends StatelessWidget {
         style: TextStyle(
           color: textColor,
           fontFamily: 'SoukouMincho',
-          fontSize: 18,
+          fontSize: fontSize,
           letterSpacing: 1.5,
         ),
       ),
