@@ -214,6 +214,8 @@ class _UsernameState extends State<Username> {
             ) {
               return EditUserNameDialog();
             },
+            barrierLabel: '',
+            barrierDismissible: true,
             transitionDuration: Duration(milliseconds: 300),
             transitionBuilder: (
               BuildContext context,
@@ -519,12 +521,12 @@ class EditUserNameDialog extends Dialog {
           child: Center(
             child: SizedBox(
               width: 320.w,
-              height: 200.h,
+              height: 170,
               child: Container(
                 padding: EdgeInsets.only(
                   left: 30.w,
                   right: 30.w,
-                  top: 42.h,
+                  top: 36,
                 ),
                 decoration: ShapeDecoration(
                   color: context.watch<SkinProvider>().color['background'],
@@ -576,10 +578,10 @@ class EditUserNameDialog extends Dialog {
                       ),
                       Container(
                         padding: EdgeInsets.only(
-                          top: 22.h,
+                          top: 20,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             CustomButton(
                               text: '取消',
@@ -587,8 +589,8 @@ class EditUserNameDialog extends Dialog {
                               textColor: Style.defaultColor['button'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 37.w,
-                              paddingVertical: 8.h,
+                              paddingHorizontal: 42,
+                              paddingVertical: 11,
                               callback: () => Navigator.pop(
                                 context,
                                 <String, bool>{'success': false},
@@ -603,8 +605,8 @@ class EditUserNameDialog extends Dialog {
                                   .color['background'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 37.w,
-                              paddingVertical: 8.h,
+                              paddingHorizontal: 42,
+                              paddingVertical: 11,
                               callback: () async => _formValidate(),
                             ),
                           ],

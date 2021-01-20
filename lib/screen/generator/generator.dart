@@ -483,6 +483,8 @@ class _GeneratorPageState extends State<GeneratorPage>
                         );
                       },
                       barrierColor: Colors.grey.withOpacity(.4),
+                      barrierLabel: '',
+                      barrierDismissible: true,
                       transitionDuration: Duration(milliseconds: 400),
                       transitionBuilder: (
                         BuildContext context,
@@ -858,6 +860,8 @@ class OptionsDialog extends Dialog {
         return VipTipsDialog(tips);
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      barrierLabel: '',
+      barrierDismissible: true,
       transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (
         BuildContext context,

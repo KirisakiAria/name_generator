@@ -27,7 +27,7 @@ class VipTipsDialog extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(bottom: 42.h),
+              margin: EdgeInsets.only(bottom: 35.h),
               child: Text(tips),
             ),
             Row(
@@ -38,7 +38,7 @@ class VipTipsDialog extends StatelessWidget {
                   bgColor: Style.defaultColor['background'],
                   textColor: Style.defaultColor['button'],
                   borderColor: Style.defaultColor['button'],
-                  paddingHorizontal: 36.w,
+                  paddingHorizontal: 38.w,
                   paddingVertical: 14.h,
                   callback: () => Navigator.pop(context),
                 ),
@@ -48,7 +48,7 @@ class VipTipsDialog extends StatelessWidget {
                     textColor:
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
-                    paddingHorizontal: 38.w,
+                    paddingHorizontal: 40.w,
                     paddingVertical: 14.h,
                     callback: () {
                       Navigator.pop(context);

@@ -191,6 +191,8 @@ class ListItem extends StatelessWidget {
         );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      barrierLabel: '',
+      barrierDismissible: true,
       transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (
         BuildContext context,

@@ -152,6 +152,8 @@ class _SearchPageState extends State<SearchPage>
         return VipTipsDialog('使用高级搜索选项（情侣模式、生成情侣名模式）需要开通VIP');
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      barrierLabel: '',
+      barrierDismissible: true,
       transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (
         BuildContext context,
@@ -186,6 +188,7 @@ class _SearchPageState extends State<SearchPage>
               scrollable: true,
               content: SizedBox(
                 width: 350.w,
+                height: 310,
                 child: Column(
                   children: <Widget>[
                     RadioListTile(
@@ -232,7 +235,7 @@ class _SearchPageState extends State<SearchPage>
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                        top: 40.h,
+                        top: 36,
                       ),
                       child: CustomButton(
                         text: '確認',
@@ -256,6 +259,8 @@ class _SearchPageState extends State<SearchPage>
         );
       },
       barrierColor: Color.fromRGBO(0, 0, 0, .4),
+      barrierLabel: '',
+      barrierDismissible: true,
       transitionDuration: Duration(milliseconds: 200),
       transitionBuilder: (
         BuildContext context,
