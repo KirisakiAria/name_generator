@@ -311,7 +311,7 @@ class _VipPageState extends State<VipPage> {
   String _planId = '1';
   bool _vip = false;
   String _vipEndTime = '';
-  String _paymentMethod = '1';
+  String _paymentMethod = '3';
 
   Future<void> _getUserData() async {
     try {
@@ -381,64 +381,7 @@ class _VipPageState extends State<VipPage> {
 
   Future<void> _pay() async {
     try {
-      if (_paymentMethod == '1') {
-        bool result = await isAliPayInstalled();
-        if (!result) {
-          final SnackBar snackBar = SnackBar(
-            content: const Text('请先安装支付宝'),
-            duration: Duration(seconds: 2),
-          );
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          return Future;
-        }
-        final String path = API.pay;
-        final Response res = await Request(
-          context: context,
-        ).httpPost(
-          path,
-          <String, dynamic>{
-            'tel': context.read<UserProvider>().tel,
-            'planId': _planId,
-            'paymentMethod': _paymentMethod,
-          },
-        );
-        if (res.data['code'] == '1000') {
-          Map<dynamic, dynamic> payResult = await aliPay(res.data['data']);
-          Map<dynamic, dynamic> payResultObj = json.decode(payResult['result']);
-          if (payResultObj['alipay_trade_app_pay_response']['code'] ==
-              '10000') {
-            final String paySuccessPath = API.paySuccess;
-            final Response res = await Request(
-              context: context,
-            ).httpPost(
-              paySuccessPath,
-              <String, dynamic>{
-                'tel': context.read<UserProvider>().tel,
-                'planId': _planId,
-                'orderNo': payResultObj['alipay_trade_app_pay_response']
-                    ['out_trade_no'],
-              },
-            );
-            if (res.data['code'] == '1000') {
-              _getUserData();
-              final SnackBar snackBar = SnackBar(
-                content: const Text('VIP会员购买成功，感谢您的支持！'),
-                duration: Duration(seconds: 2),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            } else {
-              final SnackBar snackBar = SnackBar(
-                content: const Text('购买失败，请联系客服人员'),
-                duration: Duration(seconds: 2),
-              );
-              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            }
-          }
-        }
-      } else if (_paymentMethod == '3') {
+      if (_paymentMethod == '3') {
         await showGeneralDialog(
           context: context,
           barrierColor: Colors.grey.withOpacity(.4),
@@ -493,35 +436,18 @@ class _VipPageState extends State<VipPage> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 250.h,
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => RadioListTile(
-                        activeColor: Style.defaultColor['activeSwitchTrack'],
-                        value: _paymentMethodList[index]['paymentId'],
-                        onChanged: (value) {
-                          if (_paymentMethodList[index]['available']) {
-                            setState(() {
-                              _paymentMethod = value;
-                            });
-                          } else {
-                            final SnackBar snackBar = SnackBar(
-                              content: const Text('此支付方式暂不可用'),
-                              duration: Duration(seconds: 2),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .removeCurrentSnackBar();
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          }
-                        },
-                        groupValue: _paymentMethod,
-                        title: Text(_paymentMethodList[index]['name']),
-                        selected: _paymentMethod ==
-                            _paymentMethodList[index]['paymentId'],
-                      ),
-                      itemCount: _paymentMethodList.length,
+                    height: 60,
+                    child: RadioListTile(
+                      activeColor: Style.defaultColor['activeSwitchTrack'],
+                      value: '3',
+                      onChanged: (value) {
+                        setState(() {
+                          _paymentMethod = value;
+                        });
+                      },
+                      groupValue: _paymentMethod,
+                      title: Text('使用激活码'),
+                      selected: _paymentMethod == '3',
                     ),
                   ),
                   Container(
