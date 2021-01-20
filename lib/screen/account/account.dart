@@ -518,7 +518,7 @@ class EditUserNameDialog extends Dialog {
           color: Style.grey20,
           child: Center(
             child: SizedBox(
-              width: 310.w,
+              width: 320.w,
               height: 200.h,
               child: Container(
                 padding: EdgeInsets.only(

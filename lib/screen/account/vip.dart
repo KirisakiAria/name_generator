@@ -70,10 +70,13 @@ class EditCodeDialog extends Dialog {
                     ),
                     title: Text('激活成功'),
                     scrollable: true,
-                    content: SizedBox(
-                      width: 340.w,
-                      height: 120.h,
-                      child: Text('激活成功！'),
+                    content: Container(
+                      padding: EdgeInsets.only(
+                        top: 20.h,
+                        bottom: 20.h,
+                      ),
+                      width: 320.w,
+                      child: Text(res.data['message']),
                     ),
                     actions: <Widget>[
                       CustomButton(
@@ -129,97 +132,129 @@ class EditCodeDialog extends Dialog {
           color: Color.fromRGBO(0, 0, 0, .55),
           child: Center(
             child: SizedBox(
-              width: 310.w,
+              width: 320.w,
               height: 200.h,
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 30.w,
-                  right: 30.w,
-                  top: 42.h,
-                ),
-                decoration: ShapeDecoration(
-                  color: context.watch<SkinProvider>().color['background'],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 30.w,
+                      right: 30.w,
+                      top: 40.h,
                     ),
-                  ),
-                  shadows: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.black12, //阴影颜色
-                      blurRadius: 14, //阴影大小
-                    ),
-                  ],
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color:
-                                  context.watch<SkinProvider>().color['border'],
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color:
-                                  context.watch<SkinProvider>().color['border'],
-                            ),
-                          ),
-                          hintText: '请输入激活码',
+                    decoration: ShapeDecoration(
+                      color: context.watch<SkinProvider>().color['background'],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
-                        validator: (String value) {
-                          if (value.isEmpty) {
-                            return '请输入激活码';
-                          }
-                          return null;
-                        },
-                        onSaved: (String value) {
-                          _code = value;
-                        },
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          top: 22.h,
+                      shadows: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black12, //阴影颜色
+                          blurRadius: 14, //阴影大小
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            CustomButton(
-                              text: '取消',
-                              bgColor: Style.defaultColor['background'],
-                              textColor: Style.defaultColor['button'],
-                              borderColor: Style.defaultColor['button'],
-                              fontSize: 16,
-                              paddingHorizontal: 37.w,
-                              paddingVertical: 8.h,
-                              callback: () => Navigator.pop(
-                                context,
-                                <String, bool>{'success': false},
+                      ],
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: context
+                                      .watch<SkinProvider>()
+                                      .color['border'],
+                                ),
                               ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: context
+                                      .watch<SkinProvider>()
+                                      .color['border'],
+                                ),
+                              ),
+                              hintText: '请输入激活码',
                             ),
-                            CustomButton(
-                              text: '確定',
-                              bgColor:
-                                  context.watch<SkinProvider>().color['button'],
-                              textColor: context
-                                  .watch<SkinProvider>()
-                                  .color['background'],
-                              borderColor: Style.defaultColor['button'],
-                              fontSize: 16,
-                              paddingHorizontal: 37.w,
-                              paddingVertical: 8.h,
-                              callback: () async => _formValidate(),
+                            validator: (String value) {
+                              if (value.isEmpty) {
+                                return '请输入激活码';
+                              }
+                              return null;
+                            },
+                            onSaved: (String value) {
+                              _code = value;
+                            },
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                              top: 22.h,
                             ),
-                          ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                CustomButton(
+                                  text: '取消',
+                                  bgColor: Style.defaultColor['background'],
+                                  textColor: Style.defaultColor['button'],
+                                  borderColor: Style.defaultColor['button'],
+                                  fontSize: 16,
+                                  paddingHorizontal: 37.w,
+                                  paddingVertical: 8.h,
+                                  callback: () => Navigator.pop(
+                                    context,
+                                    <String, bool>{'success': false},
+                                  ),
+                                ),
+                                CustomButton(
+                                  text: '確定',
+                                  bgColor: context
+                                      .watch<SkinProvider>()
+                                      .color['button'],
+                                  textColor: context
+                                      .watch<SkinProvider>()
+                                      .color['background'],
+                                  borderColor: Style.defaultColor['button'],
+                                  fontSize: 16,
+                                  paddingHorizontal: 37.w,
+                                  paddingVertical: 8.h,
+                                  callback: () async => _formValidate(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          '/webview',
+                          arguments: <String, String>{
+                            'title': '激活码条例',
+                            'url': '${API.host}/#/key'
+                          },
+                        ),
+                        child: Icon(
+                          const IconData(
+                            CustomIconData.questionMark,
+                            fontFamily: 'iconfont',
+                          ),
+                          color: context.watch<SkinProvider>().color['text'],
+                          size: 30,
                         ),
                       ),
-                    ],
+                    ),
+                    right: 12.w,
+                    top: 12.w,
                   ),
-                ),
+                ],
               ),
             ),
           ),
@@ -768,6 +803,42 @@ class _VipPageState extends State<VipPage> {
                                               arguments: <String, String>{
                                                 'title': '会员政策',
                                                 'url': '${API.host}/#/vip'
+                                              },
+                                            );
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 10.h,
+                                ),
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      color: defaultColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: '关于激活码，请参阅  ',
+                                      ),
+                                      TextSpan(
+                                        text: '《激活码条例》',
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              '/webview',
+                                              arguments: <String, String>{
+                                                'title': '激活码条例',
+                                                'url': '${API.host}/#/key'
                                               },
                                             );
                                           },

@@ -24,4 +24,5 @@ class CustomIconData {
   static const int vipCouples = 0xec16;
   static const int vipRecord = 0xe700;
   static const int vip = 0xe8e9;
+  static const int questionMark = 0xe605;
 }
