@@ -59,13 +59,14 @@ class Explanation {
         Animation<double> anim2,
       ) {
         return AlertDialog(
+          contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           title: const Text('词典'),
           scrollable: true,
           content: SizedBox(
-            width: 355.w,
+            width: double.infinity,
             height: 500.h,
             child: Column(
               children: <Widget>[
@@ -120,7 +121,7 @@ class Explanation {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       top: 0,
                     ),
                     itemCount: data['characters'].length,

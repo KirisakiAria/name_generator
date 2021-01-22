@@ -182,7 +182,7 @@ class _CustomFormState extends State<CustomForm> {
                 ],
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(
+                  contentPadding: const EdgeInsets.only(
                     bottom: 1,
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -238,7 +238,7 @@ class _CustomFormState extends State<CustomForm> {
                       ],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(
+                        contentPadding: const EdgeInsets.only(
                           bottom: 1,
                         ),
                         enabledBorder:
@@ -297,7 +297,7 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(20),
                 ],
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(
+                  contentPadding: const EdgeInsets.only(
                     bottom: 1,
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -350,7 +350,7 @@ class _CustomFormState extends State<CustomForm> {
                 child: GestureDetector(
                   onTap: () => InheritedUserPage.of(context).changeScreen(1),
                   child: Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       bottom: 3,
                     ),
                     decoration: BoxDecoration(

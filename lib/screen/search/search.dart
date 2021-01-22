@@ -234,7 +234,7 @@ class _SearchPageState extends State<SearchPage>
                       selected: _searchType == SearchType.GENERATE,
                     ),
                     Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         top: 36,
                       ),
                       child: CustomButton(
@@ -442,7 +442,7 @@ class SearchInput extends StatelessWidget {
                 ),
               ),
               child: MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 elevation: 0,
                 disabledElevation: 0,
                 highlightElevation: 0,

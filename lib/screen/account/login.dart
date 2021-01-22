@@ -142,7 +142,7 @@ class _CustomFormState extends State<CustomForm> {
                 ],
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(
+                  contentPadding: const EdgeInsets.only(
                     bottom: 1,
                   ),
                   enabledBorder: UnderlineInputBorder(
@@ -189,7 +189,9 @@ class _CustomFormState extends State<CustomForm> {
                   LengthLimitingTextInputFormatter(20),
                 ],
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(bottom: 1),
+                  contentPadding: const EdgeInsets.only(
+                    bottom: 1,
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: context.watch<SkinProvider>().color['border'],
@@ -251,7 +253,7 @@ class _CustomFormState extends State<CustomForm> {
               child: GestureDetector(
                 onTap: () => InheritedUserPage.of(context).changeScreen(3),
                 child: Container(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     bottom: 3,
                   ),
                   decoration: BoxDecoration(
@@ -282,7 +284,7 @@ class _CustomFormState extends State<CustomForm> {
                   '/home',
                 ),
                 child: Container(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     bottom: 3,
                   ),
                   margin: EdgeInsets.only(

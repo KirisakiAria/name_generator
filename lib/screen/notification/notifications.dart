@@ -153,7 +153,7 @@ class ListItem extends StatelessWidget {
           title: Text(title),
           scrollable: true,
           content: SizedBox(
-            width: 340.w,
+            width: 355.w,
             height: 470.h,
             child: SingleChildScrollView(
               child: Column(

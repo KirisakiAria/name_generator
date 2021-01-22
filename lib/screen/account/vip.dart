@@ -868,7 +868,7 @@ class _VipPageState extends State<VipPage> {
                             leading: Container(
                               width: 50.w,
                               height: 50.w,
-                              margin: EdgeInsets.only(
+                              margin: const EdgeInsets.only(
                                 right: 4,
                               ),
                               decoration: ShapeDecoration(
