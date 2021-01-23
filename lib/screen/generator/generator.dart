@@ -515,7 +515,7 @@ class _GeneratorPageState extends State<GeneratorPage>
                 vertical: 25.h,
               ),
               child: Text(
-                '提示：单击文字复制，长按加收藏，上划快速切换类型',
+                '提示：单击文字复制，长按加收藏，上下划快速切换类型',
                 style: TextStyle(
                   fontSize: 12,
                   color: context.watch<SkinProvider>().color['subtitle'],

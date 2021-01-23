@@ -152,14 +152,15 @@ class ListItem extends StatelessWidget {
         Animation<double> anim2,
       ) {
         return AlertDialog(
+          insetPadding: EdgeInsets.all(24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           title: const Text('订单详情'),
           scrollable: true,
           content: SizedBox(
-            width: 340.w,
-            height: 470.h,
+            width: double.maxFinite,
+            height: 320,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

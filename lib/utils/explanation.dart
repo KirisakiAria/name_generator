@@ -59,14 +59,14 @@ class Explanation {
         Animation<double> anim2,
       ) {
         return AlertDialog(
-          contentPadding: EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 24.0),
+          insetPadding: EdgeInsets.all(24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           title: const Text('词典'),
           scrollable: true,
           content: SizedBox(
-            width: double.infinity,
+            width: double.maxFinite,
             height: 500.h,
             child: Column(
               children: <Widget>[

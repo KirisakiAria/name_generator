@@ -181,13 +181,17 @@ class _SearchPageState extends State<SearchPage>
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
+              insetPadding: EdgeInsets.symmetric(
+                horizontal: 30,
+                vertical: 24,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
               title: const Text('搜索选项'),
               scrollable: true,
               content: SizedBox(
-                width: 350.w,
+                width: double.maxFinite,
                 height: 310,
                 child: Column(
                   children: <Widget>[

@@ -147,14 +147,15 @@ class ListItem extends StatelessWidget {
         Animation<double> anim2,
       ) {
         return AlertDialog(
+          insetPadding: EdgeInsets.all(24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           title: Text(title),
           scrollable: true,
           content: SizedBox(
-            width: 355.w,
-            height: 470.h,
+            width: double.maxFinite,
+            height: 500.h,
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[

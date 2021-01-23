@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
@@ -273,11 +272,11 @@ class VipPage extends StatefulWidget {
 
 class _VipPageState extends State<VipPage> {
   final List<Map<String, dynamic>> _vipBenefitsList = <Map<String, dynamic>>[
-    <String, dynamic>{
-      'icon': CustomIconData.vipType,
-      'title': '更多类型',
-      'desc': '解锁更多的VIP专属类型的，可查询到更多网名',
-    },
+    // <String, dynamic>{
+    //   'icon': CustomIconData.vipType,
+    //   'title': '更多类型',
+    //   'desc': '解锁更多的VIP专属类型的，可查询到更多网名',
+    // },
     <String, dynamic>{
       'icon': CustomIconData.vipLength,
       'title': '字数解锁',
