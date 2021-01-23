@@ -185,7 +185,7 @@ class BaseInformationBox extends StatelessWidget {
                             width: 20.w,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               left: 5,
                             ),
                             child: const Text(
@@ -207,7 +207,7 @@ class BaseInformationBox extends StatelessWidget {
                             width: 20.w,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               left: 5,
                             ),
                             child: const Text(

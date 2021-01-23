@@ -12,7 +12,7 @@ class WordOptions {
     },
     {
       'value': '可爱',
-      'vip': true,
+      'vip': false,
       'img': 'assets/images/theme/cute-default-theme.png',
     },
   ];
@@ -35,7 +35,7 @@ class WordOptions {
     },
     {
       'value': '5',
-      'vip': true,
+      'vip': false,
     },
     {
       'value': '6',

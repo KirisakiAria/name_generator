@@ -181,13 +181,17 @@ class _SearchPageState extends State<SearchPage>
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
+              insetPadding: EdgeInsets.symmetric(
+                horizontal: 30,
+                vertical: 24,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
               title: const Text('搜索选项'),
               scrollable: true,
               content: SizedBox(
-                width: 350.w,
+                width: double.maxFinite,
                 height: 310,
                 child: Column(
                   children: <Widget>[
@@ -234,7 +238,7 @@ class _SearchPageState extends State<SearchPage>
                       selected: _searchType == SearchType.GENERATE,
                     ),
                     Container(
-                      margin: EdgeInsets.only(
+                      margin: const EdgeInsets.only(
                         top: 36,
                       ),
                       child: CustomButton(
@@ -442,7 +446,7 @@ class SearchInput extends StatelessWidget {
                 ),
               ),
               child: MaterialButton(
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 elevation: 0,
                 disabledElevation: 0,
                 highlightElevation: 0,

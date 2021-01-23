@@ -303,7 +303,9 @@ class _OrderState extends State<Order> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(right: 10),
+              padding: EdgeInsets.only(
+                right: 10.w,
+              ),
               child: Text(
                 '我的订单',
                 style: TextStyle(
@@ -507,7 +509,7 @@ class EditUserNameDialog extends Dialog {
                         },
                       ),
                       Container(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           top: 20,
                         ),
                         child: Row(

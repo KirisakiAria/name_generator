@@ -27,7 +27,9 @@ class VipTipsDialog extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(bottom: 35.h),
+              margin: EdgeInsets.only(
+                bottom: 35.h,
+              ),
               child: Text(tips),
             ),
             Row(

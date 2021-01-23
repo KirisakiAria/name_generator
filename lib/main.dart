@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: '彼岸自在',
         home: HomePage(),
+        debugShowCheckedModeBanner: false,
         theme: context.watch<SkinProvider>().theme,
         routes: Routes.mappingList,
         scaffoldMessengerKey: rootScaffoldMessengerKey,
