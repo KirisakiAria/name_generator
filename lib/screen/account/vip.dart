@@ -1,14 +1,11 @@
 //核心库
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/services.dart';
 //第三方库
 import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tobias/tobias.dart';
 //请求
 import '../../services/api.dart';
 import '../../services/request.dart';
@@ -22,249 +19,6 @@ import '../../model/user.dart';
 import '../../model/skin.dart';
 
 const Color defaultColor = Color(0xfffadfbe);
-
-class EditCodeDialog extends Dialog {
-  final VoidCallback getUserData;
-
-  EditCodeDialog({
-    Key key,
-    @required this.getUserData,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    //Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
-    return StatefulBuilder(
-      builder: (
-        BuildContext context,
-        StateSetter setState,
-      ) {
-        String _code;
-        final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-        Future<void> _activateKey() async {
-          try {
-            Navigator.pop(context);
-            final String path = API.activateKey;
-            final Response res = await Request(
-              context: context,
-            ).httpPost(
-              path,
-              <String, dynamic>{
-                'tel': context.read<UserProvider>().tel,
-                'code': _code,
-              },
-            );
-            if (res.data['code'] == '1000') {
-              getUserData();
-              showGeneralDialog(
-                context: context,
-                pageBuilder: (
-                  BuildContext context,
-                  Animation<double> anim1,
-                  Animation<double> anim2,
-                ) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    title: Text('激活成功'),
-                    scrollable: true,
-                    content: Container(
-                      padding: EdgeInsets.only(
-                        top: 20.h,
-                        bottom: 20.h,
-                      ),
-                      width: 320.w,
-                      child: Text(res.data['message']),
-                    ),
-                    actions: <Widget>[
-                      CustomButton(
-                        text: '確認',
-                        bgColor: context.watch<SkinProvider>().color['button'],
-                        textColor:
-                            context.watch<SkinProvider>().color['background'],
-                        borderColor: Style.defaultColor['button'],
-                        paddingVertical: 14.h,
-                        callback: () => Navigator.pop(context),
-                      ),
-                    ],
-                    actionsPadding: EdgeInsets.only(
-                      right: 12.h,
-                      bottom: 12.h,
-                    ),
-                  );
-                },
-                barrierColor: Color.fromRGBO(0, 0, 0, .4),
-                barrierLabel: '',
-                barrierDismissible: true,
-                transitionDuration: Duration(milliseconds: 200),
-                transitionBuilder: (
-                  BuildContext context,
-                  Animation<double> anim1,
-                  Animation<double> anim2,
-                  Widget child,
-                ) {
-                  return Transform.scale(
-                    scale: anim1.value,
-                    child: child,
-                  );
-                },
-              );
-            }
-          } catch (err) {
-            print(err);
-          }
-        }
-
-        //表单验证
-        void _formValidate() async {
-          try {
-            if (_formKey.currentState.validate()) {
-              _formKey.currentState.save();
-              await _activateKey();
-            }
-          } catch (err) {
-            print(err);
-          }
-        }
-
-        return Material(
-          //创建透明层
-          color: Color.fromRGBO(0, 0, 0, .55),
-          child: Center(
-            child: SizedBox(
-              width: 320.w,
-              height: 170,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(
-                      left: 30.w,
-                      right: 30.w,
-                      top: 36,
-                    ),
-                    decoration: ShapeDecoration(
-                      color: context.watch<SkinProvider>().color['background'],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      shadows: <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black12, //阴影颜色
-                          blurRadius: 14, //阴影大小
-                        ),
-                      ],
-                    ),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: context
-                                      .watch<SkinProvider>()
-                                      .color['border'],
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: context
-                                      .watch<SkinProvider>()
-                                      .color['border'],
-                                ),
-                              ),
-                              hintText: '请输入激活码',
-                            ),
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return '请输入激活码';
-                              }
-                              return null;
-                            },
-                            onSaved: (String value) {
-                              _code = value;
-                            },
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                              top: 20,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                CustomButton(
-                                  text: '取消',
-                                  bgColor: Style.defaultColor['background'],
-                                  textColor: Style.defaultColor['button'],
-                                  borderColor: Style.defaultColor['button'],
-                                  fontSize: 16,
-                                  paddingHorizontal: 42,
-                                  paddingVertical: 11,
-                                  callback: () => Navigator.pop(
-                                    context,
-                                    <String, bool>{'success': false},
-                                  ),
-                                ),
-                                CustomButton(
-                                  text: '確定',
-                                  bgColor: context
-                                      .watch<SkinProvider>()
-                                      .color['button'],
-                                  textColor: context
-                                      .watch<SkinProvider>()
-                                      .color['background'],
-                                  borderColor: Style.defaultColor['button'],
-                                  fontSize: 16,
-                                  paddingHorizontal: 42,
-                                  paddingVertical: 11,
-                                  callback: () async => _formValidate(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: GestureDetector(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          '/webview',
-                          arguments: <String, String>{
-                            'title': '激活码条例',
-                            'url': '${API.host}/#/key'
-                          },
-                        ),
-                        child: Icon(
-                          const IconData(
-                            CustomIconData.questionMark,
-                            fontFamily: 'iconfont',
-                          ),
-                          color: context.watch<SkinProvider>().color['text'],
-                          size: 30,
-                        ),
-                      ),
-                    ),
-                    right: 12.w,
-                    top: 12.w,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
 
 class VipPage extends StatefulWidget {
   @override
@@ -305,13 +59,99 @@ class _VipPageState extends State<VipPage> {
     },
   ];
 
-  List<dynamic> _planList = <dynamic>[];
-  List<dynamic> _paymentMethodList = <dynamic>[];
   //套餐
-  String _planId = '1';
   bool _vip = false;
   String _vipEndTime = '';
-  String _paymentMethod = '3';
+  String _code;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FocusNode blankNode = FocusNode();
+  final ScrollController _controller = ScrollController();
+
+  Future<void> _activateKey() async {
+    try {
+      FocusScope.of(context).requestFocus(blankNode);
+      final String path = API.activateKey;
+      final Response res = await Request(
+        context: context,
+      ).httpPost(
+        path,
+        <String, dynamic>{
+          'tel': context.read<UserProvider>().tel,
+          'code': _code,
+        },
+      );
+      if (res.data['code'] == '1000') {
+        _getUserData();
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> anim1,
+            Animation<double> anim2,
+          ) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: Text('激活成功'),
+              scrollable: true,
+              content: Container(
+                padding: EdgeInsets.only(
+                  top: 20.h,
+                  bottom: 20.h,
+                ),
+                width: 320.w,
+                child: Text(res.data['message']),
+              ),
+              actions: <Widget>[
+                CustomButton(
+                  text: '確認',
+                  bgColor: context.watch<SkinProvider>().color['button'],
+                  textColor: context.watch<SkinProvider>().color['background'],
+                  borderColor: Style.defaultColor['button'],
+                  paddingVertical: 14.h,
+                  callback: () => Navigator.pop(context),
+                ),
+              ],
+              actionsPadding: EdgeInsets.only(
+                right: 12.h,
+                bottom: 12.h,
+              ),
+            );
+          },
+          barrierColor: Color.fromRGBO(0, 0, 0, .4),
+          barrierLabel: '',
+          barrierDismissible: true,
+          transitionDuration: Duration(milliseconds: 200),
+          transitionBuilder: (
+            BuildContext context,
+            Animation<double> anim1,
+            Animation<double> anim2,
+            Widget child,
+          ) {
+            return Transform.scale(
+              scale: anim1.value,
+              child: child,
+            );
+          },
+        );
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  //表单验证
+  void _formValidate() async {
+    try {
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        await _activateKey();
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
 
   Future<void> _getUserData() async {
     try {
@@ -347,160 +187,16 @@ class _VipPageState extends State<VipPage> {
     }
   }
 
-  Future<void> _getPaymentMethodData() async {
-    try {
-      final String path = API.paymentMethod;
-      final Response res = await Request(
-        context: context,
-      ).httpGet('$path');
-      if (res.data['code'] == '1000') {
-        setState(() {
-          _paymentMethodList = res.data['data']['list'];
-        });
-      }
-    } catch (err) {
-      print(err);
-    }
-  }
-
-  Future<void> _getPlanData() async {
-    try {
-      final String path = API.plan;
-      final Response res = await Request(
-        context: context,
-      ).httpGet('$path');
-      if (res.data['code'] == '1000') {
-        setState(() {
-          _planList = res.data['data']['list'];
-        });
-      }
-    } catch (err) {
-      print(err);
-    }
-  }
-
-  Future<void> _pay() async {
-    try {
-      if (_paymentMethod == '3') {
-        await showGeneralDialog(
-          context: context,
-          barrierColor: Colors.grey.withOpacity(.4),
-          pageBuilder: (
-            BuildContext context,
-            Animation<double> anim1,
-            Animation<double> anim2,
-          ) {
-            return EditCodeDialog(
-              getUserData: _getUserData,
-            );
-          },
-          barrierLabel: '',
-          barrierDismissible: true,
-          transitionDuration: Duration(milliseconds: 300),
-          transitionBuilder: (
-            BuildContext context,
-            Animation<double> anim1,
-            Animation<double> anim2,
-            Widget child,
-          ) {
-            return Opacity(
-              opacity: anim1.value,
-              child: child,
-            );
-          },
-        );
-      }
-    } catch (err) {
-      print(err);
-    }
-  }
-
-  //设置弹窗
-  void _showPaymentMethod() async {
-    showGeneralDialog(
-      context: context,
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> anim1,
-        Animation<double> anim2,
-      ) {
-        return StatefulBuilder(
-          builder: (context, setState) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            title: const Text('请选择支付方式'),
-            scrollable: true,
-            content: SizedBox(
-              width: 350.w,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 60,
-                    child: RadioListTile(
-                      activeColor: Style.defaultColor['activeSwitchTrack'],
-                      value: '3',
-                      onChanged: (value) {
-                        setState(() {
-                          _paymentMethod = value;
-                        });
-                      },
-                      groupValue: _paymentMethod,
-                      title: Text('使用激活码'),
-                      selected: _paymentMethod == '3',
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 30.h,
-                    ),
-                    child: CustomButton(
-                      text: '確認',
-                      bgColor: context.watch<SkinProvider>().color['button'],
-                      textColor:
-                          context.watch<SkinProvider>().color['background'],
-                      borderColor: Style.defaultColor['button'],
-                      paddingVertical: 14.h,
-                      callback: () {
-                        Navigator.pop(context);
-                        _pay();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            actionsPadding: EdgeInsets.only(
-              right: 12.h,
-              bottom: 12.h,
-            ),
-          ),
-        );
-      },
-      barrierColor: Color.fromRGBO(0, 0, 0, .4),
-      barrierLabel: '',
-      barrierDismissible: true,
-      transitionDuration: Duration(milliseconds: 200),
-      transitionBuilder: (
-        BuildContext context,
-        Animation<double> anim1,
-        Animation<double> anim2,
-        Widget child,
-      ) {
-        return Transform.scale(
-          scale: anim1.value,
-          child: child,
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
     super.initState();
-    _getPlanData();
-    _getPaymentMethodData();
     _getUserData();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -519,372 +215,341 @@ class _VipPageState extends State<VipPage> {
         ),
       ),
       backgroundColor: Color(0xff191919),
-      body: Stack(
-        children: <Widget>[
-          RefreshIndicator(
-            color: Style.grey20,
-            backgroundColor: Colors.white,
-            onRefresh: _getUserData,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(
-                      top: 20.h,
-                    ),
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(
-                            32.h,
-                          ),
-                          width: 320.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            image: DecorationImage(
-                              image: const AssetImage(
-                                  'assets/images/vip/vip_bg.png'),
-                              fit: BoxFit.cover,
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => FocusScope.of(context).requestFocus(blankNode),
+        child: Stack(
+          children: <Widget>[
+            RefreshIndicator(
+              color: Style.grey20,
+              backgroundColor: Colors.white,
+              onRefresh: _getUserData,
+              child: SingleChildScrollView(
+                controller: _controller,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(
+                        top: 20.h,
+                      ),
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(
+                              32.h,
                             ),
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                width: 70.w,
-                                height: 70.w,
-                                child: Container(
-                                  decoration: ShapeDecoration(
-                                    shape: CircleBorder(
-                                      side: BorderSide(
-                                        color: Color(0xffeccb94),
-                                        width: 5,
+                            width: 320.w,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              image: DecorationImage(
+                                image: const AssetImage(
+                                    'assets/images/vip/vip_bg.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 70.w,
+                                  height: 70.w,
+                                  child: Container(
+                                    decoration: ShapeDecoration(
+                                      shape: CircleBorder(
+                                        side: BorderSide(
+                                          color: Color(0xffeccb94),
+                                          width: 5,
+                                        ),
+                                      ),
+                                    ),
+                                    child: ClipOval(
+                                      //透明图像占位符
+                                      child: FadeInImage.memoryNetwork(
+                                        fit: BoxFit.cover,
+                                        placeholder: kTransparentImage,
+                                        image:
+                                            '${API.origin}${context.watch<UserProvider>().avatar}',
                                       ),
                                     ),
                                   ),
-                                  child: ClipOval(
-                                    //透明图像占位符
-                                    child: FadeInImage.memoryNetwork(
-                                      fit: BoxFit.cover,
-                                      placeholder: kTransparentImage,
-                                      image:
-                                          '${API.origin}${context.watch<UserProvider>().avatar}',
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 14.h,
+                                  ),
+                                  child: Text(
+                                    context.watch<UserProvider>().username,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 14.h,
-                                ),
-                                child: Text(
-                                  context.watch<UserProvider>().username,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 8.h,
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 8.h,
-                                ),
-                                child: Text(
-                                  '会员状态：${_vip ? 'VIP会员' : '未开通'}',
-                                  style: TextStyle(
-                                    color: defaultColor,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 8.h,
-                                ),
-                                child: Text(
-                                  '到期时间：${_vip ? _vipEndTime : '未开通'}',
-                                  style: TextStyle(
-                                    color: defaultColor,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ItemTitle('会员套餐'),
-                        Container(
-                          padding: EdgeInsets.only(
-                            top: 30.h,
-                            left: 20.w,
-                            right: 20.w,
-                          ),
-                          height: 200.h,
-                          child: ListView.separated(
-                            padding: EdgeInsets.only(
-                              top: 10.h,
-                            ),
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _planId = _planList[index]['planId'];
-                                });
-                              },
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 200),
-                                width: 105.w,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: _planId == _planList[index]['planId']
-                                      ? Color.fromRGBO(255, 238, 196, .25)
-                                      : Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
+                                  child: Text(
+                                    '会员状态：${_vip ? 'VIP会员' : '未开通'}',
+                                    style: TextStyle(
                                       color: defaultColor,
-                                      width: 2,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    Text(
-                                      _planList[index]['title'],
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 8.h,
+                                  ),
+                                  child: Text(
+                                    '到期时间：${_vip ? _vipEndTime : '未开通'}',
+                                    style: TextStyle(
+                                      color: defaultColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ItemTitle('会员激活'),
+                          Container(
+                            padding: EdgeInsets.only(
+                              top: 40.h,
+                              left: 34.w,
+                              right: 34.w,
+                            ),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                children: <Widget>[
+                                  TextFormField(
+                                    onTap: () {
+                                      _controller.animateTo(220,
+                                          duration: Duration(milliseconds: 200),
+                                          curve: Curves.ease);
+                                    },
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      hintText: '请输入激活码',
+                                    ),
+                                    validator: (String value) {
+                                      if (value.isEmpty) {
+                                        return '请输入激活码';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (String value) {
+                                      _code = value;
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          ItemTitle('会员政策'),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 30.h,
+                              left: 20.w,
+                              right: 20.w,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Text(
+                                  '首先，由衷的感谢所有使用《彼岸自在》的用户。《彼岸自在》作为一款主打网名生成的工具类APP，始终遵守着 《Android绿色应用公约》，无广告、无后台，而我们将秉持这一原则，继续带给广大用户良好的用户体验。独立开发和维护一款APP除了需要极大的时间和经历成本外，还需要非常高昂价格的服务器开销。为了保证一个App能够长久持续地运营下去，我们决定开启VIP会员的功能，如果您能支持我们，对我们来说都是莫大的帮助！真的是非常感谢！',
+                                  style: TextStyle(
+                                    color: defaultColor,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10.h,
+                                  ),
+                                  child: RichText(
+                                    text: TextSpan(
                                       style: TextStyle(
                                         color: defaultColor,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${_planList[index]['currentPrice']}元',
-                                      style: TextStyle(
-                                        color: Color(0xfffff0b6),
-                                        fontSize: 24,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                       ),
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                          text: '激活VIP会员之前请先阅读  ',
+                                        ),
+                                        TextSpan(
+                                          text: '《会员政策》',
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                '/webview',
+                                                arguments: <String, String>{
+                                                  'title': '会员政策',
+                                                  'url': '${API.host}/#/vip'
+                                                },
+                                              );
+                                            },
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      '${_planList[index]['originalPrice']}元',
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 10.h,
+                                  ),
+                                  child: RichText(
+                                    text: TextSpan(
                                       style: TextStyle(
-                                        color: Color(0xffc1c1c1),
+                                        color: defaultColor,
                                         fontSize: 14,
-                                        decoration: TextDecoration.lineThrough,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                          text: '关于激活码，请参阅  ',
+                                        ),
+                                        TextSpan(
+                                          text: '《激活码条例》',
+                                          style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                '/webview',
+                                                arguments: <String, String>{
+                                                  'title': '激活码条例',
+                                                  'url': '${API.host}/#/key'
+                                                },
+                                              );
+                                            },
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          ItemTitle('会员权益'),
+                          ListView.builder(
+                            padding: EdgeInsets.only(
+                              top: 30.h,
+                              bottom: 100.h,
+                            ),
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) => ListTile(
+                              leading: Container(
+                                width: 50.w,
+                                height: 50.w,
+                                margin: EdgeInsets.only(
+                                  right: 4,
+                                ),
+                                decoration: ShapeDecoration(
+                                  shape: CircleBorder(),
+                                  color: Color(0xfffff9e7),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    IconData(
+                                      _vipBenefitsList[index]['icon'],
+                                      fontFamily: 'iconfont',
+                                    ),
+                                    size: 24,
+                                    color: Color(0xffe6ad12),
+                                  ),
                                 ),
                               ),
-                            ),
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    VerticalDivider(
-                              width: 20.w,
-                            ),
-                            itemCount: _planList.length,
-                          ),
-                        ),
-                        ItemTitle('会员政策'),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 30.h,
-                            left: 20.w,
-                            right: 20.w,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const Text(
-                                '首先，由衷的感谢所有使用《彼岸自在》的用户。《彼岸自在》作为一款主打网名生成的工具类APP，始终遵守着 《Android绿色应用公约》，无广告、无后台，而我们将秉持这一原则，继续带给广大用户良好的用户体验。独立开发和维护一款APP除了需要极大的时间和经历成本外，还需要非常高昂价格的服务器开销。为了保证一个App能够长久持续地运营下去，我们决定开启VIP会员的功能，如果您能支持我们，对我们来说都是莫大的帮助！真的是非常感谢！',
+                              title: Text(
+                                _vipBenefitsList[index]['title'],
                                 style: TextStyle(
                                   color: defaultColor,
-                                  fontSize: 14,
+                                  fontSize: 18,
                                 ),
                               ),
-                              Padding(
+                              subtitle: Padding(
                                 padding: EdgeInsets.only(
-                                  top: 10.h,
+                                  top: 6.h,
                                 ),
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      color: defaultColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    children: <InlineSpan>[
-                                      TextSpan(
-                                        text: '购买VIP会员之前请先阅读  ',
-                                      ),
-                                      TextSpan(
-                                        text: '《会员政策》',
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              '/webview',
-                                              arguments: <String, String>{
-                                                'title': '会员政策',
-                                                'url': '${API.host}/#/vip'
-                                              },
-                                            );
-                                          },
-                                      ),
-                                    ],
+                                child: Text(
+                                  _vipBenefitsList[index]['desc'],
+                                  style: TextStyle(
+                                    color: Color(0xfffff7e0),
+                                    fontSize: 14,
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 10.h,
-                                ),
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      color: defaultColor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    children: <InlineSpan>[
-                                      TextSpan(
-                                        text: '关于激活码，请参阅  ',
-                                      ),
-                                      TextSpan(
-                                        text: '《激活码条例》',
-                                        style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              '/webview',
-                                              arguments: <String, String>{
-                                                'title': '激活码条例',
-                                                'url': '${API.host}/#/key'
-                                              },
-                                            );
-                                          },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ItemTitle('会员权益'),
-                        ListView.builder(
-                          padding: EdgeInsets.only(
-                            top: 30.h,
-                            bottom: 100.h,
-                          ),
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) => ListTile(
-                            leading: Container(
-                              width: 50.w,
-                              height: 50.w,
-                              margin: EdgeInsets.only(
-                                right: 4,
-                              ),
-                              decoration: ShapeDecoration(
-                                shape: CircleBorder(),
-                                color: Color(0xfffff9e7),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  IconData(
-                                    _vipBenefitsList[index]['icon'],
-                                    fontFamily: 'iconfont',
-                                  ),
-                                  size: 24,
-                                  color: Color(0xffe6ad12),
-                                ),
-                              ),
                             ),
-                            title: Text(
-                              _vipBenefitsList[index]['title'],
-                              style: TextStyle(
-                                color: defaultColor,
-                                fontSize: 18,
-                              ),
-                            ),
-                            subtitle: Padding(
-                              padding: EdgeInsets.only(
-                                top: 6.h,
-                              ),
-                              child: Text(
-                                _vipBenefitsList[index]['desc'],
-                                style: TextStyle(
-                                  color: Color(0xfffff7e0),
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
+                            itemCount: _vipBenefitsList.length,
                           ),
-                          itemCount: _vipBenefitsList.length,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.only(
-                bottom: 20.h,
-              ),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(
-                      horizontal: 110.w,
-                      vertical: 15.h,
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(
-                    Color(0xffc78f4f),
-                  ),
-                  elevation: MaterialStateProperty.all(6),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: EdgeInsets.only(
+                  bottom: 20.h,
                 ),
-                onPressed: () {
-                  if (_vipEndTime == '永久') {
-                    final SnackBar snackBar = SnackBar(
-                      content: const Text('您已经是永久会员'),
-                      duration: Duration(seconds: 2),
-                    );
-                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  } else {
-                    _showPaymentMethod();
-                  }
-                },
-                child: Text(
-                  '立即升级',
-                  style: TextStyle(
-                    height: 1.2,
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(
+                        horizontal: 110.w,
+                        vertical: 15.h,
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all(
+                      Color(0xffc78f4f),
+                    ),
+                    elevation: MaterialStateProperty.all(6),
+                  ),
+                  onPressed: () {
+                    if (_vipEndTime == '永久') {
+                      final SnackBar snackBar = SnackBar(
+                        content: const Text('您已经是永久会员'),
+                        duration: Duration(seconds: 2),
+                      );
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      _formValidate();
+                    }
+                  },
+                  child: Text(
+                    '立即升级',
+                    style: TextStyle(
+                      height: 1.2,
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
