@@ -453,12 +453,12 @@ class EditUserNameDialog extends Dialog {
           child: Center(
             child: SizedBox(
               width: 320.w,
-              height: 170,
+              height: 160,
               child: Container(
                 padding: EdgeInsets.only(
                   left: 30.w,
                   right: 30.w,
-                  top: 36,
+                  top: 30,
                 ),
                 decoration: ShapeDecoration(
                   color: context.watch<SkinProvider>().color['background'],
@@ -521,8 +521,8 @@ class EditUserNameDialog extends Dialog {
                               textColor: Style.defaultColor['button'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 42,
-                              paddingVertical: 11,
+                              paddingHorizontal: 38,
+                              paddingVertical: 12,
                               callback: () => Navigator.pop(
                                 context,
                                 <String, bool>{'success': false},
@@ -537,8 +537,8 @@ class EditUserNameDialog extends Dialog {
                                   .color['background'],
                               borderColor: Style.defaultColor['button'],
                               fontSize: 16,
-                              paddingHorizontal: 42,
-                              paddingVertical: 11,
+                              paddingHorizontal: 38,
+                              paddingVertical: 12,
                               callback: () async => _formValidate(),
                             ),
                           ],

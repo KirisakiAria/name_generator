@@ -886,7 +886,7 @@ class OptionsDialog extends Dialog {
         alignment: Alignment.bottomCenter,
         child: SizedBox(
           width: double.infinity,
-          height: 400.h,
+          height: 450.h,
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
@@ -946,11 +946,11 @@ class OptionsDialog extends Dialog {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 74.w,
+                    horizontal: 72.w,
                   ),
                   child: CheckboxListTile(
                       activeColor: Style.defaultColor['activeSwitchTrack'],
-                      title: const Text('情侣模式（中国风）'),
+                      title: const Text('情侣名（中国风）'),
                       value: context.watch<WordOptionsProvider>().couples,
                       onChanged: (bool value) {
                         if (context.read<UserProvider>().vip) {
@@ -972,10 +972,12 @@ class OptionsDialog extends Dialog {
                   ),
                   child: CustomButton(
                     text: '確定',
+                    fontSize: 20,
                     bgColor: context.watch<SkinProvider>().color['button'],
                     textColor:
                         context.watch<SkinProvider>().color['background'],
                     borderColor: context.watch<SkinProvider>().color['button'],
+                    paddingVertical: 14,
                     callback: () {
                       getData();
                       Navigator.pop(context);

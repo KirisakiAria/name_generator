@@ -66,7 +66,8 @@ class HistoryList extends StatefulWidget {
   _HistoryListState createState() => _HistoryListState();
 }
 
-class _HistoryListState extends State<HistoryList> with AutomaticKeepAliveClientMixin {
+class _HistoryListState extends State<HistoryList>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
   LoadingStatus _loadingStatus = LoadingStatus.STATUS_IDEL;
@@ -103,6 +104,12 @@ class _HistoryListState extends State<HistoryList> with AutomaticKeepAliveClient
     } catch (err) {
       print(err);
     }
+  }
+
+  void _cancel(int index) {
+    setState(() {
+      _list.removeAt(index);
+    });
   }
 
   @override
@@ -153,11 +160,15 @@ class _HistoryListState extends State<HistoryList> with AutomaticKeepAliveClient
               return ListItemNormal(
                 type: _list[index]['type'],
                 word: _list[index]['word'],
+                index: index,
+                cancelCallBack: _cancel,
               );
             } else {
               return ListItemCouples(
                 type: _list[index]['type'],
                 words: _list[index]['words'],
+                index: index,
+                cancelCallBack: _cancel,
               );
             }
           }
@@ -169,11 +180,33 @@ class _HistoryListState extends State<HistoryList> with AutomaticKeepAliveClient
 
 class ListItemNormal extends StatelessWidget {
   final String type, word;
+  final int index;
+  final Function(int index) cancelCallBack;
 
   ListItemNormal({
     @required this.type,
     @required this.word,
+    @required this.index,
+    @required this.cancelCallBack,
   });
+
+  Future<void> _cancel({
+    @required String word,
+    @required int index,
+    @required BuildContext context,
+  }) async {
+    try {
+      final String path = API.history;
+      final Response res = await Request(
+        context: context,
+      ).httpDelete('$path/$word');
+      if (res.data['code'] == '1000') {
+        cancelCallBack(index);
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,8 +240,9 @@ class ListItemNormal extends StatelessWidget {
           horizontal: 15.w,
           vertical: 6.h,
         ),
-        padding: EdgeInsets.all(
-          15.w,
+        padding: EdgeInsets.symmetric(
+          horizontal: 15.w,
+          vertical: 5.h,
         ),
         decoration: ShapeDecoration(
           color: context.watch<SkinProvider>().color['widget'],
@@ -230,6 +264,27 @@ class ListItemNormal extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
             ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  child: TextButton(
+                    child: Text(
+                      '清除',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.watch<SkinProvider>().color['subtitle'],
+                      ),
+                    ),
+                    onPressed: () => _cancel(
+                      word: word,
+                      index: index,
+                      context: context,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -239,12 +294,34 @@ class ListItemNormal extends StatelessWidget {
 
 class ListItemCouples extends StatelessWidget {
   final String type;
-  final List words;
+  final List<dynamic> words;
+  final int index;
+  final Function(int index) cancelCallBack;
 
   ListItemCouples({
     @required this.type,
     @required this.words,
+    @required this.index,
+    @required this.cancelCallBack,
   });
+
+  Future<void> _cancel({
+    @required List<dynamic> words,
+    @required int index,
+    @required BuildContext context,
+  }) async {
+    try {
+      final String path = API.history;
+      final Response res = await Request(
+        context: context,
+      ).httpDelete('$path/${words[0]}?couples=1');
+      if (res.data['code'] == '1000') {
+        cancelCallBack(index);
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -298,6 +375,27 @@ class ListItemCouples extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  child: TextButton(
+                    child: Text(
+                      '清除',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: context.watch<SkinProvider>().color['subtitle'],
+                      ),
+                    ),
+                    onPressed: () => _cancel(
+                      words: words,
+                      index: index,
+                      context: context,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
