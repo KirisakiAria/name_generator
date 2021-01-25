@@ -17,13 +17,14 @@ class VipTipsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      insetPadding: EdgeInsets.all(24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       title: const Text('VIP会员提示'),
       scrollable: true,
       content: SizedBox(
-        width: 355.w,
+        width: double.maxFinite,
         child: Column(
           children: <Widget>[
             Container(
@@ -40,8 +41,8 @@ class VipTipsDialog extends StatelessWidget {
                   bgColor: Style.defaultColor['background'],
                   textColor: Style.defaultColor['button'],
                   borderColor: Style.defaultColor['button'],
-                  paddingHorizontal: 38.w,
-                  paddingVertical: 14.h,
+                  paddingHorizontal: 39,
+                  paddingVertical: 12,
                   callback: () => Navigator.pop(context),
                 ),
                 CustomButton(
@@ -50,8 +51,8 @@ class VipTipsDialog extends StatelessWidget {
                     textColor:
                         context.watch<SkinProvider>().color['background'],
                     borderColor: Style.defaultColor['button'],
-                    paddingHorizontal: 40.w,
-                    paddingVertical: 14.h,
+                    paddingHorizontal: 39,
+                    paddingVertical: 12,
                     callback: () {
                       Navigator.pop(context);
                       Navigator.pushNamed(

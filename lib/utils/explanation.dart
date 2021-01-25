@@ -258,7 +258,7 @@ class Explanation {
               bgColor: context.watch<SkinProvider>().color['button'],
               textColor: context.watch<SkinProvider>().color['background'],
               borderColor: Style.defaultColor['button'],
-              paddingVertical: 14.h,
+              paddingVertical: 12,
               callback: () => Navigator.pop(context),
             ),
           ],
