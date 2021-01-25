@@ -213,10 +213,17 @@ class _SearchPageState extends State<SearchPage>
                       activeColor: Style.defaultColor['activeSwitchTrack'],
                       value: SearchType.COUPLES,
                       onChanged: (value) {
-                        setState(() {
-                          _list = <dynamic>[];
-                          _searchType = value;
-                        });
+                        final bool vip = context.read<UserProvider>().vip;
+                        if(vip)
+                        {
+                          setState(() {
+                            _list = <dynamic>[];
+                            _searchType = value;
+                          });
+                        }
+                        else {
+                          _promptVip();
+                        }
                       },
                       groupValue: _searchType,
                       title: const Text('情侣模式'),
@@ -227,10 +234,17 @@ class _SearchPageState extends State<SearchPage>
                       activeColor: Style.defaultColor['activeSwitchTrack'],
                       value: SearchType.GENERATE,
                       onChanged: (value) {
-                        setState(() {
-                          _list = <dynamic>[];
-                          _searchType = value;
-                        });
+                        final bool vip = context.read<UserProvider>().vip;
+                        if(vip)
+                        {
+                          setState(() {
+                            _list = <dynamic>[];
+                            _searchType = value;
+                          });
+                        }
+                        else {
+                          _promptVip();
+                        }
                       },
                       groupValue: _searchType,
                       title: const Text('生成情侣名'),
@@ -311,12 +325,7 @@ class _SearchPageState extends State<SearchPage>
         elevation: 4,
         highlightElevation: 0,
         onPressed: () {
-          final bool vip = context.read<UserProvider>().vip;
-          if (!vip) {
-            _promptVip();
-          } else {
-            _showSetting();
-          }
+          _showSetting();
         },
       ),
       floatingActionButtonLocation: CustomFloatingActionButtonLocation(
