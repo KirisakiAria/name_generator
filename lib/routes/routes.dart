@@ -5,6 +5,7 @@ import '../screen/inspiration/inspiration_history_details.dart';
 import '../screen/account/user.dart';
 import '../screen/account/account.dart';
 import '../screen/account/order.dart';
+import '../screen/account/vip.dart';
 import '../screen/setting/setting.dart';
 import '../screen/setting/change_skin.dart';
 import '../screen/my/history.dart';
@@ -23,6 +24,7 @@ class Routes {
     '/login': (BuildContext context) => InheritedUserPageContainer(),
     '/setting': (BuildContext context) => SettingPage(),
     '/account': (BuildContext context) => AccountPage(),
+    '/vip': (BuildContext context) => VipPage(),
     '/order': (BuildContext context) => OrderPage(),
     '/change_skin': (BuildContext context) => SkinPage(),
     '/laboratory': (BuildContext context) => LaboratoryPage(),

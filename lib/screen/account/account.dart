@@ -41,6 +41,7 @@ class _AccountPageState extends State<AccountPage> {
             ),
             children: <Widget>[
               Avatar(),
+              VIP(),
               Order(),
               Username(),
               Password(),
@@ -280,7 +281,76 @@ class _UsernameState extends State<Username> {
   }
 }
 
-//我的VIP
+//VIP
+class VIP extends StatefulWidget {
+  @override
+  _VIPState createState() => _VIPState();
+}
+
+class _VIPState extends State<VIP> {
+  @override
+  Widget build(BuildContext context) {
+    final bool _vip = context.watch<UserProvider>().vip;
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/vip',
+      ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: 12.w,
+                  ),
+                  child: Text(
+                    'VIP会员',
+                    style: TextStyle(
+                      height: 1.6,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Image(
+                  image: const AssetImage('assets/images/vip/discount.png'),
+                  width: 48.w,
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 15.w,
+                  ),
+                  child: Text(
+                    _vip ? '查看详情' : '立刻开通',
+                    style: TextStyle(
+                      height: 1.2,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_right,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//我的订单
 class Order extends StatefulWidget {
   @override
   _OrderState createState() => _OrderState();

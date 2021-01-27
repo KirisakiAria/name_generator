@@ -55,12 +55,10 @@ class VipTipsDialog extends StatelessWidget {
                     paddingVertical: 12,
                     callback: () {
                       Navigator.pop(context);
-                      final SnackBar snackBar = SnackBar(
-                        content: const Text('VIP开通页面将在稍后一段时间上线'),
-                        duration: Duration(seconds: 2),
+                      Navigator.pushNamed(
+                        context,
+                        '/vip',
                       );
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }),
               ],
             ),
