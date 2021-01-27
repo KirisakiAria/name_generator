@@ -362,13 +362,13 @@ class _VipPageState extends State<VipPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                // const Text(
-                                //   '首先，由衷的感谢所有使用《彼岸自在》的用户。《彼岸自在》作为一款主打网名生成的工具类APP，始终遵守着 《Android绿色应用公约》，无广告、无后台，而我们将秉持这一原则，继续带给广大用户良好的用户体验。独立开发和维护一款APP除了需要极大的时间和经历成本外，还需要非常高昂价格的服务器开销。为了保证一个App能够长久持续地运营下去，我们决定开启VIP会员的功能，如果您能支持我们，对我们来说都是莫大的帮助！真的是非常感谢！',
-                                //   style: TextStyle(
-                                //     color: defaultColor,
-                                //     fontSize: 14,
-                                //   ),
-                                // ),
+                                const Text(
+                                  '首先，由衷的感谢所有使用《彼岸自在》的用户。《彼岸自在》作为一款主打网名生成的工具类APP，始终遵守着 《Android绿色应用公约》，无广告、无后台，而我们将秉持这一原则，继续带给广大用户良好的用户体验。独立开发和维护一款APP除了需要极大的时间和经历成本外，还需要非常高昂价格的服务器开销。为了保证一个App能够长久持续地运营下去，我们决定开启VIP会员的功能，如果您能支持我们，对我们来说都是莫大的帮助！真的是非常感谢！',
+                                  style: TextStyle(
+                                    color: defaultColor,
+                                    fontSize: 14,
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     top: 10.h,
