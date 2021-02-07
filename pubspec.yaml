@@ -2,7 +2,7 @@ name: bianzizai
 description: 彼岸自在
 
 publish_to: "none"
-version: 1.2.8+23
+version: 1.3.0+25
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -39,6 +39,7 @@ flutter:
     - assets/images/theme/japanese-default-theme.png
     - assets/images/theme/chinese-default-theme.png
     - assets/images/theme/cute-default-theme.png
+    - assets/images/theme/shadiao-default-theme.png
     - assets/images/theme/couples.png
     - assets/images/search/bg1.png
     - assets/images/search/bg2.png

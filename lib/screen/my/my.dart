@@ -559,7 +559,7 @@ class Menu extends StatelessWidget {
                                   .changeNumber(WordOptions.lengthList[1]);
                               context
                                   .read<WordOptionsProvider>()
-                                  .changeCouples(false);
+                                  .toggleCouples(false);
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.clear();

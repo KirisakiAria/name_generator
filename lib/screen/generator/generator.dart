@@ -58,6 +58,7 @@ class _GeneratorPageState extends State<GeneratorPage>
           'type': context.read<WordOptionsProvider>().type['value'],
           'length': context.read<WordOptionsProvider>().length['value'],
           'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
+          'random': context.read<WordOptionsProvider>().random,
           'couples': context.read<WordOptionsProvider>().couples,
         },
       );
@@ -72,7 +73,7 @@ class _GeneratorPageState extends State<GeneratorPage>
           _isLiked = res.data['data']['isLiked'];
         });
       } else if (res.data['code'] == '3010') {
-        context.read<WordOptionsProvider>().changeCouples(false);
+        context.read<WordOptionsProvider>().toggleCouples(false);
         context.read<WordOptionsProvider>().changeType(WordOptions.typeList[0]);
         context
             .read<WordOptionsProvider>()
@@ -949,21 +950,35 @@ class OptionsDialog extends Dialog {
                     horizontal: 72.w,
                   ),
                   child: CheckboxListTile(
-                      activeColor: Style.defaultColor['activeSwitchTrack'],
-                      title: const Text('情侣名（中国风）'),
-                      value: context.watch<WordOptionsProvider>().couples,
-                      onChanged: (bool value) {
-                        if (context.read<UserProvider>().vip) {
-                          context
-                              .read<WordOptionsProvider>()
-                              .changeCouples(value);
-                        } else {
-                          _promptVip(
-                            context: context,
-                            tips: '使用情侣模式需要开通VIP',
-                          );
-                        }
-                      }),
+                    activeColor: Style.defaultColor['activeSwitchTrack'],
+                    title: const Text('完全随机组合'),
+                    value: context.watch<WordOptionsProvider>().couples,
+                    onChanged: (bool value) {
+                      context.read<WordOptionsProvider>().toggleRandom(value);
+                    },
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 72.w,
+                  ),
+                  child: CheckboxListTile(
+                    activeColor: Style.defaultColor['activeSwitchTrack'],
+                    title: const Text('情侣名（中国风）'),
+                    value: context.watch<WordOptionsProvider>().couples,
+                    onChanged: (bool value) {
+                      if (context.read<UserProvider>().vip) {
+                        context
+                            .read<WordOptionsProvider>()
+                            .toggleCouples(value);
+                      } else {
+                        _promptVip(
+                          context: context,
+                          tips: '使用情侣模式需要开通VIP',
+                        );
+                      }
+                    },
+                  ),
                 ),
                 Container(
                   width: double.infinity,
