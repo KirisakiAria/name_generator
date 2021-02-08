@@ -18,7 +18,7 @@ class WordOptions {
     {
       'value': '沙雕',
       'vip': false,
-      'img': 'assets/images/theme/shadiao-default-theme.png',
+      'img': 'assets/images/theme/shadiao-default-theme.jpg',
     },
   ];
   static const List<Map<String, dynamic>> lengthList = <Map<String, dynamic>>[

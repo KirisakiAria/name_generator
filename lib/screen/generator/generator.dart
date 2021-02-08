@@ -383,12 +383,12 @@ class _GeneratorPageState extends State<GeneratorPage>
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
         onVerticalDragStart: (DragStartDetails details) async {
-          final bool vip = context.read<UserProvider>().vip;
+          // final bool vip = context.read<UserProvider>().vip;
           final WordOptionsProvider wordOptionsProvider =
               context.read<WordOptionsProvider>();
-          if (!vip && _currentIndex == 1) {
-            _currentIndex = -1;
-          }
+          // if (!vip && _currentIndex == 1) {
+          //   _currentIndex = -1;
+          // }
           if (_currentIndex == WordOptions.typeList.length - 1) {
             _currentIndex = -1;
           }
