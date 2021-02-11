@@ -58,6 +58,8 @@ class _GeneratorPageState extends State<GeneratorPage>
           'type': context.read<WordOptionsProvider>().type['value'],
           'length': context.read<WordOptionsProvider>().length['value'],
           'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
+          'randomCombinations':
+              context.read<WordOptionsProvider>().randomCombinations,
           'couples': context.read<WordOptionsProvider>().couples,
         },
       );
@@ -72,7 +74,7 @@ class _GeneratorPageState extends State<GeneratorPage>
           _isLiked = res.data['data']['isLiked'];
         });
       } else if (res.data['code'] == '3010') {
-        context.read<WordOptionsProvider>().changeCouples(false);
+        context.read<WordOptionsProvider>().toggleCouples(false);
         context.read<WordOptionsProvider>().changeType(WordOptions.typeList[0]);
         context
             .read<WordOptionsProvider>()
@@ -382,12 +384,12 @@ class _GeneratorPageState extends State<GeneratorPage>
         behavior: HitTestBehavior.translucent,
         //垂直滑动切换类型
         onVerticalDragStart: (DragStartDetails details) async {
-          final bool vip = context.read<UserProvider>().vip;
+          // final bool vip = context.read<UserProvider>().vip;
           final WordOptionsProvider wordOptionsProvider =
               context.read<WordOptionsProvider>();
-          if (!vip && _currentIndex == 1) {
-            _currentIndex = -1;
-          }
+          // if (!vip && _currentIndex == 1) {
+          //   _currentIndex = -1;
+          // }
           if (_currentIndex == WordOptions.typeList.length - 1) {
             _currentIndex = -1;
           }
@@ -658,9 +660,12 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 child: Opacity(
                   opacity: _opacityAnimation.value,
                   child: Icon(
-                    Icons.favorite,
+                    const IconData(
+                      CustomIconData.favourite,
+                      fontFamily: 'iconfont',
+                    ),
                     size: _sizeAnimation.value,
-                    color: Color(0xffff6b81),
+                    color: Color(0xffffa502),
                   ),
                 ),
               ),
@@ -886,7 +891,7 @@ class OptionsDialog extends Dialog {
         alignment: Alignment.bottomCenter,
         child: SizedBox(
           width: double.infinity,
-          height: 450.h,
+          height: 550.h,
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
@@ -897,13 +902,16 @@ class OptionsDialog extends Dialog {
               color: context.watch<SkinProvider>().color['widget'],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 26.h,
+                  ),
                   child: const Text(
                     '选项',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -925,48 +933,71 @@ class OptionsDialog extends Dialog {
                     }
                   },
                 ),
-                Select(
-                  list: WordOptions.lengthList,
-                  value: context.watch<WordOptionsProvider>().length,
-                  callback: (Map<String, dynamic> newValue) {
-                    final bool vip = context.read<UserProvider>().vip;
-                    if (newValue['vip'] && !vip) {
-                      _promptVip(
-                        context: context,
-                        tips: '使用此字数需要开通VIP',
-                      );
-                      return false;
-                    } else {
-                      context
-                          .read<WordOptionsProvider>()
-                          .changeNumber(newValue);
-                      return true;
-                    }
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20.h,
+                  ),
+                  child: Select(
+                    list: WordOptions.lengthList,
+                    value: context.watch<WordOptionsProvider>().length,
+                    callback: (Map<String, dynamic> newValue) {
+                      final bool vip = context.read<UserProvider>().vip;
+                      if (newValue['vip'] && !vip) {
+                        _promptVip(
+                          context: context,
+                          tips: '使用此字数需要开通VIP',
+                        );
+                        return false;
+                      } else {
+                        context
+                            .read<WordOptionsProvider>()
+                            .changeNumber(newValue);
+                        return true;
+                      }
+                    },
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: 72.w,
                   ),
                   child: CheckboxListTile(
-                      activeColor: Style.defaultColor['activeSwitchTrack'],
-                      title: const Text('情侣名（中国风）'),
-                      value: context.watch<WordOptionsProvider>().couples,
-                      onChanged: (bool value) {
-                        if (context.read<UserProvider>().vip) {
-                          context
-                              .read<WordOptionsProvider>()
-                              .changeCouples(value);
-                        } else {
-                          _promptVip(
-                            context: context,
-                            tips: '使用情侣模式需要开通VIP',
-                          );
-                        }
-                      }),
+                    activeColor: Style.defaultColor['activeSwitchTrack'],
+                    title: const Text('完全随机组合'),
+                    value:
+                        context.watch<WordOptionsProvider>().randomCombinations,
+                    onChanged: (bool value) {
+                      context
+                          .read<WordOptionsProvider>()
+                          .toggleRandomCombinations(value);
+                    },
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 72.w,
+                  ),
+                  child: CheckboxListTile(
+                    activeColor: Style.defaultColor['activeSwitchTrack'],
+                    title: const Text('情侣名（中国风）'),
+                    value: context.watch<WordOptionsProvider>().couples,
+                    onChanged: (bool value) {
+                      if (context.read<UserProvider>().vip) {
+                        context
+                            .read<WordOptionsProvider>()
+                            .toggleCouples(value);
+                      } else {
+                        _promptVip(
+                          context: context,
+                          tips: '使用情侣模式需要开通VIP',
+                        );
+                      }
+                    },
+                  ),
                 ),
                 Container(
                   width: double.infinity,
+                  margin: EdgeInsets.only(top: 20.h),
                   padding: EdgeInsets.symmetric(
                     horizontal: 80.w,
                   ),

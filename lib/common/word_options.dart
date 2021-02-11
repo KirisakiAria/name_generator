@@ -11,9 +11,14 @@ class WordOptions {
       'img': 'assets/images/theme/japanese-default-theme.png',
     },
     {
-      'value': '可爱',
+      'value': '可爱/沙雕',
       'vip': false,
-      'img': 'assets/images/theme/cute-default-theme.png',
+      'img': 'assets/images/theme/shadiao-default-theme.jpg',
+    },
+    {
+      'value': '英文',
+      'vip': false,
+      'img': 'assets/images/theme/english-default-theme.png',
     },
   ];
   static const List<Map<String, dynamic>> lengthList = <Map<String, dynamic>>[

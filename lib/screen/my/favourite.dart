@@ -19,7 +19,7 @@ import '../../common/style.dart';
 //utils
 import '../../utils/explanation.dart';
 
-class FavouritesPage extends StatelessWidget {
+class FavouritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -49,8 +49,8 @@ class FavouritesPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            FavouritesList('normal'),
-            FavouritesList('couples'),
+            FavouriteList('normal'),
+            FavouriteList('couples'),
           ],
         ),
       ),
@@ -58,15 +58,15 @@ class FavouritesPage extends StatelessWidget {
   }
 }
 
-class FavouritesList extends StatefulWidget {
+class FavouriteList extends StatefulWidget {
   final String type;
-  FavouritesList(this.type);
+  FavouriteList(this.type);
 
   @override
-  _FavouritesListState createState() => _FavouritesListState();
+  _FavouriteListState createState() => _FavouriteListState();
 }
 
-class _FavouritesListState extends State<FavouritesList>
+class _FavouriteListState extends State<FavouriteList>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _list = <dynamic>[];
@@ -261,7 +261,9 @@ class ListItemNormal extends StatelessWidget {
               ),
               child: Text(
                 word,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
             Expanded(

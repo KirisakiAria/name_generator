@@ -63,7 +63,7 @@ class _MyPageState extends State<MyPage> {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications_none),
+            icon: const Icon(Icons.notifications_none),
             onPressed: () => Navigator.pushNamed(
               context,
               '/notifications',
@@ -559,7 +559,7 @@ class Menu extends StatelessWidget {
                                   .changeNumber(WordOptions.lengthList[1]);
                               context
                                   .read<WordOptionsProvider>()
-                                  .changeCouples(false);
+                                  .toggleCouples(false);
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.clear();

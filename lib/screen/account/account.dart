@@ -310,7 +310,7 @@ class _VIPState extends State<VIP> {
                   padding: EdgeInsets.only(
                     right: 12.w,
                   ),
-                  child: Text(
+                  child: const Text(
                     'VIP会员',
                     style: TextStyle(
                       height: 1.6,
@@ -376,7 +376,7 @@ class _OrderState extends State<Order> {
               padding: EdgeInsets.only(
                 right: 10.w,
               ),
-              child: Text(
+              child: const Text(
                 '我的订单',
                 style: TextStyle(
                   height: 1.6,
@@ -390,7 +390,7 @@ class _OrderState extends State<Order> {
                   padding: EdgeInsets.only(
                     right: 15.w,
                   ),
-                  child: Text(
+                  child: const Text(
                     '查看详情',
                     style: TextStyle(
                       height: 1.2,
