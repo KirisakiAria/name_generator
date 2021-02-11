@@ -4,12 +4,12 @@ import '../common/word_options.dart';
 class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
   Map<String, dynamic> _type = WordOptions.typeList[0];
   Map<String, dynamic> _length = WordOptions.lengthList[1];
-  bool _random = false;
+  bool _randomCombinations = false;
   bool _couples = false;
 
   Map<String, dynamic> get type => _type;
   Map<String, dynamic> get length => _length;
-  bool get random => _random;
+  bool get randomCombinations => _randomCombinations;
   bool get couples => _couples;
 
   void changeType(Map<String, dynamic> type) {
@@ -22,8 +22,8 @@ class WordOptionsProvider with ChangeNotifier, DiagnosticableTreeMixin {
     notifyListeners();
   }
 
-  void toggleRandom(bool couples) {
-    _couples = couples;
+  void toggleRandomCombinations(bool randomCombinations) {
+    _randomCombinations = randomCombinations;
     notifyListeners();
   }
 

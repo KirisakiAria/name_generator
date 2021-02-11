@@ -58,7 +58,8 @@ class _GeneratorPageState extends State<GeneratorPage>
           'type': context.read<WordOptionsProvider>().type['value'],
           'length': context.read<WordOptionsProvider>().length['value'],
           'ifRomaji': context.read<LaboratoryOptionsProvider>().romaji,
-          'random': context.read<WordOptionsProvider>().random,
+          'randomCombinations':
+              context.read<WordOptionsProvider>().randomCombinations,
           'couples': context.read<WordOptionsProvider>().couples,
         },
       );
@@ -659,9 +660,12 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                 child: Opacity(
                   opacity: _opacityAnimation.value,
                   child: Icon(
-                    Icons.favorite,
+                    const IconData(
+                      CustomIconData.favourite,
+                      fontFamily: 'iconfont',
+                    ),
                     size: _sizeAnimation.value,
-                    color: Color(0xffff6b81),
+                    color: Color(0xffffa502),
                   ),
                 ),
               ),
@@ -887,7 +891,7 @@ class OptionsDialog extends Dialog {
         alignment: Alignment.bottomCenter,
         child: SizedBox(
           width: double.infinity,
-          height: 450.h,
+          height: 550.h,
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
@@ -898,13 +902,16 @@ class OptionsDialog extends Dialog {
               color: context.watch<SkinProvider>().color['widget'],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 26.h,
+                  ),
                   child: const Text(
                     '选项',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -926,24 +933,29 @@ class OptionsDialog extends Dialog {
                     }
                   },
                 ),
-                Select(
-                  list: WordOptions.lengthList,
-                  value: context.watch<WordOptionsProvider>().length,
-                  callback: (Map<String, dynamic> newValue) {
-                    final bool vip = context.read<UserProvider>().vip;
-                    if (newValue['vip'] && !vip) {
-                      _promptVip(
-                        context: context,
-                        tips: '使用此字数需要开通VIP',
-                      );
-                      return false;
-                    } else {
-                      context
-                          .read<WordOptionsProvider>()
-                          .changeNumber(newValue);
-                      return true;
-                    }
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20.h,
+                  ),
+                  child: Select(
+                    list: WordOptions.lengthList,
+                    value: context.watch<WordOptionsProvider>().length,
+                    callback: (Map<String, dynamic> newValue) {
+                      final bool vip = context.read<UserProvider>().vip;
+                      if (newValue['vip'] && !vip) {
+                        _promptVip(
+                          context: context,
+                          tips: '使用此字数需要开通VIP',
+                        );
+                        return false;
+                      } else {
+                        context
+                            .read<WordOptionsProvider>()
+                            .changeNumber(newValue);
+                        return true;
+                      }
+                    },
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
@@ -952,9 +964,12 @@ class OptionsDialog extends Dialog {
                   child: CheckboxListTile(
                     activeColor: Style.defaultColor['activeSwitchTrack'],
                     title: const Text('完全随机组合'),
-                    value: context.watch<WordOptionsProvider>().couples,
+                    value:
+                        context.watch<WordOptionsProvider>().randomCombinations,
                     onChanged: (bool value) {
-                      context.read<WordOptionsProvider>().toggleRandom(value);
+                      context
+                          .read<WordOptionsProvider>()
+                          .toggleRandomCombinations(value);
                     },
                   ),
                 ),
@@ -982,6 +997,7 @@ class OptionsDialog extends Dialog {
                 ),
                 Container(
                   width: double.infinity,
+                  margin: EdgeInsets.only(top: 20.h),
                   padding: EdgeInsets.symmetric(
                     horizontal: 80.w,
                   ),

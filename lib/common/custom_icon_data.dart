@@ -12,8 +12,9 @@ class CustomIconData {
   static const int theme = 0xe750;
   static const int clearCache = 0xe677;
   static const int book = 0xe777;
-  static const int favourite = 0xe666;
+  static const int favourite = 0xe60f;
   static const int history = 0xe607;
+  static const int likedWord = 0xe666;
   static const int setting = 0xe654;
   static const int about = 0xe617;
   static const int laboratory = 0xe692;

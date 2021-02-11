@@ -63,7 +63,7 @@ class _MyPageState extends State<MyPage> {
         automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications_none),
+            icon: const Icon(Icons.notifications_none),
             onPressed: () => Navigator.pushNamed(
               context,
               '/notifications',

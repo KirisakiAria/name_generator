@@ -4,12 +4,12 @@ import '../screen/inspiration/inspiration_history.dart';
 import '../screen/inspiration/inspiration_history_details.dart';
 import '../screen/account/user.dart';
 import '../screen/account/account.dart';
-import '../screen/account/vip.dart';
 import '../screen/account/order.dart';
+import '../screen/account/vip.dart';
 import '../screen/setting/setting.dart';
 import '../screen/setting/change_skin.dart';
 import '../screen/my/history.dart';
-import '../screen/my/favourites.dart';
+import '../screen/my/favourite.dart';
 import '../screen/my/laboratory.dart';
 import '../screen/my/about.dart';
 import '../screen/webview.dart';
@@ -29,8 +29,8 @@ class Routes {
     '/change_skin': (BuildContext context) => SkinPage(),
     '/laboratory': (BuildContext context) => LaboratoryPage(),
     '/about': (BuildContext context) => AboutPage(),
+    '/favourites': (BuildContext context) => FavouritePage(),
     '/history': (BuildContext context) => HistoryPage(),
-    '/favourites': (BuildContext context) => FavouritesPage(),
     '/webview': (BuildContext context) => WebviewPage(),
     '/notifications': (BuildContext context) => NotificationPage(),
   };

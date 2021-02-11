@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 //第三方库
 import 'package:provider/provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/screenutil_init.dart';
 //model
 import './model/word_options.dart';
 import './model/user.dart';
@@ -74,8 +74,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(375, 900),
-      allowFontScaling: false,
-      child: MaterialApp(
+      builder: () => MaterialApp(
         title: '彼岸自在',
         home: HomePage(),
         debugShowCheckedModeBanner: false,

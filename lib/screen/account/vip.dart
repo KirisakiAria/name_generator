@@ -67,7 +67,7 @@ class EditCodeDialog extends Dialog {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    title: Text('激活成功'),
+                    title: const Text('激活成功'),
                     scrollable: true,
                     content: Container(
                       padding: EdgeInsets.only(
@@ -945,7 +945,7 @@ class _VipPageState extends State<VipPage> {
                     _showPaymentMethod();
                   }
                 },
-                child: Text(
+                child: const Text(
                   '立即升级',
                   style: TextStyle(
                     height: 1.2,
