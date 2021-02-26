@@ -86,6 +86,28 @@ class _GeneratorPageState extends State<GeneratorPage>
     }
   }
 
+  Future<void> _getSurnameData() async {
+    try {
+      final String path = API.surname;
+      final Response res = await Request(
+        context: context,
+      ).httpGet(path);
+      if (res.data['code'] == '1000') {
+        print(res.data['data']);
+        setState(() {});
+      } else if (res.data['code'] == '3010') {
+        context.read<WordOptionsProvider>().toggleCouples(false);
+        context.read<WordOptionsProvider>().changeType(WordOptions.typeList[0]);
+        context
+            .read<WordOptionsProvider>()
+            .changeNumber(WordOptions.lengthList[1]);
+        context.read<UserProvider>().changeVip(false);
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
   Future<bool> _like(bool islike) async {
     try {
       bool loginState = context.read<UserProvider>().loginState;
@@ -247,6 +269,7 @@ class _GeneratorPageState extends State<GeneratorPage>
   @override
   void initState() {
     super.initState();
+    _getSurnameData();
     WidgetsBinding widgetsBinding = WidgetsBinding.instance;
     //绘制完最后一帧时回调，并且只调用一次。类似于Vue里的mounted钩子
     widgetsBinding.addPostFrameCallback((callback) async {
@@ -502,9 +525,7 @@ class _GeneratorPageState extends State<GeneratorPage>
                             curvedValue * -320,
                             0,
                           ),
-                          child: OptionsDialog(
-                            getData: _getData,
-                          ),
+                          child: child,
                         );
                       },
                     ),
@@ -843,7 +864,7 @@ class _SelectState extends State<Select> {
 }
 
 //选项弹窗
-class OptionsDialog extends Dialog {
+class OptionsDialog extends StatelessWidget {
   final Future<void> Function() getData;
   OptionsDialog({
     Key key,
@@ -884,140 +905,126 @@ class OptionsDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      //创建透明层
-      type: MaterialType.transparency, //透明类型
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: SizedBox(
-          width: double.infinity,
-          height: 550.h,
-          child: Container(
-            decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(24),
-                ),
-              ),
-              color: context.watch<SkinProvider>().color['widget'],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 26.h,
-                  ),
-                  child: const Text(
-                    '选项',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Select(
-                  list: WordOptions.typeList,
-                  value: context.watch<WordOptionsProvider>().type,
-                  callback: (Map<String, dynamic> newValue) {
-                    final bool vip = context.read<UserProvider>().vip;
-                    if (newValue['vip'] && !vip) {
-                      _promptVip(
-                        context: context,
-                        tips: '使用此类型需要开通VIP',
-                      );
-                      return false;
-                    } else {
-                      context.read<WordOptionsProvider>().changeType(newValue);
-                      return true;
-                    }
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20.h,
-                  ),
-                  child: Select(
-                    list: WordOptions.lengthList,
-                    value: context.watch<WordOptionsProvider>().length,
-                    callback: (Map<String, dynamic> newValue) {
-                      final bool vip = context.read<UserProvider>().vip;
-                      if (newValue['vip'] && !vip) {
-                        _promptVip(
-                          context: context,
-                          tips: '使用此字数需要开通VIP',
-                        );
-                        return false;
-                      } else {
-                        context
-                            .read<WordOptionsProvider>()
-                            .changeNumber(newValue);
-                        return true;
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 72.w,
-                  ),
-                  child: CheckboxListTile(
-                    activeColor: Style.defaultColor['activeSwitchTrack'],
-                    title: const Text('完全随机组合'),
-                    value:
-                        context.watch<WordOptionsProvider>().randomCombinations,
-                    onChanged: (bool value) {
-                      context
-                          .read<WordOptionsProvider>()
-                          .toggleRandomCombinations(value);
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 72.w,
-                  ),
-                  child: CheckboxListTile(
-                    activeColor: Style.defaultColor['activeSwitchTrack'],
-                    title: const Text('情侣名（中国风）'),
-                    value: context.watch<WordOptionsProvider>().couples,
-                    onChanged: (bool value) {
-                      if (context.read<UserProvider>().vip) {
-                        context
-                            .read<WordOptionsProvider>()
-                            .toggleCouples(value);
-                      } else {
-                        _promptVip(
-                          context: context,
-                          tips: '使用情侣模式需要开通VIP',
-                        );
-                      }
-                    },
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 20.h),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 80.w,
-                  ),
-                  child: CustomButton(
-                    text: '確定',
-                    fontSize: 20,
-                    bgColor: context.watch<SkinProvider>().color['button'],
-                    textColor:
-                        context.watch<SkinProvider>().color['background'],
-                    borderColor: context.watch<SkinProvider>().color['button'],
-                    paddingVertical: 14,
-                    callback: () {
-                      getData();
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ],
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(24),
             ),
           ),
+          color: context.watch<SkinProvider>().color['widget'],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 26.h,
+              ),
+              child: const Text(
+                '选项',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Select(
+              list: WordOptions.typeList,
+              value: context.watch<WordOptionsProvider>().type,
+              callback: (Map<String, dynamic> newValue) {
+                final bool vip = context.read<UserProvider>().vip;
+                if (newValue['vip'] && !vip) {
+                  _promptVip(
+                    context: context,
+                    tips: '使用此类型需要开通VIP',
+                  );
+                  return false;
+                } else {
+                  context.read<WordOptionsProvider>().changeType(newValue);
+                  return true;
+                }
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 20.h,
+              ),
+              child: Select(
+                list: WordOptions.lengthList,
+                value: context.watch<WordOptionsProvider>().length,
+                callback: (Map<String, dynamic> newValue) {
+                  final bool vip = context.read<UserProvider>().vip;
+                  if (newValue['vip'] && !vip) {
+                    _promptVip(
+                      context: context,
+                      tips: '使用此字数需要开通VIP',
+                    );
+                    return false;
+                  } else {
+                    context.read<WordOptionsProvider>().changeNumber(newValue);
+                    return true;
+                  }
+                },
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 72.w,
+              ),
+              child: CheckboxListTile(
+                activeColor: Style.defaultColor['activeSwitchTrack'],
+                title: const Text('完全随机组合'),
+                value: context.watch<WordOptionsProvider>().randomCombinations,
+                onChanged: (bool value) {
+                  context
+                      .read<WordOptionsProvider>()
+                      .toggleRandomCombinations(value);
+                },
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 72.w,
+              ),
+              child: CheckboxListTile(
+                activeColor: Style.defaultColor['activeSwitchTrack'],
+                title: const Text('情侣名（中国风）'),
+                value: context.watch<WordOptionsProvider>().couples,
+                onChanged: (bool value) {
+                  if (context.read<UserProvider>().vip) {
+                    context.read<WordOptionsProvider>().toggleCouples(value);
+                  } else {
+                    _promptVip(
+                      context: context,
+                      tips: '使用情侣模式需要开通VIP',
+                    );
+                  }
+                },
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 20.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: 80.w,
+              ),
+              child: CustomButton(
+                text: '確定',
+                fontSize: 20,
+                bgColor: context.watch<SkinProvider>().color['button'],
+                textColor: context.watch<SkinProvider>().color['background'],
+                borderColor: context.watch<SkinProvider>().color['button'],
+                paddingVertical: 14,
+                callback: () {
+                  getData();
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -59,6 +59,30 @@ class WordOptions {
       'vip': true,
     },
     {
+      'value': '10',
+      'vip': true,
+    },
+    {
+      'value': '11',
+      'vip': true,
+    },
+    {
+      'value': '12',
+      'vip': true,
+    },
+    {
+      'value': '13',
+      'vip': true,
+    },
+    {
+      'value': '14',
+      'vip': true,
+    },
+    {
+      'value': '15',
+      'vip': true,
+    },
+    {
       'value': '全部',
       'vip': true,
     },
