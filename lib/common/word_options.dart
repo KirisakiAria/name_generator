@@ -87,4 +87,10 @@ class WordOptions {
       'vip': true,
     },
   ];
+  static const List<Map<String, dynamic>> surnameList = <Map<String, dynamic>>[
+    {
+      'value': '赵',
+      'vip': false,
+    },
+  ];
 }
