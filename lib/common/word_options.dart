@@ -89,7 +89,7 @@ class WordOptions {
   ];
   static const List<Map<String, dynamic>> surnameList = <Map<String, dynamic>>[
     {
-      'value': '不显示',
+      'value': '无姓氏',
       'vip': false,
       'show': false,
     },
