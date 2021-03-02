@@ -498,7 +498,7 @@ class _GeneratorPageState extends State<GeneratorPage>
                         return Transform(
                           transform: Matrix4.translationValues(
                             0,
-                            curvedValue * -580.h,
+                            curvedValue * -620.h,
                             0,
                           ),
                           child: child,
@@ -887,7 +887,7 @@ class OptionsDialog extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: SizedBox(
-          height: 580.h,
+          height: 620.h,
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(

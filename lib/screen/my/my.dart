@@ -287,7 +287,7 @@ class Menu extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      '使用教程',
+                      '使用方法',
                       style: TextStyle(
                         height: 2.5,
                       ),
