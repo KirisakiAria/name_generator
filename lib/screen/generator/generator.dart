@@ -486,8 +486,7 @@ class _GeneratorPageState extends State<GeneratorPage>
                       },
                       barrierColor: Colors.grey.withOpacity(.4),
                       barrierLabel: '',
-                      barrierDismissible: true,
-                      transitionDuration: Duration(milliseconds: 400),
+                      transitionDuration: Duration(milliseconds: 500),
                       transitionBuilder: (
                         BuildContext context,
                         Animation<double> anim1,
@@ -499,12 +498,10 @@ class _GeneratorPageState extends State<GeneratorPage>
                         return Transform(
                           transform: Matrix4.translationValues(
                             0,
-                            curvedValue * -320,
+                            curvedValue * -620.h,
                             0,
                           ),
-                          child: OptionsDialog(
-                            getData: _getData,
-                          ),
+                          child: child,
                         );
                       },
                     ),
@@ -678,7 +675,7 @@ class _DisplayState extends State<Display> with SingleTickerProviderStateMixin {
                     Offstage(
                       offstage: couples,
                       child: Text(
-                        widget.word,
+                        '${context.watch<WordOptionsProvider>().surname['show'] ? context.watch<WordOptionsProvider>().surname['value'] : ''}${widget.word}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: widget.word.length > 5 ? 40 : 50,
@@ -843,8 +840,9 @@ class _SelectState extends State<Select> {
 }
 
 //选项弹窗
-class OptionsDialog extends Dialog {
+class OptionsDialog extends StatelessWidget {
   final Future<void> Function() getData;
+
   OptionsDialog({
     Key key,
     @required this.getData,
@@ -885,13 +883,11 @@ class OptionsDialog extends Dialog {
   @override
   Widget build(BuildContext context) {
     return Material(
-      //创建透明层
-      type: MaterialType.transparency, //透明类型
+      color: Colors.transparent,
       child: Align(
         alignment: Alignment.bottomCenter,
         child: SizedBox(
-          width: double.infinity,
-          height: 550.h,
+          height: 620.h,
           child: Container(
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
@@ -956,6 +952,14 @@ class OptionsDialog extends Dialog {
                       }
                     },
                   ),
+                ),
+                Select(
+                  list: WordOptions.surnameList,
+                  value: context.watch<WordOptionsProvider>().surname,
+                  callback: (Map<String, dynamic> newValue) {
+                    context.read<WordOptionsProvider>().changeSurname(newValue);
+                    return true;
+                  },
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
