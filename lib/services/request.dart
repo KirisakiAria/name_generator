@@ -51,7 +51,7 @@ class Request {
     _dio.interceptors.add(CookieManager(cookieJar));
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (RequestOptions options) async {
+        onRequest: (RequestOptions options, handler) {
           if (showLoadingDialog) {
             showGeneralDialog(
               context: context,
@@ -81,9 +81,9 @@ class Request {
               },
             );
           }
-          return options; //continue
+          return handler.next(options); //continue
         },
-        onResponse: (Response response) async {
+        onResponse: (Response response, handler) async {
           if (showLoadingDialog) {
             Navigator.pop(context);
             if (response.data['code'] != '1000') {
@@ -99,9 +99,9 @@ class Request {
               context.read<UserProvider>().logOut();
             }
           }
-          return response;
+          return handler.next(response);
         },
-        onError: (DioError e) {
+        onError: (DioError e, handler) {
           if (showLoadingDialog) {
             Navigator.pop(context);
             final SnackBar snackBar = SnackBar(
@@ -111,6 +111,7 @@ class Request {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
           }
+          return handler.next(e);
         },
       ),
     );
