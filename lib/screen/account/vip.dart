@@ -32,7 +32,7 @@ class EditCodeDialog extends Dialog {
 
   @override
   Widget build(BuildContext context) {
-    //Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
+    //由于_code不是final变量，所以需要一个有状态的控件。Dialog本身无状态，需要用StatefulBuilder构造出一个有状态的控件
     return StatefulBuilder(
       builder: (
         BuildContext context,

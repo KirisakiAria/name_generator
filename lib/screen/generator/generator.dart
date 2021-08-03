@@ -839,6 +839,38 @@ class _SelectState extends State<Select> {
   }
 }
 
+// class Input extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: TextFormField(
+//         decoration: InputDecoration(
+//           contentPadding: const EdgeInsets.only(
+//             bottom: 1,
+//           ),
+//           enabledBorder: UnderlineInputBorder(
+//             borderSide: BorderSide(
+//               color: Style.defaultColor['border'],
+//             ),
+//           ),
+//           focusedBorder: UnderlineInputBorder(
+//             borderSide: BorderSide(
+//               color: context.watch<SkinProvider>().color['border'],
+//             ),
+//           ),
+//           labelText: '输入姓氏',
+//           labelStyle: TextStyle(
+//             fontSize: 18,
+//           ),
+//         ),
+//         onSaved: (String value) {
+//           _tel = value;
+//         },
+//       ),
+//     );
+//   }
+// }
+
 //选项弹窗
 class OptionsDialog extends StatelessWidget {
   final Future<void> Function() getData;
